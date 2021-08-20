@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WaterAdviceComponent } from './water-advice.component';
+import { SeedDateComponent } from './seed-date.component';
 
-describe('WaterGuideComponent', () => {
-  let component: WaterAdviceComponent;
-  let fixture: ComponentFixture<WaterAdviceComponent>;
+describe('SeedDateComponent', () => {
+  let component: SeedDateComponent;
+  let fixture: ComponentFixture<SeedDateComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WaterAdviceComponent ]
+      declarations: [ SeedDateComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WaterAdviceComponent);
+    fixture = TestBed.createComponent(SeedDateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
