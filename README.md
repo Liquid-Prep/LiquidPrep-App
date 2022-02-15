@@ -14,15 +14,12 @@ The Liquid Prep App can be run on your local machine for development and testing
 
 Instructions on how to run the App,
 
-- [Liquid Prep - App](#liquid-prep---app)
-  - [Get Started](#get-started)
-  - [Pre-requisites](#pre-requisites)
-  - [Run App Locally](#run-app-locally)
-  - [Configure and Deploy App in IBM Cloud Object Storage](#configure-and-deploy-app-in-ibm-cloud-object-storage)
-  - [Contributing](#contributing)
-  - [License](#license)
+- [Pre-requisites](#pre-requisites)
+- [Run App Locally](#run-app-locally)
+- [Configure and Deploy App in IBM Cloud Object Storage](#configure-and-deploy-app-in-ibm-cloud-object-storage)
+- [Contributing](#contributing)
 
-## Pre-requisites
+### Pre-requisites
 
 1. Node and NPM:
    - [Install Node and NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
@@ -39,7 +36,7 @@ Instructions on how to run the App,
 6. Liquid Prep Backend Service Endpoint:
    - [Deploy Liquid Prep Backend in IBM Cloud Functions](https://github.com/Liquid-Prep/Liquid-Prep/tree/master/backend#deploy-liquid-prep-backend-service) and note down the `CLOUD_FUNCTIONS_URL` which is the Backend service endpoint. This endpoint will be required later for deploying the App.
 
-## Run App Locally
+### Run App Locally
 
 1. **Build the App**
 
@@ -58,7 +55,7 @@ Instructions on how to run the App,
 
    **NOTE:** You can also run the App by executing Angular CLI command `ng serve` too.
 
-## Configure and Deploy App in IBM Cloud Object Storage
+### Configure and Deploy the App in IBM Cloud Object Storage
 
 The Liquid Prep App can be built and deployed in production for accessing the endpoint URL in any browser (recommended Chrome) to spin up the App in the browser.
 
