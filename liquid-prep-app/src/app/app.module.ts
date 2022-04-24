@@ -36,6 +36,7 @@ import { SeedDateComponent } from './components/seed-date/seed-date.component';
 import { DataService } from './service/DataService';
 import { WaterAdviceService } from './service/WaterAdviceService';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
+import { SlideIndicatorComponent } from './components/slide-indicator/slide-indicator.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   observer: true,
@@ -55,7 +56,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     SettingsComponent,
     AdviceComponent,
     SeedDateComponent,
-    DateAgoPipe],
+    DateAgoPipe,
+    SlideIndicatorComponent],
   imports: [
     BrowserModule,
     MaterialModule,

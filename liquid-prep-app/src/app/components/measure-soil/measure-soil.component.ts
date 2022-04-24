@@ -35,7 +35,7 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
 
   @ViewChild(SwiperComponent, { static: false }) swiper?: SwiperComponent;
 
-  public index = 0;
+  public curIndex = 0;
   public isFirstSlide = true;
   public isLastSlide = false;
   public disabled = false;
@@ -219,14 +219,14 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
     if (sensorMoisturePercantage > 100.00) {
       return 100.00;
     } else if (sensorMoisturePercantage < 0.0) {
-      return 0.0
+      return 0.0;
     } else {
       return sensorMoisturePercantage;
     }
   }
 
   public onIndexChange(index: number): void {
-    this.index = index;
+    this.curIndex = index;
     if (index === 0 ){
       this.isFirstSlide = true;
       this.isLastSlide = false;

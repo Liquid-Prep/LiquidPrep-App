@@ -11,9 +11,9 @@
   </mat-toolbar>
 
   <div *ngIf="measureView=='before-measuring'" class="content-container" >
-    <swiper *ngIf="measureView=='before-measuring'" #swiper class="swiper-container" [config]="config" [(index)]="index" [disabled]="disabled"
-      (indexChange)="onIndexChange($event)" (swiperTransitionStart)="onSwiperEvent('transitionStart')"
-      (swiperTransitionEnd)="onSwiperEvent('transitionEnd')">
+    <swiper *ngIf="measureView=='before-measuring'" #swiper class="swiper-container" [config]="config" [(index)]="curIndex" [disabled]="disabled"
+            (indexChange)="onIndexChange($event)" (swiperTransitionStart)="onSwiperEvent('transitionStart')"
+            (swiperTransitionEnd)="onSwiperEvent('transitionEnd')">
 
           <div class="swiper-slide">
             <div class="container" fxLayout="column" fxFlexFill fxLayoutAlign="end center" >
@@ -82,6 +82,8 @@
           <mat-icon class="blue-icon" (click)="onSlideNav('back')">navigate_before</mat-icon>
           <span Class="tool-bar-text" (click)="onSlideNav('back')">BACK  </span>
         </button>
+
+        <app-slide-indicator [current]="curIndex" [length]="3"></app-slide-indicator>
 
         <button [ngClass]="{'invisible': isLastSlide}" mat-icon-button style="margin-right: 24px">
           <span Class="tool-bar-text" (click)="onSlideNav('next')">NEXT</span>
