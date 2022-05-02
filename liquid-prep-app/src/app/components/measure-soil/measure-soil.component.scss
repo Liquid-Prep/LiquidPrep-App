@@ -118,9 +118,9 @@
   position: fixed;
   bottom: 0;
   z-index: 1000;
-  display: flex;
-  justify-content: space-between;
-  padding: 2px 0px;
+  //display: flex;
+  //justify-content: space-between;
+  padding: 0px 0px;
   background-color: white;
   //-webkit-box-shadow: 3px 3px 5px 6px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   //-moz-box-shadow:    3px 3px 5px 6px #ccc;  /* Firefox 3.5 - 3.6 */
@@ -138,4 +138,8 @@
 
 .tool-bar-text-disable{
   color: rgba(black, 0.38);
+}
+
+.invisible{
+  visibility:hidden
 }

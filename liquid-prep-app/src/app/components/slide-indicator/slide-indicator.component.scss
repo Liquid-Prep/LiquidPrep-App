@@ -1,0 +1,57 @@
+.indicators-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  span {
+    width: 5px;
+    height: 5px;
+    margin: 2px;
+    border-radius: 50%;
+    background-color: #d3d3d3;
+    overflow: hidden;
+    transition: all 500ms ease-out;
+    text-indent: -9999px;
+
+    &:first-child {
+      margin-left: 20px;
+    }
+    &:last-child {
+      margin-right: 20px;
+    }
+  }
+  .active {
+    width: 8px;
+    height: 8px;
+    margin: 5px;
+    background-color: #000000;
+  }
+
+  .inactive {
+    width: 8px;
+    height: 8px;
+    margin: 5px;
+    background-color: #cccccc;
+  }
+
+  .small {
+    width: 4px;
+    height: 4px;
+    margin: 3px;
+    &:first-child {
+      margin-left: 10px;
+    }
+    &:last-child {
+      margin-right: 10px;
+    }
+  }
+  .micro {
+    width: 2px;
+    height: 2px;
+    margin: 4px;
+  }
+  .hidden {
+    width: 0;
+    height: 0;
+    margin: 4px 0;
+  }
+}
