@@ -1,7 +1,8 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import { SwiperOptions } from 'swiper';
 import { Router, ActivatedRoute} from '@angular/router';
 import {LOCAL_STORAGE, StorageService} from 'ngx-webstorage-service';
+import {SwiperComponent} from "ngx-swiper-wrapper";
 
 
 @Component({
@@ -28,22 +29,19 @@ export class WelcomeComponent implements OnInit {
     mousewheel: true,
     scrollbar: false,
     navigation: false,
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-      hideOnClick: false
-    },
-    autoplay: {
-      delay: 2000,
-      stopOnLastSlide: true,
-      disableOnInteraction: true,
-      waitForTransition: false
-    },
+    pagination: false,
+    autoplay: false,
     speed: 500,
     longSwipesRatio: 0.1,
     longSwipesMs: 100,
     threshold: 5
   };
+
+  @ViewChild(SwiperComponent, { static: false }) swiper?: SwiperComponent;
+
+  public curIndex = 0;
+  public isFirstSlide = true;
+  public isLastSlide = false;
 
   public disabled = false;
 
@@ -51,7 +49,7 @@ export class WelcomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.firstStart = this.storage.get(this.IS_FIRST_START);
-    if (this.firstStart !== undefined){
+    if (this.firstStart !== undefined && this.firstStart === false){
       this.router.navigate(['my-crops']).then(r => {});
     }
   }
@@ -62,8 +60,33 @@ export class WelcomeComponent implements OnInit {
   }
 
   public onIndexChange(index: number): void {
+
+    this.curIndex = index;
+    if (index === 0 ){
+      this.isFirstSlide = true;
+      this.isLastSlide = false;
+    }else if (index === 2){
+      this.isFirstSlide = false;
+      this.isLastSlide = true;
+    }else{
+      this.isFirstSlide = false;
+      this.isLastSlide = false;
+    }
   }
 
   public onSwiperEvent(event: string): void {
+  }
+
+  onSlideNav(direction: string){
+    if (direction === 'next'){
+      if (this.isLastSlide === true){
+        this.onGetStarted();
+      }else{
+        this.swiper.directiveRef.nextSlide(200);
+      }
+    }else if (direction === 'back'){
+      this.swiper.directiveRef.prevSlide(200);
+    }else {
+    }
   }
 }

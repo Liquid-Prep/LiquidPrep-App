@@ -55,3 +55,57 @@ h3.description {
   color: gray;
   margin-top: 6px;
 }
+
+.title {
+  color: #000;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 32px;
+  margin-bottom: 6px;
+}
+
+.description {
+  color: #666;
+  font-size: 14px;
+  margin-top: 4px;
+  margin-bottom: 10px;
+  text-align: center;
+  width:240px;
+  word-break: normal;
+  white-space: normal;
+}
+
+.toolbarNav{
+  position: fixed;
+  bottom: 0;
+  z-index: 1000;
+  //display: flex;
+  //justify-content: space-between;
+  padding: 2px;
+  background-color: white;
+
+  -webkit-box-shadow: 3px 2px 2px 3px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    3px 2px 2px 3px #ccc;  /* Firefox 3.5 - 3.6 */
+  box-shadow:        2px 2px 2px 3px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
+
+.tool-bar-spacer {
+  flex: 1 1 auto;
+}
+
+.blue-icon {
+  color: #2F4FFE;
+}
+
+.tool-bar-text {
+  font-size: medium;
+  color: #2F4FFE;
+}
+
+.tool-bar-text-disable{
+  color: rgba(black, 0.38);
+}
+
+.invisible{
+  visibility:hidden
+}

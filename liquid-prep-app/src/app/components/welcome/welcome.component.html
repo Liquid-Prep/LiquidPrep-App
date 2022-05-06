@@ -1,5 +1,13 @@
+<mat-toolbar style="background-color: #fff">
+  <div class="container" fxLayout="row" fxFlexFill fxLayoutAlign="end center" >
+    <button mat-icon-button aria-label="read text" (click)="onGetStarted()">
+      <span Class="tool-bar-text">SKIP</span>
+    </button>
+  </div>
+</mat-toolbar>
+
 <div class="content-container">
-  <swiper class="swiper-container"
+  <swiper #swiper class="swiper-container"
           [config]="config"
           [disabled]="disabled"
           (indexChange)="onIndexChange($event)"
@@ -7,28 +15,53 @@
           (swiperTransitionEnd)="onSwiperEvent('transitionEnd')">
 
     <div class="swiper-slide">
-      <div fxLayout="column" fxFlexFill
-           fxLayoutAlign="center center">
-        <img src="assets/welcome-1.png" alt="welcome 1" width="196" height="302">
-        <h1 class="title">Save water</h1>
-        <h3 class="description">Crops grow with the right amount of water</h3>
+      <div class="container" fxLayout="column" fxFlexFill fxLayoutAlign="center center">
+        <img src="assets/welcome-bucket.png" alt="welcome 1" width="196" height="302">
+        <div class="container text-area" fxLayout="column" fxFlexWrap fxLayoutAlign="center center" >
+          <p class="title">Save water</p>
+          <p class="description">Only use the amount of water your crops need</p>
+        </div>
       </div>
     </div>
+
     <div class="swiper-slide" >
-      <div fxLayout="column" fxFlexFill fxLayoutAlign="center center" >
-        <img src="assets/welcome-2.png" alt="welcome 2" width="196" height="302">
-        <h1 class="title">Save water</h1>
-        <h3 class="description">Crops grow with the right amount of water</h3>
+      <div class="container" fxLayout="column" fxFlexFill fxLayoutAlign="center center" >
+        <img src="assets/welcome-plant.png" alt="welcome 2" width="196" height="302">
+        <div class="container text-area" fxLayout="column" fxFlexWrap fxLayoutAlign="center center" >
+          <p class="title">Grow your Crop</p>
+          <p class="description">Your crop has different water needs at every stage of growth</p>
+        </div>
       </div>
     </div>
+
     <div class="swiper-slide">
-      <div fxLayout="column" fxFlexFill fxLayoutAlign="center center" >
-        <img src="assets/welcome-3.png" alt="welcome 3" width="196" height="302">
-        <h1 class="title">Save water</h1>
-        <h3 class="description">Crops grow with the right amount of water</h3>
-        <button mat-flat-button class="c-btn" (click)="onGetStarted()">GET STARTED</button>
+      <div class="container" fxLayout="column" fxFlexFill fxLayoutAlign="center center" >
+        <img src="assets/welcome-measure.png" alt="welcome 3" width="196" height="302">
+        <div class="container text-area" fxLayout="column" fxFlexWrap fxLayoutAlign="center center" >
+          <p class="title">Measure</p>
+          <p class="description">Soil moisture level is the key to accurate watering advice</p>
+        </div>
       </div>
     </div>
 
   </swiper>
 </div>
+
+<mat-toolbar class="toolbarNav">
+
+  <div class="container" fxLayout="row" fxFlexFill fxLayoutAlign="space-between center" >
+
+    <button [ngClass]="{'invisible': isFirstSlide}" mat-icon-button style="margin-right: 24px">
+      <mat-icon class="blue-icon" (click)="onSlideNav('back')">navigate_before</mat-icon>
+      <span Class="tool-bar-text" (click)="onSlideNav('back')">BACK  </span>
+    </button>
+
+    <app-slide-indicator [current]="curIndex" [length]="3"></app-slide-indicator>
+
+    <button  mat-icon-button style="margin-right: 24px">
+      <span Class="tool-bar-text" (click)="onSlideNav('next')">NEXT</span>
+      <mat-icon class="blue-icon" (click)="onSlideNav('next')">navigate_next</mat-icon>
+    </button>
+
+  </div>
+</mat-toolbar>
