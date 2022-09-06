@@ -14,7 +14,6 @@ COPY . /server
 
 RUN npm install -g npm
 RUN npm install
-RUN npm audit fix
 RUN npm run build
 
 VOLUME /mms_shared_volume
