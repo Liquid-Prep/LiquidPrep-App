@@ -7,7 +7,7 @@ import * as https from 'https';
 
 export class Server {
   app = express();
-  apiUrl = 'https://service.us.apiconnect.ibmcloud.com/gws/apigateway/api/96fd655207897b11587cfcf2b3f58f6e0792f788cf2a04daa79b53fc3d4efb32/liquidprep-cf-api'
+  apiUrl = `${process.env.SERVERLESS_ENDPOINT}`
   constructor() {
     this.initialise()
   }
