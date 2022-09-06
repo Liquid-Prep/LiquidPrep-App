@@ -1,6 +1,12 @@
 FROM arm64v8/alpine
 
-RUN apt-get update -y && apt-get install -y apt-utils tzdata && apt-get install fswebcam ffmpeg -y && apt-get install mpg123 -y && apt-get install vim -y
+RUN apk add --no-cache  --update nodejs-current npm curl bash procps tzdata
+RUN node --version
+RUN npm --version
+
+ENV TZ="America/New_York"
+
+#RUN apt-get update -y && apt-get install -y apt-utils tzdata && apt-get install fswebcam ffmpeg -y && apt-get install mpg123 -y && apt-get install vim -y
 
 WORKDIR /server
 
