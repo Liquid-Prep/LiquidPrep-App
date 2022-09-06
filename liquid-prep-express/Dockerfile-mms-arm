@@ -1,0 +1,12 @@
+FROM alpine:3.10
+RUN apk add --no-cache  --update nodejs-current npm curl bash procps
+RUN node --version
+RUN npm --version
+
+WORKDIR /server
+
+COPY mms-docker /server/
+
+RUN npm install
+
+CMD ["npm", "start"]
