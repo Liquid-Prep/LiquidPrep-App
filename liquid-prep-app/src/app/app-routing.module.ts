@@ -6,37 +6,19 @@ import { MeasureSoilComponent } from './components/measure-soil/measure-soil.com
 import { SeedDateComponent } from './components/seed-date/seed-date.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AdviceComponent } from './components/advice/advice.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: WelcomeComponent
-  },
-  {
-    path: 'select-crop',
-    loadChildren: () => import('./components/select-crop/select-crop.module')
+  { path: '', component: WelcomeComponent },
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'select-crop', loadChildren: () => import('./components/select-crop/select-crop.module')
       .then(m => m.SelectCropModule)
   },
-  {
-    path: 'my-crops',
-    component: MyCropsComponent
-  },
-  {
-    path: 'measure-soil/:id',
-    component: MeasureSoilComponent
-  },
-  {
-    path: 'seed-date/:id',
-    component: SeedDateComponent
-  },
-  {
-    path: 'settings',
-    component: SettingsComponent
-  },
-  {
-    path: 'advice/:id',
-    component: AdviceComponent
-  }
+  { path: 'my-crops', component: MyCropsComponent },
+  { path: 'measure-soil/:id', component: MeasureSoilComponent },
+  { path: 'seed-date/:id', component: SeedDateComponent },
+  { path: 'settings', component: SettingsComponent },
+  { path: 'advice/:id', component: AdviceComponent }
 ];
 
 @NgModule({

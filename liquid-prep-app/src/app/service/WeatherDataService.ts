@@ -1,13 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { Observable, Observer } from 'rxjs';
 import { WeatherResponse } from '../models/api/WeatherResponse';
 import { WeatherInfo, TodayWeather } from '../models/TodayWeather';
 import { DataService } from './DataService';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { DateTimeUtil } from '../utility/DateTimeUtil';
-import { ImageMapping } from '../models/ImageMapping';
 import { HttpClient } from '@angular/common/http';
+import weatherIconMapping from "../models/json/weatherIconMapping.json"
 
 const TODAY_WEATHER = 'today-weather';
 
@@ -17,7 +16,6 @@ const TODAY_WEATHER = 'today-weather';
 export class WeatherDataService {
   public today = new TodayWeather();
   private dateTimeUtil;
-
   constructor(
     private dataService: DataService,
     @Inject(LOCAL_STORAGE) private localStorage: StorageService,
@@ -25,8 +23,6 @@ export class WeatherDataService {
   ) {
     this.dateTimeUtil = new DateTimeUtil();
   }
-
-  private weatherIconMappingFile = '../assets/json/weatherIconMapping.json';
 
   public getTodayWeather(): Observable<TodayWeather> {
     const self = this;
@@ -39,25 +35,32 @@ export class WeatherDataService {
           observer.next(localTodayWeather);
           observer.complete();
         });
-      } else {
-        return new Observable((observer: Observer<TodayWeather>) => {
-          this.dataService.getWeatherInfo().subscribe({
-            next(weatherInfo: WeatherResponse) {
-              // self.today = self.createTodayWeather(weatherInfo);
-              self.createTodayWeather(weatherInfo).subscribe(todayWeather => {
-                self.storeTodayWeatherInLocalStorage(todayWeather);
-                observer.next(todayWeather);
-                observer.complete();
-              });
-            },
-            error(err) {
-              observer.error(
-                'Error getting weather data: ' +
-                  (err.message ? err.message : err)
-              );
-            },
+      } else {// in the am, isToday will be false,and no 'Today' data from weather api
+        const now = Date.now();
+        if(localTodayWeather.weatherUpdateTs && (now - localTodayWeather.weatherUpdateTs)/1000000*60 < 60){
+          return new Observable((observer: Observer<TodayWeather>) => {
+            observer.next(localTodayWeather);
+            observer.complete();
           });
-        });
+        } else{
+          return new Observable((observer: Observer<TodayWeather>) => {
+            this.dataService.getWeatherInfo().subscribe({
+              next(weatherInfo: WeatherResponse) {
+                this.today = self.createTodayWeather(weatherInfo);
+                self.storeTodayWeatherInLocalStorage(this.today);
+                observer.next(this.today);
+                observer.complete();
+              },
+              error(err) {
+                observer.error(
+                  'Error getting weather data: ' +
+                    (err.message ? err.message : err)
+                );
+              },
+            });
+          });
+        }
+
       }
     } else {
       return new Observable((observer: Observer<TodayWeather>) => {
@@ -67,12 +70,10 @@ export class WeatherDataService {
         } else {
           this.dataService.getWeatherInfo().subscribe({
             next(weatherInfo: WeatherResponse) {
-              // self.today = self.createTodayWeather(weatherInfo);
-              self.createTodayWeather(weatherInfo).subscribe(todayWeather => {
-                self.storeTodayWeatherInLocalStorage(todayWeather);
-                observer.next(todayWeather);
-                observer.complete();
-              });
+              this.today = self.createTodayWeather(weatherInfo);
+              self.storeTodayWeatherInLocalStorage(this.today);
+              observer.next(this.today);
+              observer.complete();
             },
             error(err) {
               console.log(
@@ -86,98 +87,75 @@ export class WeatherDataService {
     }
   }
 
-  public createTodayWeather(weatherData: WeatherResponse): Observable<TodayWeather> {
-    return new Observable((observer: Observer<any>) => {
+  public createTodayWeather(weatherData: WeatherResponse) {
       const weatherInfo = weatherData.data;
-      this.today.dayOfWeek = weatherInfo.dayOfWeek[0];
-      this.today.narrative = weatherInfo.narrative[0];
-      this.today.sunriseTime = weatherInfo.sunriseTimeLocal[0];
-      this.today.sunsetTime = weatherInfo.sunsetTimeLocal[0];
-      this.today.maxTemperature = weatherInfo.calendarDayTemperatureMax[0];
-      this.today.minTemperature = weatherInfo.calendarDayTemperatureMin[0];
-      this.today.date = this.dateTimeUtil.extractDateFromDateTime(
-        weatherInfo.validTimeLocal[0]
-    );
+      const weatherToday = new TodayWeather();
+      weatherToday.dayOfWeek = weatherInfo.dayOfWeek[0];
+      weatherToday.narrative = weatherInfo.narrative[0];
+      weatherToday.sunriseTime = weatherInfo.sunriseTimeLocal[0];
+      weatherToday.sunsetTime = weatherInfo.sunsetTimeLocal[0];
+      weatherToday.maxTemperature = weatherInfo.calendarDayTemperatureMax[0];
+      weatherToday.minTemperature = weatherInfo.calendarDayTemperatureMin[0];
+      weatherToday.date = this.dateTimeUtil.extractDateFromDateTime(weatherInfo.validTimeLocal[0]);
+      weatherToday.weatherUpdateTs = Date.now();
 
       const dayPart = weatherInfo.daypart[0];
 
       const dayTime = new WeatherInfo();
       const nightTime = new WeatherInfo();
+      const nextDayTime = new WeatherInfo();
 
       dayTime.narrative = dayPart.narrative[0];
       dayTime.precipChance = dayPart.precipChance[0];
       dayTime.precipType = dayPart.precipType[0];
+      dayTime.precipitaion = dayPart.qpf[0];
       dayTime.humidity = dayPart.relativeHumidity[0];
+      dayTime.uvIndex = dayPart.uvIndex[0];
       dayTime.temperature = dayPart.temperature[0];
       dayTime.windSpeed = dayPart.windSpeed[0];
       dayTime.iconCode = dayPart.iconCode[0];
-
+      
       nightTime.narrative = dayPart.narrative[1];
       nightTime.precipChance = dayPart.precipChance[1];
       nightTime.precipType = dayPart.precipType[1];
+      nightTime.precipitaion = dayPart.qpf[1];
       nightTime.humidity = dayPart.relativeHumidity[1];
+      nightTime.uvIndex = dayPart.uvIndex[1];
       nightTime.temperature = dayPart.temperature[1];
       nightTime.windSpeed = dayPart.windSpeed[1];
       nightTime.iconCode = dayPart.iconCode[1];
+      
+      nextDayTime.narrative = dayPart.narrative[2];
+      nextDayTime.precipChance = dayPart.precipChance[2];
+      nextDayTime.precipType = dayPart.precipType[2];
+      nextDayTime.precipitaion = dayPart.qpf[2];
+      nextDayTime.humidity = dayPart.relativeHumidity[2];
+      nextDayTime.uvIndex = dayPart.uvIndex[2];
+      nextDayTime.temperature = dayPart.temperature[2];
+      nextDayTime.windSpeed = dayPart.windSpeed[2];
+      nextDayTime.iconCode = dayPart.iconCode[2];
 
-      // assign weather icon images for the icons codes
-      this.assignWeatherIconImage(dayTime, nightTime).subscribe(response => {
-        this.today.dayTime = dayTime;
-        this.today.nightTime = nightTime;
-        observer.next(this.today);
-        observer.complete();
-      });
-    });
-  }
+      if(dayTime.iconCode){
+        dayTime.iconImageUrl = weatherIconMapping.weatherIconMap[dayTime.iconCode].url;
+      }else{
+        dayTime.iconImageUrl = null;
+      }
+      if(nightTime.iconCode){
+        nightTime.iconImageUrl = weatherIconMapping.weatherIconMap[nightTime.iconCode].url;
+      }
+      if(nextDayTime.iconCode){
+        nextDayTime.iconImageUrl = weatherIconMapping.weatherIconMap[nextDayTime.iconCode].url;
+      }
 
-  private assignWeatherIconImage(dayTime: WeatherInfo, nightTime: WeatherInfo): Observable<any> {
-    return new Observable((observer) => {
-      this.getWeatherIconMapping()
-      .subscribe(
-        (imageMapping: ImageMapping) => {
-          // assign dayTime icon
-          if (imageMapping != null && imageMapping.weatherIconMap[dayTime.iconCode]) {
-            dayTime.iconImageUrl = imageMapping.weatherIconMap[dayTime.iconCode].url;
-          } else {
-            // sunny icon code
-            dayTime.iconImageUrl = imageMapping.weatherIconMap[32].url;
-          }
-
-          // assign dnightTime icon
-          if (imageMapping != null && imageMapping.weatherIconMap[nightTime.iconCode]) {
-            nightTime.iconImageUrl = imageMapping.weatherIconMap[nightTime.iconCode].url;
-          } else {
-            // night icon code
-            nightTime.iconImageUrl = imageMapping.weatherIconMap[33].url;
-          }
-          observer.next();
-          observer.complete();
-        },
-        (err) => {
-          console.error('assignWeatherIconImage', err);
-        }
-      );
-    });
-  }
-
-  private getWeatherIconMapping(): Observable<ImageMapping> {
-    return new Observable((observer: Observer<ImageMapping>) => {
-      this.http.get<ImageMapping>(this.weatherIconMappingFile).subscribe(
-        (data) => {
-          observer.next(data);
-          observer.complete();
-        },
-        (err) => {
-          observer.error(err);
-        }
-      );
-    });
+      weatherToday.dayTime = dayTime;
+      weatherToday.nightTime = nightTime;
+      weatherToday.nextDayTime = nextDayTime;
+      return weatherToday;
   }
 
   public storeTodayWeatherInLocalStorage(todayWeather: TodayWeather) {
-    if (todayWeather && this.dateTimeUtil.isToday(todayWeather.date)) {
-      this.localStorage.set(TODAY_WEATHER, todayWeather);
-    }
+    console.log('storeTodayWeatherInLocalStorage', todayWeather, this.dateTimeUtil.isToday(todayWeather.date));
+    this.localStorage.set(TODAY_WEATHER, todayWeather);
   }
 
   public getTodayWeatherFromLocalStorage(): TodayWeather {
@@ -222,16 +200,4 @@ export class WeatherDataService {
       return 'HIGH';
     }
   }
-
-  /*public isToday(date: string) {
-      const todayDate =  formatDate(new Date(), 'yyyy-MM-dd', 'en');
-      if (date === todayDate.toString()) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-    public extractDateFromDateTime(dateTime) {
-      return this.datePipe.transform(dateTime, 'yyyy-MM-dd');
-    }*/
 }

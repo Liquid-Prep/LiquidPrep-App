@@ -1,0 +1,48 @@
+div>label.title{
+  color: #838383
+}
+
+div>label.value {
+  font-size:smaller;
+  color: #3e3e3e
+}
+
+div>label{
+  color: #acacac;
+}
+
+.custom-toolbar {
+  background-color: rgba(0, 0, 255, 0.774);
+  padding: 0 5px;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.weather-margin{
+  margin: 20px 10px;
+}
+
+.weather-info-margin{
+  margin-top: 8px;
+}
+
+.location-margin-padding{
+  margin-left: 20px;
+}
+
+.card-margin-padding{
+  margin: 12px 10px;
+  padding: 6px;
+}
+
+.temperature-font{
+  font-size: medium;
+}
+
+.mat-card:not([class*=mat-elevation-z]) {
+  box-shadow: 0 2px 1px -1px rgba(0,0,0,1),
+  0 1px 2px 0 rgba(0,0,0,1),
+  0 1px 3px 0 rgba(0,0,0,1);
+}

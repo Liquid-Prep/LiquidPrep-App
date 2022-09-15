@@ -2,7 +2,7 @@ import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import { SwiperOptions } from 'swiper';
 import { Router, ActivatedRoute} from '@angular/router';
 import {LOCAL_STORAGE, StorageService} from 'ngx-webstorage-service';
-import {SwiperComponent} from "ngx-swiper-wrapper";
+import {SwiperComponent} from 'ngx-swiper-wrapper';
 
 
 @Component({
@@ -50,12 +50,12 @@ export class WelcomeComponent implements OnInit {
   ngOnInit(): void {
     this.firstStart = this.storage.get(this.IS_FIRST_START);
     if (this.firstStart !== undefined && this.firstStart === false){
-      this.router.navigate(['my-crops']).then(r => {});
+      this.router.navigate(['dashboard']).then(r => {});
     }
   }
 
   public onGetStarted(){
-    this.router.navigate(['my-crops']).then(r => {});
+    this.router.navigate(['dashboard']).then(r => {});
     this.storage.set(this.IS_FIRST_START, false);
   }
 
