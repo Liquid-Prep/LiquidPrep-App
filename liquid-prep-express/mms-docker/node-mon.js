@@ -1,39 +1,41 @@
-const findProcess = require('find-process');
 const cp = require('child_process'),
 exec = cp.exec;
 
 let timer;
 
 const find = (name) => {
-  findProcess('name', name, true)
-  .then(function (list) {
-    if(!list.find(exist)) {
-      clearInterval(timer);
-      let child = exec('node index.js', {maxBuffer: 1024 * 2000}, (err, stdout, stderr) => {
-        console.log('restarting node index.js')
-        console.log('there are %s node process(es)', list.length);
-        sleep(5000).then(() => {
-          setCheckInterval(10000);
+  exec(`ps -ef | grep "${name}"`, {maxBuffer: 1024 * 2000}, (err, stdout, stderr) => {
+    if(!err) {
+      const lines = stdout.split('\n')
+      let found = false;
+      lines.forEach((line, i) => {
+        if(line.length > 0 && !line.match(/-ef|grep/) && !line.match(/grep node index.js/)) {
+          if(line.match(/node index.js/)) {
+            found = true;
+          }
+        } 
+      })
+      if(!found) {
+        clearInterval(timer);
+        console.log('restarting node server here')
+        const child = exec('node index.js', (err, stdout, stderr) => {
+        });
+        child.stdout.pipe(process.stdout);
+        child.on('data', (data) => {
+          console.log(data)
         })
-      });
-      child.stdout.pipe(process.stdout);
-      child.on('data', (data) => {
-        console.log(data)
+      }
+      sleep(2000).then(() => {
+        setCheckInterval(8000);
       })
-      child.on('error', (err) => {
-        console.llog(err)
-      })
-    } 
-  });
-}
-
-const exist = (instance) => {
-  return instance.cmd === 'node index.js';
+    }
+  })
 }
 
 const setCheckInterval = (ms) => {
+  clearInterval(timer);
   timer = setInterval(() => {
-    find('node');
+    find('node index.js');
   }, ms);
 };
 

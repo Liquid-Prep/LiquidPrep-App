@@ -6,26 +6,26 @@ import { SoilMoisture } from '../models/SoilMoisture';
 })
 
 export class SoilMoistureService {
+  sensorIp = '';
+  private soilMoistureReadingPercentage = 0;
 
-    private soilMoistureReadingPercentage = 0;
+  public setSoilMoistureReading(valuePercentage) {
+      this.soilMoistureReadingPercentage = valuePercentage;
+  }
 
-    public setSoilMoistureReading(valuePercentage) {
-        this.soilMoistureReadingPercentage = valuePercentage;
-    }
+  public getSoilMoistureReading() {
+      const soilMoisture = new SoilMoisture();
+      // TODO: replace staticSoilMoisture with the real time value once the sensor connection is integrated.
+      soilMoisture.soilMoisturePercentage = this.soilMoistureReadingPercentage;
 
-    public getSoilMoistureReading() {
-        const soilMoisture = new SoilMoisture();
-        // TODO: replace staticSoilMoisture with the real time value once the sensor connection is integrated.
-        soilMoisture.soilMoisturePercentage = this.soilMoistureReadingPercentage;
+      if (soilMoisture.soilMoisturePercentage <= 33) {
+          soilMoisture.soilMoistureIndex = 'LOW';
+      } else if (soilMoisture.soilMoisturePercentage > 33 && soilMoisture.soilMoisturePercentage <= 66) {
+          soilMoisture.soilMoistureIndex = 'MEDIUM';
+      } else {
+          soilMoisture.soilMoistureIndex = 'HIGH';
+      }
 
-        if (soilMoisture.soilMoisturePercentage <= 33) {
-            soilMoisture.soilMoistureIndex = 'LOW';
-        } else if (soilMoisture.soilMoisturePercentage > 33 && soilMoisture.soilMoisturePercentage <= 66) {
-            soilMoisture.soilMoistureIndex = 'MEDIUM';
-        } else {
-            soilMoisture.soilMoistureIndex = 'HIGH';
-        }
-
-        return soilMoisture;
-    }
+      return soilMoisture;
+  }
 }

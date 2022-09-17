@@ -29,7 +29,6 @@
     "cors": "^2.8.5",
     "express": "^4.17.2",
     "express-fileupload": "^1.2.1",
-    "find-process": "^1.4.7",
     "jsonfile": "^6.1.0",
     "liquid-prep-lib": "^1.0.0",
     "rxjs": "^7.5.2"

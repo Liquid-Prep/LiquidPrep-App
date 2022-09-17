@@ -7,6 +7,7 @@ import {SoilMoistureService} from '../../service/SoilMoistureService';
 import {SoilMoisture} from '../../models/SoilMoisture';
 import {LineBreakTransformer} from './LineBreakTransformer';
 import { HttpClient } from '@angular/common/http';
+import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 
 @Component({
   selector: 'app-measure-soil',
@@ -97,7 +98,11 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
 
   async connectWifi() {
     let sensorMoisturePercantage: number;
-    let endpoint = prompt("Please enter sensor endpoint", "http://xxx.xxx.xxx.xxx/moisture.json");
+    const ip = this.soilService.sensorIp && this.soilService.sensorIp.length > 0 ? this.soilService.sensorIp : "http://xxx.xxx.xxx.xxx/moisture.json";
+    const endpoint = prompt("Please enter sensor endpoint", ip);
+    if(endpoint) {
+      this.soilService.sensorIp = endpoint;
+    }
 
     try {
       let response: any = await this.http.get(endpoint)
@@ -108,7 +113,7 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
       }
       return sensorMoisturePercantage;
     } catch (e) {
-      window.alert('Failed to connect to sensor via Bluetooth.  Please try again.');
+      window.alert('Failed to connect to sensor via WiFi.  Please try again.');
     }
   }
   public async connectBluetooth() {
