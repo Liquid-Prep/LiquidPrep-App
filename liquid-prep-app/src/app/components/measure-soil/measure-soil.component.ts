@@ -1,11 +1,13 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import { Location } from '@angular/common';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent} from 'ngx-swiper-wrapper';
 import {SoilMoistureService} from '../../service/SoilMoistureService';
 import {SoilMoisture} from '../../models/SoilMoisture';
 import {LineBreakTransformer} from './LineBreakTransformer';
+import {Crop, Stage} from '../../models/Crop';
+import {CropDataService} from '../../service/CropDataService';
 
 @Component({
   selector: 'app-measure-soil',
@@ -13,7 +15,11 @@ import {LineBreakTransformer} from './LineBreakTransformer';
   styleUrls: ['./measure-soil.component.scss'],
 })
 export class MeasureSoilComponent implements OnInit, AfterViewInit {
-  constructor(private router: Router, private location: Location, private soilService: SoilMoistureService) { }
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private location: Location,
+              private soilService: SoilMoistureService,
+              private cropService: CropDataService) { }
 
   public config: SwiperOptions = {
     a11y: { enabled: true },
@@ -35,6 +41,8 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
 
   @ViewChild(SwiperComponent, { static: false }) swiper?: SwiperComponent;
 
+  public crop: Crop;
+  public stage: Stage;
   public curIndex = 0;
   public isFirstSlide = true;
   public isLastSlide = false;
@@ -57,7 +65,11 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
     ['HIGH', '/assets/moisture-water/soil_moisture_high.png']
   ]);
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    const cropId = this.route.snapshot.paramMap.get('id');
+    this.crop = this.cropService.getCropFromMyCropById(cropId);
+    this.stage = this.cropService.generateCropGrowthStage(this.crop);
+  }
 
   ngAfterViewInit(): void {
   }
@@ -261,8 +273,12 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
         this.setMeasureView('after-measuring');
         clearInterval(this.interval);
         this.soilData = this.soilService.getSoilMoistureReading();
+        if (!this.soilData.soilMoisturePercentage){
+          this.soilData.soilMoisturePercentage = Math.floor(Math.random() * 100) + 0;
+        }
         this.soilMoistureColorClass = this.soilMoistureIndexColorMap.get(this.soilData.soilMoistureIndex);
         this.moistureIcon = this.soilMoistureIconMap.get(this.soilData.soilMoistureIndex);
+        this.countdownSecond = 5;
       }
       this.countdownSecond--;
     }, 1000);
@@ -277,7 +293,11 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
   }
 
   onGetAdvise() {
-    this.router.navigate(['advice']).then(r => {});
+    this.router.navigate(['advice/' + this.crop.id ]).then(r => {});
+  }
+
+  onMeasure(){
+    this.onSensorConnect('ble');
   }
 
   onSlideNav(direction: string){
