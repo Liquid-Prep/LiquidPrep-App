@@ -1,6 +1,7 @@
 #! /usr/bin/env node
 const https = require('https');
 const { createWriteStream, unlinkSync, existsSync, readFileSync } = require('fs');
+const jsonfile = require('jsonfile');
 const { pipeline } = require('stream');
 const zipFile = require('is-zip-file');
 const cp = require('child_process'),
@@ -40,18 +41,22 @@ class Mms {
   timout = 10000;
 
   constructor() {
-    this.cert += pEnv.HZN_ESS_CERT ? pEnv.HZN_ESS_CERT : '/ess-auth/cert.pem';
-    this.socket += pEnv.HZN_ESS_API_ADDRESS ? pEnv.HZN_ESS_API_ADDRESS : '/var/run/horizon/essapi.sock';
-    this.essAuth = require(`${pEnv.HZN_ESS_AUTH}`);
-    this.user = this.essAuth.id;
-    this.password = this.essAuth.token;
-    this.auth = `${this.user}:${this.password}`;
-    // this.tempFile = `.${this.objectId}`; 
-
-    this.essObjectList = `curl -sSL -u ${this.auth} ${this.cert} ${this.socket} ${this.baseUrl}/${this.objectType}`;
-    // this.essObjectGet = `curl -sSL -u ${this.auth} ${this.cert} ${this.socket} ${this.baseUrl}/${this.objectType}/${this.objectType}/data -o ${this.sharedVolume}/${this.tempFile}`;
-    // this.essObjectReceived = `curl -sSL -X PUT -u ${this.auth} ${this.cert} ${this.socket} ${this.baseUrl}/${this.objectType}/${this.objectId}/received`;
-    this.monitor(this.timeout);
+    try {
+      this.cert += pEnv.HZN_ESS_CERT ? pEnv.HZN_ESS_CERT : '/ess-auth/cert.pem';
+      this.socket += pEnv.HZN_ESS_API_ADDRESS ? pEnv.HZN_ESS_API_ADDRESS : '/var/run/horizon/essapi.sock';
+      this.essAuth = jsonfile.readFileSync(pEnv.HZN_ESS_AUTH);
+      this.user = this.essAuth.id;
+      this.password = this.essAuth.token;
+      this.auth = `${this.user}:${this.password}`;
+      // this.tempFile = `.${this.objectId}`; 
+  
+      this.essObjectList = `curl -sSL -u ${this.auth} ${this.cert} ${this.socket} ${this.baseUrl}/${this.objectType}`;
+      // this.essObjectGet = `curl -sSL -u ${this.auth} ${this.cert} ${this.socket} ${this.baseUrl}/${this.objectType}/${this.objectType}/data -o ${this.sharedVolume}/${this.tempFile}`;
+      // this.essObjectReceived = `curl -sSL -X PUT -u ${this.auth} ${this.cert} ${this.socket} ${this.baseUrl}/${this.objectType}/${this.objectId}/received`;
+      this.monitor(this.timeout);
+    } catch(e) {
+      console.log(e)
+    }
   }
 
   monitor(ms) {
