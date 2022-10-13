@@ -33,7 +33,10 @@ div>label{
 }
 
 .card-margin-padding{
-  margin: 12px 10px;
+  margin-left: 12px;
+  margin-right: 12px;
+  margin-top: 18px;
+  margin-bottom: 4px;
   padding: 6px;
 }
 
@@ -42,7 +45,7 @@ div>label{
 }
 
 .mat-card:not([class*=mat-elevation-z]) {
-  box-shadow: 0 2px 1px -1px rgba(0,0,0,1),
-  0 1px 2px 0 rgba(0,0,0,1),
-  0 1px 3px 0 rgba(0,0,0,1);
+  box-shadow: 0 2px 1px -1px rgba(172,172,172),
+              0 1px 15px 0 rgba(172,172,172),
+              0 1px 10px 0 rgba(172,172,172);
 }
