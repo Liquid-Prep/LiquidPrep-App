@@ -79,17 +79,29 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
   public onSensorConnect(connectionOption) {
     if (connectionOption === 'usb') {
       this.connectUSB().then((sensorValue) => {
-        const soilMoisture = this.sensorValueLimitCorrection(sensorValue);
-        this.soilService.setSoilMoistureReading(soilMoisture);
-        this.setMeasureView('measuring');
-        this.readingCountdown();
+        if (typeof sensorValue !== 'undefined') {
+          const soilMoisture = this.sensorValueLimitCorrection(sensorValue);
+          this.soilService.setSoilMoistureReading(soilMoisture);
+          this.setMeasureView('measuring');
+          this.readingCountdown();
+        } else {
+          alert(
+            'Failed to connect with sensor device. Please connect the Liquid Prep App with sensor device via USB cable.'
+          );
+        }
       });
     } else if (connectionOption === 'ble') {
       this.connectBluetooth().then((sensorValue) => {
-        const soilMoisture = this.sensorValueLimitCorrection(sensorValue);
-        this.soilService.setSoilMoistureReading(soilMoisture);
-        this.setMeasureView('measuring');
-        this.readingCountdown();
+        if (typeof sensorValue !== 'undefined') {
+          const soilMoisture = this.sensorValueLimitCorrection(sensorValue);
+          this.soilService.setSoilMoistureReading(soilMoisture);
+          this.setMeasureView('measuring');
+          this.readingCountdown();
+        } else {
+          alert(
+            'Failed to connect with sensor device. Please connect the Liquid Prep App with sensor device via Bluetooth.'
+          );
+        }
       });
     } else {
       alert('Please choose one soil sensor connection option.');
