@@ -40,6 +40,7 @@
               <div class="container text-area sensor-text" fxLayout="column" fxFlexWrap fxLayoutAlign="start center">
                 <p class="title" textWrap="true">Step 3</p>
                 <p class="description" flex textWrap="false">Connect to Sensor</p>
+                <button mat-flat-button class="c-btn" (click)="onSensorConnect('wifi')"><mat-icon>wifi</mat-icon> Connect with WiFi</button>
                 <button mat-flat-button class="c-btn" (click)="onSensorConnect('usb')"><mat-icon>usb</mat-icon> Connect with USB</button>
                 <button mat-flat-button class="c-btn" (click)="onSensorConnect('ble')"><mat-icon>bluetooth</mat-icon> Connect with Bluetooth </button>
               </div>

@@ -6,6 +6,7 @@ import { SwiperComponent} from 'ngx-swiper-wrapper';
 import {SoilMoistureService} from '../../service/SoilMoistureService';
 import {SoilMoisture} from '../../models/SoilMoisture';
 import {LineBreakTransformer} from './LineBreakTransformer';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-measure-soil',
@@ -13,7 +14,11 @@ import {LineBreakTransformer} from './LineBreakTransformer';
   styleUrls: ['./measure-soil.component.scss'],
 })
 export class MeasureSoilComponent implements OnInit, AfterViewInit {
-  constructor(private router: Router, private location: Location, private soilService: SoilMoistureService) { }
+  constructor(
+    private router: Router,
+    private location: Location,
+    private http: HttpClient,
+    private soilService: SoilMoistureService) { }
 
   public config: SwiperOptions = {
     a11y: { enabled: true },
@@ -66,23 +71,46 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
 
     if (connectionOption === 'usb') {
       this.connectUSB().then( sensorValue => {
-        const soilMoisture = this.sensorValueLimitCorrection(sensorValue);
-        this.soilService.setSoilMoistureReading(soilMoisture);
-        this.setMeasureView('measuring');
-        this.readingCountdown();
+        this.showReading(sensorValue);
       });
     } else if (connectionOption === 'ble') {
       this.connectBluetooth().then( sensorValue => {
-        const soilMoisture = this.sensorValueLimitCorrection(sensorValue);
-        this.soilService.setSoilMoistureReading(soilMoisture);
-        this.setMeasureView('measuring');
-        this.readingCountdown();
+        this.showReading(sensorValue);
+      });
+    } else if (connectionOption === 'wifi') {
+      this.connectWifi().then( sensorValue => {
+        this.showReading(sensorValue);
       });
     } else {
       alert('Please choose one soil sensor connection option.');
     }
   }
 
+  showReading(sensorValue: number) {
+    if(sensorValue) {
+      const soilMoisture = this.sensorValueLimitCorrection(sensorValue);
+      this.soilService.setSoilMoistureReading(soilMoisture);
+      this.setMeasureView('measuring');
+      this.readingCountdown();
+    }
+  }
+
+  async connectWifi() {
+    let sensorMoisturePercantage: number;
+    let endpoint = prompt("Please enter sensor endpoint", "http://xxx.xxx.xxx.xxx/moisture.json");
+
+    try {
+      let response: any = await this.http.get(endpoint)
+      .pipe()
+      .toPromise();
+      if(response) {
+        sensorMoisturePercantage = response.moisture;
+      }
+      return sensorMoisturePercantage;
+    } catch (e) {
+      window.alert('Failed to connect to sensor via Bluetooth.  Please try again.');
+    }
+  }
   public async connectBluetooth() {
     // Vendor code to filter only for Arduino or similar micro-controllers
     const filter = {
@@ -148,7 +176,7 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
       return sensorMoisturePercantage;
 
     } catch (e) {
-      window.alert('Failed to connect to sensor via Bluetooth');
+      window.alert('Failed to connect to sensor via Bluetooth.  Please try again.');
     }
   }
 
@@ -211,7 +239,7 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
       }
     } catch (e) {
       // Permission to access a device was denied implicitly or explicitly by the user.
-      window.alert('Failed to connect to sensor via USB') ;
+      window.alert('Failed to connect to sensor via USB.  Please try again.') ;
     }
   }
 
