@@ -34,7 +34,7 @@ Instructions on how to run the App,
 5. IBM Cloud account:
    - [Create an IBM Cloud account](https://cloud.ibm.com/registration)
 6. Liquid Prep Backend Service Endpoint:
-   - [Deploy Liquid Prep Backend in IBM Cloud Functions](https://github.com/Liquid-Prep/Liquid-Prep/tree/master/backend#deploy-liquid-prep-backend-service) and note down the `CLOUD_FUNCTIONS_URL` which is the Backend service endpoint. This endpoint will be required later for deploying the App.
+   - [Deploy Liquid Prep Backend in IBM Cloud Functions](https://github.com/Liquid-Prep/LiquidPrep-Backend#liquid-prep---backend-service) and note down the `CLOUD_FUNCTIONS_URL` which is the Backend service endpoint. This endpoint will be required later for deploying the App.
 
 ### Run App Locally
 
