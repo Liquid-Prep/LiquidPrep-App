@@ -4,14 +4,12 @@ import { SwUpdate } from '@angular/service-worker';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'Welcome to  liquid-prep-app';
+  title = 'Welcome to liquid-prep-app';
 
-  constructor(
-    private swUpdate: SwUpdate
-  ) {}
+  constructor(private swUpdate: SwUpdate) {}
 
   ngOnInit() {
     if (this.swUpdate.isEnabled) {

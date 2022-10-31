@@ -34,8 +34,8 @@
 }
 
 .title {
-  color: #cccccc;
-  font-size: 18px;
+  color: #666666;
+  font-size: 20px;
   margin-top: 30px;
   margin-bottom: 5px;
 }
@@ -110,6 +110,17 @@
   letter-spacing: 2px;
 }
 
+.m-button{
+  width: 160%;
+  height: auto;
+  margin:  5px;
+  display: flex;
+  //text-align: center;
+  //background-color: #2F4FFE;
+  //font-size: 16px;
+  //letter-spacing: 2px;
+}
+
 .mat-success {
   color: #2F4FFE;
 }
@@ -143,3 +154,20 @@
 .invisible{
   visibility:hidden
 }
+
+.spin-margin-padding{
+  margin-bottom: 30px;
+}
+
+.measure-btn-margin-padding{
+  margin-top: 10px;
+}
+
+:host ::ng-deep .custom-spinner-bg circle{
+  stroke: #cecece;
+}
+
+:host ::ng-deep .custom-spinner-sk circle{
+  stroke: #d9781d;
+}
+
