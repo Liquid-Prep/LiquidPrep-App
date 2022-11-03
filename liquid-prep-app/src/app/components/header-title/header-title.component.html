@@ -1,0 +1,18 @@
+<div class="header-title" style="overflow-x:hidden;" fxFlexFill cdkScrollable>
+    <mat-toolbar class="header-title-header mat-elevation-z4 custom-toolbar" >
+      <mat-toolbar-row style="padding: 0 5px;">
+        <button mat-icon-button class="toolbar-title" aria-label="Icon-button with close icon" (click)="backClicked">
+          <mat-icon>{{leftIconName}}</mat-icon>
+        </button>
+        <div style="padding:8px 0 0 10px; flex:1;">
+          <div class="mat-title toolbar-title" style="margin-bottom:2px;">{{headerTitle}}</div>
+        </div>
+        <button mat-icon-button class="toolbar-title" aria-label="Icon-button with search icon"  (click)="volumeClicked()">
+          <mat-icon>{{rightIconName}}</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    </div>
+
+
+    
