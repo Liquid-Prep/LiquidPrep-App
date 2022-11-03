@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { formatDate } from '@angular/common';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import { WaterAdviceService } from 'src/app/service/WaterAdviceService';
+import {Crop} from '../../models/Crop';
+import {CropDataService} from '../../service/CropDataService';
 
 @Component({
   selector: 'app-advice',
@@ -11,6 +13,7 @@ import { WaterAdviceService } from 'src/app/service/WaterAdviceService';
 })
 export class AdviceComponent implements OnInit {
 
+  crop: Crop;
   currentDate = '';
   waterRecommeded = undefined;
   wateringDecision = '';
@@ -33,11 +36,15 @@ export class AdviceComponent implements OnInit {
   ]);
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
-    private waterAdviceService: WaterAdviceService
+    private waterAdviceService: WaterAdviceService,
+    private cropService: CropDataService
   ) {}
 
   ngOnInit(): void {
+    const cropId = this.route.snapshot.paramMap.get('id');
+    this.crop = this.cropService.getCropFromMyCropById(cropId);
     this.currentDate = 'Today, ' + formatDate(new Date(), 'MMMM d, yyyy', 'en');
     this.waterAdviceService.getWaterAdvice().subscribe( advice => {
       this.waterRecommeded = advice.stage.waterUse;
@@ -64,6 +71,6 @@ export class AdviceComponent implements OnInit {
   }
 
   onFabClicked() {
-    this.router.navigate(['/measure-soil']).then(r => {});
+    this.router.navigate(['/measure-soil/' + this.crop.id]).then(r => {});
   }
 }

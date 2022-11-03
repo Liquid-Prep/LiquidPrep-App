@@ -87,7 +87,7 @@ export class MyCropsComponent implements OnInit {
 
   onViewCropAdvice(crop: Crop) {
     this.cropDataService.storeSelectedCropIdInSession(crop.id);
-    this.router.navigate(['advice']).then(r => {});
+    this.router.navigate(['advice/' + crop.id]).then(r => {});
   }
 
   onRemoveCrop(crop: Crop) {
