@@ -17,12 +17,4 @@ export class HeaderTitleComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public volumeClicked() {
-
-  }
-
-  public backClicked() {
-    this.location.back();
-  }
-
 }
