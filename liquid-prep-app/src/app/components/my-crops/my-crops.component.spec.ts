@@ -1,25 +1,28 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+// import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { MyCropsComponent } from './my-crops.component';
+// import { MyCropsComponent } from './my-crops.component';
 
-describe('MyCropsComponent', () => {
-  let component: MyCropsComponent;
-  let fixture: ComponentFixture<MyCropsComponent>;
+// describe('MyCropsComponent', () => {
+//   let component: MyCropsComponent;
+//   let fixture: ComponentFixture<MyCropsComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ MyCropsComponent ]
-    })
-    .compileComponents();
-  }));
+//   beforeEach(waitForAsync(() => {
+//     TestBed.configureTestingModule({
+//       declarations: [ MyCropsComponent ]
+//     })
+//     .compileComponents();
+//   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(MyCropsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//   beforeEach(() => {
+//     fixture = TestBed.createComponent(MyCropsComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+
+  
+
+// });
