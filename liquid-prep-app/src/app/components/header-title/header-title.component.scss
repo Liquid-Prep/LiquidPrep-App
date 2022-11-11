@@ -1,29 +1,13 @@
-.header-title{
-    height: 100%;
-    display: flex;
-  }
-  
-  header {
-    position: fixed;
-    top: 0;
-    z-index: 11;
-    transition: all 250ms ease-in-out;
-  }
-  
-  .header-title-header {
-    @extend header;
-  }
-  
-  .header-title-container {
-    margin: auto;
-  }
-  
-  .label {
-    display: block;
-    text-align: center;
-    font-size: 22px;
-    font-weight: 200;
-    padding: 20px 10px 10px 10px;
-  }
-  
-  
+.custom-toolbar {
+  background-color: #2F4FFE;
+  padding: 0 5px;
+}  
+
+.toolbar-title {
+  color: #fff;
+  padding-left: 10%;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+} 

@@ -1,9 +1,10 @@
+<div fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutGap="25%">
 
-  <app-header-title leftIconName="arrow_back" headerTitle="Select Seed Date" rightIconName="volume_up">
 
+  <app-header-title fxFlexFill fxFlex="20" leftIconName="arrow_back" headerTitle="Select Seed Date" rightIconName="volume_up" (click)="onHeaderClick($event)">
   </app-header-title> 
 
-  <div class="select-date-container">
+  <div fxFlexFill fxFlex="80" class="select-date-container">
     <img mat-card-image class="cardImg" src="/assets/select-seed.png" alt="select seed date" />
     <label class="label">Select a seed date</label>
     <mat-form-field class="datePicker" appearance="fill">
@@ -16,4 +17,5 @@
     </div>
     <button mat-flat-button class="c-btn" (click)="clickConfirm(userSelectiondate)">CONFIRM</button>
   </div>
- 
+
+</div> 
