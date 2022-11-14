@@ -9,6 +9,7 @@ import { TodayWeather } from 'src/app/models/TodayWeather';
 import { CropDataService } from 'src/app/service/CropDataService';
 import { DateTimeUtil } from 'src/app/utility/DateTimeUtil';
 
+
 @Component({
   selector: 'app-my-crops',
   templateUrl: './my-crops.component.html',
@@ -116,6 +117,9 @@ export class MyCropsComponent implements OnInit {
 
   showError(msg) {
     alert(msg ? msg : this.errorMessage);
+  }
+  backToMyCrops(){
+    this.location.back();
   }
 
 }
