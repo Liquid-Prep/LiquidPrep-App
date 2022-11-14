@@ -47,7 +47,7 @@
 
 
   <mat-grid-list class="grid" cols="1" rowHeight="120" gutterSize="25px" *ngIf="activeTab == tabs[0]">
-    <mat-grid-tile *ngFor="let crop of myCrops" class="shadow-box">
+    <mat-grid-tile *ngFor="let crop of myCrops" class="shadowBox">
       <mat-card class="card full-card">
         <div class="cardDetails">
           <div>
@@ -57,7 +57,7 @@
             <span>Planted July 4 | Last Irrigated July 21</span>
           </div>
           <div>
-            <button class="measure-button" mat-icon-button (click)="onViewCropAdvice(crop)">
+            <button class="measureButton" mat-icon-button (click)="onViewCropAdvice(crop)">
               MEASURE
             </button>
             <button mat-icon-button (click)="onViewCropAdvice(crop)">
