@@ -48,6 +48,21 @@ export class SeedDateComponent implements OnInit {
     this.location.back();
   }
 
+  public translate() {
+    // let allInBody = document.querySelectorAll('body > *') as NodeListOf<Element>;
+    var allInBody = document.getElementsByTagName('body')[0];
+    var allElements = allInBody.getElementsByTagName('*');
+    
+    for (var i = 0; i < allElements.length; i++) {
+
+      if (!allElements[i].innerHTML.includes("</") && allElements[i].innerHTML.length != 0) {
+        console.log(i + ": " + allElements[i].innerHTML);
+        
+        allElements[i].innerHTML = "howdy!";
+      }
+    }
+  }
+
   clickConfirm(userSelectedDate: Date) {
 
     const todayDate = new DateTimeUtil().getTodayDate();

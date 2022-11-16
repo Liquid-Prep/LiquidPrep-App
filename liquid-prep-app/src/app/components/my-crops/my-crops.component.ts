@@ -82,6 +82,20 @@ export class MyCropsComponent implements OnInit {
     this.location.back();
   }
 
+  public translate() {
+    var allInBody = document.getElementsByTagName('body')[0];
+    var allElements = allInBody.getElementsByTagName('*');
+    
+    for (var i = 0; i < allElements.length; i++) {
+
+      if (!allElements[i].innerHTML.includes("</") && allElements[i].innerHTML.length != 0) {
+        console.log(i + ": " + allElements[i].innerHTML);
+        
+        allElements[i].innerHTML = "howdy!"; // insert API here!
+      }
+    }
+  }
+
   onContextMenu($event: MouseEvent, crop: Crop) {
   }
 

@@ -3,7 +3,7 @@
   <div class="toolbarTitle"> <b>Today, </b> {{  currentDate }}</div>
   <div class="imgHolder" *ngIf="!todayWeather">
     <mat-icon class="vertical-align-middle primary-blue" *ngIf="loading">hourglass_empty</mat-icon>
-    <div  *ngIf="!loading" (click)="showError(errorMessage)">
+    <div  *ngIf="!loading" (click)="showError(errorMessage)"> 
       <mat-icon class="vertical-align-middle alert-color">error</mat-icon>
     </div>
   </div>

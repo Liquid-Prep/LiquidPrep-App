@@ -62,6 +62,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     BrowserModule,
     MaterialModule,
     AppRoutingModule,
+    HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
 }),

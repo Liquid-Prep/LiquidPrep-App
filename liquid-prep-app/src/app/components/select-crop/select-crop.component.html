@@ -35,6 +35,9 @@
     </mat-toolbar-row>
   </mat-toolbar>
 
+  <button mat-flat-button color="primary" (click)="translate()">LANGUAGE
+  </button>
+  
   <div *ngIf=cropsList>
     <mat-grid-list class="grid" cols="2" rowHeight="1:1"    gutterSize="2px">
       <mat-grid-tile *ngFor="let crop of filterFunction()">

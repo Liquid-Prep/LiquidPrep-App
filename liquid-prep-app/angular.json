@@ -75,7 +75,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "liquid-prep-app:build"
+            "browserTarget": "liquid-prep-app:build",
+            "proxyConfig": "src/proxy.conf.json"
           },
           "configurations": {
             "production": {
