@@ -27,7 +27,6 @@ describe('MyCropsComponent', () => {
   }));
 
   it('should have as title', () => {
-    // get text from toolBarTitle element and compare to 'Today' 
     const fixture = TestBed.createComponent(MyCropsComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
