@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { SeedDateComponent } from './seed-date.component';
 
-fdescribe('SeedDateComponent', () => {
+describe('SeedDateComponent', () => {
     let component: SeedDateComponent;
     let fixture: ComponentFixture<SeedDateComponent>;
     const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
