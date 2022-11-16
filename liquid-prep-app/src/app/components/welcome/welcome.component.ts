@@ -51,7 +51,6 @@ export class WelcomeComponent implements OnInit {
   public text_pos: number[] = [];
   public text_to_trans: string[] = [];
   public translations: string[] = [];
-  result: Object;
 
   private firstStart = true;
 
@@ -95,7 +94,7 @@ export class WelcomeComponent implements OnInit {
       console.log("updated text: " + allElements[i].innerHTML);
     }
   }
-  public async translate() {
+  public translate() {
     // let allInBody = document.querySelectorAll('body > *') as NodeListOf<Element>;
     var allInBody = document.getElementsByTagName('body')[0];
     var allElements = allInBody.getElementsByTagName('*');
@@ -104,25 +103,18 @@ export class WelcomeComponent implements OnInit {
       if (!allElements[i].innerHTML.includes("</") && allElements[i].innerHTML.length != 0) {
         this.text_pos.push(i);
         console.log(i + ": " + allElements[i].innerHTML);
-        this.text_to_trans.push(allElements[i].innerHTML);
+        this.text_to_trans.push(allElements[i].innerHTML.toLowerCase());
       }
     }
-    await this.languageService.getTranslation(this.text_to_trans, this.selectedLanguage).subscribe((response: any) => {
+    this.languageService.getTranslation(this.text_to_trans, this.selectedLanguage).subscribe((response: any) => {
       
-      // for (i = 0; i < response.translations.length; i++) {
-      //   this.translations.push(response.translations[i].translation);
-      // }
       for (i = 0; i < this.text_pos.length; i++) {
         //console.log(allElements[this.text_pos[i]].innerHTML);
-        setTimeout(() => {  console.log("waiting ..."); }, 1000);
+        // setTimeout(() => {  console.log("waiting ..."); }, 2000);
         allElements[this.text_pos[i]].innerHTML = response.translations[i].translation;
         
       }
     });
-    // console.log("trans list: ");
-    // console.log(this.translations);
-    // setTimeout(() => {  console.log("waiting ..."); }, 5000);
-    // this.update_text(this.translations);
     
   }
 

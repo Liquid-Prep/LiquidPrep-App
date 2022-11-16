@@ -8,6 +8,8 @@ import { SoilMoisture } from '../../models/SoilMoisture';
 import { LineBreakTransformer } from './LineBreakTransformer';
 import { Crop, Stage } from '../../models/Crop';
 import { CropDataService } from '../../service/CropDataService';
+import {LanguageTranslatorService} from '../../service/LanguageTranslatorService';
+import { Subscribable } from 'rxjs';
 
 @Component({
   selector: 'app-measure-soil',
@@ -17,7 +19,7 @@ import { CropDataService } from '../../service/CropDataService';
 export class MeasureSoilComponent implements OnInit, AfterViewInit {
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
+    private router: Router, private languageService: LanguageTranslatorService,
     private location: Location,
     private soilService: SoilMoistureService,
     private cropService: CropDataService
@@ -68,6 +70,11 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
     ['HIGH', '/assets/moisture-water/soil_moisture_high.png'],
   ]);
 
+  public selectedLanguage = 'spanish';
+  public text_pos: number[] = [];
+  public text_to_trans: string[] = [];
+  public translations: string[] = [];
+
   ngOnInit(): void {
     const cropId = this.route.snapshot.paramMap.get('id');
     this.crop = this.cropService.getCropFromMyCropById(cropId);
@@ -75,6 +82,30 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {}
+
+  public translate() {
+    
+    var allInBody = document.getElementsByTagName('body')[0];
+    var allElements = allInBody.getElementsByTagName('*');
+    
+    for (var i = 0; i < allElements.length; i++) {
+      if (!allElements[i].innerHTML.includes("</") && allElements[i].innerHTML.length != 0) {
+        this.text_pos.push(i);
+        console.log(i + ": " + allElements[i].innerHTML);
+        this.text_to_trans.push(allElements[i].innerHTML);
+      }
+    }
+    this.languageService.getTranslation(this.text_to_trans, this.selectedLanguage).subscribe((response: any) => {
+      
+      for (i = 0; i < this.text_pos.length; i++) {
+        
+        setTimeout(() => {  console.log("waiting ..."); }, 1000);
+        allElements[this.text_pos[i]].innerHTML = response.translations[i].translation;
+        
+      }
+    });
+    
+  }
 
   public onSensorConnect(connectionOption) {
     if (connectionOption === 'usb') {
@@ -318,21 +349,6 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
     status: 'before-measuring' | 'measuring' | 'after-measuring'
   ) {
     this.measureView = status;
-  }
-
-  public translate() {
-    // let allInBody = document.querySelectorAll('body > *') as NodeListOf<Element>;
-    var allInBody = document.getElementsByTagName('body')[0];
-    var allElements = allInBody.getElementsByTagName('*');
-    
-    for (var i = 0; i < allElements.length; i++) {
-
-      if (!allElements[i].innerHTML.includes("</") && allElements[i].innerHTML.length != 0) {
-        console.log(i + ": " + allElements[i].innerHTML);
-        
-        allElements[i].innerHTML = "howdy!";
-      }
-    }
   }
 
   onGetAdvise() {
