@@ -54,7 +54,7 @@ export class SelectCropComponent implements OnInit{
       );
   }
 
-  public translate() {
+  public translate(modelID) {
     
     var allInBody = document.getElementsByTagName('body')[0];
     var allElements = allInBody.getElementsByTagName('*');
@@ -66,7 +66,7 @@ export class SelectCropComponent implements OnInit{
         this.text_to_trans.push(allElements[i].innerHTML);
       }
     }
-    this.languageService.getTranslation(this.text_to_trans, this.selectedLanguage).subscribe((response: any) => {
+    this.languageService.getTranslation(this.text_to_trans, modelID).subscribe((response: any) => {
       
       for (i = 0; i < this.text_pos.length; i++) {
         

@@ -12,7 +12,16 @@
       </button>
     </mat-toolbar-row>
   </mat-toolbar>
-
+        <div class="select-language" fxLayoutAlign="center">
+          <button mat-button [matMenuTriggerFor]="menu">Select Language</button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="translate('en-en')">English</button>
+            <button mat-menu-item (click)="translate('en-es')">Español</button>
+            <button mat-menu-item (click)="translate('en-fr')">Français</button>
+            <button mat-menu-item (click)="translate('en-ko')">한국어</button>
+            <button mat-menu-item (click)="translate('en-zh')">中国</button>
+          </mat-menu>
+        </div>
   <div class="select-date-container">
     <img mat-card-image class="cardImg" src="/assets/select-seed.png" alt="select seed date" />
     <label class="label">Select a seed date</label>

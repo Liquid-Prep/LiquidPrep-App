@@ -35,7 +35,7 @@ export class MyCropsComponent implements OnInit {
   public myCropStatus: 'no-crop' | 'crop-selected' = 'no-crop';
   public errorMessage = '';
 
-  public selectedLanguage = 'spanish';
+  public selectedLanguage = 'en-ko';
   public text_pos: number[] = [];
   public text_to_trans: string[] = [];
   public translations: string[] = [];
@@ -62,10 +62,9 @@ export class MyCropsComponent implements OnInit {
     /*this.dataService.getWeatherInfo().subscribe((weatherInfo: WeatherResponse) => {
       const todayWeather = WeatherService.getInstance().createTodayWeather(weatherInfo);
     });*/
-
   }
 
-  public translate() {
+  public translate(modelID) {
     
     var allInBody = document.getElementsByTagName('body')[0];
     var allElements = allInBody.getElementsByTagName('*');
@@ -77,7 +76,7 @@ export class MyCropsComponent implements OnInit {
         this.text_to_trans.push(allElements[i].innerHTML);
       }
     }
-    this.languageService.getTranslation(this.text_to_trans, this.selectedLanguage).subscribe((response: any) => {
+    this.languageService.getTranslation(this.text_to_trans, modelID).subscribe((response: any) => {
       
       for (i = 0; i < this.text_pos.length; i++) {
         

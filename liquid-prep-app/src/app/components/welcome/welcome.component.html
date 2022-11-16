@@ -3,9 +3,16 @@
     <button mat-icon-button aria-label="read text" (click)="onGetStarted()">
       <span Class="tool-bar-text">SKIP</span>
     </button>
-    <button mat-icon-button class="white-icon" aria-label="read text" (click)="translate()">
-      <span Class="tool-bar-text">LANGUAGE</span>
-    </button>
+      <div class="select-language" fxLayoutAlign="center">
+        <button mat-button [matMenuTriggerFor]="menu">Select Language</button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="translate('en-en')">English</button>
+          <button mat-menu-item (click)="translate('en-es')">Español</button>
+          <button mat-menu-item (click)="translate('en-fr')">Français</button>
+          <button mat-menu-item (click)="translate('en-ko')">한국어</button>
+          <button mat-menu-item (click)="translate('en-zh')">中国</button>
+        </mat-menu>
+      </div>
   </div>
 </mat-toolbar>
 

@@ -26,14 +26,7 @@ export class LanguageTranslatorService {
     headers = headers.append("Authorization", "Basic " + btoa("apikey:ZghpOfAbpgdLuoAgV7-kOEYlG6CJSTem-wSHo9NrWues"));
     headers = headers.append("Content-Type", "application/json");
     // headers = headers.append("observe", "response");
-    let model = "en-en" // default is english?
-    if (language == "french") {
-        model = "en-fr";
-    } 
-    if (language == "spanish") {
-        model = "en-es";
-    }
-    let body = {"text": text, "model_id":"en-es"}
+    let body = {"text": text, "model_id":language}
 
     return this.http.post(this.apiUrl, body, httpOptions);
   }

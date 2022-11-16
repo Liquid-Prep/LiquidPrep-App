@@ -94,7 +94,7 @@ export class WelcomeComponent implements OnInit {
       console.log("updated text: " + allElements[i].innerHTML);
     }
   }
-  public translate() {
+  public translate(modelID) {
     // let allInBody = document.querySelectorAll('body > *') as NodeListOf<Element>;
     var allInBody = document.getElementsByTagName('body')[0];
     var allElements = allInBody.getElementsByTagName('*');
@@ -106,7 +106,7 @@ export class WelcomeComponent implements OnInit {
         this.text_to_trans.push(allElements[i].innerHTML.toLowerCase());
       }
     }
-    this.languageService.getTranslation(this.text_to_trans, this.selectedLanguage).subscribe((response: any) => {
+    this.languageService.getTranslation(this.text_to_trans, modelID).subscribe((response: any) => {
       
       for (i = 0; i < this.text_pos.length; i++) {
         //console.log(allElements[this.text_pos[i]].innerHTML);
