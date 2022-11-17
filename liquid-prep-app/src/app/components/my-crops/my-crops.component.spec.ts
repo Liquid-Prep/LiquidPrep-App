@@ -23,8 +23,12 @@ describe('MyCropsComponent', () => {
     .compileComponents();   
     fixture = TestBed.createComponent(MyCropsComponent);
     component = fixture.componentInstance;
-    // router = TestBed.inject(Router)
   }));
+
+  it('should run ngOnInit', () => {
+    component.ngOnInit();
+    expect(component).toBeTruthy();
+  });
 
   it('should have as title', () => {
     const fixture = TestBed.createComponent(MyCropsComponent);
@@ -34,8 +38,6 @@ describe('MyCropsComponent', () => {
   });
 
   it('should navigate', () => {
-    // const component = fixture.componentInstance;
-    // const navigateSpy = spyOn(router, "navigateByUrl");
     let fixture = TestBed.createComponent(MyCropsComponent);
     fixture.detectChanges();
     let component: MyCropsComponent = fixture.componentInstance;
@@ -44,8 +46,6 @@ describe('MyCropsComponent', () => {
   });
 
   it('tab my crops should navigate to my crops', () => {
-    // const component = fixture.componentInstance;
-    // const navigateSpy = spyOn(router, "navigateByUrl");
     let fixture = TestBed.createComponent(MyCropsComponent);
     fixture.detectChanges();
     let component: MyCropsComponent = fixture.componentInstance;
@@ -54,8 +54,6 @@ describe('MyCropsComponent', () => {
   });
 
   it('tab settings should navigate to settings', () => {
-    // const component = fixture.componentInstance;
-    // const navigateSpy = spyOn(router, "navigateByUrl");
     let fixture = TestBed.createComponent(MyCropsComponent);
     fixture.detectChanges();
     let component: MyCropsComponent = fixture.componentInstance;

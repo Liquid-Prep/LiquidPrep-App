@@ -33,6 +33,11 @@ describe('SeedDateComponent', () => {
         component = fixture.componentInstance;
     }
     );
+
+    it('should run ngOnInit', () => {
+        component.ngOnInit();
+        expect(component.ngOnInit).toBeTruthy();
+    });
     
     it('should create', () => {
         const fixture = TestBed.createComponent(SeedDateComponent);

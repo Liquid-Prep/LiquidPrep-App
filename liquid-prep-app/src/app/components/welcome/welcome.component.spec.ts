@@ -34,6 +34,11 @@ describe('WelcomeComponent', () => {
     }
     );
     
+    it('should run ngOnInit()', () => {
+        component.ngOnInit();
+        expect(component).toBeTruthy();
+    });
+    
     it('should create', () => {
         const fixture = TestBed.createComponent(WelcomeComponent);
         const component = fixture.componentInstance;
@@ -41,11 +46,11 @@ describe('WelcomeComponent', () => {
     }
     );
 
-    it('should see text Save water', () => {
+    it('should see description text', () => {
         const fixture = TestBed.createComponent(WelcomeComponent);
         fixture.detectChanges();
         const compiled = fixture.nativeElement;
-        expect(compiled.querySelector('#saveWater').textContent).toContain('Save water');
+        expect(compiled.querySelector('#descriptionID').textContent).toContain('Only use the amount of water your crops need');
     }
     );
 });
