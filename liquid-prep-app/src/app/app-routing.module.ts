@@ -22,7 +22,7 @@ const routes: Routes = [
     component: MyCropsComponent
   },
   {
-    path: 'measure-soil',
+    path: 'measure-soil/:id',
     component: MeasureSoilComponent
   },
   {
@@ -34,7 +34,7 @@ const routes: Routes = [
     component: SettingsComponent
   },
   {
-    path: 'advice',
+    path: 'advice/:id',
     component: AdviceComponent
   }
 ];
