@@ -53,6 +53,7 @@ history*.txt
 notes/
 env.json
 .env
+.dccache
 
 #CNM 
 credentials.h

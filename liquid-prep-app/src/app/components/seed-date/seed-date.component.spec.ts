@@ -1,25 +1,56 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 import { SeedDateComponent } from './seed-date.component';
 
 describe('SeedDateComponent', () => {
-  let component: SeedDateComponent;
-  let fixture: ComponentFixture<SeedDateComponent>;
+    let component: SeedDateComponent;
+    let fixture: ComponentFixture<SeedDateComponent>;
+    const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ SeedDateComponent ]
-    })
-    .compileComponents();
-  });
+    beforeEach(waitForAsync(() => {
+        TestBed.configureTestingModule({
+            declarations: [SeedDateComponent],
+            imports: [HttpClientModule],
+            providers: [
+                { provide: Router, useValue: routerSpy }
+            ]
+        })
+        .compileComponents();
+    }   
+    ));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SeedDateComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            declarations: [SeedDateComponent],
+            imports: [HttpClientModule],
+            providers: [
+                { provide: Router, useValue: {} }
+            ]
+        })
+        fixture = TestBed.createComponent(SeedDateComponent);
+        component = fixture.componentInstance;
+    }
+    );
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should run ngOnInit', () => {
+        component.ngOnInit();
+        expect(component.ngOnInit).toBeTruthy();
+    });
+    
+    it('should create', () => {
+        const fixture = TestBed.createComponent(SeedDateComponent);
+        const component = fixture.componentInstance;
+        expect(component).toBeTruthy();
+    }
+    );
+
+    it('should see text selectSeedClass', () => {
+        const fixture = TestBed.createComponent(SeedDateComponent);
+        fixture.detectChanges();
+        const compiled = fixture.nativeElement;
+        expect(compiled.querySelector('#selectSeedClass').textContent).toContain('Select Seed Date');
+    } 
+    );
 });
