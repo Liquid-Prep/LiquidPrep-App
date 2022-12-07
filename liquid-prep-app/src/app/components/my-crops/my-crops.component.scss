@@ -1,3 +1,11 @@
+.add-crop {
+  padding-bottom: 20px;
+}
+
+.add-crop-header {
+  margin-bottom: 13px;
+}
+
 .mainPage {
   background-color: #F5F5F6;
 }
@@ -89,23 +97,27 @@ mat-card {
   border: 2px solid #F5F5F6;
 }
 
+.mat-h1 {
+  font-weight: 500;
+}
+
 .full-card {
   width: 100%;
-  padding: 10px;
+  padding: 6px 9px 5px 11px;
 }
 
 .cardImage {
-  margin-bottom: 0px;
+  margin: 0px !important;
   height: 100%;
 }
 
 .cardImageHolder {
-  width: 100px;
-  height: 100px;
+  width: 95px;
+  height: 95px;
   border-radius: 6px;
   overflow: hidden;
   float: right;
-  margin: 12px 5px 0 0;
+  margin: 0 1px 0 0;
 }
 
 .cardDetails {
@@ -132,10 +144,32 @@ mat-card {
 }
 
 .shadowBox {
-  box-shadow: -1px 2px 16px -2px rgba(0,0,0,0.5);
-  border-radius: 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 2px 2px 14px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
 }
 
 .cropDates {
-  margin: 5px 0;
+  margin: 5px  0;
+}
+
+.add-crop-button {
+  position: fixed;
+  text-align: center;
+  width: 275px;
+  height: 36px;
+  bottom: 10%;
+  left: calc(50% - (275px/2));
+  min-height: 36px;
+  border-radius: 4px;
+  button {
+    background-color: transparent;
+    border: 0;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    font-family: 'IBM Plex Sans';
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1.25px;
+  }
 }

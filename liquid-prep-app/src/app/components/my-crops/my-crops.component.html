@@ -1,101 +1,79 @@
 <div class="add-crop" style="overflow-x:hidden;" fxFlexFill cdkScrollable>
-  <mat-toolbar class="add-crop-header mat-elevation-z4 custom-toolbar">
-    <mat-toolbar-row style="padding: 0 5px;">
-      <button mat-icon-button class="toolbar-title" aria-label="Icon-button with close icon" (click)="backToMyCrops()">
-        <mat-icon>arrow_back</mat-icon>
-      </button>
-      <div style="padding:8px 0 0 10px; flex:1;">
-        <div class="mat-title toolbar-title" style="margin-bottom:2px;">My Crops</div>
-      </div>
-    </mat-toolbar-row>
-  </mat-toolbar>
+
+  <app-header-title class="add-crop-header" fxFlexFill leftIconName="arrow_back" headerTitle="My Crops" rightIconName="volume_up" (click)="onHeaderClick($event)">
+  </app-header-title>
 
 
-<div class="horizontal" style="margin-bottom: 8px">
-  <!-- <div class="toolbarTitle"> <b>Today, </b> {{  currentDate }}</div> -->
-  <div class="imgHolder" *ngIf="!todayWeather">
-    <mat-icon class="vertical-align-middle primary-blue" *ngIf="loading">hourglass_empty</mat-icon>
-    <div  *ngIf="!loading" (click)="showError(errorMessage)">
-      <mat-icon class="vertical-align-middle alert-color">error</mat-icon>
-    </div>
-  </div>
-  <div class="imgHolder" *ngIf="todayWeather">
-    <div class="horizontal" >
-      <div class="temp">
-        <span class="vertical-align-middle">{{todayWeather.maxTemperature}}&deg;C</span>
-      </div>
-      <div>
-        <img class="vertical-align-middle" src="{{todayWeather.dayTime.iconImageUrl}}" width="25" height="25">
-      </div>
-    </div>
-    <div class="horizontal" >
-      <div class="temp">
-        <span class="vertical-align-middle">{{todayWeather.minTemperature}}&deg;C</span>
-      </div>
-      <div>
-        <img class="vertical-align-middle" src="{{todayWeather.nightTime.iconImageUrl}}" width="25" height="25">
+  <div class="horizontal" style="margin-bottom: 8px">
+    <div class="imgHolder" *ngIf="!todayWeather">
+      <!-- <mat-icon class="vertical-align-middle primary-blue" *ngIf="loading">hourglass_empty</mat-icon> -->
+      <div  *ngIf="!loading" (click)="showError(errorMessage)">
+        <mat-icon class="vertical-align-middle alert-color">error</mat-icon>
       </div>
     </div>
   </div>
-</div>
 
-<div *ngIf="myCropStatus == 'crop-selected'">
+  <div *ngIf="myCropStatus == 'crop-selected'">
 
-  <button mat-mini-fab class="md-fab-bottom-right" (click)="fabClicked()">
-    <mat-icon>add</mat-icon>
-  </button>
+    <mat-toolbar class="add-crop-button mat-elevation-z4 custom-toolbar">
+      <mat-toolbar-row style="padding: 0 5px;">
+        <button class="mat-title toolbar-title button" (click)="fabClicked()">
+          ADD A NEW CROP
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
 
-
-  <mat-grid-list class="grid" cols="1" rowHeight="120" gutterSize="25px" *ngIf="activeTab == tabs[0]">
-    <mat-grid-tile *ngFor="let crop of myCrops" class="shadowBox">
-      <mat-card class="card full-card">
-        <div class="cardDetails">
-          <div>
-            <span class="mat-h1">{{crop.cropName}}</span>
-          </div>
-          <div class="cropDates">
-            <span>Planted July 4 | Last Irrigated July 21</span>
-          </div>
-          <div>
-            <button class="measureButton" mat-icon-button (click)="onViewCropAdvice(crop)">
-              MEASURE
-            </button>
-            <button mat-icon-button (click)="onViewCropAdvice(crop)">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button [matMenuTriggerFor]="menu">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </div>
-        <div class="cardImageHolder">
-          <img mat-card-image class="cardImage" src="{{ crop.url }}" alt="{{ crop.cropName }}" />
-        </div>
-        <div fxLayout="row"
-             fxFill
-             fxLayoutGap="28px"
-             fxLayoutAlign="space-between end"
-             style="padding-left: 8px">
-          <div>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="onRemoveCrop(crop)">
-                <mat-icon>delete</mat-icon>
-                <span>Remove Crop</span>
+    <mat-grid-list class="grid" cols="1" rowHeight="120" gutterSize="25px" *ngIf="activeTab == tabs[0]">
+      <mat-grid-tile *ngFor="let crop of myCrops" class="shadowBox">
+        <mat-card class="card full-card">
+          <div class="cardDetails">
+            <div>
+              <span class="mat-h1">{{crop.cropName}}</span>
+            </div>
+            <div class="cropDates">
+              <span>{{crop.seedingDate}} | Last Irrigated July 21</span>
+            </div>
+            <div>
+              <button class="measureButton" mat-icon-button (click)="onViewCropAdvice(crop)">
+                MEASURE
               </button>
-            </mat-menu>
+              <button mat-icon-button (click)="onViewCropAdvice(crop)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
           </div>
-        </div>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
-</div>
+          <div class="cardImageHolder">
+            <img mat-card-image class="cardImage" src="{{ crop.url }}" alt="{{ crop.cropName }}" />
+          </div>
+          <div fxLayout="row"
+              fxFill
+              fxLayoutGap="28px"
+              fxLayoutAlign="space-between end"
+              style="padding-left: 8px">
+            <div>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="onRemoveCrop(crop)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Remove Crop</span>
+                </button>
+              </mat-menu>
+            </div>
+          </div>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
 
-<div *ngIf="myCropStatus == 'no-crop'"
-     fxFlexFill fxLayout="column"
-     fxLayoutGap="25px"
-     fxLayoutAlign="center center">
-  <img src="assets/add-first-crop.png" alt="low-moisture" width="130" height="221">
-  <p class="mat-display-1">Add your first crop</p>
-  <p class="mat-body-1">Select the crop for your watering advice!</p>
-  <button mat-flat-button color="primary" style="width:33%" (click)="onAdd1stCrop()">ADD</button>
+  <div *ngIf="myCropStatus == 'no-crop'"
+      fxFlexFill fxLayout="column"
+      fxLayoutGap="25px"
+      fxLayoutAlign="center center">
+    <img src="assets/add-first-crop.png" alt="low-moisture" width="130" height="221">
+    <p class="mat-display-1">Add your first crop!</p>
+    <p class="mat-body-1">Select the crop for your watering advice</p>
+    <button mat-flat-button color="primary" style="width:275px" (click)="onAdd1stCrop()">ADD A NEW CROP</button>
+  </div>
 </div>
