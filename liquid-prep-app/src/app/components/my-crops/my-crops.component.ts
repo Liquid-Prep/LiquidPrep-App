@@ -55,7 +55,7 @@ export class MyCropsComponent implements OnInit {
       }
 
       myCrops.map((crop) => {
-        this.seedDate = 'Planted ' + formatDate(crop.seedingDate, 'MMMM d', 'en');
+        this.seedDate = 'Planted ' + formatDate(crop.seedingDate, 'MMM d', 'en');
         crop.seedingDate = this.seedDate;
       });
 
