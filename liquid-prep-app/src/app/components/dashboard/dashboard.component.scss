@@ -25,7 +25,8 @@ div>label{
 }
 
 .weather-info-margin{
-  margin-top: 8px;
+  margin-top: 10px;
+  margin: 15px 2px;
 }
 
 .location-margin-padding{
@@ -41,11 +42,31 @@ div>label{
 }
 
 .temperature-font{
-  font-size: medium;
+  font-size: larger;
+  padding-left: 5px;
 }
 
 .mat-card:not([class*=mat-elevation-z]) {
   box-shadow: 0 2px 1px -1px rgba(172,172,172),
               0 1px 15px 0 rgba(172,172,172),
               0 1px 10px 0 rgba(172,172,172);
+}
+.today-margin{
+  margin: 15px 2px;
+}
+.today-title{
+  font: 20;
+  color: black;
+  font-weight: bold;
+}
+.time-margin-padding{
+  margin-left: 10px;
+  font-size: large;
+}
+.image-margin-padding{
+  margin-left: 130px;
+}
+.rain-padding
+{
+  margin: left 0;
 }

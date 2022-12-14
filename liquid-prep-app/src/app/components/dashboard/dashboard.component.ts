@@ -4,6 +4,7 @@ import {Location} from '@angular/common';
 import {WeatherDataService} from '../../service/WeatherDataService';
 import {TodayWeather} from '../../models/TodayWeather';
 
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -19,6 +20,7 @@ export class DashboardComponent implements OnInit {
   public humidity;
   public uvIndex;
   public weahtherIconImage;
+  public temparature;
 
   constructor(private router: Router, private location: Location, private weatherService: WeatherDataService) {
   }
@@ -44,6 +46,7 @@ export class DashboardComponent implements OnInit {
         this.humidity = todayWeather.dayTime.humidity !== null ? todayWeather.dayTime.humidity: todayWeather.nextDayTime.humidity;
         this.uvIndex = todayWeather.dayTime.uvIndex !== null ? todayWeather.dayTime.uvIndex: todayWeather.nextDayTime.uvIndex;
         this.weahtherIconImage = todayWeather.dayTime.iconImageUrl !== null ?todayWeather.dayTime.iconImageUrl : todayWeather.nextDayTime.iconImageUrl;
+        this.temparature = todayWeather.dayTime.temperature !==null ? todayWeather.dayTime.temperature : todayWeather.nightTime.temperature;
       },
       (err) => {
         this.loading = false;
