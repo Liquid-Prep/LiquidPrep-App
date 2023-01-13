@@ -5,9 +5,11 @@ import { ThemePalette } from '@angular/material/core';
 
 import { Crop } from '../../models/Crop';
 import { WeatherDataService } from 'src/app/service/WeatherDataService';
+import { WaterAdviceService } from 'src/app/service/WaterAdviceService';
 import { TodayWeather } from 'src/app/models/TodayWeather';
 import { CropDataService } from 'src/app/service/CropDataService';
 import { DateTimeUtil } from 'src/app/utility/DateTimeUtil';
+
 
 @Component({
   selector: 'app-my-crops',
@@ -16,11 +18,13 @@ import { DateTimeUtil } from 'src/app/utility/DateTimeUtil';
 })
 export class MyCropsComponent implements OnInit {
   myCrops: Crop[];
+  seedingDate: '';
   displayedColumns: string[] = ['EmptyColumnTitle'];
 
   tabs = ['My Crops', 'Settings'];
   activeTab = this.tabs[0];
   background: ThemePalette = undefined;
+  seedDate =  null;
 
   public currentDate = '';
   public weatherIconDay = '';
@@ -34,7 +38,9 @@ export class MyCropsComponent implements OnInit {
 
   constructor(
     private router: Router, private location: Location,
-    private weatherService: WeatherDataService, private cropDataService: CropDataService
+    private weatherService: WeatherDataService,
+    private waterAdviceService: WaterAdviceService,
+    private cropDataService: CropDataService
     ) {
     this.updateWeatherInfo();
   }
@@ -45,10 +51,16 @@ export class MyCropsComponent implements OnInit {
       this.myCrops = myCrops;
       if (this.myCrops.length > 0){
         this.myCropStatus = 'crop-selected';
-      }
-    });
 
-    this.currentDate =  formatDate(new Date(), 'MMMM d, yyyy', 'en');
+      }
+
+      myCrops.map((crop) => {
+        this.seedDate = 'Planted ' + formatDate(crop.seedingDate, 'MMM d', 'en');
+        crop.seedingDate = this.seedDate;
+      });
+
+
+    });
 
     // TODO: Add weather template
     /*this.dataService.getWeatherInfo().subscribe((weatherInfo: WeatherResponse) => {
@@ -99,6 +111,15 @@ export class MyCropsComponent implements OnInit {
     this.router.navigateByUrl('/select-crop').then(r => {});
   }
 
+  public onHeaderClick(data:string){
+    if(data == 'leftBtn'){
+      this.backClicked();
+    }else {
+      //TODO
+    }
+  }
+
+
   updateWeatherInfo(){
 
     this.loading = true;
@@ -117,5 +138,6 @@ export class MyCropsComponent implements OnInit {
   showError(msg) {
     alert(msg ? msg : this.errorMessage);
   }
+
 
 }
