@@ -1,0 +1,75 @@
+.mat-button-toggle-group{
+    border: none;
+}
+
+.mat-button-toggle{
+    border-radius: 6px;
+    padding-bottom: 4%;
+}
+
+.mat-button-toggle-appearance-standard {
+    background-color: #d8d8d8;
+    color:#494949;
+}
+
+.mat-button-toggle-checked {
+    background-color: #494949;
+    color:#d8d8d8;
+}
+
+.mat-button-toggle .mat-icon{
+    transform: scale(1.5);
+}
+
+.mat-divider{
+    border-top-width: 12px;
+    background-color: #d8d8d8;
+}
+
+p{
+    font-size: large;
+}
+
+.custom-spinner-container{
+    position: relative;
+    margin-top: 10%;
+}
+
+.custom-spinner-bg-pos{
+    position:absolute;
+    z-index: 10;
+}
+
+:host ::ng-deep .custom-spinner-bg circle{
+    stroke: #cecece;
+}
+
+:host ::ng-deep .custom-spinner-sk-red circle{
+    stroke: #c20000;
+}
+:host ::ng-deep .custom-spinner-sk-orange circle{
+    stroke: #d9781e;
+}
+:host ::ng-deep .custom-spinner-sk-green circle{
+    stroke: #00ce47;
+}
+
+.moisture-icon-red{
+    color: #c20000;
+    position: absolute;
+    left:36%;top:62%;
+}
+.moisture-icon-orange{
+    color: #d9781e;
+    position: absolute;
+    left:36%;top:62%;
+}
+.moisture-icon-green{
+    color: #00ce47;
+    position: absolute;
+    left:36%;top:62%;
+}
+
+.measure-btn{
+    margin-top: 4%;
+}
