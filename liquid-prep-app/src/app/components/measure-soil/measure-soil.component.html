@@ -1,24 +1,5 @@
-<mat-toolbar class="custom-toolbar">
-  <button
-    mat-icon-button
-    class="white-icon"
-    aria-label="back clicked"
-    (click)="backClicked()"
-  >
-    <mat-icon class="volume-icon">arrow_back</mat-icon>
-  </button>
-  <span class="toolbar-title">Measure Soil Moisture</span>
-  <span class="toolbar-spacer"></span>
-  <button
-    mat-icon-button
-    class="white-icon"
-    aria-label="read text"
-    (click)="volumeClicked()"
-  >
-    <mat-icon>volume_up</mat-icon>
-  </button>
-</mat-toolbar>
-
+<app-header-title  leftIconName="arrow_back" headerTitle="Measure soil moisture" rightIconName="volume_up" (click)="onHeaderClick($event)">
+</app-header-title>
 <div *ngIf="measureView == 'before-measuring'" class="content-container">
   <swiper
     *ngIf="measureView == 'before-measuring'"
@@ -32,45 +13,20 @@
     (swiperTransitionEnd)="onSwiperEvent('transitionEnd')"
   >
     <div class="swiper-slide">
-      <div
-        class="container"
-        fxLayout="column"
-        fxFlexFill
-        fxLayoutAlign="end center"
-      >
-        <div
-          class="container text-area"
-          fxLayout="column"
-          fxFlexWrap
-          fxLayoutAlign="start center"
-        >
+      <div class="container" fxLayout="column" fxFlexFill fxLayoutAlign="end center">
+        <div class="container text-area" fxLayout="column" fxFlexWrap fxLayoutAlign="start center">
           <p class="title">Loosen the soil</p>
           <p class="description">
             Using a shovel, auger, or sample drill, loosen the soil.
           </p>
         </div>
-        <img
-          mat-card-image
-          class="cardImg"
-          src="../../../assets/measure-guide/step-1-loosen-the-soil.png"
-          alt="Step 1:"
-        />
+        <img mat-card-image class="cardImg" src="../../../assets/measure-guide/step-1-loosen-the-soil.png" alt="Step 1:"/>
       </div>
     </div>
 
     <div class="swiper-slide">
-      <div
-        class="container"
-        fxLayout="column"
-        fxFlexFill
-        fxLayoutAlign="end center"
-      >
-        <div
-          class="container text-area"
-          fxLayout="column"
-          fxFlexWrap
-          fxLayoutAlign="start center"
-        >
+      <div class="container" fxLayout="column" fxFlexFill fxLayoutAlign="end center">
+        <div class="container text-area" fxLayout="column" fxFlexWrap fxLayoutAlign="start center">
           <p class="title" textWrap="true">Insert the sensor</p>
           <p class="description">
             Make sure to insert the sensor in the soil upto
@@ -78,169 +34,76 @@
             {{ crop.cropGrowthStage.rootDepthMetric }} deep
           </p>
         </div>
-        <img
-          mat-card-image
-          class="cardImg"
-          src="../../../assets/measure-guide/step-2-insert-the-sensor.png"
-          alt="Step 2:"
-        />
+        <img mat-card-image class="cardImg" src="../../../assets/measure-guide/step-2-insert-the-sensor.png" alt="Step 2:"/>
       </div>
     </div>
 
     <div class="swiper-slide">
-      <div
-        class="container"
-        fxLayout="column"
-        fxFlexFill
-        fxLayoutAlign="end center"
-      >
-        <div
-          class="container text-area sensor-text"
-          fxLayout="column"
-          fxFlexWrap
-          fxLayoutAlign="start center"
-        >
-          <p class="description" flex textWrap="false">Connect to Sensor</p>
-          <p class="description"></p>
-          <button
-            mat-flat-button
-            class="c-btn"
-            (click)="onSensorConnect('usb')"
-          >
-            <mat-icon>usb</mat-icon> Connect with USB
+      <div class="container" fxLayout="column" fxFlexFill fxLayoutAlign="end center">
+        <div class="container text-area sensor-text" fxLayout="column" fxFlexWrap fxLayoutAlign="start center">
+          <p class="title" flex textWrap="false">Connect to Sensor</p>
+          <p class="description">How would you like to connect to your moisture sensor?</p>
+          <button mat-flat-button class="c-btn" (click)="onSensorConnect('ble')">
+            <mat-icon>bluetooth</mat-icon> CONNECT WITH BLUETOOTH
           </button>
-          <button
-            mat-flat-button
-            class="c-btn"
-            (click)="onSensorConnect('ble')"
-          >
-            <mat-icon>bluetooth</mat-icon> Connect with Bluetooth
+          <button mat-flat-button class="c-btn" (click)="onSensorConnect('wifi')">
+            <mat-icon>wifi</mat-icon> CONNECT WITH WIFI
           </button>
         </div>
-        <img
-          mat-card-image
-          class="cardImg"
-          src="../../../assets/measure-guide/step-3-connect-the-sensor.png"
-          alt="Connect to Sensor"
-        />
+        <img mat-card-image class="cardImg" src="../../../assets/measure-guide/step-3-connect-the-sensor.png" alt="Connect to Sensor"/>
       </div>
     </div>
   </swiper>
 </div>
 
+<mat-toolbar *ngIf="measureView == 'before-measuring'" class="toolbarNav">
+  <div class="container" fxLayout="row" fxFlexFill fxLayoutAlign="space-between center">
+    <button [ngClass]="{ invisible: isFirstSlide }" mat-icon-button style="margin-right: 24px">
+      <mat-icon class="blue-icon" (click)="onSlideNav('back')">navigate_before</mat-icon>
+      <span Class="tool-bar-text" (click)="onSlideNav('back')">BACK </span>
+    </button>
+
+    <app-slide-indicator [current]="curIndex" [length]="3"></app-slide-indicator>
+
+    <button [ngClass]="{ invisible: isLastSlide }" mat-icon-button style="margin-right: 24px">
+      <span Class="tool-bar-text" (click)="onSlideNav('next')">NEXT</span>
+      <mat-icon class="blue-icon" (click)="onSlideNav('next')">navigate_next</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
 <div
   *ngIf="measureView == 'after-measuring' || measureView == 'measuring'"
   fxLayout="column"
-  fxLayoutAlign="none center"
->
-  <div fxFlex="30" class="spin-margin-padding">
-    <mat-progress-spinner
-      class="custom-spinner-sk"
-      [mode]="
-        measureView == 'after-measuring' ? 'determinate' : 'indeterminate'
-      "
-      diameter="150"
-      strokeWidth="8"
-      value="43"
-      style="position: relative; top: 150px; z-index: 10"
-    >
+  fxLayoutAlign="space-evenly center"
+  fxLayoutGap="30px">
+  <div fxFlexOffset="45" fxLayout="row" fxFlex="40" class="custom-spinner-container">
+    <mat-progress-spinner *ngIf="measureView==='measuring'" class="custom-spinner-bg-pos" mode="indeterminate" diameter="150" strokeWidth="8">
     </mat-progress-spinner>
-    <mat-progress-spinner
-      class="custom-spinner-bg"
-      mode="determinate"
-      diameter="150"
-      strokeWidth="8"
-      value="100"
-    >
+    <mat-progress-spinner *ngIf="measureView==='after-measuring'" class="custom-spinner-bg-pos" mode="determinate" diameter="150" strokeWidth="8" [value]="soilData.soilMoisturePercentage">
     </mat-progress-spinner>
+    <mat-progress-spinner *ngIf="measureView == 'after-measuring' || measureView == 'measuring'" class="custom-spinner-bg" mode="determinate" diameter="150" strokeWidth="8" value=100 >
+    </mat-progress-spinner>
+    <div *ngIf="measureView==='measuring'">
+      <p class="mat-h1" style="position: absolute; left:45%; top:32%">{{countdownSecond}}</p>
+      <label class="mat-h3" style="position: absolute; left:28%;top:56%">Reading...</label>
+    </div>
+    <div *ngIf="measureView==='after-measuring'">
+      <label class="mat-h5" style="position: absolute; left:20%; top:32%">SOIL MOISTURE</label>
+      <p class="mat-display-1" style="position: absolute; left:34%;top:48%" >{{soilData.soilMoisturePercentage}}%</p>
+    </div>
   </div>
 
-  <div
-    fxFlexFill
-    fxLayout="column"
-    fxLayoutAlign="space-between center"
-    fxLayoutGap="10px"
-    class="measure-btn-margin-padding"
-  >
+  <div fxFlexFill fxLayout="column" fxFlex="60" fxLayoutAlign="space-between center" fxLayoutGap="10px" class="measure-btn-margin-padding">
     <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
-      <button
-        [disabled]="measureView == 'after-measuring' ? false : true"
-        fxFlex="70"
-        mat-flat-button
-        color="primary"
-        (click)="onMeasure()"
-      >
+      <button [disabled]="measureView == 'after-measuring' ? false : true" fxFlex="70" mat-flat-button color="primary" (click)="onMeasure()">
         MEASURE AGAIN
       </button>
     </div>
     <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
-      <button
-        [disabled]="measureView == 'after-measuring' ? false : true"
-        fxFlex="70"
-        mat-stroked-button
-        color="primary"
-        (click)="onGetAdvise()"
-      >
+      <button [disabled]="measureView == 'after-measuring' ? false : true" fxFlex="70" mat-stroked-button color="primary" (click)="onGetAdvise()">
         GET ADVICE
       </button>
     </div>
   </div>
-  <div
-    fxFlexFill
-    fxLayout="column"
-    fxLayoutAlign="space-between center"
-    fxLayoutGap="4px"
-    style="position: relative; top: -220px; z-index: 12"
-  >
-    <label *ngIf="measureView == 'after-measuring'" fxFlex="10" class="mat-h5"
-      >SOIL MOISTURE</label
-    >
-    <p
-      *ngIf="measureView == 'after-measuring'"
-      fxFlex="10"
-      class="mat-display-1"
-    >
-      {{ soilData.soilMoisturePercentage }}%
-    </p>
-    <p *ngIf="measureView == 'measuring'" class="mat-h1">
-      {{ countdownSecond }}
-    </p>
-    <p *ngIf="measureView == 'measuring'">Reading...</p>
-  </div>
 </div>
-
-<mat-toolbar *ngIf="measureView == 'before-measuring'" class="toolbarNav">
-  <div
-    class="container"
-    fxLayout="row"
-    fxFlexFill
-    fxLayoutAlign="space-between center"
-  >
-    <button
-      [ngClass]="{ invisible: isFirstSlide }"
-      mat-icon-button
-      style="margin-right: 24px"
-    >
-      <mat-icon class="blue-icon" (click)="onSlideNav('back')"
-        >navigate_before</mat-icon
-      >
-      <span Class="tool-bar-text" (click)="onSlideNav('back')">BACK </span>
-    </button>
-
-    <app-slide-indicator
-      [current]="curIndex"
-      [length]="3"
-    ></app-slide-indicator>
-
-    <button
-      [ngClass]="{ invisible: isLastSlide }"
-      mat-icon-button
-      style="margin-right: 24px"
-    >
-      <span Class="tool-bar-text" (click)="onSlideNav('next')">NEXT</span>
-      <mat-icon class="blue-icon" (click)="onSlideNav('next')"
-        >navigate_next</mat-icon
-      >
-    </button>
-  </div>
-</mat-toolbar>

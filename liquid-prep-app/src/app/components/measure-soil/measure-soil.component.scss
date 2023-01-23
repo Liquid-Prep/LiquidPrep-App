@@ -34,7 +34,7 @@
 }
 
 .title {
-  color: #666666;
+  color: #262626;
   font-size: 20px;
   margin-top: 30px;
   margin-bottom: 5px;
@@ -153,6 +153,20 @@
 
 .invisible{
   visibility:hidden
+}
+
+.custom-spinner-container{
+  position: relative;
+  margin-top: 10%;
+}
+
+.custom-spinner-bg-pos{
+  position:absolute;
+  z-index: 10;
+}
+
+:host ::ng-deep .custom-spinner-bg circle{
+  stroke: #cecece;
 }
 
 .spin-margin-padding{
