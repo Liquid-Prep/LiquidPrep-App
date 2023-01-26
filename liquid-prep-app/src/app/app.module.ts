@@ -25,6 +25,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatButtonToggleModule} from '@angular/material/button-toggle'
 import { FormsModule } from '@angular/forms';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -37,6 +38,7 @@ import { DataService } from './service/DataService';
 import { WaterAdviceService } from './service/WaterAdviceService';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { SlideIndicatorComponent } from './components/slide-indicator/slide-indicator.component';
+import { TestSensorComponent } from './components/test-sensor/test-sensor.component';
 import { HeaderTitleComponent } from './components/header-title/header-title.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
@@ -59,6 +61,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     SeedDateComponent,
     DateAgoPipe,
     SlideIndicatorComponent,
+    TestSensorComponent,
     HeaderTitleComponent],
   imports: [
     BrowserModule,
@@ -80,6 +83,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     MatCardModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatButtonToggleModule,
     FormsModule,
     SwiperModule,
     FlexLayoutModule,

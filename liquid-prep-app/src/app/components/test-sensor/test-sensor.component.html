@@ -1,0 +1,89 @@
+<div fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutGap="12%">
+    <app-header-title fxFlexFill fxFlex="20" leftIconName="arrow_back" headerTitle="Test sensor" rightIconName="volume_up" (click)="onHeaderClick($event)">
+    </app-header-title>
+
+    <div
+        fxFlexFill
+        fxLayout="column"
+        fxLayoutAlign="space-between center"
+        fxLayoutGap="10px">
+
+        <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
+            <p>How would you like to test your sensor?</p>
+        </div>
+
+        <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
+            <mat-button-toggle-group
+                (change)="onValChange($event.value)"
+                [value]="selectedVal"
+                fxLayout="row"
+                fxFlex="72"
+                fxLayoutGap="10px"
+                fxLayoutAlign="space-between center">
+
+                <mat-button-toggle fxFlex="30" value="air">
+                    <div fxLayout="column" fxLayoutAlign="space-between center">
+                        <span>AIR</span>
+                        <mat-icon svgIcon="windy_strong"></mat-icon>
+                    </div>
+                </mat-button-toggle>
+                <mat-button-toggle  fxFlex="30" value="water">
+                    <div fxLayout="column" fxLayoutAlign="space-between center">
+                        <span>WATER</span>
+                        <mat-icon svgIcon="rain_drop"></mat-icon>
+                    </div>
+                </mat-button-toggle>
+                <mat-button-toggle   fxFlex="30" value="soil">
+                    <div fxLayout="column" fxLayoutAlign="space-between center">
+                        <span>SOIL</span>
+                        <mat-icon svgIcon="soil_moisture"></mat-icon>
+                    </div>
+                </mat-button-toggle>
+
+            </mat-button-toggle-group>
+        </div>
+
+        <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
+            <mat-divider fxFlex="72" ></mat-divider>
+        </div>
+
+        <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
+            <mat-divider fxFlex="72"></mat-divider>
+        </div>
+
+        <div fxFlexFill fxLayout="row" fxLayoutAlign="none none">
+            <mat-divider  fxFlex="24" fxFlexOffset="14"></mat-divider>
+        </div>
+
+        <div fxLayout="row" class="custom-spinner-container">
+            <mat-progress-spinner *ngIf="testView==='testing'" class="custom-spinner-bg-pos" mode="indeterminate" diameter="150" strokeWidth="8">
+            </mat-progress-spinner>
+            <mat-progress-spinner *ngIf="testView==='after-testing'" [ngClass]="strokeClasses" mode="determinate" diameter="150" strokeWidth="8" [value]="sensorValue">
+            </mat-progress-spinner>
+            <mat-progress-spinner class="custom-spinner-bg" mode="determinate" diameter="150" strokeWidth="8" value=100 >
+            </mat-progress-spinner>
+            <div *ngIf="testView!=='testing'">
+                <label class="mat-h5" style="position: absolute; left:20%; top:28%">MOISTURE LEVEL</label>
+                <p class="mat-display-1" style="position: absolute; left:36%;top:40%" >{{sensorValue | number: '1.0-0'}}%</p>
+                <button *ngIf="testView==='after-testing'" mat-icon-button [class]="testResultIconClass">
+                    <mat-icon>{{testResultIcon}}</mat-icon>
+                </button>
+            </div>
+            <div *ngIf="testView==='testing'">
+                <p class="mat-h1" style="position: absolute; left:45%; top:28%">{{countdownSecond}}</p>
+                <label class="mat-h3" style="position: absolute; left:28%;top:60%">Reading...</label>
+            </div>
+        </div>
+
+
+      <div fxFlexFill fxLayout="column" fxLayoutAlign="center center">
+        <div class="measure-btn" fxFlexFill fxLayout="row" fxLayoutAlign="center center">
+          <button mat-flat-button [disabled]="testView==='testing'" color="primary" fxFlex="72" (click)="onTest('ble')">TEST SENSOR VIA BLUETOOTH</button>
+        </div>
+        <div class="measure-btn" fxFlexFill fxLayout="row" fxLayoutAlign="center center">
+          <button mat-flat-button [disabled]="testView==='testing'" color="primary" fxFlex="72" (click)="onTest('wifi')">TEST SENSOR VIA WIFI</button>
+        </div>
+      </div>
+
+    </div>
+</div>

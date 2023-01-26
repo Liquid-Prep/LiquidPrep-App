@@ -6,6 +6,7 @@ import { MeasureSoilComponent } from './components/measure-soil/measure-soil.com
 import { SeedDateComponent } from './components/seed-date/seed-date.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AdviceComponent } from './components/advice/advice.component';
+import { TestSensorComponent } from './components/test-sensor/test-sensor.component';
 
 const routes: Routes = [
   {
@@ -36,7 +37,8 @@ const routes: Routes = [
   {
     path: 'advice/:id',
     component: AdviceComponent
-  }
+  },
+  { path: 'test-sensor', component: TestSensorComponent}
 ];
 
 @NgModule({
