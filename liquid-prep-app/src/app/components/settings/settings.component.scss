@@ -52,6 +52,14 @@
   margin-left: 10px;
 }
 
+.menu-list-notification {
+  margin-left: 15px !important;
+}
+
+.notification-toggle {
+  margin-right: 15px;
+}
+
 :host ::ng-deep .mat-list-item-content {
   padding: 0 !important;
 }
