@@ -21,4 +21,12 @@ export class SettingsComponent implements OnInit {
   public backClicked() {
     this.location.back();
   }
+
+  public onHeaderClick(data:string){
+    if(data == 'leftBtn'){
+      this.backClicked();
+    }else {
+      //TODO
+    }
+  }
 }
