@@ -1,7 +1,6 @@
-.custom-toolbar {
-    background-color: rgba(0, 0, 255, 0.774);
-    padding: 0 5px;
-  }
+.settings-header {
+  margin-bottom: 13px;
+}
 
 .toolbar-title {
   color: #fff;
@@ -19,6 +18,11 @@
   text-decoration: none;
 }
 
+.menu-list-item-notification {
+  display: flex;
+  flex: 0 0 100%;
+  justify-content: space-between;
+}
 
 .menu-list-header {
   font-weight: 500 !important;

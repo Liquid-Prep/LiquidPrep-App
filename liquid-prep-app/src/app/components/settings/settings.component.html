@@ -1,4 +1,4 @@
-<app-header-title class="add-crop-header" fxFlexFill leftIconName="arrow_back" headerTitle="Settings" rightIconName="volume_up" (click)="onHeaderClick($event)">
+<app-header-title class="settings-header" fxFlexFill leftIconName="arrow_back" headerTitle="Settings" rightIconName="volume_up" (click)="onHeaderClick($event)">
 </app-header-title>
 
   <mat-list class="menu-list">
@@ -43,10 +43,10 @@
   <mat-list class="menu-list">
     <h3 class="menu-list-header" matSubheader>Notifications</h3>
     <mat-list-item>
-      <a class="menu-list" mat-list-item href="#soil-moisture">
+      <div class="menu-list menu-list-item-notification" mat-list-item>
         <p mat-line class="menu-list-notification">Push Notification</p>
         <mat-slide-toggle class="notification-toggle"></mat-slide-toggle>
-      </a>
+      </div>
    </mat-list-item>
     <mat-list-item>
       <a class="menu-list" mat-list-item href="#soil-moisture">
