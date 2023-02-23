@@ -1,10 +1,69 @@
-<mat-toolbar class="custom-toolbar">
-    <button mat-icon-button class="white-icon" aria-label="back clicked" (click)="backClicked()">
-      <mat-icon class="volume-icon">arrow_back</mat-icon>
-    </button>
-    <span class="toolbar-title">Settings</span>
-    <span class="toolbar-spacer"></span>
-    <button mat-icon-button class="white-icon" aria-label="read text" (click)="volumeClicked()">
-      <mat-icon>volume_up</mat-icon>
-    </button>
-  </mat-toolbar>
+<app-header-title class="settings-header" fxFlexFill leftIconName="arrow_back" headerTitle="Settings" rightIconName="volume_up" (click)="onHeaderClick($event)">
+</app-header-title>
+
+  <mat-list class="menu-list">
+    <h3 class="menu-list-header" matSubheader>Account Settings</h3>
+   <mat-list-item>
+    <a mat-list-item href="#user-profile">
+      <mat-icon class="menu-list-profile-icon" mat-list-icon>person_outline_24px</mat-icon>
+      <p mat-line class="menu-list-body">Liquid Prep User</p>
+      <mat-icon class="menu-list-icon" mat-list-icon>navigate_next</mat-icon>
+      <span mat-line>liquidprep@farmer.com</span>
+    </a>
+   </mat-list-item>
+   <mat-divider></mat-divider>
+  </mat-list>
+
+  <mat-list class="menu-list">
+    <h3 class="menu-list-header" matSubheader>App Settings</h3>
+    <mat-list-item>
+      <a class="menu-list" mat-list-item href="#location">
+        <h4 mat-line class="menu-list-title">Location</h4>
+        <p mat-line class="menu-list-body">Ottawa, Ontario</p>
+        <mat-icon class="menu-list-icon icon-in-menu" mat-list-icon>navigate_next</mat-icon>
+      </a>
+   </mat-list-item>
+   <mat-list-item>
+    <a mat-list-item href="#temperature">
+      <h4 mat-line class="menu-list-title">Temperature</h4>
+      <p mat-line class="menu-list-body">Celsius</p>
+      <mat-icon class="menu-list-icon icon-in-menu" mat-list-icon>navigate_next</mat-icon>
+    </a>
+   </mat-list-item>
+   <mat-list-item>
+    <a mat-list-item href="#language">
+      <h4 mat-line class="menu-list-title">Language</h4>
+      <p mat-line class="menu-list-body">English</p>
+      <mat-icon class="menu-list-icon icon-in-menu" mat-list-icon>navigate_next</mat-icon>
+    </a>
+   </mat-list-item>
+   <mat-divider></mat-divider>
+  </mat-list>
+
+  <mat-list class="menu-list">
+    <h3 class="menu-list-header" matSubheader>Notifications</h3>
+    <mat-list-item>
+      <div class="menu-list menu-list-item-notification" mat-list-item>
+        <p mat-line class="menu-list-notification">Push Notification</p>
+        <mat-slide-toggle class="notification-toggle"></mat-slide-toggle>
+      </div>
+   </mat-list-item>
+    <mat-list-item>
+      <a class="menu-list" mat-list-item href="#soil-moisture">
+        <p mat-line class="menu-list-body">Soil Mosture Reading</p>
+        <mat-icon class="menu-list-icon icon-in-menu" mat-list-icon>navigate_next</mat-icon>
+      </a>
+   </mat-list-item>
+   <mat-list-item>
+    <a mat-list-item href="#crop-advice">
+      <p mat-line class="menu-list-body">Crop Advice</p>
+      <mat-icon class="menu-list-icon icon-in-menu" mat-list-icon>navigate_next</mat-icon>
+    </a>
+   </mat-list-item>
+   <mat-list-item>
+    <a mat-list-item href="#weather">
+      <p mat-line class="menu-list-body">Weather</p>
+      <mat-icon class="menu-list-icon icon-in-menu" mat-list-icon>navigate_next</mat-icon>
+    </a>
+   </mat-list-item>
+  </mat-list>

@@ -16,6 +16,7 @@ import { MyCropsComponent } from './components/my-crops/my-crops.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -80,6 +81,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     MatPaginatorModule,
     MatSortModule,
     MatProgressSpinnerModule,
+    MatSlideToggleModule,
     MatCardModule,
     MatDatepickerModule,
     MatNativeDateModule,
