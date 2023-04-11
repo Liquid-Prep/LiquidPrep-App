@@ -40,6 +40,14 @@ export class SeedDateComponent implements OnInit {
     );
   }
 
+  public onHeaderClick(data:string){
+    if(data == 'leftBtn'){
+      this.backClicked();
+    }else {
+      //TODO
+    }
+  }
+
   public volumeClicked() {
 
   }

@@ -65,3 +65,34 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .color-high{
   color: #2C5900;
 }
+
+// Slide Toggle Styles
+
+mat-slide-toggle.mat-slide-toggle .mat-slide-toggle-bar {
+  height: 34px;
+  width: 52px;
+  border-radius: 100px;
+  background-color: #79747E;
+}
+
+mat-slide-toggle.mat-slide-toggle .mat-slide-toggle-thumb {
+  height: 24px;
+  width: 24px;
+}
+
+mat-slide-toggle.mat-slide-toggle .mat-slide-toggle-thumb-container {
+  top: 5px;
+  left: 5px;
+}
+
+mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+  background-color: #79747E;
+}
+
+mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+  background-color: #fff;
+}
+
+mat-slide-toggle.mat-checked .mat-slide-toggle-thumb-container {
+  transform: translate3d(19px, 0, 0) !important;
+}

@@ -1,16 +1,70 @@
-.custom-toolbar {
-    background-color: rgba(0, 0, 255, 0.774);
-    padding: 0 5px;
-  }
-  
-  .toolbar-title {
-    color: #fff;
-  }
-  
-  .toolbar-spacer {
-    flex: 1 1 auto;
-  }
-  
-  .white-icon {
-    color: #fff;
-  }
+.settings-header {
+  margin-bottom: 13px;
+}
+
+.toolbar-title {
+  color: #fff;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.white-icon {
+  color: #fff;
+}
+
+.menu-list a {
+  text-decoration: none;
+}
+
+.menu-list-item-notification {
+  display: flex;
+  flex: 0 0 100%;
+  justify-content: space-between;
+}
+
+.menu-list-header {
+  font-weight: 500 !important;
+  font-size: 12px !important;
+  letter-spacing: 0.5px !important;
+  color: #2F4FFE;
+  height: 1em !important;
+  padding-bottom: 0;
+  margin-top: 0 !important;
+}
+
+.menu-list-title {
+  font-weight: 500 !important;
+  font-size: 12px !important;
+  letter-spacing: 0.5px !important;
+}
+
+.menu-list-body {
+  font-weight: 400 !important;
+  font-size: 16px !important;
+  letter-spacing: 0.5px !important;
+}
+
+.menu-list-icon {
+  padding: 10px;
+  position: absolute;
+  right: 10px;
+}
+
+.menu-list-profile-icon {
+  margin-left: 10px;
+}
+
+.menu-list-notification {
+  margin-left: 15px !important;
+}
+
+.notification-toggle {
+  margin-right: 15px;
+}
+
+:host ::ng-deep .mat-list-item-content {
+  padding: 0 !important;
+}
+
