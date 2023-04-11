@@ -3,7 +3,9 @@ export class WeatherInfo {
     public narrative: string;
     public precipChance: number;
     public precipType: string;
+    public precipitaion: number;
     public humidity: number;
+    public uvIndex: number;
     public temperature: number;
     public windSpeed: number;
     public iconCode: number;
@@ -19,5 +21,7 @@ export class TodayWeather {
     public minTemperature: number;
     public dayTime: WeatherInfo;
     public nightTime: WeatherInfo;
+    public nextDayTime: WeatherInfo;
     public date: string;
+    public weatherUpdateTs: number;
 }

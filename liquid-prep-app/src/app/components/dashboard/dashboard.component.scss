@@ -1,0 +1,72 @@
+div>label.title{
+  color: #838383
+}
+
+div>label.value {
+  font-size:smaller;
+  color: #3e3e3e
+}
+
+div>label{
+  color: #acacac;
+}
+
+.custom-toolbar {
+  background-color: rgba(0, 0, 255, 0.774);
+  padding: 0 5px;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.weather-margin{
+  margin: 20px 10px;
+}
+
+.weather-info-margin{
+  margin-top: 10px;
+  margin: 15px 2px;
+}
+
+.location-margin-padding{
+  margin-left: 20px;
+}
+
+.card-margin-padding{
+  margin-left: 12px;
+  margin-right: 12px;
+  margin-top: 18px;
+  margin-bottom: 4px;
+  padding: 6px;
+}
+
+.temperature-font{
+  font-size: larger;
+  padding-left: 5px;
+}
+
+.mat-card:not([class*=mat-elevation-z]) {
+  box-shadow: 0 2px 1px -1px rgba(172,172,172),
+              0 1px 15px 0 rgba(172,172,172),
+              0 1px 10px 0 rgba(172,172,172);
+}
+.today-margin{
+  margin: 10px 2px;
+}
+.today-title{
+  font: 20;
+  color: black;
+  font-weight: bold;
+}
+.time-margin-padding{
+  margin-left: 10px;
+  font-size: large;
+}
+.image-margin-padding{
+  margin-left: 130px;
+}
+.rain-padding
+{
+  margin: left 0;
+}

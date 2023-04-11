@@ -39,6 +39,7 @@ import { DataService } from './service/DataService';
 import { WaterAdviceService } from './service/WaterAdviceService';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { SlideIndicatorComponent } from './components/slide-indicator/slide-indicator.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { TestSensorComponent } from './components/test-sensor/test-sensor.component';
 import { HeaderTitleComponent } from './components/header-title/header-title.component';
 import { PastReadingsComponent } from './components/past-readings/past-readings.component';
@@ -63,6 +64,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     SeedDateComponent,
     DateAgoPipe,
     SlideIndicatorComponent,
+    DashboardComponent,
     TestSensorComponent,
     HeaderTitleComponent,
     PastReadingsComponent],
