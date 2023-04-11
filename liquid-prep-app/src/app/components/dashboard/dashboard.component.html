@@ -17,24 +17,22 @@
   </div >
   <div class="today-margin">
     <div fxLayout="row" fxLayoutAlign="none center">
-    <label fxflex="40" mat-card-title class="title">Today, </label>
-    <label fxflex="80" class="title time-margin-padding" >August 28</label>
+    <label fxflex="40" mat-card-title class="title">Today, </label> 
+    <label fxflex="40" class="title time-margin-padding" >{{loading? ' ':currentDate}}</label>
     <img [src]="weahtherIconImage" width="32" height="32" class="title image-margin-padding">
     <span class="temperature-font">{{loading? ' ': temparature }}&deg;C</span>
   </div>
   <div fxFlexFill fxLayout="row" fxLayoutAlign="center center" class="weather-info-margin">
-    <!-- <div fxFlex="18" fxFlexFill  fxLayout="row" fxLayoutAlign="start center">
-   </div> -->
     <div fxFlex="140" fxFlexOffset="4" fxLayout="column" fxLayoutAlign="none center" style="margin-left: 1px;">
       <div fxFlexFill fxLayout="row">
         <label fxFlex="30">Chance of rain</label>
         <label fxFlex="14" class="value">{{loading? '' : precipChance }}%</label>
         <label fxFlex="30">Precipitation</label>
-        <label class="value">{{loading? '' : precipitaion }} m</label>
+        <label class="value">{{loading? '' : precipitaion }} cm</label>
       </div>
       <div fxFlexFill fxLayout="row">
         <label fxFlex="30">Humidity</label>
-        <label fxFlex="14" class="value">{{loading? '' : humidity}}</label>
+        <label fxFlex="14" class="value">{{loading? '' : humidity}}%</label>
         <label fxFlex="30" >Today</label>
         <label class="value">{{loading? '' : todayWeather.maxTemperature}}&deg;C / {{loading? '' : todayWeather.minTemperature}}&deg;C</label>
       </div>
@@ -42,7 +40,7 @@
         <label fxFlex="30">UV index</label>
         <label fxFlex="14" class="value">{{loading? '' : uvIndex}}</label>
         <label fxFlex="30" >Tomorrow</label>
-        <label class="value">{{loading? '' : uvIndex}}</label>
+        <label class="value">{{loading? '' : nextDayTemparature}}</label>
       </div>
     </div>
   </div>

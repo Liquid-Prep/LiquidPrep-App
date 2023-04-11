@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {WeatherDataService} from '../../service/WeatherDataService';
 import {TodayWeather} from '../../models/TodayWeather';
+import { formatDate } from '@angular/common';
 
 
 @Component({
@@ -21,7 +22,10 @@ export class DashboardComponent implements OnInit {
   public uvIndex;
   public weahtherIconImage;
   public temparature;
+  public nextDayTemparature;
+  public currentDate = '';
 
+  
   constructor(private router: Router, private location: Location, private weatherService: WeatherDataService) {
   }
 
@@ -46,7 +50,9 @@ export class DashboardComponent implements OnInit {
         this.humidity = todayWeather.dayTime.humidity !== null ? todayWeather.dayTime.humidity: todayWeather.nextDayTime.humidity;
         this.uvIndex = todayWeather.dayTime.uvIndex !== null ? todayWeather.dayTime.uvIndex: todayWeather.nextDayTime.uvIndex;
         this.weahtherIconImage = todayWeather.dayTime.iconImageUrl !== null ?todayWeather.dayTime.iconImageUrl : todayWeather.nextDayTime.iconImageUrl;
-        this.temparature = todayWeather.dayTime.temperature !==null ? todayWeather.dayTime.temperature : todayWeather.nightTime.temperature;
+        this.temparature = todayWeather.dayTime.temperature !== null ? todayWeather.dayTime.temperature : todayWeather.nightTime.temperature;
+        this.nextDayTemparature = todayWeather.nextDayTime.temperature !== null ? todayWeather.nextDayTime.temperature : todayWeather.nightTime.temperature;
+        this.currentDate =  formatDate(new Date(), 'MMMM d', 'en');
       },
       (err) => {
         this.loading = false;
