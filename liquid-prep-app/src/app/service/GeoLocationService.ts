@@ -1,47 +1,54 @@
 import { Observable, Observer } from 'rxjs';
+import { DataService } from './DataService';
+import { Inject, Injectable } from '@angular/core';
+import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
+import { GeoLocationUtil } from '../utility/GeoLocationUtil';
 
+const LOCATION = 'location';
+
+@Injectable({
+  providedIn: 'root',
+})
 export class GeoLocationService {
-  private static instance: GeoLocationService;
-  private latitude: number;
-  private longitude: number;
+  constructor(
+    private dataService: DataService,
+    @Inject(LOCAL_STORAGE) private localStorage: StorageService,
+    private geolocationUtil: GeoLocationUtil
+  ) {}
 
-  private constructor() {}
-
-  public static getInstance(): GeoLocationService {
-    if (!this.instance) {
-      this.instance = new GeoLocationService();
-    }
-
-    return this.instance;
-  }
-
-  public getCurrentLocation(): Observable<any> {
+  public getLocationInfo(): Observable<any> {
     return new Observable((observer: Observer<any>) => {
-
-      let coordinates = null;
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position ) => {
-            // Successful getCurrentPosition
-            if (position) {
-              this.latitude = position.coords.latitude;
-              this.longitude = position.coords.longitude;
-
-              coordinates = this.latitude.toFixed(4) + ',' + this.longitude.toFixed(4);
-              observer.next(coordinates);
-              observer.complete();
-            } else {
-              throw Error('Geo coordinates are undefined.');
-            }
+      if (this.getLocationFromLocalStorage() === undefined) {
+        this.geolocationUtil.getCurrentLocation().subscribe(
+          (coordinates) => {
+            this.dataService
+              .getLocationData(coordinates)
+              .subscribe((locationData) => {
+                const location = locationData.data.location.city;
+                this.storeLocationInLocalStorage(location);
+                observer.next(location);
+                observer.complete();
+              });
           },
-          (error) => {
-            // Error with getCurrentPosition
-            observer.error(error);
+          (err) => {
+            observer.error(
+              'Error getting location data: ' +
+                (err.message ? err.message : err)
+            );
           }
         );
       } else {
-        alert('Geolocation is not supported by this browser.');
+        observer.next(this.getLocationFromLocalStorage());
+        observer.complete();
       }
     });
+  }
+
+  public storeLocationInLocalStorage(location) {
+    this.localStorage.set(LOCATION, location);
+  }
+
+  public getLocationFromLocalStorage() {
+    return this.localStorage.get(LOCATION);
   }
 }

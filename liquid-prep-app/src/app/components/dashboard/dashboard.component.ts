@@ -1,18 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
-import {Location} from '@angular/common';
-import {WeatherDataService} from '../../service/WeatherDataService';
-import {TodayWeather} from '../../models/TodayWeather';
+import { Router } from '@angular/router';
+import { WeatherDataService } from '../../service/WeatherDataService';
+import { TodayWeather } from '../../models/TodayWeather';
 import { formatDate } from '@angular/common';
-
+import { GeoLocationService } from 'src/app/service/GeoLocationService';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-
   public todayWeather: TodayWeather = null;
   public loading = true;
   public errorMessage = '';
@@ -20,46 +18,75 @@ export class DashboardComponent implements OnInit {
   public precipitaion;
   public humidity;
   public uvIndex;
-  public weahtherIconImage;
+  public weatherIconImage;
   public temparature;
-  public nextDayTemparature;
+  public nextDayTemperatureMax;
+  public nextDayTemperatureMin;
   public currentDate = '';
+  public location;
 
-  
-  constructor(private router: Router, private location: Location, private weatherService: WeatherDataService) {
-  }
+  constructor(
+    private router: Router,
+    private weatherService: WeatherDataService,
+    private geoLocationService: GeoLocationService
+  ) {}
 
   ngOnInit(): void {
     this.updateWeatherInfo();
+    this.getLocation();
   }
 
   onClick(card: string) {
-    if (card === 'my-crops'){
-      this.router.navigate(['my-crops']).then(r => {});
+    if (card === 'my-crops') {
+      this.router.navigate(['my-crops']).then((r) => {});
     }
   }
 
-  private updateWeatherInfo(){
+  private updateWeatherInfo() {
     this.loading = true;
     this.weatherService.getTodayWeather().subscribe(
       (todayWeather: TodayWeather) => {
         this.loading = false;
         this.todayWeather = todayWeather;
-        this.precipChance = todayWeather.dayTime.precipChance !== null ? todayWeather.dayTime.precipChance: todayWeather.nextDayTime.precipChance;
-        this.precipitaion = todayWeather.dayTime.precipitaion !== null ? todayWeather.dayTime.precipitaion: todayWeather.nextDayTime.precipitaion;
-        this.humidity = todayWeather.dayTime.humidity !== null ? todayWeather.dayTime.humidity: todayWeather.nextDayTime.humidity;
-        this.uvIndex = todayWeather.dayTime.uvIndex !== null ? todayWeather.dayTime.uvIndex: todayWeather.nextDayTime.uvIndex;
-        this.weahtherIconImage = todayWeather.dayTime.iconImageUrl !== null ?todayWeather.dayTime.iconImageUrl : todayWeather.nextDayTime.iconImageUrl;
-        this.temparature = todayWeather.dayTime.temperature !== null ? todayWeather.dayTime.temperature : todayWeather.nightTime.temperature;
-        this.nextDayTemparature = todayWeather.nextDayTime.temperature !== null ? todayWeather.nextDayTime.temperature : todayWeather.nightTime.temperature;
-        this.currentDate =  formatDate(new Date(), 'MMMM d', 'en');
+        this.precipChance =
+          todayWeather.dayTime.precipChance !== null
+            ? todayWeather.dayTime.precipChance
+            : todayWeather.nextDayTime.precipChance;
+        this.precipitaion =
+          todayWeather.dayTime.precipitaion !== null
+            ? todayWeather.dayTime.precipitaion
+            : todayWeather.nextDayTime.precipitaion;
+        this.humidity =
+          todayWeather.dayTime.humidity !== null
+            ? todayWeather.dayTime.humidity
+            : todayWeather.nextDayTime.humidity;
+        this.uvIndex =
+          todayWeather.dayTime.uvIndex !== null
+            ? todayWeather.dayTime.uvIndex
+            : todayWeather.nextDayTime.uvIndex;
+        this.weatherIconImage =
+          todayWeather.dayTime.iconImageUrl !== null
+            ? todayWeather.dayTime.iconImageUrl
+            : todayWeather.nextDayTime.iconImageUrl;
+        this.temparature =
+          todayWeather.dayTime.temperature !== null
+            ? todayWeather.dayTime.temperature
+            : todayWeather.nightTime.temperature;
+        this.nextDayTemperatureMax = todayWeather.nextDayTime.temperatureMax;
+        this.nextDayTemperatureMin = todayWeather.nextDayTime.temperatureMin;
+        this.currentDate = formatDate(new Date(), 'MMMM d', 'en');
       },
       (err) => {
         this.loading = false;
-        this.errorMessage = err ;
-        console.log('DashboardComponent updateWeatherInfo',err);
+        this.errorMessage = err;
+        console.error('DashboardComponent updateWeatherInfo', err);
       }
     );
   }
+
+  private getLocation() {
+    this.geoLocationService.getLocationInfo().subscribe((locationData) => {
+      this.location = locationData;
+    });
+  }
 }
-      

@@ -39,7 +39,6 @@ export class MyCropsComponent implements OnInit {
   constructor(
     private router: Router, private location: Location,
     private weatherService: WeatherDataService,
-    private waterAdviceService: WaterAdviceService,
     private cropDataService: CropDataService
     ) {
     this.updateWeatherInfo();

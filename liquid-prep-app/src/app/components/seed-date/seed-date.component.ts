@@ -9,7 +9,7 @@ import { DateTimeUtil } from 'src/app/utility/DateTimeUtil';
 @Component({
   selector: 'app-seed-date',
   templateUrl: './seed-date.component.html',
-  styleUrls: ['./seed-date.component.scss']
+  styleUrls: ['./seed-date.component.scss'],
 })
 export class SeedDateComponent implements OnInit {
   crop: Crop;
@@ -28,38 +28,37 @@ export class SeedDateComponent implements OnInit {
 
   ngOnInit(): void {
     const cropId = this.route.snapshot.paramMap.get('id');
-    this.cropService.getCropData(cropId)
-      .subscribe(
-        (cropData) => {
-          this.crop = cropData;
-          this.stages = cropData.cropGrowthStage.stages;
-        },
-        (err) => {
-          alert('Could not get crop info: ' + err);
-        }
+    this.cropService.getCropData(cropId).subscribe(
+      (cropData) => {
+        this.crop = cropData;
+        this.stages = cropData.cropGrowthStage.stages;
+      },
+      (err) => {
+        alert('Could not get crop info: ' + err);
+      }
     );
   }
 
-  public onHeaderClick(data:string){
-    if(data == 'leftBtn'){
+  public onHeaderClick(data: string) {
+    if (data == 'leftBtn') {
       this.backClicked();
-    }else {
+    } else {
       //TODO
     }
   }
 
-  public volumeClicked() {
-
-  }
+  public volumeClicked() {}
 
   public backClicked() {
     this.location.back();
   }
 
   clickConfirm(userSelectedDate: Date) {
-
     const todayDate = new DateTimeUtil().getTodayDate();
-    const numberOfDaysFromSeedingDate = Math.floor((Math.abs(todayDate.getTime() - userSelectedDate.getTime())) / (1000 * 3600 * 24));
+    const numberOfDaysFromSeedingDate = Math.floor(
+      Math.abs(todayDate.getTime() - userSelectedDate.getTime()) /
+        (1000 * 3600 * 24)
+    );
 
     // identify the current crop growth stage based on the number days of seeding date
     const stage: Stage = this.identifyGrowthStage(numberOfDaysFromSeedingDate);
@@ -70,7 +69,7 @@ export class SeedDateComponent implements OnInit {
     // store selected crop id in session to generate water advise
     this.cropService.storeSelectedCropIdInSession(this.crop.id);
 
-    this.router.navigate(['/measure-soil/' + this.crop.id]).then(r => {});
+    this.router.navigate(['/measure-soil/' + this.crop.id]).then((r) => {});
   }
 
   // @desc  Identify the current crop growth stage based on the number of days from the seeding date
@@ -79,11 +78,12 @@ export class SeedDateComponent implements OnInit {
   private identifyGrowthStage(numberOfDaysFromSeedingDate) {
     let stage: Stage;
     const cummulativeStagesLength: number[] = [this.stages[0].stageLength];
-    for (let i = 1; i < this.stages.length; i++){
-      cummulativeStagesLength[i] = cummulativeStagesLength[i - 1] + this.stages[i].stageLength;
+    for (let i = 1; i < this.stages.length; i++) {
+      cummulativeStagesLength[i] =
+        cummulativeStagesLength[i - 1] + this.stages[i].stageLength;
     }
-    for (let i = 0; i < this.stages.length; i++){
-      if (numberOfDaysFromSeedingDate <= cummulativeStagesLength[i]){
+    for (let i = 0; i < this.stages.length; i++) {
+      if (numberOfDaysFromSeedingDate <= cummulativeStagesLength[i]) {
         stage = this.stages[i];
         break;
       } else {
@@ -92,5 +92,4 @@ export class SeedDateComponent implements OnInit {
     }
     return stage;
   }
-
 }

@@ -6,7 +6,7 @@ import { DataService } from './DataService';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { DateTimeUtil } from '../utility/DateTimeUtil';
 import { HttpClient } from '@angular/common/http';
-import weatherIconMapping from "../models/json/weatherIconMapping.json"
+import weatherIconMapping from '../models/json/weatherIconMapping.json';
 
 const TODAY_WEATHER = 'today-weather';
 
@@ -35,14 +35,18 @@ export class WeatherDataService {
           observer.next(localTodayWeather);
           observer.complete();
         });
-      } else {// in the am, isToday will be false,and no 'Today' data from weather api
+      } else {
+        // in the am, isToday will be false,and no 'Today' data from weather api
         const now = Date.now();
-        if(localTodayWeather.weatherUpdateTs && (now - localTodayWeather.weatherUpdateTs)/1000000*60 < 60){
+        if (
+          localTodayWeather.weatherUpdateTs &&
+          ((now - localTodayWeather.weatherUpdateTs) / 1000000) * 60 < 60
+        ) {
           return new Observable((observer: Observer<TodayWeather>) => {
             observer.next(localTodayWeather);
             observer.complete();
           });
-        } else{
+        } else {
           return new Observable((observer: Observer<TodayWeather>) => {
             this.dataService.getWeatherInfo().subscribe({
               next(weatherInfo: WeatherResponse) {
@@ -60,7 +64,6 @@ export class WeatherDataService {
             });
           });
         }
-
       }
     } else {
       return new Observable((observer: Observer<TodayWeather>) => {
@@ -76,7 +79,7 @@ export class WeatherDataService {
               observer.complete();
             },
             error(err) {
-              console.log(
+              console.error(
                 'Error getting weather data: ' +
                   (err.message ? err.message : err)
               );
@@ -88,73 +91,79 @@ export class WeatherDataService {
   }
 
   public createTodayWeather(weatherData: WeatherResponse) {
-      const weatherInfo = weatherData.data;
-      const weatherToday = new TodayWeather();
-      weatherToday.dayOfWeek = weatherInfo.dayOfWeek[0];
-      weatherToday.narrative = weatherInfo.narrative[0];
-      weatherToday.sunriseTime = weatherInfo.sunriseTimeLocal[0];
-      weatherToday.sunsetTime = weatherInfo.sunsetTimeLocal[0];
-      weatherToday.maxTemperature = weatherInfo.calendarDayTemperatureMax[0];
-      weatherToday.minTemperature = weatherInfo.calendarDayTemperatureMin[0];
-      weatherToday.date = this.dateTimeUtil.extractDateFromDateTime(weatherInfo.validTimeLocal[0]);
-      weatherToday.weatherUpdateTs = Date.now();
+    const weatherInfo = weatherData.data;
+    const weatherToday = new TodayWeather();
+    weatherToday.dayOfWeek = weatherInfo.dayOfWeek[0];
+    weatherToday.narrative = weatherInfo.narrative[0];
+    weatherToday.sunriseTime = weatherInfo.sunriseTimeLocal[0];
+    weatherToday.sunsetTime = weatherInfo.sunsetTimeLocal[0];
+    weatherToday.maxTemperature = weatherInfo.calendarDayTemperatureMax[0];
+    weatherToday.minTemperature = weatherInfo.calendarDayTemperatureMin[0];
+    weatherToday.date = this.dateTimeUtil.extractDateFromDateTime(
+      weatherInfo.validTimeLocal[0]
+    );
+    weatherToday.weatherUpdateTs = Date.now();
 
-      const dayPart = weatherInfo.daypart[0];
+    const dayPart = weatherInfo.daypart[0];
 
-      const dayTime = new WeatherInfo();
-      const nightTime = new WeatherInfo();
-      const nextDayTime = new WeatherInfo();
+    const dayTime = new WeatherInfo();
+    const nightTime = new WeatherInfo();
+    const nextDayTime = new WeatherInfo();
 
-      dayTime.narrative = dayPart.narrative[0];
-      dayTime.precipChance = dayPart.precipChance[0];
-      dayTime.precipType = dayPart.precipType[0];
-      dayTime.precipitaion = dayPart.qpf[0];
-      dayTime.humidity = dayPart.relativeHumidity[0];
-      dayTime.uvIndex = dayPart.uvIndex[0];
-      dayTime.temperature = dayPart.temperature[0];
-      dayTime.windSpeed = dayPart.windSpeed[0];
-      dayTime.iconCode = dayPart.iconCode[0];
-      
-      nightTime.narrative = dayPart.narrative[1];
-      nightTime.precipChance = dayPart.precipChance[1];
-      nightTime.precipType = dayPart.precipType[1];
-      nightTime.precipitaion = dayPart.qpf[1];
-      nightTime.humidity = dayPart.relativeHumidity[1];
-      nightTime.uvIndex = dayPart.uvIndex[1];
-      nightTime.temperature = dayPart.temperature[1];
-      nightTime.windSpeed = dayPart.windSpeed[1];
-      nightTime.iconCode = dayPart.iconCode[1];
-      
-      nextDayTime.narrative = dayPart.narrative[2];
-      nextDayTime.precipChance = dayPart.precipChance[2];
-      nextDayTime.precipType = dayPart.precipType[2];
-      nextDayTime.precipitaion = dayPart.qpf[2];
-      nextDayTime.humidity = dayPart.relativeHumidity[2];
-      nextDayTime.uvIndex = dayPart.uvIndex[2];
-      nextDayTime.temperature = dayPart.temperature[2];
-      nextDayTime.windSpeed = dayPart.windSpeed[2];
-      nextDayTime.iconCode = dayPart.iconCode[2];
+    dayTime.narrative = dayPart.narrative[0];
+    dayTime.precipChance = dayPart.precipChance[0];
+    dayTime.precipType = dayPart.precipType[0];
+    dayTime.precipitaion = dayPart.qpf[0];
+    dayTime.humidity = dayPart.relativeHumidity[0];
+    dayTime.uvIndex = dayPart.uvIndex[0];
+    dayTime.temperature = dayPart.temperature[0];
+    dayTime.windSpeed = dayPart.windSpeed[0];
+    dayTime.iconCode = dayPart.iconCode[0];
 
-      if(dayTime.iconCode){
-        dayTime.iconImageUrl = weatherIconMapping.weatherIconMap[dayTime.iconCode].url;
-      }else{
-        dayTime.iconImageUrl = null;
-      }
-      if(nightTime.iconCode){
-        nightTime.iconImageUrl = weatherIconMapping.weatherIconMap[nightTime.iconCode].url;
-      }
-      if(nextDayTime.iconCode){
-        nextDayTime.iconImageUrl = weatherIconMapping.weatherIconMap[nextDayTime.iconCode].url;
-      }
+    nightTime.narrative = dayPart.narrative[1];
+    nightTime.precipChance = dayPart.precipChance[1];
+    nightTime.precipType = dayPart.precipType[1];
+    nightTime.precipitaion = dayPart.qpf[1];
+    nightTime.humidity = dayPart.relativeHumidity[1];
+    nightTime.uvIndex = dayPart.uvIndex[1];
+    nightTime.temperature = dayPart.temperature[1];
+    nightTime.windSpeed = dayPart.windSpeed[1];
+    nightTime.iconCode = dayPart.iconCode[1];
 
-      weatherToday.dayTime = dayTime;
-      weatherToday.nightTime = nightTime;
-      weatherToday.nextDayTime = nextDayTime;
-      return weatherToday;
+    nextDayTime.narrative = dayPart.narrative[2];
+    nextDayTime.precipChance = dayPart.precipChance[2];
+    nextDayTime.precipType = dayPart.precipType[2];
+    nextDayTime.precipitaion = dayPart.qpf[2];
+    nextDayTime.humidity = dayPart.relativeHumidity[2];
+    nextDayTime.uvIndex = dayPart.uvIndex[2];
+    nextDayTime.temperature = dayPart.temperature[2];
+    nextDayTime.windSpeed = dayPart.windSpeed[2];
+    nextDayTime.iconCode = dayPart.iconCode[2];
+    nextDayTime.temperatureMax = weatherInfo.calendarDayTemperatureMax[1];
+    nextDayTime.temperatureMin = weatherInfo.calendarDayTemperatureMin[1];
+
+    if (dayTime.iconCode) {
+      dayTime.iconImageUrl =
+        weatherIconMapping.weatherIconMap[dayTime.iconCode].url;
+    } else {
+      dayTime.iconImageUrl = null;
+    }
+    if (nightTime.iconCode) {
+      nightTime.iconImageUrl =
+        weatherIconMapping.weatherIconMap[nightTime.iconCode].url;
+    }
+    if (nextDayTime.iconCode) {
+      nextDayTime.iconImageUrl =
+        weatherIconMapping.weatherIconMap[nextDayTime.iconCode].url;
+    }
+
+    weatherToday.dayTime = dayTime;
+    weatherToday.nightTime = nightTime;
+    weatherToday.nextDayTime = nextDayTime;
+    return weatherToday;
   }
 
   public storeTodayWeatherInLocalStorage(todayWeather: TodayWeather) {
-    console.log('storeTodayWeatherInLocalStorage', todayWeather, this.dateTimeUtil.isToday(todayWeather.date));
     this.localStorage.set(TODAY_WEATHER, todayWeather);
   }
 

@@ -26,17 +26,20 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatButtonToggleModule} from '@angular/material/button-toggle'
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { FormsModule } from '@angular/forms';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { SwiperModule, SwiperConfigInterface, SWIPER_CONFIG } from 'ngx-swiper-wrapper';
+import {
+  SwiperModule,
+  SwiperConfigInterface,
+  SWIPER_CONFIG,
+} from 'ngx-swiper-wrapper';
 import { MeasureSoilComponent } from './components/measure-soil/measure-soil.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AdviceComponent } from './components/advice/advice.component';
 import { SeedDateComponent } from './components/seed-date/seed-date.component';
 import { DataService } from './service/DataService';
-import { WaterAdviceService } from './service/WaterAdviceService';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { SlideIndicatorComponent } from './components/slide-indicator/slide-indicator.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -50,7 +53,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   threshold: 50,
   spaceBetween: 5,
   slidesPerView: 1,
-  centeredSlides: true
+  centeredSlides: true,
 };
 
 @NgModule({
@@ -67,14 +70,15 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     DashboardComponent,
     TestSensorComponent,
     HeaderTitleComponent,
-    PastReadingsComponent],
+    PastReadingsComponent,
+  ],
   imports: [
     BrowserModule,
     MaterialModule,
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
-}),
+    }),
     BrowserAnimationsModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -96,15 +100,15 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     MatGridListModule,
     MatToolbarModule,
     MatDialogModule,
-    MatMenuModule
+    MatMenuModule,
   ],
   providers: [
     DataService,
     DatePipe,
     {
       provide: SWIPER_CONFIG,
-      useValue: DEFAULT_SWIPER_CONFIG
-    }
+      useValue: DEFAULT_SWIPER_CONFIG,
+    },
   ],
   bootstrap: [AppComponent],
 })
