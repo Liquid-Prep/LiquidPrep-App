@@ -1,0 +1,118 @@
+.edit-crop {
+  padding-bottom: 20px;
+}
+
+.edit-crop-body {
+  padding: 20px;
+}
+
+.edit-crop-header {
+  margin-bottom: 13px;
+}
+
+.edit-crop-field {
+  width: calc(100% - 20px);
+  max-width: 300px;
+  padding-right: 0;
+}
+
+.form-field {
+  display: block;
+  margin-bottom: 10px;
+
+  .mat-input-element {
+    width: calc(100% - 40px);
+  }
+
+  .mat-form-field {
+    width: 300px;
+  }
+}
+
+.edit-crop-input {
+  width: 300px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 40.44px;
+  letter-spacing: 0.5px;
+  color: #1C1B1F;
+}
+
+.top-field {
+  margin-top: 20px;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0 !important;
+  display: flex;
+  // top: -0.25em;
+}
+
+::ng-deep.date-picker-backdrop {
+  background-color: white;
+}
+
+::ng-deep.date-picker-dialog {
+  min-width: calc(100% - 32px) !important;
+  margin-top: 10px;
+  .dialog-title {
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    color: #505050;
+  }
+
+  .mat-dialog-content {
+    margin: 0 -24px;
+    padding: 0 8px;
+  }
+
+  .mat-dialog-container  .dialog-heading {
+    height: 40px;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1;
+    color: #1C1B1F;
+    padding: 0 15px;
+  }
+
+  .mat-calendar-header {
+    padding-top: 0;
+  }
+
+  .mat-dialog-actions {
+    justify-content: end;
+  }
+
+  .mat-calendar-controls {
+    margin-top: 10px;
+  }
+}
+
+.primary-button {
+  background-color: #2F4FFE;
+  border-radius: 4px;
+  color: #FFF;
+}
+
+.secondary-button {
+  color: #2F4FFE;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.primary-button,
+.secondary-button {
+  width: 75%;
+  text-transform: uppercase;
+}
+
+.crop-image {
+  width: 330px;
+  height: 150px;
+  border-radius: 4px;
+  margin: 0 auto 15px;
+}

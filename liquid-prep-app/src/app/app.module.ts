@@ -28,6 +28,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonToggleModule} from '@angular/material/button-toggle'
 import { FormsModule } from '@angular/forms';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field'
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { SwiperModule, SwiperConfigInterface, SWIPER_CONFIG } from 'ngx-swiper-wrapper';
@@ -42,6 +43,8 @@ import { SlideIndicatorComponent } from './components/slide-indicator/slide-indi
 import { TestSensorComponent } from './components/test-sensor/test-sensor.component';
 import { HeaderTitleComponent } from './components/header-title/header-title.component';
 import { PastReadingsComponent } from './components/past-readings/past-readings.component';
+import { EditCropComponent } from './components/edit-crop/edit-crop.component';
+import { CropDatePickerComponent } from './components/edit-crop/crop-date-picker/crop-date-picker.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   observer: true,
@@ -65,7 +68,9 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     SlideIndicatorComponent,
     TestSensorComponent,
     HeaderTitleComponent,
-    PastReadingsComponent],
+    PastReadingsComponent,
+    EditCropComponent,
+    CropDatePickerComponent],
   imports: [
     BrowserModule,
     MaterialModule,
@@ -102,7 +107,12 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     {
       provide: SWIPER_CONFIG,
       useValue: DEFAULT_SWIPER_CONFIG
+    },
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: {appearance: 'outline'}
     }
+
   ],
   bootstrap: [AppComponent],
 })

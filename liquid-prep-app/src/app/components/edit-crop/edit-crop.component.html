@@ -1,0 +1,52 @@
+<div class="add-crop" style="overflow-x:hidden;" fxFlexFill cdkScrollable>
+
+  <app-header-title class="edit-crop-header" fxFlexFill leftIconName="arrow_back" headerTitle="Edit Crop: corn"
+    rightIconName="volume_up" (click)="onHeaderClick($event)">
+  </app-header-title>
+
+  <div class="edit-crop-body">
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Crop name</mat-label>
+      <input matInput appDateFormat type="text" [(ngModel)]="cropNameValue" class="edit-crop-input" [disabled]="isFormDisabled"[disabled]="isFormDisabled">
+      <button *ngIf="cropNameValue && isFormEnabled" matSuffix mat-icon-button aria-label="Clear" (click)="cropNameValue=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Date planted</mat-label>
+      <input matInput appDateFormat [(ngModel)]="datePlanted" [value]="datePlanted ? datePlanted : ''" placeholder="mm/dd/yyyy" class="edit-crop-input" [disabled]="isFormDisabled">
+
+
+      <button matSuffix mat-icon-button aria-label="Clear" (click)="openDialog('Select planting date')" *ngIf="isFormEnabled">
+        <mat-icon>calendar_today</mat-icon>
+      </button>
+    </mat-form-field>
+
+
+    <!-- Removed from scope --
+
+      <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Date irrigated</mat-label>
+      <input matInput type="date" [(ngModel)]="dateIrrigated" [value]="dateIrrigated.value" class="edit-crop-input">
+      <button *ngIf="dateIrrigated" matSuffix mat-icon-button aria-label="Clear" (click)="openDialog('Select last irrigated date')">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+     -->
+
+    <img mat-card-image class="crop-image" src="/assets/crops-images/corn.png" alt="select seed date" />
+
+
+    <div class="action-buttons">
+      <button mat-button class="primary-button" *ngIf="isFormEnabled">Save changes</button>
+      <button mat-button class="secondary-button" *ngIf="isFormEnabled">Delete Crop</button>
+      <button mat-button class="secondary-button" (click)="enableForm()" *ngIf="isFormDisabled">Edit Crop</button>
+    </div>
+
+  </div>
+</div>
+
+
