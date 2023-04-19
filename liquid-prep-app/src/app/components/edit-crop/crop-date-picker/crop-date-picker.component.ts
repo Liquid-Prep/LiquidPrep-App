@@ -6,7 +6,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './crop-date-picker.component.html', // Use a separate HTML file for the dialog template
 })
 export class CropDatePickerComponent {
-  title: string; // Define the title property
+  title: string;
 
   constructor(
     public dialogRef: MatDialogRef<CropDatePickerComponent>,

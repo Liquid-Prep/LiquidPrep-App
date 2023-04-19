@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Location, DatePipe } from '@angular/common';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CropDatePickerComponent } from './crop-date-picker/crop-date-picker.component';
+import { DeleteCropComponent } from './delete-crop/delete-crop.component';
 
 @Directive({
   selector: '[appDateFormat]'
@@ -63,30 +64,53 @@ export class EditCropComponent implements OnInit {
   datePlanted: string;
   isFormDisabled: boolean = true;
   isFormEnabled: boolean = false;
-  title: string;
+  tite: string;
 
   enableForm() {
     this.isFormDisabled = false;
     this.isFormEnabled = true;
   }
 
-  // Format the selected date as a localized string
+  disableForm() {
+    this.isFormDisabled = true;
+    this.isFormEnabled = false;
+  }
+
   formatInputDate(date: Date): string {
     return date.toLocaleDateString();
   }
 
-  openDialog(title: string): void {
-    const dialogRef: MatDialogRef<CropDatePickerComponent> = this.dialog.open(CropDatePickerComponent, {
+  saveChanges() {
+    alert('Crop Saved!');
+    this.disableForm();
+  }
+
+
+  openDatePickerDialog(title: string): void {
+    const dialogRef1: MatDialogRef<CropDatePickerComponent> = this.dialog.open(CropDatePickerComponent, {
       width: '100%',
       panelClass: 'date-picker-dialog',
       data: { title: title }
     });
 
-    dialogRef.afterClosed().subscribe((selectedDate: Date) => {
+    dialogRef1.afterClosed().subscribe((selectedDate: Date) => {
       const inputDate = this.datePipe.transform(selectedDate, 'MM/dd/yyyy');
 
-      if (selectedDate) { // Check if a date was selected
-        this.datePlanted = inputDate; // Assign the selected date to the variable
+      if (selectedDate) {
+        this.datePlanted = inputDate;
+      }
+    });
+  }
+
+  openDeleteCropDialog(): void {
+    const dialogRef2: MatDialogRef<DeleteCropComponent> = this.dialog.open(DeleteCropComponent, {
+      width: '80%',
+      panelClass: 'delete-crop-dialog',
+    });
+
+    dialogRef2.afterClosed().subscribe(result => {
+      if (result === 'deleted') {
+        this.router.navigateByUrl('/my-crops').then(r => {});
       }
     });
   }

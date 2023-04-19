@@ -9,7 +9,7 @@
     <mat-form-field appearance="outline" class="form-field">
       <mat-label>Crop name</mat-label>
       <input matInput appDateFormat type="text" [(ngModel)]="cropNameValue" class="edit-crop-input" [disabled]="isFormDisabled"[disabled]="isFormDisabled">
-      <button *ngIf="cropNameValue && isFormEnabled" matSuffix mat-icon-button aria-label="Clear" (click)="cropNameValue=''">
+      <button *ngIf="cropNameValue" matSuffix mat-icon-button aria-label="Clear" (click)="cropNameValue=''" [ngClass]="{'disabled-button': isFormDisabled}">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
@@ -20,7 +20,7 @@
       <input matInput appDateFormat [(ngModel)]="datePlanted" [value]="datePlanted ? datePlanted : ''" placeholder="mm/dd/yyyy" class="edit-crop-input" [disabled]="isFormDisabled">
 
 
-      <button matSuffix mat-icon-button aria-label="Clear" (click)="openDialog('Select planting date')" *ngIf="isFormEnabled">
+      <button matSuffix mat-icon-button aria-label="Clear" (click)="openDatePickerDialog('Select planting date')" [ngClass]="{'disabled-button': isFormDisabled}">
         <mat-icon>calendar_today</mat-icon>
       </button>
     </mat-form-field>
@@ -41,8 +41,8 @@
 
 
     <div class="action-buttons">
-      <button mat-button class="primary-button" *ngIf="isFormEnabled">Save changes</button>
-      <button mat-button class="secondary-button" *ngIf="isFormEnabled">Delete Crop</button>
+      <button mat-button class="primary-button" (click)="saveChanges()" *ngIf="isFormEnabled">Save changes</button>
+      <button mat-button class="secondary-button" (click)="openDeleteCropDialog()" *ngIf="isFormEnabled">Delete Crop</button>
       <button mat-button class="secondary-button" (click)="enableForm()" *ngIf="isFormDisabled">Edit Crop</button>
     </div>
 

@@ -45,6 +45,7 @@ import { HeaderTitleComponent } from './components/header-title/header-title.com
 import { PastReadingsComponent } from './components/past-readings/past-readings.component';
 import { EditCropComponent } from './components/edit-crop/edit-crop.component';
 import { CropDatePickerComponent } from './components/edit-crop/crop-date-picker/crop-date-picker.component';
+import { DeleteCropComponent } from './components/edit-crop/delete-crop/delete-crop.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   observer: true,
@@ -70,7 +71,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     HeaderTitleComponent,
     PastReadingsComponent,
     EditCropComponent,
-    CropDatePickerComponent],
+    CropDatePickerComponent,
+    DeleteCropComponent],
   imports: [
     BrowserModule,
     MaterialModule,
