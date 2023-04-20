@@ -8,6 +8,7 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { AdviceComponent } from './components/advice/advice.component';
 import { TestSensorComponent } from './components/test-sensor/test-sensor.component';
 import { PastReadingsComponent } from './components/past-readings/past-readings.component';
+import { EditCropComponent } from './components/edit-crop/edit-crop.component';
 
 const routes: Routes = [
   {
@@ -44,8 +45,12 @@ const routes: Routes = [
     component: TestSensorComponent
   },
   {
-    path: 'past-readings',
+    path: 'past-readings/:id',
     component: PastReadingsComponent
+  },
+  {
+    path: 'edit-crop/:id',
+    component: EditCropComponent
   },
 ];
 

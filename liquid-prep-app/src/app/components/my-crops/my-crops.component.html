@@ -38,7 +38,7 @@
                 MEASURE
               </button>
               <!-- TODO: Add Edit button functionality  -->
-              <button mat-icon-button>
+              <button mat-icon-button (click)="onEditClicked(crop)">
                 <mat-icon>edit</mat-icon>
               </button>
               <button mat-icon-button [matMenuTriggerFor]="menu">

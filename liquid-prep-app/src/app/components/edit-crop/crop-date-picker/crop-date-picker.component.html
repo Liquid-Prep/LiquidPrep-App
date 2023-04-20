@@ -1,0 +1,12 @@
+<h1 mat-dialog-title class="dialog-title">{{ title }}</h1>
+
+<div mat-dialog-content>
+  <div class="dialog-heading">
+    <span>{{formattedSelection}}</span>
+  </div>
+  <mat-calendar (selectedChange)="dateChanged($event)" [(selected)]="selectedDate"></mat-calendar>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onClose(true)">Cancel</button>
+  <button mat-button (click)="onSave()">OK</button>
+</div>

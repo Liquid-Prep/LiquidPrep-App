@@ -107,6 +107,10 @@ export class MyCropsComponent implements OnInit {
     window.location.reload();
   }
 
+  onEditClicked(crop: Crop) {
+    this.router.navigate(['/edit-crop/' + crop.id]).then(r => {});
+  }
+
   onAdd1stCrop() {
     this.router.navigateByUrl('/select-crop').then(r => {});
   }
@@ -138,6 +142,5 @@ export class MyCropsComponent implements OnInit {
   showError(msg) {
     alert(msg ? msg : this.errorMessage);
   }
-
 
 }
