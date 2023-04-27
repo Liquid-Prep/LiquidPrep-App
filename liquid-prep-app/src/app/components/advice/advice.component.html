@@ -1,59 +1,61 @@
-<mat-toolbar class="custom-toolbar">
-    <button mat-icon-button class="white-icon" aria-label="back clicked" (click)="backClicked()">
-        <mat-icon class="volume-icon">close</mat-icon>
-    </button>
-    <span class="toolbar-spacer"></span>
-    <span class="toolbar-title">{{currentDate}}</span>
-    <span class="toolbar-spacer"></span>
-    <button mat-icon-button class="white-icon" aria-label="read text" (click)="volumeClicked()">
-        <mat-icon>volume_up</mat-icon>
-    </button>
-</mat-toolbar>
-<div id="img-container">
-  <img class="topImage" [src]="adviceImg" width="345" height="267">
-    <button id="measure-btn" mat-fab color="primary" class="rotate-45" (click)="onFabClicked()">
-      <mat-icon>straighten</mat-icon>
-    </button>
+<app-header-title fxFlexFill leftIconName="arrow_back" headerTitle="Advice" rightIconName="volume_up" (click)="backClicked()">
+</app-header-title>
+
+<div class="crop-container" fxLayout="column"  fxLayoutAlign="space-evenly center">
+  <div fxFlexFill fxLayout="row" fxLayoutAlign="start center">
+    <span class="mat-title" style="font-weight: bold">{{cropStatic.cropName}}</span>
+  </div>
+  <div fxFlexFill fxLayout="row" fxLayoutAlign="space-between center">
+    <span>Planted Jul 4 </span>
+  </div>
+  <div class="crop-status-container" fxFlexFill fxLayout="row" fxLayoutAlign="space-between center" >
+    <button class="btn-crop-status" fxFlex="48" mat-stroked-button >12 Days Until Harvest</button>
+    <button class="btn-crop-status" fxFlex="48" mat-stroked-button *ngIf="false">Stage: Germinating</button>
+  </div>
+  <img [src]="cropStatic.immaturePic" width="340" height="100">
 </div>
 
-<mat-grid-list cols="3" rowHeight="2:1" gutterSize="12px" style="padding-top: 64px">
-  <mat-grid-tile>
-    <div class="vertical">
-      <span class="vertical-align-middle txt-font water-des-color">{{wateringDecision}}</span>
-      <Label class="description" textWrap="true">{{ "WATERING ADVICE" }}</Label>
+<mat-grid-list class="advice-container" cols="3" rowHeight="24px" gutterSize="4px">
+  <mat-grid-tile colspan="3" rowspan="1">
+    <div fxFlexFill fxLayout="row" fxLayoutAlign="start center">
+      <span>TODAY'S ADVICE {{currentDate}}</span>
     </div>
   </mat-grid-tile>
-  <mat-grid-tile>
-    <div class="vertical">
-      <span class="vertical-align-middle txt-font">{{stageNumber}}</span>
-      <Label class="description" textWrap="true">{{ "GROWTH STAGE" }}</Label>
+  <mat-grid-tile colspan="1" rowspan="4" style="background-color: #d9781d">
+    <div fxFlexFill fxLayout="column" fxLayoutAlign="start center">
+      <span class="soil-moisture-title">Soil Moisture</span>
+      <span class="soil-moisture-value">{{soilMoisturePercentage}}%</span>
     </div>
   </mat-grid-tile>
-  <mat-grid-tile>
-    <div class="vertical">
-      <span class="vertical-align-middle txt-font" [class]="soilMoistureColorClass">{{soilMoistureLevel}}</span>
-      <Label class="description" textWrap="true">{{"SOIL MOISTURE"}}</Label>
+  <mat-grid-tile colspan="1" rowspan="2" style="background-color: #e6f2fc">
+    <div fxFlexFill fxLayout="column" fxLayoutAlign="start center">
+      <span class="soil-moisture-water">Water Now</span>
+      <span class="soil-moisture-water-value">Yes</span>
     </div>
   </mat-grid-tile>
-  <mat-grid-tile>
-    <div class="vertical">
-      <span class="vertical-align-middle txt-font">{{plantingDays}}d</span>
-      <Label class="description" textWrap="true">{{ "SINCE PLANTING" }}</Label>
+  <mat-grid-tile colspan="1" rowspan="4">
+    <img [src]="adviceImg" width="100px" height="100px">
+  </mat-grid-tile>
+  <mat-grid-tile colspan="1" rowspan="2" style="background-color: #e6f2fc">
+    <div fxFlexFill fxLayout="column" fxLayoutAlign="start center">
+      <span class="soil-moisture-water">Amount</span>
+      <span class="soil-moisture-water-value">100 units</span>
     </div>
   </mat-grid-tile>
-  <mat-grid-tile>
-    <div class="vertical">
-      <div class="imgHolder">
-        <img class="vertical-align-middle" src="{{weatherIcon}}" width="25" height="25">
-        <span class="vertical-align-middle txt-font"> {{temperature}}&deg;C</span>
-      </div>
-      <Label class="description" textWrap="true">{{"TEMPERATURE"}}</Label>
-    </div>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <div class="vertical">
-      <span class="vertical-align-middle txt-font"> {{rainfallPercentage}}%</span>
-      <Label class="description" textWrap="true">{{"RAINFALL"}}</Label>
+  <mat-grid-tile colspan="3" rowspan="1">
+    <div fxFlexFill fxLayout="row" fxLayoutAlign="start center">
+      <span>Last Reading: 42% 00/00/00</span>
     </div>
   </mat-grid-tile>
 </mat-grid-list>
+
+
+<div class="btn-container"  fxLayout="column"  fxLayoutGap="10px"  fxLayoutAlign="center center">
+  <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
+    <button mat-flat-button  color="primary-customise" fxFlex="72" (click)="onMeasureClicked()">MEASURE SOIL MOISTURE</button>
+  </div>
+
+  <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
+    <button mat-flat-button color="primary-reverse" fxFlex="72" (click)="onPastReadingClicked()">SEE PAST READINGS</button>
+  </div>
+</div>
