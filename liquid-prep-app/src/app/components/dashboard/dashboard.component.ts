@@ -39,6 +39,8 @@ export class DashboardComponent implements OnInit {
   onClick(card: string) {
     if (card === 'my-crops') {
       this.router.navigate(['my-crops']).then((r) => {});
+    }else if(card === 'test-sensor'){
+      this.router.navigate(['test-sensor']).then((r) => {});
     }
   }
 
