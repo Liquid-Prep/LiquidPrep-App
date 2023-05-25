@@ -10,9 +10,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 })
 export class AppComponent implements OnInit {
   title = 'Welcome to liquid-prep-app';
-
-
-  headerTitle = 'Default Title';
+  headerTitle = 'Liquid Prep';
   leftIconName = 'menu';
   leftBtnClick = '/menu';
   rightIconName = 'settings';
