@@ -1,14 +1,15 @@
 import {Component, OnInit, Input, ApplicationRef, NgZone} from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { formatDate, Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { ThemePalette } from '@angular/material/core';
-
 import { Crop } from '../../models/Crop';
 import { WeatherDataService } from 'src/app/service/WeatherDataService';
 import { WaterAdviceService } from 'src/app/service/WaterAdviceService';
 import { TodayWeather } from 'src/app/models/TodayWeather';
 import { CropDataService } from 'src/app/service/CropDataService';
 import { DateTimeUtil } from 'src/app/utility/DateTimeUtil';
+import { DeleteCropComponent } from '../delete-crop/delete-crop.component';
 
 
 @Component({
@@ -39,7 +40,8 @@ export class MyCropsComponent implements OnInit {
   constructor(
     private router: Router, private location: Location,
     private weatherService: WeatherDataService,
-    private cropDataService: CropDataService
+    private cropDataService: CropDataService,
+    public dialog: MatDialog,
     ) {
     this.updateWeatherInfo();
   }
@@ -118,7 +120,6 @@ export class MyCropsComponent implements OnInit {
     }
   }
 
-
   updateWeatherInfo(){
 
     this.loading = true;
@@ -138,5 +139,15 @@ export class MyCropsComponent implements OnInit {
     alert(msg ? msg : this.errorMessage);
   }
 
+  openDeleteCropDialog(crop: Crop): void {
+    const dialogRef2: MatDialogRef<DeleteCropComponent> = this.dialog.open(DeleteCropComponent, {
+      width: '80%',
+      panelClass: 'delete-crop-dialog',
+      data: crop,
+    });
 
+    dialogRef2.componentInstance.onDelete.subscribe(() => {
+      this.onRemoveCrop(crop);
+    });
+  }
 }

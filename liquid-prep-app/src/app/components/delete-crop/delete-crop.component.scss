@@ -1,0 +1,27 @@
+
+
+.primary-button {
+  background-color: #2F4FFE;
+  border-radius: 4px;
+  color: #FFF;
+}
+
+.secondary-button {
+  color: #2F4FFE;
+  background-color: transparent;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &.horizontal {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+}
+.primary-button,
+.secondary-button {
+  width: auto;
+  text-transform: uppercase;
+}

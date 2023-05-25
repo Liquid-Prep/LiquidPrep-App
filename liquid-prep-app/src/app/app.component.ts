@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { SwUpdate } from '@angular/service-worker';
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
+import { SwUpdate } from '@angular/service-worker';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +10,12 @@ import { DomSanitizer } from "@angular/platform-browser";
 })
 export class AppComponent implements OnInit {
   title = 'Welcome to liquid-prep-app';
+  headerTitle = 'Liquid Prep';
+  leftIconName = 'menu';
+  leftBtnClick = '/menu';
+  rightIconName = 'settings';
+  rightBtnClick = '/settings';
+
 
   constructor( private swUpdate: SwUpdate, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
     this.matIconRegistry.
