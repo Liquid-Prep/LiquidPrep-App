@@ -11,6 +11,14 @@ import { DomSanitizer } from "@angular/platform-browser";
 export class AppComponent implements OnInit {
   title = 'Welcome to liquid-prep-app';
 
+
+  headerTitle = 'Default Title';
+  leftIconName = 'menu';
+  leftBtnClick = '/menu';
+  rightIconName = 'settings';
+  rightBtnClick = '/settings';
+
+
   constructor( private swUpdate: SwUpdate, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
     this.matIconRegistry.
       addSvgIcon('rain_drop',this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/test-sensor/rain-drop.svg') ).

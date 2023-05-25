@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
 import { SoilMoistureService } from '../../service/SoilMoistureService';
 import { SoilMoisture } from '../../models/SoilMoisture';
+import { HeaderService } from 'src/app/service/header.service';
 
 
 @Component({
@@ -15,10 +16,19 @@ export class PastReadingsComponent implements OnInit {
   constructor(
     private router: Router,
     private location: Location,
-    private soilService: SoilMoistureService
+    private soilService: SoilMoistureService,
+    private headerService: HeaderService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.headerService.updateHeader(
+      'Past Readings',                  // headerTitle
+      'arrow_back',                     // leftIconName
+      'volume_up',                      // rightIconName
+      this.handleLeftClick.bind(this),  // leftBtnClick
+      null,                             // rightBtnClick
+    );
+  }
 
   selected: Date | null;
   public soilData: SoilMoisture;
@@ -28,6 +38,10 @@ export class PastReadingsComponent implements OnInit {
     ['MEDIUM', 'color-medium'],
     ['HIGH', 'color-high'],
   ]);
+
+  public handleLeftClick(data:string){
+    this.backClicked();
+  }
 
   public volumeClicked() {
     this.router.navigateByUrl('/my-crops');

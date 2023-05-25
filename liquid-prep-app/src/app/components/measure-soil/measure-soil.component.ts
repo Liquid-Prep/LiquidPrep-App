@@ -8,6 +8,7 @@ import {SoilMoisture} from '../../models/SoilMoisture';
 import {LineBreakTransformer} from './LineBreakTransformer';
 import {Crop, Stage} from '../../models/Crop';
 import {CropDataService} from '../../service/CropDataService';
+import { HeaderService } from 'src/app/service/header.service';
 
 @Component({
   selector: 'app-measure-soil',
@@ -19,7 +20,9 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
               private router: Router,
               private location: Location,
               private soilService: SoilMoistureService,
-              private cropService: CropDataService) { }
+              private cropService: CropDataService,
+              private headerService: HeaderService) { }
+
 
   public config: SwiperOptions = {
     a11y: { enabled: true },
@@ -69,6 +72,14 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
     const cropId = this.route.snapshot.paramMap.get('id');
     this.crop = this.cropService.getCropFromMyCropById(cropId);
     this.stage = this.cropService.generateCropGrowthStage(this.crop);
+
+    this.headerService.updateHeader(
+      'Measure Soil Moisture',          // headerTitle
+      'arrow_back',                     // leftIconName
+      'volume_up',                      // rightIconName
+      this.handleLeftClick.bind(this),  // leftBtnClick
+      undefined,                             // rightBtnClick
+    );
   }
 
   ngAfterViewInit(): void {
@@ -265,6 +276,11 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
       this.measureView = 'before-measuring';
     }
   }
+
+  public handleLeftClick(data:string){
+    this.backClicked();
+  }
+
 
   public readingCountdown(){
     // this.countdownSecond = seconds;

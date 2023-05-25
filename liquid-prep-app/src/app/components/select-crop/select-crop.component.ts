@@ -1,10 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {Router} from '@angular/router';
 import {Location} from '@angular/common';
-
 import { CropListResponse } from '../../models/api/CropListResponse';
 import { Crop } from '../../models/Crop';
 import { CropDataService } from '../../service/CropDataService';
+import { HeaderService } from 'src/app/service/header.service';
 
 @Component({
   selector: 'app-select-crop',
@@ -15,7 +15,7 @@ import { CropDataService } from '../../service/CropDataService';
 export class SelectCropComponent implements OnInit{
 
   searchText = '';
-  title = 'Select Crop';
+  // title = 'Select Crop';
 
   @ViewChild('searchbar') searchbar: ElementRef;
 
@@ -26,7 +26,8 @@ export class SelectCropComponent implements OnInit{
   public requestingCrop = true;
 
   constructor(private router: Router, private location: Location,
-              private cropService: CropDataService) { }
+              private cropService: CropDataService,
+              private headerService: HeaderService) { }
 
   ngOnInit(): void {
 
@@ -45,6 +46,17 @@ export class SelectCropComponent implements OnInit{
           alert('Could not get crop list: ' + err);
         }
       );
+      this.headerService.updateHeader(
+        'Add a new crop',                  // headerTitle
+        'arrow_back',                     // leftIconName
+        'search',                         // rightIconName
+        this.handleLeftClick.bind(this),  // leftBtnClick
+        null,                             // rightBtnClick
+      );
+  }
+
+  public handleLeftClick(data:string){
+    this.backToMyCrops();
   }
 
   backToMyCrops(){

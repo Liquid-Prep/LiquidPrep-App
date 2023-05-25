@@ -46,6 +46,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { TestSensorComponent } from './components/test-sensor/test-sensor.component';
 import { HeaderTitleComponent } from './components/header-title/header-title.component';
 import { PastReadingsComponent } from './components/past-readings/past-readings.component';
+import { HamburgerMenuComponent } from './components/hamburger-menu/hamburger-menu.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   observer: true,
@@ -71,6 +72,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     TestSensorComponent,
     HeaderTitleComponent,
     PastReadingsComponent,
+    HamburgerMenuComponent,
   ],
   imports: [
     BrowserModule,

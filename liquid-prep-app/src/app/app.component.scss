@@ -8,3 +8,11 @@ a.mat-button:hover {
 a.mat-button:hover {
   color: #ffffff;
 }
+
+:host ::ng-deep .mat-drawer {
+width: 100vw;
+}
+
+:host ::ng-deep .mat-drawer-container {
+  height: 100vh;
+}
