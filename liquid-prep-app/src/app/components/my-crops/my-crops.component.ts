@@ -9,6 +9,8 @@ import { WaterAdviceService } from 'src/app/service/WaterAdviceService';
 import { TodayWeather } from 'src/app/models/TodayWeather';
 import { CropDataService } from 'src/app/service/CropDataService';
 import { DateTimeUtil } from 'src/app/utility/DateTimeUtil';
+import { HeaderService } from 'src/app/service/header.service';
+
 
 
 @Component({
@@ -39,7 +41,8 @@ export class MyCropsComponent implements OnInit {
   constructor(
     private router: Router, private location: Location,
     private weatherService: WeatherDataService,
-    private cropDataService: CropDataService
+    private cropDataService: CropDataService,
+    private headerService: HeaderService
     ) {
     this.updateWeatherInfo();
   }
@@ -65,6 +68,14 @@ export class MyCropsComponent implements OnInit {
     /*this.dataService.getWeatherInfo().subscribe((weatherInfo: WeatherResponse) => {
       const todayWeather = WeatherService.getInstance().createTodayWeather(weatherInfo);
     });*/
+
+    this.headerService.updateHeader(
+      'My Crops',   // headerTitle
+      'menu',       // leftIconName
+      'volume_up',  // rightIconName
+      undefined,    // leftBtnClick
+      undefined,    // rightBtnClick
+    );
 
   }
 
