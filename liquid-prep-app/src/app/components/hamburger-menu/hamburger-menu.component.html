@@ -1,0 +1,31 @@
+
+<mat-nav-list class="navDrawer">
+  <button mat-icon-button (click)="triggerCloseSidenav()" noRipple class="closeBtn">
+    <mat-icon class="navIcon">close</mat-icon>
+  </button>
+  <h2 class="navHeader">Liquid Prep</h2>
+  <a class="navLink" mat-list-item href="#">
+    <mat-icon class="navIcon">home</mat-icon>
+    <span>Farm Dashboard</span>
+  </a>
+  <a class="navLink" mat-list-item href="/settings">
+    <mat-icon class="navIcon">settings</mat-icon>
+    Settings
+  </a>
+  <a class="navLink" mat-list-item href="#">
+    <mat-icon class="navIcon">star</mat-icon>
+    About
+  </a>
+
+  <div class="otherSettings">
+    <h2 class="navHeader">Other Settings</h2>
+    <a class="navLink" mat-list-item href="#">
+      <mat-icon class="navIcon">help</mat-icon>
+      Help
+    </a>
+    <a class="navLink" mat-list-item href="#">
+      <mat-icon class="navIcon">lock</mat-icon>
+      Privacy
+    </a>
+  </div>
+</mat-nav-list>

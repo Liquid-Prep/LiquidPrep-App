@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { WeatherDataService } from '../../service/WeatherDataService';
 import { TodayWeather } from '../../models/TodayWeather';
 import { formatDate } from '@angular/common';
 import { GeoLocationService } from 'src/app/service/GeoLocationService';
+import { HeaderService } from 'src/app/service/header.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,6 +12,7 @@ import { GeoLocationService } from 'src/app/service/GeoLocationService';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
+
   public todayWeather: TodayWeather = null;
   public loading = true;
   public errorMessage = '';
@@ -28,12 +30,20 @@ export class DashboardComponent implements OnInit {
   constructor(
     private router: Router,
     private weatherService: WeatherDataService,
-    private geoLocationService: GeoLocationService
+    private geoLocationService: GeoLocationService,
+    private headerService: HeaderService
   ) {}
 
   ngOnInit(): void {
     this.updateWeatherInfo();
     this.getLocation();
+    this.headerService.updateHeader(
+      'Farm Dashboard',   // headerTitle
+      'menu',       // leftIconName
+      'volume_up',   // rightIconName
+      undefined,  // leftBtnClick
+      undefined,  // rightBtnClick
+    );
   }
 
   onClick(card: string) {
@@ -89,4 +99,5 @@ export class DashboardComponent implements OnInit {
       this.location = locationData;
     });
   }
+
 }

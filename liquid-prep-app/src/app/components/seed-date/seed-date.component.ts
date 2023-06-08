@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { Crop, Stage } from '../../models/Crop';
 import { CropDataService } from 'src/app/service/CropDataService';
 import { DateTimeUtil } from 'src/app/utility/DateTimeUtil';
+import { HeaderService } from 'src/app/service/header.service';
 
 @Component({
   selector: 'app-seed-date',
@@ -21,7 +21,8 @@ export class SeedDateComponent implements OnInit {
     private router: Router,
     private location: Location,
     private route: ActivatedRoute,
-    private cropService: CropDataService
+    private cropService: CropDataService,
+    private headerService: HeaderService
   ) {
     this.userSelectiondate = new Date();
   }
@@ -37,14 +38,25 @@ export class SeedDateComponent implements OnInit {
         alert('Could not get crop info: ' + err);
       }
     );
+    this.headerService.updateHeader(
+      'Select Seed Date',   // headerTitle
+      'arrow_back', // leftIconName
+      'volume_up',   // rightIconName
+      this.handleLeftClick.bind(this),  // leftBtnClick
+      null,          // rightBtnClick
+    );
   }
 
-  public onHeaderClick(data: string) {
-    if (data == 'leftBtn') {
-      this.backClicked();
-    } else {
-      //TODO
-    }
+  // public onHeaderClick(data: string) {
+  //   if (data == 'leftBtn') {
+  //     this.backClicked();
+  //   } else {
+  //     //TODO
+  //   }
+  // }
+
+  public handleLeftClick(data:string){
+    this.backClicked();
   }
 
   public volumeClicked() {}

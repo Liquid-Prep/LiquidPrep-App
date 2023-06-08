@@ -9,7 +9,7 @@
 </div>
 
 <div *ngIf="!requestingCrop" class="add-crop" style="overflow-x:hidden;" fxFlexFill cdkScrollable>
-  <mat-toolbar class="add-crop-header mat-elevation-z4 custom-toolbar" [class.hidden]="toggleSearch">
+  <!-- <mat-toolbar class="add-crop-header mat-elevation-z4 custom-toolbar" [class.hidden]="toggleSearch">
     <mat-toolbar-row style="padding: 0 5px;">
       <button mat-icon-button class="toolbar-title" aria-label="Icon-button with close icon" (click)="backToMyCrops()">
         <mat-icon>close</mat-icon>
@@ -21,7 +21,7 @@
         <mat-icon>search</mat-icon>
       </button>
     </mat-toolbar-row>
-  </mat-toolbar>
+  </mat-toolbar> -->
 
   <mat-toolbar class="search-block mat-elevation-z4" [class.active]="toggleSearch">
     <mat-toolbar-row style="padding: 0 5px;">
