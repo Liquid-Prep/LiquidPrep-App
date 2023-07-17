@@ -15,7 +15,7 @@
         <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
             <mat-button-toggle-group
                 (change)="onValChange($event.value)"
-                [value]="selectedVal"
+                [value]="testType"
                 fxLayout="row"
                 fxFlex="72"
                 fxLayoutGap="10px"
@@ -80,7 +80,7 @@
         <div class="measure-btn" fxFlexFill fxLayout="row" fxLayoutAlign="center center">
           <button mat-flat-button [disabled]="testView==='testing'" color="primary" fxFlex="72" (click)="onTest('ble')">TEST SENSOR VIA BLUETOOTH</button>
         </div>
-        <div class="measure-btn" fxFlexFill fxLayout="row" fxLayoutAlign="center center">
+        <div *ngIf="false" class="measure-btn" fxFlexFill fxLayout="row" fxLayoutAlign="center center">
           <button mat-flat-button [disabled]="testView==='testing'" color="primary" fxFlex="72" (click)="onTest('wifi')">TEST SENSOR VIA WIFI</button>
         </div>
       </div>

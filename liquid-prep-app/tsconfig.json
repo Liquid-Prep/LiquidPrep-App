@@ -13,5 +13,16 @@
     {
       "path": "./tsconfig.spec.json"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "types": [
+      "web-bluetooth",
+      "node_modules/@types",
+      "src/@types"
+    ],
+    "typeRoots": [
+      "node_modules/@types",
+      "src/types"
+    ]
+  }
 }
