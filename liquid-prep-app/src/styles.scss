@@ -96,3 +96,14 @@ mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
 mat-slide-toggle.mat-checked .mat-slide-toggle-thumb-container {
   transform: translate3d(19px, 0, 0) !important;
 }
+
+/*customise the material theme*/
+.mat-flat-button.mat-primary-customise{
+  background-color: #2F4FFE;
+  color: white;
+}
+
+.mat-flat-button.mat-primary-reverse {
+  background-color: white;
+  color: #2F4FFE;
+}

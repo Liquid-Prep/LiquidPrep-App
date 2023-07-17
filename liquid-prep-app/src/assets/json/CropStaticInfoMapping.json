@@ -1,0 +1,18 @@
+{
+  "cropsMap": {
+    "1": {
+      "cropName": "Corn",
+      "type": "Crop",
+      "url": "../assets/crops-images/corn.png",
+      "immaturePic": "../assets/crops-images/corn-immature-rect.png",
+      "immaturePic": "../assets/crops-images/corn-harvest-rect.png"
+    },
+    "2": {
+      "cropName": "Soybean",
+      "type": "Crop",
+      "url": "../assets/crops-images/soybean.png",
+      "immaturePic": "../assets/crops-images/soybean-immature-rect.png",
+      "immaturePic": "../assets/crops-images/soybean-harvest-rect.png"
+    }
+  }
+}

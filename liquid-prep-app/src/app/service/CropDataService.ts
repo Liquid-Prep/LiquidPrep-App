@@ -9,7 +9,9 @@ import {
   SESSION_STORAGE,
   StorageService,
 } from 'ngx-webstorage-service';
+
 import { DateTimeUtil } from '../utility/DateTimeUtil';
+import { CropStaticInfo, CropStaticInfoMapping } from '../models/CropStatic';
 
 const CROP_LIST_KEY = 'crop-list';
 const CROPS_STORAGE_KEY = 'my-crops';
@@ -28,8 +30,8 @@ export class CropDataService {
 
   private cropImageMappingFile = '/assets/json/cropImageMapping.json';
   private defaultImage = '../assets/crops-images/missing.jpg';
-  private stageImageMappingFile =
-    '../assets/json/cropGrowthStageImageMapping.json';
+  private stageImageMappingFile = '../assets/json/cropGrowthStageImageMapping.json';
+  private cropStaticInfoFile = 'assets/json/CropStaticInfoMapping.json';
 
   public getCropsListData(): Observable<any> {
     return new Observable((observer: Observer<any>) => {
@@ -326,4 +328,20 @@ export class CropDataService {
   public getSelectCrop(): Crop {
     return this.getCropFromMyCropById(this.getSelectedCropIdInSession());
   }
+
+  public getCropStaticInfoById(id: string): Promise<CropStaticInfo> {
+    return new Promise<CropStaticInfo>((resolve, reject) => {
+      this.http.get<CropStaticInfoMapping>(this.cropStaticInfoFile).toPromise().then((response) => {
+        const cropStaticInfoMapping = response.cropsMap[id];
+        if (!cropStaticInfoMapping) {
+          reject(new Error(`CropStaticInfo with id ${id} not found`));
+        } else {
+          resolve(cropStaticInfoMapping as CropStaticInfo);
+        }
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  }
 }
+
