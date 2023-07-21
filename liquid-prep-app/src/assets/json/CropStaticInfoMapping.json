@@ -1,18 +1,39 @@
 {
   "cropsMap": {
-    "1": {
+    "5d731e49a8ad2744ee0eb9f5b51cf6a7": {
+      "cropName": "Wheat",
+      "type": "Crop",
+      "url": "../assets/crops-images/wheat.png",
+      "immaturePic": "../assets/crops-images/wheat-immature-rect.png",
+      "harvestPic": "../assets/crops-images/wheat-harvest-rect.png"
+    },
+    "60d32094bf1e60cef26ea76e9639917c": {
+      "cropName": "Sorghum",
+      "type": "Crop",
+      "url": "../assets/crops-images/sorghum.png",
+      "immaturePic": "../assets/crops-images/sorghum-immature-rect.png",
+      "harvestPic": "../assets/crops-images/sorghum-harvest-rect.png"
+    },
+    "85162eaa648e9e4ac76f7b9d85f2ebf0": {
       "cropName": "Corn",
       "type": "Crop",
       "url": "../assets/crops-images/corn.png",
-      "immaturePic": "../assets/crops-images/corn-immature-rect.png",
-      "immaturePic": "../assets/crops-images/corn-harvest-rect.png"
+      "harvestPic": "../assets/crops-images/corn-harvest-rect.png",
+      "immaturePic": "../assets/crops-images/corn-immature-rect.png"
     },
-    "2": {
+    "85162eaa648e9e4ac76f7b9d85f94000": {
+      "cropName": "Cotton",
+      "type": "Crop",
+      "url": "../assets/crops-images/cotton.png",
+      "harvestPic": "../assets/crops-images/cotton-harvest-rect.png",
+      "immaturePic": "../assets/crops-images/cotton-immature-rect.png"
+    },
+    "86b6f2c2b60de9ea9f7b12fde08d8bcc": {
       "cropName": "Soybean",
       "type": "Crop",
       "url": "../assets/crops-images/soybean.png",
       "immaturePic": "../assets/crops-images/soybean-immature-rect.png",
-      "immaturePic": "../assets/crops-images/soybean-harvest-rect.png"
+      "harvestPic": "../assets/crops-images/soybean-harvest-rect.png"
     }
   }
 }

@@ -3,7 +3,7 @@
 
 <div class="crop-container" fxLayout="column"  fxLayoutAlign="space-evenly center">
   <div fxFlexFill fxLayout="row" fxLayoutAlign="start center">
-    <span class="mat-title" style="font-weight: bold">{{cropStatic.cropName}}</span>
+    <span class="mat-title" style="font-weight: bold">{{crop.cropName}}</span>
   </div>
   <div fxFlexFill fxLayout="row" fxLayoutAlign="space-between center">
     <span>Planted Jul 4 </span>
@@ -12,7 +12,7 @@
     <button class="btn-crop-status" fxFlex="48" mat-stroked-button >12 Days Until Harvest</button>
     <button class="btn-crop-status" fxFlex="48" mat-stroked-button *ngIf="false">Stage: Germinating</button>
   </div>
-  <img [src]="cropStatic.immaturePic" width="340" height="100">
+  <img [src]="cropStatic.immaturePic" width="100%" height="100%" style="object-fit: cover;">
 </div>
 
 <mat-grid-list class="advice-container" cols="3" rowHeight="24px" gutterSize="4px">

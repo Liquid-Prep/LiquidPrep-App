@@ -1,14 +1,15 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import { Location } from '@angular/common';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Navigation, Router} from '@angular/router';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent} from 'ngx-swiper-wrapper';
 import {SoilMoistureService} from '../../service/SoilMoistureService';
 import {SoilMoisture} from '../../models/SoilMoisture';
 import {LineBreakTransformer} from './LineBreakTransformer';
-import {Crop, Stage} from '../../models/Crop';
+import {Crop} from '../../models/Crop';
 import {CropDataService} from '../../service/CropDataService';
-import { HeaderService } from 'src/app/service/header.service';
+import {PlantGrowthStage} from '../../models/api/CropInfoResp';
+import {HeaderService} from '../../service/header.service';
 
 @Component({
   selector: 'app-measure-soil',
@@ -45,7 +46,7 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
   @ViewChild(SwiperComponent, { static: false }) swiper?: SwiperComponent;
 
   public crop: Crop;
-  public stage: Stage;
+  public stage: PlantGrowthStage;
   public curIndex = 0;
   public isFirstSlide = true;
   public isLastSlide = false;
@@ -69,8 +70,7 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
   ]);
 
   ngOnInit(): void {
-    const cropId = this.route.snapshot.paramMap.get('id');
-    this.crop = this.cropService.getCropFromMyCropById(cropId);
+    this.crop = this.cropService.getCrop();
     this.stage = this.cropService.generateCropGrowthStage(this.crop);
 
     this.headerService.updateHeader(
@@ -277,10 +277,9 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public handleLeftClick(data:string){
+  public handleLeftClick(data: string){
     this.backClicked();
   }
-
 
   public readingCountdown(){
     // this.countdownSecond = seconds;
@@ -305,6 +304,7 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
   }
 
   public setMeasureView(status: 'before-measuring' | 'measuring' | 'after-measuring'){
+    console.log('setMeasureView:', status);
     this.measureView = status;
   }
 
