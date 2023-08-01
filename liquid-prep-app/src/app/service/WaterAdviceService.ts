@@ -1,6 +1,6 @@
 // import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Advice } from '../models/Advice';
-import {Crop, Stage} from '../models/Crop';
+import {Crop} from '../models/Crop';
 import { TodayWeather, WeatherInfo } from '../models/TodayWeather';
 import { DateTimeUtil } from '../utility/DateTimeUtil';
 import { CropDataService } from './CropDataService';
@@ -9,6 +9,7 @@ import { SoilMoistureService } from './SoilMoistureService';
 import { SoilMoisture } from '../models/SoilMoisture';
 import { Observable, Observer } from 'rxjs';
 import { Injectable } from '@angular/core';
+import {PlantGrowthStage} from '../models/api/CropInfoResp';
 
 @Injectable({
     providedIn: 'root',
@@ -101,7 +102,7 @@ export class WaterAdviceService {
       this.waterAdvice.soilMoistureReading = new SoilMoisture();
       this.waterAdvice.cropName = crop.cropName;
       this.waterAdvice.id = crop.id;
-      const stage: Stage = this.cropDataService.generateCropGrowthStage(crop);
+      const stage: PlantGrowthStage = this.cropDataService.generateCropGrowthStage(crop);
       this.waterAdvice.stage = stage;
       this.waterAdvice.waterRecommended = stage.waterUse;
       this.waterAdvice.soilMoistureReading.soilMoisturePercentage = soilMoisture.soilMoisturePercentage;

@@ -1,4 +1,8 @@
+<app-header-title fxFlexFill  leftIconName="arrow_back" headerTitle="Test sensor" rightIconName="volume_up" (click)="onHeaderClick($event)">
+</app-header-title>
 <div class="add-crop" style="overflow-x:hidden;" fxFlexFill cdkScrollable>
+
+
   <div class="horizontal" style="margin-bottom: 8px">
     <div class="imgHolder" *ngIf="!todayWeather">
       <!-- <mat-icon class="vertical-align-middle primary-blue" *ngIf="loading">hourglass_empty</mat-icon> -->
@@ -26,7 +30,7 @@
               <span class="mat-h1">{{crop.cropName}}</span>
             </div>
             <div class="cropDates">
-              <span>{{crop.seedingDate}} | Last Irrigated July 21</span>
+              <span>Planted {{crop.seedingDate | date:'MMMM d'}}</span>
             </div>
             <div>
               <button class="measureButton" mat-icon-button (click)="onViewCropAdvice(crop)">
