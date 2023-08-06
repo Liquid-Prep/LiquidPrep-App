@@ -1,4 +1,4 @@
-/// <reference types="web-bluetooth" />
+// <reference types="web-bluetooth" />
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import {HttpClient} from '@angular/common/http';
@@ -53,13 +53,15 @@ export class SensorService {
     const serviceUUID = '4fafc201-1fb5-459e-8fcc-c5c9c331914b';
     const characteristicUUID = 'beb5483e-36e1-4688-b7f5-ea07361b26a8';
 
-    if (!navigator.bluetooth) {
+    let mobileNavigatorObject: any = window.navigator;
+
+    if (!mobileNavigatorObject.bluetooth) {
       console.error('Web Bluetooth API is not available.');
       return;
     }
 
     try {
-      const device = await navigator.bluetooth.requestDevice({
+      const device = await mobileNavigatorObject.bluetooth.requestDevice({
         filters: [{
           name: bluetoothName
         }],
