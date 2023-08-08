@@ -4,6 +4,10 @@ header {
     z-index: 11;
     transition: all 250ms ease-in-out;
 }
+.cropsList {
+  max-width: 360px;
+  margin: auto;
+}
 .add-crop-header {
     @extend header;
     &.hidden {
@@ -59,4 +63,8 @@ mat-card {
 .cardTittle {
     padding: 8px;
     font-weight: 100;
+}
+
+:host ::ng-deep mat-card {
+  flex-grow: 1;
 }

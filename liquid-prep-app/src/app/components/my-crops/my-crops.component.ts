@@ -68,10 +68,14 @@ export class MyCropsComponent implements OnInit {
       'My Crops',   // headerTitle
       'arrow_back',       // leftIconName
       'volume_up',  // rightIconName
-      undefined,    // leftBtnClick
+      this.handleLeftClick.bind(this),    // leftBtnClick
       undefined,    // rightBtnClick
     );
 
+  }
+
+  public handleLeftClick(data: string){
+    this.backClicked();
   }
 
   public tabClicked(tab) {

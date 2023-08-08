@@ -164,14 +164,13 @@ mat-card {
 }
 
 .add-crop-button {
-  position: fixed;
   text-align: center;
   width: 275px;
   height: 36px;
-  bottom: 10%;
   left: calc(50% - (275px/2));
   min-height: 36px;
   border-radius: 4px;
+  margin: auto auto 30px;;
   button {
     background-color: transparent;
     border: 0;
@@ -183,4 +182,10 @@ mat-card {
     font-size: 14px;
     letter-spacing: 1.25px;
   }
+}
+
+
+.cropsContainer {
+  min-height: calc(100vh - 215px);
+  padding-bottom: 30px;
 }
