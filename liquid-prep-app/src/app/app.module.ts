@@ -27,6 +27,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import {MatChipsModule} from '@angular/material/chips';
 import { FormsModule } from '@angular/forms';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -48,6 +49,7 @@ import { HeaderTitleComponent } from './components/header-title/header-title.com
 import { PastReadingsComponent } from './components/past-readings/past-readings.component';
 import { DeleteCropComponent } from './components/delete-crop/delete-crop.component';
 import { HamburgerMenuComponent } from './components/hamburger-menu/hamburger-menu.component';
+import { CropInsightsComponent } from './components/crop-insights/crop-insights.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   observer: true,
@@ -75,6 +77,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     PastReadingsComponent,
     DeleteCropComponent,
     HamburgerMenuComponent,
+    CropInsightsComponent,
   ],
   imports: [
     BrowserModule,
@@ -95,6 +98,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     MatProgressSpinnerModule,
     MatSlideToggleModule,
     MatCardModule,
+    MatChipsModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatButtonToggleModule,

@@ -9,6 +9,7 @@ import { AdviceComponent } from './components/advice/advice.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { TestSensorComponent } from './components/test-sensor/test-sensor.component';
 import { PastReadingsComponent } from './components/past-readings/past-readings.component';
+import { CropInsightsComponent } from './components/crop-insights/crop-insights.component';
 import {CropStaticInfoResolver} from './resolve/CropStaticInfoResolver';
 
 const routes: Routes = [
@@ -21,6 +22,11 @@ const routes: Routes = [
     path: 'my-crops',
     component: MyCropsComponent
   },
+  {
+    path: 'crop-insights',
+    component: CropInsightsComponent
+  },
+
   {
     path: 'measure-soil/:id',
     component: MeasureSoilComponent
