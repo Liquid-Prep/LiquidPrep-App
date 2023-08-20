@@ -14,7 +14,7 @@ import {CropStaticInfoResolver} from './resolve/CropStaticInfoResolver';
 const routes: Routes = [
   { path: '', component: WelcomeComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'select-crop', loadChildren: () => import('./components/select-crop/select-crop.module')
+  { path: 'select-crop',loadChildren: () => import('./components/select-crop/select-crop.module')
       .then(m => m.SelectCropModule)
   },
   {

@@ -33,7 +33,7 @@ export class TestSensorComponent implements OnInit {
     this.testType = 'air';
 
     this.headerService.updateHeader(
-      'Add a new crop',                  // headerTitle
+      'Test Sensor',                  // headerTitle
       'arrow_back',                     // leftIconName
       'volume_up',                         // rightIconName
       this.handleLeftClick.bind(this),  // leftBtnClick

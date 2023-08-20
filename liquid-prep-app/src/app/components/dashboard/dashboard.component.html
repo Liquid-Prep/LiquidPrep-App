@@ -1,124 +1,123 @@
-<!-- <mat-toolbar class="custom-toolbar">
-  <div fxFlexFill fxLayout="row" fxLayoutAlign="start center">
-    <button fxFlex="none" mat-icon-button class="white-icon" aria-label="menu">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span fxFlex fxFlexOffset="10" class="toolbar-title">Farm Dashboard</span>
-    <button
-      fxFlex="nogrow"
-      mat-icon-button
-      class="white-icon"
-      aria-label="read text"
-    >
-      <mat-icon>volume_up</mat-icon>
-    </button>
-  </div>
-</mat-toolbar> -->
-
-<div class="weather-margin">
-  <div fxLayout="row" fxFlexFill>
-    <label class="title" fxFlex="40">WEATHER FORECAST</label>
-    <label fxFlex="3">City:</label>
-    <label class="title location-margin-padding" fxflex>{{
-      loading ? " " : location
-    }}</label>
-  </div>
-  <div class="today-margin">
-    <div fxLayout="row" fxLayoutAlign="none center">
-      <label fxflex="40" mat-card-title class="title">Today, </label>
-      <label fxflex="40" class="title time-margin-padding">{{
-        loading ? " " : currentDate
-      }}</label>
-      <img
-        [src]="weatherIconImage"
-        width="32"
-        height="32"
-        class="title image-margin-padding"
-      />
-      <span class="temperature-font"
-        >{{ loading ? " " : temparature }}&deg;C</span
-      >
-    </div>
-    <div
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="over">
+    <app-hamburger-menu (closeSidenav)="sidenav.close()"></app-hamburger-menu>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <app-header-title
+      class="header"
       fxFlexFill
-      fxLayout="row"
-      fxLayoutAlign="center center"
-      class="weather-info-margin"
-    >
-      <div
-        fxFlex="140"
-        fxFlexOffset="4"
-        fxLayout="column"
-        fxLayoutAlign="none center"
-        style="margin-left: 1px"
-      >
-        <div fxFlexFill fxLayout="row">
-          <label fxFlex="30">Chance of rain</label>
-          <label fxFlex="14" class="value"
-            >{{ loading ? "" : precipChance }}%</label
-          >
-          <label fxFlex="30">Precipitation</label>
-          <label class="value">{{ loading ? "" : precipitaion }} mm</label>
-        </div>
-        <div fxFlexFill fxLayout="row">
-          <label fxFlex="30">Humidity</label>
-          <label fxFlex="14" class="value"
-            >{{ loading ? "" : humidity }}%</label
-          >
-          <label fxFlex="30">Today</label>
-          <label class="value"
-            >H {{ loading ? "" : todayWeather.maxTemperature }}&deg;C / L
-            {{ loading ? "" : todayWeather.minTemperature }}&deg;C</label
-          >
-        </div>
-        <div fxFlexFill fxLayout="row">
-          <label fxFlex="30">UV index</label>
-          <label fxFlex="14" class="value">{{ loading ? "" : uvIndex }}</label>
-          <label fxFlex="30">Tomorrow</label>
-          <label class="value"
-            >H {{ loading ? "" : nextDayTemperatureMax }}&deg;C / L
-            {{ loading ? "" : nextDayTemperatureMin }}&deg;C</label
-          >
-        </div>
-      </div>
-    </div>
-  </div>
+      (sidenavToggle)="sidenav.toggle()"
+    ></app-header-title>
+    <div>
 
-  <mat-divider class="mat-elevation-z8"></mat-divider>
+      <div class="weather-margin">
+        <div fxLayout="row" fxFlexFill>
+          <label class="title" fxFlex="40">WEATHER FORECAST</label>
+          <label fxFlex="3">City:</label>
+          <label class="title location-margin-padding" fxflex>{{
+            loading ? " " : location
+          }}</label>
+        </div>
+        <div class="today-margin">
+          <div fxLayout="row" fxLayoutAlign="none center">
+            <label fxflex="40" mat-card-title class="title">Today, </label>
+            <label fxflex="40" class="title time-margin-padding">{{
+              loading ? " " : currentDate
+            }}</label>
+            <img
+              [src]="weatherIconImage"
+              width="32"
+              height="32"
+              class="title image-margin-padding"
+            />
+            <span class="temperature-font"
+              >{{ loading ? " " : temparature }}&deg;C</span
+            >
+          </div>
+          <div
+            fxFlexFill
+            fxLayout="row"
+            fxLayoutAlign="center center"
+            class="weather-info-margin"
+          >
+            <div
+              fxFlex="140"
+              fxFlexOffset="4"
+              fxLayout="column"
+              fxLayoutAlign="none center"
+              style="margin-left: 1px"
+            >
+              <div fxFlexFill fxLayout="row">
+                <label fxFlex="30">Chance of rain</label>
+                <label fxFlex="14" class="value"
+                  >{{ loading ? "" : precipChance }}%</label
+                >
+                <label fxFlex="30">Precipitation</label>
+                <label class="value">{{ loading ? "" : precipitaion }} mm</label>
+              </div>
+              <div fxFlexFill fxLayout="row">
+                <label fxFlex="30">Humidity</label>
+                <label fxFlex="14" class="value"
+                  >{{ loading ? "" : humidity }}%</label
+                >
+                <label fxFlex="30">Today</label>
+                <label class="value"
+                  >H {{ loading ? "" : todayWeather.maxTemperature }}&deg;C / L
+                  {{ loading ? "" : todayWeather.minTemperature }}&deg;C</label
+                >
+              </div>
+              <div fxFlexFill fxLayout="row">
+                <label fxFlex="30">UV index</label>
+                <label fxFlex="14" class="value">{{ loading ? "" : uvIndex }}</label>
+                <label fxFlex="30">Tomorrow</label>
+                <label class="value"
+                  >H {{ loading ? "" : nextDayTemperatureMax }}&deg;C / L
+                  {{ loading ? "" : nextDayTemperatureMin }}&deg;C</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
 
-  <mat-card class="card-margin-padding" (click)="onClick('my-crops')">
-    <div fxLayout="row" fxLayoutAlign="none end">
-      <img
-        fxFlex="18"
-        src="assets/welcome-plant.png"
-        alt="Crops"
-        width="65"
-        height="96"
-      />
-      <div fxLayout="column" fxLayoutAlign="center center">
-        <mat-card-title>My Crops</mat-card-title>
-        <mat-card-subtitle
-          >Measure soil moisture and get advice</mat-card-subtitle
-        >
-      </div>
-    </div>
-  </mat-card>
+        <mat-divider class="mat-elevation-z8"></mat-divider>
 
-  <mat-card class="card-margin-padding" (click)="onClick('test-sensor')">
-    <div fxLayout="row" fxLayoutAlign="none end">
-      <img
-        fxFlex="18"
-        src="assets/welcome-measure.png"
-        alt="Sensor"
-        width="65"
-        height="96"
-      />
-      <div fxLayout="column" fxLayoutAlign="center center">
-        <mat-card-title>Test Sensor</mat-card-title>
-        <mat-card-subtitle
-          >Ensure your sensor is properly calibrated!</mat-card-subtitle
-        >
+        <mat-card class="card-margin-padding" (click)="onClick('my-crops')">
+          <div fxLayout="row" fxLayoutAlign="none end">
+            <img
+              fxFlex="18"
+              src="assets/welcome-plant.png"
+              alt="Crops"
+              width="65"
+              height="96"
+            />
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <mat-card-title>My Crops</mat-card-title>
+              <mat-card-subtitle
+                >Measure soil moisture and get advice</mat-card-subtitle
+              >
+            </div>
+          </div>
+        </mat-card>
+
+        <mat-card class="card-margin-padding" (click)="onClick('test-sensor')">
+          <div fxLayout="row" fxLayoutAlign="none end">
+            <img
+              fxFlex="18"
+              src="assets/welcome-measure.png"
+              alt="Sensor"
+              width="65"
+              height="96"
+            />
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <mat-card-title>Test Sensor</mat-card-title>
+              <mat-card-subtitle
+                >Ensure your sensor is properly calibrated!</mat-card-subtitle
+              >
+            </div>
+          </div>
+        </mat-card>
       </div>
+
     </div>
-  </mat-card>
-</div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
