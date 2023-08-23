@@ -12,12 +12,12 @@ mat-sidenav {
   padding: 20px;
 }
 
-.navIcon {
-  margin-right: 10px;
-}
-
 .navHeader {
   font-size: 14px;
+}
+
+:host ::ng-deep .mat-list-item-content .mat-icon {
+  margin-right: 10px;
 }
 
 :host ::ng-deep .mat-list-item-content {

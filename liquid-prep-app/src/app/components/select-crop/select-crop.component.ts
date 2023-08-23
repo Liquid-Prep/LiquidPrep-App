@@ -30,6 +30,15 @@ export class SelectCropComponent implements OnInit{
 
   ngOnInit(): void {
     this.requestingCrop = true;
+
+    this.headerService.updateHeader(
+      'Add a new crop',                  // headerTitle
+      'close',                     // leftIconName
+      'search',                         // rightIconName
+      this.handleLeftClick.bind(this),  // leftBtnClick
+      null,                             // rightBtnClick
+    );
+
     forkJoin({
       cropsListData: this.cropService.getCropListFromApi(),
       myCrops: from(this.cropService.getLocalStorageMyCrops())
@@ -50,17 +59,21 @@ export class SelectCropComponent implements OnInit{
         this.requestingCrop = false;
       }
     );
-
-    this.headerService.updateHeader(
-        'Add a new crop',                  // headerTitle
-        'arrow_back',                     // leftIconName
-        'search',                         // rightIconName
-        this.handleLeftClick.bind(this),  // leftBtnClick
-        null,                             // rightBtnClick
-      );
   }
 
-  public handleLeftClick(data: string){
+  public backClicked() {
+    this.location.back();
+  }
+
+  public onHeaderClick(data:string){
+    if(data == 'leftBtn'){
+      this.backClicked();
+    }else {
+      //TODO
+    }
+  }
+
+  public handleLeftClick(){
     this.backToMyCrops();
   }
 

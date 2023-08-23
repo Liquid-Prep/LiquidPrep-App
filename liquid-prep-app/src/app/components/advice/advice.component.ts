@@ -7,6 +7,7 @@ import { Crop } from '../../models/Crop';
 import { CropDataService } from '../../service/CropDataService';
 import { CropStaticInfo } from '../../models/CropStatic';
 import { DatePipe } from '@angular/common';
+import { HeaderService } from 'src/app/service/header.service';
 
 @Component({
   selector: 'app-advice',
@@ -46,7 +47,8 @@ export class AdviceComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private waterAdviceService: WaterAdviceService,
-    private cropService: CropDataService
+    private cropService: CropDataService,
+    private headerService: HeaderService
   ) {}
 
   ngOnInit(): void {
@@ -74,10 +76,22 @@ export class AdviceComponent implements OnInit {
       this.adviceImg = advice.imageUrl;
       console.log('adviceImg:', this.adviceImg);
     });
+
+    this.headerService.updateHeader(
+      'Crops insights',   // headerTitle
+      'arrow_back',       // leftIconName
+      'volume_up',  // rightIconName
+      this.handleLeftClick.bind(this),    // leftBtnClick
+      undefined,    // rightBtnClick
+    );
   }
 
   public volumeClicked() {
 
+  }
+
+  public handleLeftClick(data: string){
+    this.backClicked();
   }
 
   public backClicked() {

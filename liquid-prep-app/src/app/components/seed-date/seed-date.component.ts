@@ -49,23 +49,23 @@ export class SeedDateComponent implements OnInit {
     );
   }
 
-  // public onHeaderClick(data: string) {
-  //   if (data == 'leftBtn') {
-  //     this.backClicked();
-  //   } else {
-  //     //TODO
-  //   }
-  // }
+  public backClicked() {
+    this.location.back();
+  }
+
+  public onHeaderClick(data:string){
+    if(data == 'leftBtn'){
+      this.backClicked();
+    }else {
+      //TODO
+    }
+  }
 
   public handleLeftClick(data: string){
     this.backClicked();
   }
 
   public volumeClicked() {}
-
-  public backClicked() {
-    this.location.back();
-  }
 
   clickConfirm(userSelectedDate: Date) {
     const todayDate = new DateTimeUtil().getTodayDate();

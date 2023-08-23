@@ -7,15 +7,15 @@ export class HeaderService {
   headerTitle: string = '';
   leftIconName: string = '';
   rightIconName: string = '';
-  leftBtnClick: Function | null = null;
-  rightBtnClick: Function | null = null;
+  leftBtnClick: () => void | null;
+  rightBtnClick: () => void | null;
 
   updateHeader(
     headerTitle: string,
     leftIconName: string,
     rightIconName: string,
-    leftBtnClick: Function | null = null,
-    rightBtnClick: Function | null = null,
+    leftBtnClick: () => void | null,
+    rightBtnClick: () => void | null,
   ): void {
     this.headerTitle = headerTitle;
     this.leftIconName = leftIconName;

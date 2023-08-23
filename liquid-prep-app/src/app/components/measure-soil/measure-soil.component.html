@@ -1,6 +1,6 @@
 
-<!--  <app-header-title fxFlexFill leftIconName="arrow_back" headerTitle="Measure soil moisture" rightIconName="volume_up" (click)="handleLeftClick($event)">-->
-<!-- *ngIf="measureView=='before-measuring'" </app-header-title>-->
+<app-header-title class="header" fxFlexFill  leftIconName="arrow_back" headerTitle="Measure Soil" rightIconName="volume_up" (click)="onHeaderClick($event)">
+</app-header-title>
 
   <div *ngIf="measureView=='before-measuring'" class="content-container" >
     <swiper #swiper class="swiper-container" [config]="config" [(index)]="curIndex" [disabled]="disabled"

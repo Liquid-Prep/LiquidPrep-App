@@ -1,6 +1,7 @@
 header {
     position: fixed;
     top: 0;
+    width: 100%;
     z-index: 11;
     transition: all 250ms ease-in-out;
 }
@@ -20,12 +21,17 @@ header {
 }
 
 .custom-toolbar {
-  background-color: #2F4FFE;
+  background-color: #EDF5FF;
   padding: 0 5px;
 }
 
 .toolbar-title {
-  color: #fff;
+  color: #262626;
+  padding-left: 10%;
+}
+
+.blue-icon {
+  color: #2F4FFE;
 }
 
 .search-block {
@@ -67,4 +73,14 @@ mat-card {
 
 :host ::ng-deep mat-card {
   flex-grow: 1;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+:host ::ng-deep .toolbar-title {
+  padding-left: 0;
+  width: 100%;
+  text-align: center;
 }

@@ -46,11 +46,23 @@ export class DashboardComponent implements OnInit {
     );
   }
 
+  public backClicked() {
+    this.location.back();
+  }
+
   onClick(card: string) {
     if (card === 'my-crops') {
       this.router.navigate(['my-crops']).then((r) => {});
     }else if(card === 'test-sensor'){
       this.router.navigate(['test-sensor']).then((r) => {});
+    }
+  }
+
+  public onHeaderClick(data:string){
+    if(data == 'leftBtn'){
+      this.backClicked();
+    }else {
+      //TODO
     }
   }
 

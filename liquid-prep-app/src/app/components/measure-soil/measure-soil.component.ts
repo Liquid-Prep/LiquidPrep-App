@@ -268,6 +268,14 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
   public volumeClicked() {
   }
 
+  public onHeaderClick(data:string){
+    if(data == 'leftBtn'){
+      this.backClicked();
+    }else {
+      //TODO
+    }
+  }
+
   public backClicked() {
     this.clearCountdown();
     if (this.measureView === 'before-measuring') {
