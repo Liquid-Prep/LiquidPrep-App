@@ -48,6 +48,9 @@ import { HeaderTitleComponent } from './components/header-title/header-title.com
 import { PastReadingsComponent } from './components/past-readings/past-readings.component';
 import { DeleteCropComponent } from './components/delete-crop/delete-crop.component';
 import { HamburgerMenuComponent } from './components/hamburger-menu/hamburger-menu.component';
+import { HomeComponent } from './components/dashboard/home/home.component';
+import { SensorsComponent } from './components/dashboard/sensors/sensors.component';
+import { FieldsComponent } from './components/dashboard/fields/fields.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   observer: true,
@@ -75,6 +78,9 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     PastReadingsComponent,
     DeleteCropComponent,
     HamburgerMenuComponent,
+    HomeComponent,
+    SensorsComponent,
+    FieldsComponent,
   ],
   imports: [
     BrowserModule,
