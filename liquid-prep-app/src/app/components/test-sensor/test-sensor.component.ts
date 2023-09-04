@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { SensorService } from '../../service/sensor.service';
+import { HeaderService } from 'src/app/service/header.service';
 import {HttpClient} from '@angular/common/http';
 
 @Component({
@@ -26,10 +27,22 @@ export class TestSensorComponent implements OnInit {
     'custom-spinner-sk-red' : this.testResultColor === 'red',
   };
 
-  constructor(private location: Location, private sensorService: SensorService, private http: HttpClient) { }
+  constructor(private location: Location, private sensorService: SensorService, private http: HttpClient, private headerService: HeaderService) { }
 
   ngOnInit(): void {
     this.testType = 'air';
+
+    this.headerService.updateHeader(
+      'Test Sensor',                  // headerTitle
+      'arrow_back',                     // leftIconName
+      'volume_up',                         // rightIconName
+      this.handleLeftClick.bind(this),  // leftBtnClick
+      null,                             // rightBtnClick
+    );
+  }
+
+  public handleLeftClick(data: string){
+    this.backClicked();
   }
 
   public onValChange(value: 'air' | 'water' | 'soil'){

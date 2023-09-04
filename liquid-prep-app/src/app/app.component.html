@@ -1,15 +1,1 @@
-<mat-sidenav-container>
-  <mat-sidenav #sidenav mode="over">
-    <app-hamburger-menu (closeSidenav)="sidenav.close()"></app-hamburger-menu>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <app-header-title
-      class="header"
-      fxFlexFill
-      (sidenavToggle)="sidenav.toggle()"
-    ></app-header-title>
-    <div>
-      <router-outlet></router-outlet>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+<router-outlet></router-outlet>

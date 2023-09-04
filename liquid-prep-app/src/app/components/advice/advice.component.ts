@@ -7,6 +7,7 @@ import { Crop } from '../../models/Crop';
 import { CropDataService } from '../../service/CropDataService';
 import { CropStaticInfo } from '../../models/CropStatic';
 import { DatePipe } from '@angular/common';
+import { HeaderService } from 'src/app/service/header.service';
 
 @Component({
   selector: 'app-advice',
@@ -46,20 +47,24 @@ export class AdviceComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private waterAdviceService: WaterAdviceService,
-    private cropService: CropDataService
+    private cropService: CropDataService,
+    private headerService: HeaderService
   ) {}
 
   ngOnInit(): void {
     const cropId = this.route.snapshot.paramMap.get('id');
-    this.cropService.getCropStaticInfoById(cropId).then(cropStaticInfo => {
-        this.cropStatic = cropStaticInfo;
-      });
+    // this.cropService.getCropStaticInfoById(cropId).then(cropStaticInfo => {
+    //     this.cropStatic = cropStaticInfo;
+    //   });
+    this.route.data.subscribe((data: { cropStaticInfo: CropStaticInfo }) => {
+      this.cropStatic = data.cropStaticInfo;
+    });
     this.crop = this.cropService.getCropFromMyCropById(cropId);
     this.currentDate = this.datePipe.transform(new Date(), 'MM/dd/yy');
     this.waterAdviceService.getWaterAdvice().subscribe( advice => {
       this.waterRecommeded = advice.stage.waterUse;
       this.wateringDecision = advice.wateringDecision;
-      this.plantingDays = advice.stage.age;
+      this.plantingDays = this.cropService.getPlantingDays(this.crop);
       this.stageNumber = advice.stage.stageNumber;
       this.temperature = advice.temperature;
       this.soilMoistureLevel = advice.soilMoistureReading.soilMoistureIndex;
@@ -71,10 +76,22 @@ export class AdviceComponent implements OnInit {
       this.adviceImg = advice.imageUrl;
       console.log('adviceImg:', this.adviceImg);
     });
+
+    this.headerService.updateHeader(
+      'Crops insights',   // headerTitle
+      'arrow_back',       // leftIconName
+      'volume_up',  // rightIconName
+      this.handleLeftClick.bind(this),    // leftBtnClick
+      undefined,    // rightBtnClick
+    );
   }
 
   public volumeClicked() {
 
+  }
+
+  public handleLeftClick(data: string){
+    this.backClicked();
   }
 
   public backClicked() {
@@ -82,6 +99,7 @@ export class AdviceComponent implements OnInit {
   }
 
   onMeasureClicked() {
+    this.cropService.setCrop(this.crop);
     this.router.navigate(['/measure-soil/' + this.crop.id]).then(r => {});
   }
 

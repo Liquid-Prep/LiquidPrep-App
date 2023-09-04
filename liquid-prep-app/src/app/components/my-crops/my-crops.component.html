@@ -1,4 +1,8 @@
+<app-header-title fxFlexFill (click)="onHeaderClick($event)">
+</app-header-title>
 <div class="add-crop" style="overflow-x:hidden;" fxFlexFill cdkScrollable>
+
+
   <div class="horizontal" style="margin-bottom: 8px">
     <div class="imgHolder" *ngIf="!todayWeather">
       <!-- <mat-icon class="vertical-align-middle primary-blue" *ngIf="loading">hourglass_empty</mat-icon> -->
@@ -10,14 +14,7 @@
 
   <div *ngIf="myCropStatus == 'crop-selected'">
 
-    <mat-toolbar class="add-crop-button mat-elevation-z4 custom-toolbar">
-      <mat-toolbar-row style="padding: 0 5px;">
-        <button class="mat-title toolbar-title button" (click)="fabClicked()">
-          ADD A NEW CROP
-        </button>
-      </mat-toolbar-row>
-    </mat-toolbar>
-
+<div class="cropsContainer">
     <mat-grid-list class="grid" cols="1" rowHeight="120" gutterSize="25px" *ngIf="activeTab == tabs[0]">
       <mat-grid-tile *ngFor="let crop of myCrops" class="shadowBox">
         <mat-card class="card full-card">
@@ -26,7 +23,7 @@
               <span class="mat-h1">{{crop.cropName}}</span>
             </div>
             <div class="cropDates">
-              <span>{{crop.seedingDate}} | Last Irrigated July 21</span>
+              <span>Planted {{crop.seedingDate | date:'MMMM d'}}</span>
             </div>
             <div>
               <button class="measureButton" mat-icon-button (click)="onViewCropAdvice(crop)">
@@ -61,6 +58,18 @@
         </mat-card>
       </mat-grid-tile>
     </mat-grid-list>
+
+  </div>
+
+    <mat-toolbar class="add-crop-button mat-elevation-z4 custom-toolbar">
+      <mat-toolbar-row style="padding: 0 5px;">
+        <button class="mat-title toolbar-title button" (click)="fabClicked()">
+          ADD A NEW CROP
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+
+
   </div>
 
   <div *ngIf="myCropStatus == 'no-crop'"

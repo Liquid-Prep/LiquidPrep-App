@@ -9,6 +9,7 @@ import { AdviceComponent } from './components/advice/advice.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { TestSensorComponent } from './components/test-sensor/test-sensor.component';
 import { PastReadingsComponent } from './components/past-readings/past-readings.component';
+import {CropStaticInfoResolver} from './resolve/CropStaticInfoResolver';
 
 const routes: Routes = [
   { path: '', component: WelcomeComponent },
@@ -34,7 +35,10 @@ const routes: Routes = [
   },
   {
     path: 'advice/:id',
-    component: AdviceComponent
+    component: AdviceComponent,
+    resolve: {
+      cropStaticInfo: CropStaticInfoResolver
+    }
   },
   {
     path: 'test-sensor',
@@ -48,6 +52,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  providers: [CropStaticInfoResolver],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -50,20 +50,14 @@ export class MyCropsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.cropDataService.getMyCrops().subscribe(myCrops => {
-      this.myCrops = myCrops;
-      if (this.myCrops.length > 0){
-        this.myCropStatus = 'crop-selected';
-
+    this.cropDataService.getLocalStorageMyCrops().then(
+      (myCrops) => {
+        this.myCrops = myCrops;
+        if (this.myCrops.length > 0){
+          this.myCropStatus = 'crop-selected';
+        }
       }
-
-      myCrops.map((crop) => {
-        this.seedDate = 'Planted ' + formatDate(crop.seedingDate, 'MMM d', 'en');
-        crop.seedingDate = this.seedDate;
-      });
-
-
-    });
+    );
 
     // TODO: Add weather template
     /*this.dataService.getWeatherInfo().subscribe((weatherInfo: WeatherResponse) => {
@@ -72,12 +66,16 @@ export class MyCropsComponent implements OnInit {
 
     this.headerService.updateHeader(
       'My Crops',   // headerTitle
-      'menu',       // leftIconName
+      'arrow_back',       // leftIconName
       'volume_up',  // rightIconName
-      undefined,    // leftBtnClick
+      this.handleLeftClick.bind(this),    // leftBtnClick
       undefined,    // rightBtnClick
     );
 
+  }
+
+  public handleLeftClick(data: string){
+    this.backClicked();
   }
 
   public tabClicked(tab) {
@@ -114,8 +112,7 @@ export class MyCropsComponent implements OnInit {
   }
 
   onRemoveCrop(crop: Crop) {
-    this.cropDataService.deleteMyCrop(crop.id);
-    window.location.reload();
+    this.cropDataService.removeCropFromLocalStorage(crop.id).then(r => window.location.reload());
   }
 
   onAdd1stCrop() {

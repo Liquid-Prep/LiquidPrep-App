@@ -1,10 +1,10 @@
 import { SoilMoisture } from './SoilMoisture';
-import {Stage} from './Crop';
+import {PlantGrowthStage} from './api/CropInfoResp';
 
 export class Advice {
     id: string;
     cropName: string;
-    stage: Stage;
+    stage: PlantGrowthStage;
     waterRecommended: number;
     temperature: number;
     weatherIconTemp: string;
