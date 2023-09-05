@@ -7,6 +7,7 @@ import { Crop } from '../../models/Crop';
 import { CropDataService } from '../../service/CropDataService';
 import { CropStaticInfo } from '../../models/CropStatic';
 import { DatePipe } from '@angular/common';
+import { HeaderService } from 'src/app/service/header.service';
 
 @Component({
   selector: 'app-advice',
@@ -23,7 +24,9 @@ export class AdviceComponent implements OnInit {
   temperature = undefined;
   soilMoistureLevel = undefined;
   soilMoisturePercentage = undefined;
+  seedingDate = undefined;
   plantingDays = undefined;
+  stage = undefined;
   stageNumber = undefined;
   rainfallPercentage: number = undefined;
   rainfallIndex: string = undefined;
@@ -46,23 +49,41 @@ export class AdviceComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private waterAdviceService: WaterAdviceService,
-    private cropService: CropDataService
+    private cropService: CropDataService,
+    private headerService: HeaderService
   ) {}
 
   ngOnInit(): void {
+    this.headerService.updateHeader(
+      'Crop Insights',   // headerTitle
+      'arrow_back',       // leftIconName
+      'volume_up',  // rightIconName
+      undefined,    // leftBtnClick
+      undefined,    // rightBtnClick
+    );
+
     const cropId = this.route.snapshot.paramMap.get('id');
     // this.cropService.getCropStaticInfoById(cropId).then(cropStaticInfo => {
     //     this.cropStatic = cropStaticInfo;
     //   });
     this.route.data.subscribe((data: { cropStaticInfo: CropStaticInfo }) => {
       this.cropStatic = data.cropStaticInfo;
+      console.log("CROP STATITC");
+      console.log(this.cropStatic);
     });
     this.crop = this.cropService.getCropFromMyCropById(cropId);
+    console.log("CROP");
+    console.log(this.crop);
+    this.seedingDate = this.crop.seedingDate;
+    this.seedingDate = this.datePipe.transform(new Date(), 'MM/dd/yy');
     this.currentDate = this.datePipe.transform(new Date(), 'MM/dd/yy');
     this.waterAdviceService.getWaterAdvice().subscribe( advice => {
+      console.log("ADVICE");
+      console.log(advice);
       this.waterRecommeded = advice.stage.waterUse;
       this.wateringDecision = advice.wateringDecision;
       this.plantingDays = this.cropService.getPlantingDays(this.crop);
+      this.stage = advice.stage.stage;
       this.stageNumber = advice.stage.stageNumber;
       this.temperature = advice.temperature;
       this.soilMoistureLevel = advice.soilMoistureReading.soilMoistureIndex;
