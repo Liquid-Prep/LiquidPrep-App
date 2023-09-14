@@ -66,10 +66,10 @@ export class MyCropsComponent implements OnInit {
 
     this.headerService.updateHeader(
       'My Crops',   // headerTitle
-      'arrow_back',       // leftIconName
-      'volume_up',  // rightIconName
-      this.handleLeftClick.bind(this),    // leftBtnClick
-      undefined,    // rightBtnClick
+      'menu',       // leftIconName
+      'search',   // rightIconName
+      undefined,  // leftBtnClick
+      undefined,  // rightBtnClick
     );
 
   }

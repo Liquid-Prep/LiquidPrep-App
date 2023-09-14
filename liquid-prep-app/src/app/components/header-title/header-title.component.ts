@@ -15,7 +15,6 @@ export class HeaderTitleComponent implements OnInit {
   leftIconName = 'menu';
   rightIconName = 'volume_up';
 
-
   constructor(
     public headerService: HeaderService
   ) { }

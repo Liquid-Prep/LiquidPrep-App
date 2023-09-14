@@ -10,6 +10,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { TestSensorComponent } from './components/test-sensor/test-sensor.component';
 import { PastReadingsComponent } from './components/past-readings/past-readings.component';
 import {CropStaticInfoResolver} from './resolve/CropStaticInfoResolver';
+import { SensorsComponent } from './components/sensors/sensors.component';
 
 const routes: Routes = [
   { path: '', component: WelcomeComponent },
@@ -47,6 +48,10 @@ const routes: Routes = [
   {
     path: 'past-readings',
     component: PastReadingsComponent
+  },
+  {
+    path: 'sensors',
+    component: SensorsComponent
   },
 ];
 
