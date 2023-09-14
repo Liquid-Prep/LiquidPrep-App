@@ -23,7 +23,9 @@ export class SensorsComponent implements OnInit {
       fieldLocationOptions: [],
   };
   isFilterVisible: boolean = false;
+  isSearchVisible: boolean = false;
   displayedItems: any[] = [];
+  searchQuery: string = '';
 
   items = [
     {
@@ -101,7 +103,7 @@ export class SensorsComponent implements OnInit {
       'arrow_back', // leftIconName
       'search', // rightIconName
       this.handleLeftClick.bind(this), // leftBtnClick
-      undefined, // rightBtnClick
+      this.toggleSearch.bind(this), // rightBtnClick
       'swap_vert', // sortIconName
       this.openSortModal.bind(this), // sortBtnClick
       'filter_list', // sortIconName
@@ -194,10 +196,22 @@ export class SensorsComponent implements OnInit {
     // Apply filtering based on selected filter options
     let filteredItems = [...this.items];
 
-    if (this.selectedFilterOptions.length > 0) {
-      filteredItems = filteredItems.filter((item) =>
-        this.selectedFilterOptions.includes(item.fieldLocation || item.connectionStatus)
-      );
+    if (this.selectedFilterOptions.length > 1) {
+      filteredItems = filteredItems.filter((item) => {
+
+        return (
+          this.selectedFilterOptions.includes(item.fieldLocation) &&
+          this.selectedFilterOptions.includes(item.connectionStatus)
+        );
+      });
+    } else {
+      filteredItems = filteredItems.filter((item) => {
+
+        return (
+          this.selectedFilterOptions.includes(item.fieldLocation) ||
+          this.selectedFilterOptions.includes(item.connectionStatus)
+        );
+      });
     }
 
     // Update the displayedItems with the filtered and sorted items
@@ -252,6 +266,33 @@ export class SensorsComponent implements OnInit {
 
   toggleFilter() {
     this.isFilterVisible = !this.isFilterVisible;
+
+    if (this.isFilterVisible) {
+      this.isSearchVisible = false;
+    }
+  }
+
+  toggleSearch() {
+    this.isSearchVisible = !this.isSearchVisible;
+
+    if (this.isSearchVisible) {
+      this.clearFilter();
+      this.isFilterVisible = false;
+    }
+  }
+
+  onSearchInputChange() {
+    this.applySearchFilter();
+  }
+
+  applySearchFilter() {
+    this.displayedItems = this.items.filter((item) => {
+
+      return (
+        item.sensorName.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        item.fieldLocation.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    });
   }
 
 }
