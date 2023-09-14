@@ -51,7 +51,7 @@ import { DeleteCropComponent } from './components/delete-crop/delete-crop.compon
 import { HamburgerMenuComponent } from './components/hamburger-menu/hamburger-menu.component';
 import { HomeComponent } from './components/dashboard/home/home.component';
 import { FieldsComponent } from './components/dashboard/fields/fields.component';
-import { SensorsComponent } from './components/sensors/sensors.component';
+import { SensorsComponent } from './components/dashboard/sensors/sensors.component';
 import { SortModalComponent } from './components/sort/sort-modal.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {

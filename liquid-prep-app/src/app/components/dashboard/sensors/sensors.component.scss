@@ -1,0 +1,109 @@
+
+.lastUpdatedTime {
+  color: #8D8D8D;
+  font-size: 10px !important;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.sensorLink {
+  text-decoration: none;
+  border-bottom: solid 1px #d6d6d6;
+  display: block;
+  padding: 8px 8px 8px 16px;
+  transition: 0.3s;
+  > * {
+    display: block;
+  }
+}
+
+.offline {
+  color: #262626;
+  border-left: solid 4px #FF2F2F;
+}
+
+.sensorInfo {
+  color: #262626;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.15px;
+}
+
+.sensorSpacer {
+  font-size: 30px;
+  vertical-align: middle;
+}
+
+.sensorMoisture,
+.sensorInfo {
+  display: block;
+}
+
+.sensorBody {
+  margin: 0;
+  padding: 0;
+}
+
+
+.filter-section {
+  background-color: #F4F4F4;
+  padding: 20px 16px;
+  .mat-list-item {
+    height: auto !important;
+  }
+}
+
+.filter-button {
+  color: #262626;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #FFF;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.25px;
+  border-radius: 16px;
+  padding: 7px 12px;
+  margin-right: 8px;
+  &.active {
+    color: #2F4FFE;
+    border: 1px solid #2F4FFE;
+    background: rgba(33, 33, 33, 0.08);
+  }
+}
+
+.clear-filters-button {
+  color: #2F4FFE;
+  border: none;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1.25px;
+  text-transform: uppercase;
+  display: block;
+  margin-top: 20px;
+}
+
+.filter-label {
+  display: block;
+  color: #262626;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.15px;
+  margin-bottom: 10px;
+}
+
+.filterHeading {
+  color: #262626;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.15px;
+}
+
+.filter-button-group {
+  margin-bottom: 20px;
+}
+
+.mat-list-item-content {
+  width: 100%;
+}
