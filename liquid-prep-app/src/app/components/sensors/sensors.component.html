@@ -1,0 +1,81 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="over">
+    <app-hamburger-menu (closeSidenav)="sidenav.close()"></app-hamburger-menu>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <app-header-title
+      class="header"
+      fxFlexFill
+      (sidenavToggle)="sidenav.toggle()"
+    ></app-header-title>
+
+    <div class="filter-section" [hidden]="!isFilterVisible">
+      <div class="filter-buttons">
+        <span class="filter-label">Filtered by</span>
+
+        <!-- Connection Status -->
+        <div  class="filter-button-group">
+          <ng-container *ngFor="let option of filterOptions.connectionStatusOptions; let isFirst = first">
+              <ng-container *ngIf="isFirst">
+                <h2 class="filterHeading">Connection Status:</h2>
+              </ng-container>
+              <button
+                class="filter-button"
+                (click)="toggleFilterOption(option)"
+                [class.active]="isSelectedFilterOption(option)"
+              >
+                {{ option }}
+              </button>
+
+          </ng-container>
+        </div>
+
+        <!-- Field Location -->
+        <div  class="filter-button-group">
+          <ng-container *ngFor="let option of filterOptions.fieldLocationOptions; let isFirst = first">
+            <ng-container *ngIf="isFirst">
+              <h2 class="filterHeading">Field Location:</h2>
+            </ng-container>
+            <button
+              class="filter-button"
+              (click)="toggleFilterOption(option)"
+              [class.active]="isSelectedFilterOption(option)"
+            >
+              {{ option }}
+            </button>
+          </ng-container>
+          </div>
+
+        <button
+          class="clear-filters-button"
+          (click)="clearFilter()"
+          [class.active]="selectedFilterOptions.length === 0"
+        >
+          Clear Filter
+        </button>
+      </div>
+    </div>
+
+    <!-- Display the filtered and sorted items -->
+    <mat-list>
+      <ng-container *ngIf="displayedItems.length > 0; else noItemsFound">
+        <mat-list-item *ngFor="let item of displayedItems">
+          <a mat-list-item class="sensorLink" [ngClass]="{'offline': item.lastUpdated === 'Not Connected'}">
+            <h4 mat-line class="lastUpdatedTime">{{ item.lastUpdated }}</h4>
+            <p mat-line class="menu-list-body">
+              <span class="sensorInfo">
+                {{ item.sensorName }} <span class="sensorSpacer">&#183;</span> {{ item.fieldLocation }}
+              </span>
+              <span class="sensorMoisture">Moisture Level: {{ item.moistureLevel }}</span>
+            </p>
+          </a>
+        </mat-list-item>
+      </ng-container>
+    </mat-list>
+
+    <ng-template #noItemsFound>
+      No sensors found.
+    </ng-template>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

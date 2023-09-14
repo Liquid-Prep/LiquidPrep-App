@@ -23,6 +23,16 @@ export class SelectCropComponent implements OnInit{
   cropsList: Crop[];
   NO_NEW_CROPS = '../../assets/crops-images/noNewCrops.PNG';
   public requestingCrop = true;
+  private renderedHeadings: Set<string> = new Set<string>();
+
+  isAlreadyRendered(itemType: string): boolean {
+    if (this.renderedHeadings.has(itemType)) {
+      return true;
+    } else {
+      this.renderedHeadings.add(itemType);
+      return false;
+    }
+  }
 
   constructor(private router: Router, private location: Location,
               private cropService: CropDataService,
