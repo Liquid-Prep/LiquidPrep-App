@@ -65,6 +65,7 @@
   border-radius: 16px;
   padding: 7px 12px;
   margin-right: 8px;
+  margin-bottom: 12px;
   &.active {
     color: #2F4FFE;
     border: 1px solid #2F4FFE;
@@ -106,4 +107,30 @@
 
 .mat-list-item-content {
   width: 100%;
+}
+
+.no-sensors {
+  padding: 36px 16px;
+  text-align: center;
+  .no-sensor-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 48px;
+    color: #ABABAB;
+    display: block;
+    margin: 0 auto 6px;
+  }
+
+  .no-sensors-title {
+    color: #262626;
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  .no-sensors-text {
+    color: #262626;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+  }
 }
