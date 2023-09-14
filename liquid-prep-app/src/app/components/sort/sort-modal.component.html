@@ -1,0 +1,23 @@
+<h1 mat-dialog-title class="dialog-title">Sort by</h1>
+
+<div class="sortOptions">
+  <mat-radio-group [(ngModel)]="selectedSortOption">
+    <mat-radio-button value="lastUpdated">
+      Last Updated Time
+    </mat-radio-button>
+    <mat-radio-button value="sensorName">
+      Sensor Name (A-Z)
+    </mat-radio-button>
+    <mat-radio-button value="fieldLocation">
+      Field Location (A-Z)
+    </mat-radio-button>
+    <mat-radio-button value="connectionStatus">
+      Connection Status
+    </mat-radio-button>
+  </mat-radio-group>
+</div>
+
+<div mat-dialog-actions class="action-buttons horizontal">
+  <button mat-button (click)="onCancel()" class="secondary-button">Cancel</button>
+  <button mat-button (click)="saveSelection()" class="secondary-button">OK</button>
+</div>

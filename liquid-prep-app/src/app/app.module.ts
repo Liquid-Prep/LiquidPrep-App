@@ -16,6 +16,7 @@ import { MyCropsComponent } from './components/my-crops/my-crops.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
@@ -49,8 +50,9 @@ import { PastReadingsComponent } from './components/past-readings/past-readings.
 import { DeleteCropComponent } from './components/delete-crop/delete-crop.component';
 import { HamburgerMenuComponent } from './components/hamburger-menu/hamburger-menu.component';
 import { HomeComponent } from './components/dashboard/home/home.component';
-import { SensorsComponent } from './components/dashboard/sensors/sensors.component';
 import { FieldsComponent } from './components/dashboard/fields/fields.component';
+import { SensorsComponent } from './components/sensors/sensors.component';
+import { SortModalComponent } from './components/sort/sort-modal.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   observer: true,
@@ -79,8 +81,9 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     DeleteCropComponent,
     HamburgerMenuComponent,
     HomeComponent,
-    SensorsComponent,
     FieldsComponent,
+    SensorsComponent,
+    SortModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -99,6 +102,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     MatPaginatorModule,
     MatSortModule,
     MatProgressSpinnerModule,
+    MatRadioModule,
     MatSlideToggleModule,
     MatCardModule,
     MatDatepickerModule,
