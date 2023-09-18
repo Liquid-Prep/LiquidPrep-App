@@ -26,7 +26,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatDialogModule } from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -62,6 +62,7 @@ import { SensorDetailsComponent } from './components/dashboard/sensors/sensor-de
 import { EditSensorComponent } from './components/dashboard/sensors/edit-sensor/edit-sensor.component';
 import { SensorLocatorModalComponent } from './components/sensor-locator-modal/sensor-locator-modal.component';
 import { UnsavedChangesModalComponent } from './components/unsaved-changes-modal/unsaved-changes-modal.component';
+import { WaterConfirmDialogComponent } from './components/dashboard/home/water-confirm-dialog.component';
 import { WateringInsightsComponent } from './components/watering-insights/watering-insights.component';
 import { MoistureLogsComponent } from './components/watering-insights/moisture-logs/moisture-logs.component';
 import { DetailsComponent } from './components/dashboard/fields/details/details.component';
@@ -106,6 +107,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     EditSensorComponent,
     SensorLocatorModalComponent,
     UnsavedChangesModalComponent,
+    WaterConfirmDialogComponent,
     WateringInsightsComponent,
     MoistureLogsComponent,
     SensorListComponent,
@@ -156,6 +158,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
       provide: SWIPER_CONFIG,
       useValue: DEFAULT_SWIPER_CONFIG,
     },
+    { provide: MAT_DIALOG_DATA, useValue: {} }
   ],
   bootstrap: [AppComponent],
 })

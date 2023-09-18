@@ -14,18 +14,19 @@ export class SoilMoistureService {
     }
 
     public getSoilMoistureReading() {
-        const soilMoisture = new SoilMoisture();
-        // TODO: replace staticSoilMoisture with the real time value once the sensor connection is integrated.
-        soilMoisture.soilMoisturePercentage = this.soilMoistureReadingPercentage;
+        return this.getSoilMoistureByPercentage(this.soilMoistureReadingPercentage);
+    }
 
-        if (soilMoisture.soilMoisturePercentage <= 33) {
-            soilMoisture.soilMoistureIndex = 'LOW';
-        } else if (soilMoisture.soilMoisturePercentage > 33 && soilMoisture.soilMoisturePercentage <= 66) {
-            soilMoisture.soilMoistureIndex = 'MEDIUM';
-        } else {
-            soilMoisture.soilMoistureIndex = 'HIGH';
-        }
-
-        return soilMoisture;
+    public getSoilMoistureByPercentage(percentage: number){
+      const soilMoisture = new SoilMoisture();
+      soilMoisture.soilMoisturePercentage = percentage;
+      if (soilMoisture.soilMoisturePercentage <= 33) {
+        soilMoisture.soilMoistureIndex = 'LOW';
+      } else if (soilMoisture.soilMoisturePercentage > 33 && soilMoisture.soilMoisturePercentage <= 66) {
+        soilMoisture.soilMoistureIndex = 'MEDIUM';
+      } else {
+        soilMoisture.soilMoistureIndex = 'HIGH';
+      }
+      return soilMoisture;
     }
 }

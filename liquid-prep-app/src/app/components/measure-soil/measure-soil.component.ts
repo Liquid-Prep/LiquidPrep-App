@@ -6,11 +6,12 @@ import { SwiperComponent} from 'ngx-swiper-wrapper';
 import {SoilMoistureService} from '../../service/SoilMoistureService';
 import {SoilMoisture} from '../../models/SoilMoisture';
 import {LineBreakTransformer} from './LineBreakTransformer';
-import {Crop} from '../../models/Crop';
+import {Crop, Measure} from '../../models/Crop';
 import {CropDataService} from '../../service/CropDataService';
 import {PlantGrowthStage} from '../../models/api/CropInfoResp';
 import {HeaderService} from '../../service/header.service';
 import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
+import {DateTimeUtil} from "../../utility/DateTimeUtil";
 
 @Component({
   selector: 'app-measure-soil',
@@ -94,6 +95,7 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
       this.connectUSB().then( sensorValue => {
         const soilMoisture = this.sensorValueLimitCorrection(sensorValue);
         this.soilService.setSoilMoistureReading(soilMoisture);
+        this.saveMeasuretoCrop(soilMoisture);
         this.setMeasureView('measuring');
         this.readingCountdown();
       });
@@ -101,6 +103,7 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
       this.connectBluetooth().then( sensorValue => {
         const soilMoisture = this.sensorValueLimitCorrection(sensorValue);
         this.soilService.setSoilMoistureReading(soilMoisture);
+        this.saveMeasuretoCrop(soilMoisture);
         this.setMeasureView('measuring');
         this.readingCountdown();
       });
@@ -333,5 +336,19 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
     }else{
       this.swiper.directiveRef.prevSlide(200);
     }
+  }
+
+  saveMeasuretoCrop(soilMoisture: number){
+    if (this.crop.measureRecord === undefined) {
+      this.crop.measureRecord = [];
+    }
+    const measure: Measure = new Measure();
+    measure.measureDate = new DateTimeUtil().getTodayDate();
+    measure.measureValue = soilMoisture || -1; // if soilMoisture is undefined, assign -1 indicating an invalid measurement.
+    this.crop.measureRecord.push(measure);
+    this.cropService.storeMyCropsInLocalStorage(this.crop).then(
+      (r) => {},
+      (e) => { console.error('store crop fail after measuring:', this.crop.cropName, e); }
+    );
   }
 }

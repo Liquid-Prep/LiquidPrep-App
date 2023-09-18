@@ -8,7 +8,14 @@ export class Crop {
   url: string; // crop image mapping url
   facts: CropFacts;
   seedingDate: Date;
+  waterDate: Date;
+  measureRecord: Measure[];
   stage: PlantGrowthStage;
+}
+
+export class Measure{
+  measureDate: Date;
+  measureValue: number;
 }
 
 export class CropGrowthStage {

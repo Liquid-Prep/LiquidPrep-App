@@ -80,6 +80,19 @@ export class WaterAdviceService {
                     this.waterAdvice = new Advice();
     }
 
+    public getWaterAdviceByCrop(crop: Crop): Observable<Advice>{
+      const lastReading = crop.measureRecord[crop.measureRecord.length - 1].measureValue;
+      const soilMoisture = this.soilMoistureService.getSoilMoistureByPercentage(lastReading);
+      return new Observable((observer: Observer<Advice>) => {
+        this.weatherDataService.getTodayWeather().subscribe(todayWeather => {
+          if (todayWeather) {
+            observer.next(this.createWaterAdvice(todayWeather, crop, soilMoisture));
+            observer.complete();
+          }
+        });
+      });
+    }
+
     public getWaterAdvice(): Observable<Advice> {
         const selectedCrop = this.cropDataService.getSelectCrop();
         const soilMoisture = this.soilMoistureService.getSoilMoistureReading();
