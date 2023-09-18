@@ -5,6 +5,7 @@ import { MatCalendarCellCssClasses } from '@angular/material/datepicker';
 import { SoilMoistureService } from '../../service/SoilMoistureService';
 import { SoilMoisture } from '../../models/SoilMoisture';
 import { HeaderService } from 'src/app/service/header.service';
+import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
 
 
 @Component({
@@ -13,6 +14,15 @@ import { HeaderService } from 'src/app/service/header.service';
   styleUrls: ['./past-readings.component.scss'],
 })
 export class PastReadingsComponent implements OnInit {
+
+  headerConfig: HeaderConfig = {
+    headerTitle: 'Past Readings',
+    leftIconName: 'arrow_back',
+    rightIconName: 'volume_up',
+    leftBtnClick: this.handleLeftClick.bind(this),
+    rightBtnClick: null,
+  };
+
   constructor(
     private router: Router,
     private location: Location,
@@ -21,13 +31,7 @@ export class PastReadingsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.headerService.updateHeader(
-      'Past Readings',                  // headerTitle
-      'arrow_back',                     // leftIconName
-      'volume_up',                      // rightIconName
-      this.handleLeftClick.bind(this),  // leftBtnClick
-      null,                             // rightBtnClick
-    );
+    this.headerService.updateHeader(this.headerConfig);
   }
 
   selected: Date | null;

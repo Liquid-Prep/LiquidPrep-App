@@ -2,7 +2,8 @@ import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { HeaderService } from 'src/app/service/header.service';
-import { SortModalComponent } from '../../sort/sort-modal.component';
+import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
+import { SortModalComponent } from '../../sort-modal/sort-modal.component';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -23,9 +24,22 @@ export class SensorsComponent implements OnInit {
       fieldLocationOptions: [],
   };
   isFilterVisible: boolean = false;
+  isFilteredByVisible: boolean = false;
   isSearchVisible: boolean = false;
   displayedItems: any[] = [];
   searchQuery: string = '';
+
+  headerConfig: HeaderConfig = {
+    headerTitle: 'Sensors',
+    leftIconName: 'menu',
+    rightIconName: 'search',
+    leftBtnClick: null,
+    rightBtnClick: this.toggleSearch.bind(this),
+    sortIconName: 'swap_vert',
+    sortBtnClick: this.openSortModal.bind(this),
+    filterIconName: 'filter_list',
+    filterBtnClick: this.toggleFilter.bind(this),
+  };
 
   items = [
     {
@@ -76,7 +90,7 @@ export class SensorsComponent implements OnInit {
     public dialog: MatDialog,
     private location: Location,
     private headerService: HeaderService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
   ) {}
 
   public handleLeftClick(data: string) {
@@ -96,23 +110,16 @@ export class SensorsComponent implements OnInit {
   }
 
   private renderedHeadings: Set<string> = new Set<string>();
+  private lastSelectedSortOption: string = '';
 
   ngOnInit(): void {
-    this.headerService.updateHeader(
-      'Sensors', // headerTitle
-      'arrow_back', // leftIconName
-      'search', // rightIconName
-      this.handleLeftClick.bind(this), // leftBtnClick
-      this.toggleSearch.bind(this), // rightBtnClick
-      'swap_vert', // sortIconName
-      this.openSortModal.bind(this), // sortBtnClick
-      'filter_list', // sortIconName
-      this.toggleFilter.bind(this) // filterBtnClick
-    );
+
+    this.headerService.updateHeader(this.headerConfig);
 
     this.filterOptions = this.getSelectedFilterOptions();
     this.filterOptions.connectionStatusOptions.sort();
     this.filterOptions.fieldLocationOptions.sort();
+    this.lastSelectedSortOption = this.selectedSortOption;
 
     // Initialize displayedItems with the original sensor data
     this.displayedItems = [...this.items];
@@ -149,62 +156,61 @@ export class SensorsComponent implements OnInit {
   openSortModal() {
     const dialogRef = this.dialog.open(SortModalComponent, {
       width: '80%',
-      data: { selectedSortOption: this.selectedSortOption },
+      data: { selectedSortOption: this.lastSelectedSortOption },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.selectedSortOption = result;
-        this.applyFilterAndSort();
+        this.lastSelectedSortOption = this.selectedSortOption;
+        this.sortItems();
       }
     });
   }
 
-  sortItems() {
+sortItems() {
+  this.displayedItems.sort((a, b) => {
     switch (this.selectedSortOption) {
       case 'sensorName':
-        this.displayedItems.sort((a, b) => a.sensorName.localeCompare(b.sensorName));
-        break;
+        return a.sensorName.localeCompare(b.sensorName);
       case 'fieldLocation':
-        this.displayedItems.sort((a, b) => a.fieldLocation.localeCompare(b.fieldLocation));
-        break;
+        return a.fieldLocation.localeCompare(b.fieldLocation);
       case 'connectionStatus':
-        this.displayedItems.sort((a, b) => a.connectionStatus.localeCompare(b.connectionStatus));
-        break;
-      default: // 'lastUpdated' or any other invalid option
-        this.displayedItems.sort((a, b) => a.lastUpdated.localeCompare(b.lastUpdated));
-        break;
+        return this.toggleConnectionStatusSort(a.connectionStatus, b.connectionStatus);
+      default:
+        const dateA = new Date(a.lastUpdated * 1000);
+        const dateB = new Date(b.lastUpdated * 1000);
+        // Compare in descending order (most recent first)
+        return dateB.getTime() - dateA.getTime();
     }
+  });
+}
+
+toggleConnectionStatusSort(statusA: string, statusB: string): number {
+  if (statusA === 'Not Connected' && statusB !== 'Not Connected') {
+    return 1; // Move "Not Connected" to the bottom
+  } else if (statusA !== 'Not Connected' && statusB === 'Not Connected') {
+    return -1; // Move "Not Connected" to the bottom
+  } else {
+    return statusA.localeCompare(statusB); // Sort other statuses alphabetically
   }
+}
 
   toggleFilterOption(option: string) {
     const index = this.selectedFilterOptions.indexOf(option);
 
     if (index !== -1) {
-      // Filter option is already selected, so remove it
       this.selectedFilterOptions.splice(index, 1);
     } else {
-      // Filter option is not selected, so add it
       this.selectedFilterOptions.push(option);
     }
-
-    // Apply filtering and sorting based on selected options
-    this.applyFilterAndSort();
   }
 
   applyFilterAndSort() {
     // Apply filtering based on selected filter options
     let filteredItems = [...this.items];
 
-    if (this.selectedFilterOptions.length > 1) {
-      filteredItems = filteredItems.filter((item) => {
-
-        return (
-          this.selectedFilterOptions.includes(item.fieldLocation) &&
-          this.selectedFilterOptions.includes(item.connectionStatus)
-        );
-      });
-    } else {
+    if (this.selectedFilterOptions.length > 0) {
       filteredItems = filteredItems.filter((item) => {
 
         return (
@@ -216,35 +222,21 @@ export class SensorsComponent implements OnInit {
 
     // Update the displayedItems with the filtered and sorted items
     this.displayedItems = filteredItems;
-
-    // Apply sorting based on the selected sort option
-    switch (this.selectedSortOption) {
-      case 'sensorName':
-        this.displayedItems.sort((a, b) => a.sensorName.localeCompare(b.sensorName));
-        break;
-      case 'fieldLocation':
-        this.displayedItems.sort((a, b) => a.fieldLocation.localeCompare(b.fieldLocation));
-        break;
-      case 'connectionStatus':
-        this.displayedItems.sort((a, b) => a.connectionStatus.localeCompare(b.connectionStatus));
-        break;
-      default:
-        this.displayedItems.sort((a, b) => {
-          const dateA = new Date(a.lastUpdated);
-          const dateB = new Date(b.lastUpdated);
-          // Compare in descending order (most recent first)
-          return dateB.getTime() - dateA.getTime();
-        });
-        break;
-    }
+    this.toggleFilter();
   }
 
   clearFilter() {
     this.selectedFilterOptions = []; // Clear all selected filter options
-    this.applyFilterAndSort(); // Reapply filtering and sorting
+    this.displayedItems = [...this.items]; // Reset displayedItems to the original list
+    this.isFilteredByVisible = false;
   }
 
-  // Function to get selected filter options from the items data
+  clearFilterAndClose() {
+    this.clearFilter();
+    this.toggleFilter();
+  }
+
+  // Get filter sellections
   getSelectedFilterOptions() {
     const selectedConnectionStatus = new Set<string>();
     const selectedFieldLocation = new Set<string>();
@@ -269,16 +261,44 @@ export class SensorsComponent implements OnInit {
 
     if (this.isFilterVisible) {
       this.isSearchVisible = false;
+      this.isFilteredByVisible = false;
+
+      this.headerService.updateHeader({
+        headerTitle: null,
+        leftIconName: 'arrow_back',
+        leftBtnClick: this.clearFilterAndClose.bind(this),
+        filterIconName: null,
+        filterBtnClick: null,
+        rightTextBtn: 'Apply Filters',
+        rightTextBtnClick: this.applyFilterAndSort.bind(this),
+      });
+    } else {
+      this.headerService.updateHeader({
+        headerTitle: 'Sensors',
+        leftIconName: 'menu',
+        rightIconName: 'search',
+        leftBtnClick: null,
+        rightBtnClick: this.toggleSearch.bind(this),
+        sortIconName: 'swap_vert',
+        sortBtnClick: this.openSortModal.bind(this),
+        filterIconName: 'filter_list',
+        filterBtnClick: this.toggleFilter.bind(this),
+      });
+      if (this.selectedFilterOptions.length > 0) {
+        this.isFilteredByVisible = true;
+      }
     }
+
   }
 
   toggleSearch() {
+    this.displayedItems = this.items;
     this.isSearchVisible = !this.isSearchVisible;
 
     if (this.isSearchVisible) {
-      this.clearFilter();
       this.isFilterVisible = false;
     }
+
   }
 
   onSearchInputChange() {
@@ -290,7 +310,8 @@ export class SensorsComponent implements OnInit {
 
       return (
         item.sensorName.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        item.fieldLocation.toLowerCase().includes(this.searchQuery.toLowerCase())
+        item.fieldLocation.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        item.moistureLevel.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     });
   }

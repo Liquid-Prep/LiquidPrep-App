@@ -11,7 +11,7 @@
   text-decoration: none;
   border-bottom: solid 1px #d6d6d6;
   display: block;
-  padding: 8px 8px 8px 16px;
+  padding: 0 16px !important;
   transition: 0.3s;
   > * {
     display: block;
@@ -47,12 +47,17 @@
 
 
 .filter-section,
+.filteredby-section,
 .search-section {
-  background-color: #F4F4F4;
   padding: 20px 16px;
   .mat-list-item {
     height: auto !important;
   }
+}
+
+.search-section,
+.search-section {
+  background-color: #F4F4F4;
 }
 
 .search-section {
@@ -70,6 +75,9 @@
     right: 0;
     color: rgba(#262626, 0.5);
   }
+  position: sticky;
+  top: 56px;
+  z-index:100;
 
 }
 
@@ -93,6 +101,7 @@
 
 .clear-filters-button {
   color: #2F4FFE;
+  background-color: transparent;
   border: none;
   text-align: center;
   font-size: 14px;
@@ -156,4 +165,15 @@
     font-size: 16px;
     font-weight: 400;
   }
+}
+
+.sensor-results {
+  padding-bottom: 96px;
+   > .mat-list-base .mat-list-item .mat-list-item-content {
+    padding: 0;
+  }
+  .mat-list-base .mat-list-item.mat-2-line {
+    height: 88px;
+  }
+
 }

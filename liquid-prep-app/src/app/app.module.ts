@@ -52,7 +52,7 @@ import { HamburgerMenuComponent } from './components/hamburger-menu/hamburger-me
 import { HomeComponent } from './components/dashboard/home/home.component';
 import { FieldsComponent } from './components/dashboard/fields/fields.component';
 import { SensorsComponent } from './components/dashboard/sensors/sensors.component';
-import { SortModalComponent } from './components/sort/sort-modal.component';
+import { SortModalComponent } from './components/sort-modal/sort-modal.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   observer: true,

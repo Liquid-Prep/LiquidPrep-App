@@ -10,6 +10,7 @@ import {Crop} from '../../models/Crop';
 import {CropDataService} from '../../service/CropDataService';
 import {PlantGrowthStage} from '../../models/api/CropInfoResp';
 import {HeaderService} from '../../service/header.service';
+import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
 
 @Component({
   selector: 'app-measure-soil',
@@ -17,6 +18,15 @@ import {HeaderService} from '../../service/header.service';
   styleUrls: ['./measure-soil.component.scss'],
 })
 export class MeasureSoilComponent implements OnInit, AfterViewInit {
+
+  headerConfig: HeaderConfig = {
+    headerTitle: 'Measure Soil Moisture',
+    leftIconName: 'arrow_back',
+    rightIconName: 'volume_up',
+    leftBtnClick: this.handleLeftClick.bind(this),
+    rightBtnClick: null,
+  };
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private location: Location,
@@ -72,14 +82,7 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.crop = this.cropService.getCrop();
     this.stage = this.cropService.generateCropGrowthStage(this.crop);
-
-    this.headerService.updateHeader(
-      'Measure Soil Moisture',          // headerTitle
-      'arrow_back',                     // leftIconName
-      'volume_up',                      // rightIconName
-      this.handleLeftClick.bind(this),  // leftBtnClick
-      undefined,                             // rightBtnClick
-    );
+    this.headerService.updateHeader(this.headerConfig);
   }
 
   ngAfterViewInit(): void {

@@ -5,6 +5,7 @@ import { Crop } from '../../models/Crop';
 import { CropDataService } from 'src/app/service/CropDataService';
 import { DateTimeUtil } from 'src/app/utility/DateTimeUtil';
 import { HeaderService } from 'src/app/service/header.service';
+import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
 import {CropInfoResp, PlantGrowthStage} from '../../models/api/CropInfoResp';
 
 @Component({
@@ -17,6 +18,14 @@ export class SeedDateComponent implements OnInit {
   userSelectiondate: Date;
   maxDate = new Date();
 
+  headerConfig: HeaderConfig = {
+    headerTitle: 'Select Seed Date',
+    leftIconName: 'arrow_back',
+    rightIconName: 'volume_up',
+    leftBtnClick: this.handleLeftClick.bind(this),
+    rightBtnClick: null,
+  };
+
   constructor(
     private router: Router,
     private location: Location,
@@ -28,6 +37,8 @@ export class SeedDateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.headerService.updateHeader(this.headerConfig);
+
     const cropId = this.route.snapshot.paramMap.get('id');
     this.cropService.getCropInfo(cropId).subscribe(
       (resp: CropInfoResp) => {
@@ -39,13 +50,6 @@ export class SeedDateComponent implements OnInit {
         alert('Could not get crop info: ' + error);
         console.error('Error getting CropInfo:', error);
       }
-    );
-    this.headerService.updateHeader(
-      'Select Seed Date',   // headerTitle
-      'arrow_back', // leftIconName
-      'volume_up',   // rightIconName
-      this.handleLeftClick.bind(this),  // leftBtnClick
-      null,          // rightBtnClick
     );
   }
 
