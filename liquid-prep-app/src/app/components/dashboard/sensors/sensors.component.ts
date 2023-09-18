@@ -297,6 +297,7 @@ toggleConnectionStatusSort(statusA: string, statusB: string): number {
 
     if (this.isSearchVisible) {
       this.isFilterVisible = false;
+      this.isFilteredByVisible = false;
     }
 
   }
