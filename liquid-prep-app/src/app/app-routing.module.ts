@@ -9,10 +9,10 @@ import { AdviceComponent } from './components/advice/advice.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { TestSensorComponent } from './components/test-sensor/test-sensor.component';
 import { PastReadingsComponent } from './components/past-readings/past-readings.component';
-import {CropStaticInfoResolver} from './resolve/CropStaticInfoResolver';
-import {HomeComponent} from './components/dashboard/home/home.component';
-import {FieldsComponent} from './components/dashboard/fields/fields.component';
-import { SensorsComponent } from './components/sensors/sensors.component';
+import { CropStaticInfoResolver } from './resolve/CropStaticInfoResolver';
+import { HomeComponent } from './components/dashboard/home/home.component';
+import { FieldsComponent } from './components/dashboard/fields/fields.component';
+import { SensorsComponent } from './components/dashboard/sensors/sensors.component';
 
 
 const routes: Routes = [

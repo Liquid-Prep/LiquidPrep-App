@@ -33,6 +33,13 @@ export class AdviceComponent implements OnInit {
 
   adviceImg = undefined; // this.ADVICE_IMAGES[0];
 
+  headerConfig = {
+    title: 'Crops insights',
+    leftIcon: 'arrow_back',
+    rightIcon: 'volume_up',
+    leftBtnClick: this.handleLeftClick.bind(this),
+  };
+
   public soilMoistureColorClass = 'color-high';
   public soilMoistureIndexColorMap = new Map([
     ['LOW', 'color-low'],
@@ -77,13 +84,6 @@ export class AdviceComponent implements OnInit {
       console.log('adviceImg:', this.adviceImg);
     });
 
-    this.headerService.updateHeader(
-      'Crops insights',   // headerTitle
-      'arrow_back',       // leftIconName
-      'volume_up',  // rightIconName
-      this.handleLeftClick.bind(this),    // leftBtnClick
-      undefined,    // rightBtnClick
-    );
   }
 
   public volumeClicked() {

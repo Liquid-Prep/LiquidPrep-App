@@ -11,6 +11,7 @@ import { CropDataService } from 'src/app/service/CropDataService';
 import { DateTimeUtil } from 'src/app/utility/DateTimeUtil';
 import { DeleteCropComponent } from '../delete-crop/delete-crop.component';
 import { HeaderService } from 'src/app/service/header.service';
+import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
 
 
 @Component({
@@ -27,6 +28,14 @@ export class MyCropsComponent implements OnInit {
   activeTab = this.tabs[0];
   background: ThemePalette = undefined;
   seedDate =  null;
+
+  headerConfig: HeaderConfig = {
+    headerTitle: 'My Crops',
+    leftIconName: 'menu',
+    rightIconName: 'search',
+    leftBtnClick: null,
+    rightBtnClick: null,
+  };
 
   public currentDate = '';
   public weatherIconDay = '';
@@ -49,7 +58,7 @@ export class MyCropsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.headerService.updateHeader(this.headerConfig);
     this.cropDataService.getLocalStorageMyCrops().then(
       (myCrops) => {
         this.myCrops = myCrops;
@@ -63,15 +72,6 @@ export class MyCropsComponent implements OnInit {
     /*this.dataService.getWeatherInfo().subscribe((weatherInfo: WeatherResponse) => {
       const todayWeather = WeatherService.getInstance().createTodayWeather(weatherInfo);
     });*/
-
-    this.headerService.updateHeader(
-      'My Crops',   // headerTitle
-      'menu',       // leftIconName
-      'search',   // rightIconName
-      undefined,  // leftBtnClick
-      undefined,  // rightBtnClick
-    );
-
   }
 
   public handleLeftClick(data: string){

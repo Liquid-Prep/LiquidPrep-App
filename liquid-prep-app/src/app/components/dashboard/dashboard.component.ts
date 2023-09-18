@@ -5,6 +5,7 @@ import { TodayWeather } from '../../models/TodayWeather';
 import { formatDate } from '@angular/common';
 import { GeoLocationService } from 'src/app/service/GeoLocationService';
 import { HeaderService } from 'src/app/service/header.service';
+import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,6 +13,12 @@ import { HeaderService } from 'src/app/service/header.service';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
+
+  headerConfig: HeaderConfig = {
+    headerTitle: 'Farm Dashboard',
+    leftIconName: 'menu',
+    rightIconName: 'volume_up',
+  };
 
   public todayWeather: TodayWeather = null;
   public loading = true;
@@ -37,13 +44,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.updateWeatherInfo();
     this.getLocation();
-    this.headerService.updateHeader(
-      'Farm Dashboard',   // headerTitle
-      'menu',       // leftIconName
-      'volume_up',   // rightIconName
-      undefined,  // leftBtnClick
-      undefined,  // rightBtnClick
-    );
+    this.headerService.updateHeader(this.headerConfig);
   }
 
   public backClicked() {

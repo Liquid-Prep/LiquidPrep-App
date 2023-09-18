@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { Crop } from '../../models/Crop';
 import { CropDataService } from '../../service/CropDataService';
 import { HeaderService } from 'src/app/service/header.service';
+import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
 import { forkJoin, from } from 'rxjs';
 
 @Component({
@@ -15,7 +16,13 @@ import { forkJoin, from } from 'rxjs';
 export class SelectCropComponent implements OnInit{
 
   searchText = '';
-  // title = 'Select Crop';
+  headerConfig: HeaderConfig = {
+    headerTitle: 'Add a new crop',
+    leftIconName: 'close',
+    rightIconName: 'search',
+    leftBtnClick: this.handleLeftClick.bind(this),
+    rightBtnClick: null,
+  };
 
   @ViewChild('searchbar') searchbar: ElementRef;
 
@@ -39,15 +46,9 @@ export class SelectCropComponent implements OnInit{
               private headerService: HeaderService) { }
 
   ngOnInit(): void {
-    this.requestingCrop = true;
+    this.headerService.updateHeader(this.headerConfig);
 
-    this.headerService.updateHeader(
-      'Add a new crop',                  // headerTitle
-      'close',                     // leftIconName
-      'search',                         // rightIconName
-      this.handleLeftClick.bind(this),  // leftBtnClick
-      null,                             // rightBtnClick
-    );
+    this.requestingCrop = true;
 
     forkJoin({
       cropsListData: this.cropService.getCropListFromApi(),
