@@ -35,6 +35,13 @@ export class AdviceComponent implements OnInit {
 
   adviceImg = undefined; // this.ADVICE_IMAGES[0];
 
+  headerConfig = {
+    title: 'Crops insights',
+    leftIcon: 'arrow_back',
+    rightIcon: 'volume_up',
+    leftBtnClick: this.handleLeftClick.bind(this),
+  };
+
   public soilMoistureColorClass = 'color-high';
   public soilMoistureIndexColorMap = new Map([
     ['LOW', 'color-low'],
@@ -54,13 +61,7 @@ export class AdviceComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.headerService.updateHeader(
-      'Watering Insights',   // headerTitle
-      'arrow_back',       // leftIconName
-      'volume_up',  // rightIconName
-      undefined,    // leftBtnClick
-      undefined,    // rightBtnClick
-    );
+    this.headerService.updateHeader(this.headerConfig);
 
     const cropId = this.route.snapshot.paramMap.get('id');
     // this.cropService.getCropStaticInfoById(cropId).then(cropStaticInfo => {
@@ -95,10 +96,15 @@ export class AdviceComponent implements OnInit {
       this.adviceImg = advice.imageUrl;
       console.log('adviceImg:', this.adviceImg);
     });
+
   }
 
   public volumeClicked() {
 
+  }
+
+  public handleLeftClick(data: string){
+    this.backClicked();
   }
 
   public backClicked() {

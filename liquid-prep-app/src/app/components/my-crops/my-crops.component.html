@@ -1,4 +1,4 @@
-<app-header-title fxFlexFill  leftIconName="arrow_back" headerTitle="Test sensor" rightIconName="volume_up" (click)="onHeaderClick($event)">
+<app-header-title fxFlexFill (click)="onHeaderClick($event)">
 </app-header-title>
 <div class="add-crop" style="overflow-x:hidden;" fxFlexFill cdkScrollable>
 
@@ -14,14 +14,7 @@
 
   <div *ngIf="myCropStatus == 'crop-selected'">
 
-    <mat-toolbar class="add-crop-button mat-elevation-z4 custom-toolbar">
-      <mat-toolbar-row style="padding: 0 5px;">
-        <button class="mat-title toolbar-title button" (click)="fabClicked()">
-          ADD A NEW CROP
-        </button>
-      </mat-toolbar-row>
-    </mat-toolbar>
-
+<div class="cropsContainer">
     <mat-grid-list class="grid" cols="1" rowHeight="120" gutterSize="25px" *ngIf="activeTab == tabs[0]">
       <mat-grid-tile *ngFor="let crop of myCrops" class="shadowBox">
         <mat-card class="card full-card">
@@ -65,6 +58,18 @@
         </mat-card>
       </mat-grid-tile>
     </mat-grid-list>
+
+  </div>
+
+    <mat-toolbar class="add-crop-button mat-elevation-z4 custom-toolbar">
+      <mat-toolbar-row style="padding: 0 5px;">
+        <button class="mat-title toolbar-title button" (click)="fabClicked()">
+          ADD A NEW CROP
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+
+
   </div>
 
   <div *ngIf="myCropStatus == 'no-crop'"

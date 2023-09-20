@@ -1,10 +1,19 @@
 <mat-toolbar class="custom-toolbar">
-  <button mat-icon-button class="white-icon" aria-label="LeftButton" (click)="handleLeftBtnClick()">
-    <mat-icon>{{headerService.leftIconName}}</mat-icon>
+  <button mat-icon-button class="blue-icon" aria-label="LeftButton" (click)="handleLeftBtnClick()">
+    <mat-icon>{{ headerService.headerConfig.leftIconName }}</mat-icon>
   </button>
-  <span class="toolbar-title">{{headerService.headerTitle}}</span>
+  <span class="toolbar-title">{{ headerService.headerConfig.headerTitle }}</span>
   <span class="toolbar-spacer"></span>
-  <button mat-icon-button class="white-icon" aria-label="RightButton" (click)="headerService.rightBtnClick()">
-    <mat-icon>{{headerService.rightIconName}}</mat-icon>
+  <button *ngIf="headerService.headerConfig.rightTextBtn" class="header-text-btn" (click)="headerService.headerConfig.rightTextBtnClick()">
+    {{ headerService.headerConfig.rightTextBtn }}
+  </button>
+  <button *ngIf="headerService.headerConfig.filterIconName" mat-icon-button class="blue-icon" aria-label="Filter" (click)="headerService.headerConfig.filterBtnClick()">
+    <mat-icon>{{ headerService.headerConfig.filterIconName }}</mat-icon>
+  </button>
+  <button *ngIf="headerService.headerConfig.sortIconName" mat-icon-button class="blue-icon" aria-label="Sort" (click)="headerService.headerConfig.sortBtnClick()">
+    <mat-icon>{{ headerService.headerConfig.sortIconName }}</mat-icon>
+  </button>
+  <button *ngIf="headerService.headerConfig.rightIconName" mat-icon-button class="blue-icon" aria-label="RightButton" (click)="headerService.headerConfig.rightBtnClick()">
+    <mat-icon>{{ headerService.headerConfig.rightIconName }}</mat-icon>
   </button>
 </mat-toolbar>

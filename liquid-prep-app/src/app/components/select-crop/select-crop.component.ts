@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { Crop } from '../../models/Crop';
 import { CropDataService } from '../../service/CropDataService';
 import { HeaderService } from 'src/app/service/header.service';
+import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
 import { forkJoin, from } from 'rxjs';
 
 @Component({
@@ -15,7 +16,13 @@ import { forkJoin, from } from 'rxjs';
 export class SelectCropComponent implements OnInit{
 
   searchText = '';
-  // title = 'Select Crop';
+  headerConfig: HeaderConfig = {
+    headerTitle: 'Add a new crop',
+    leftIconName: 'close',
+    rightIconName: 'search',
+    leftBtnClick: this.handleLeftClick.bind(this),
+    rightBtnClick: null,
+  };
 
   @ViewChild('searchbar') searchbar: ElementRef;
 
@@ -23,13 +30,26 @@ export class SelectCropComponent implements OnInit{
   cropsList: Crop[];
   NO_NEW_CROPS = '../../assets/crops-images/noNewCrops.PNG';
   public requestingCrop = true;
+  private renderedHeadings: Set<string> = new Set<string>();
+
+  isAlreadyRendered(itemType: string): boolean {
+    if (this.renderedHeadings.has(itemType)) {
+      return true;
+    } else {
+      this.renderedHeadings.add(itemType);
+      return false;
+    }
+  }
 
   constructor(private router: Router, private location: Location,
               private cropService: CropDataService,
               private headerService: HeaderService) { }
 
   ngOnInit(): void {
+    this.headerService.updateHeader(this.headerConfig);
+
     this.requestingCrop = true;
+
     forkJoin({
       cropsListData: this.cropService.getCropListFromApi(),
       myCrops: from(this.cropService.getLocalStorageMyCrops())
@@ -50,17 +70,21 @@ export class SelectCropComponent implements OnInit{
         this.requestingCrop = false;
       }
     );
-
-    this.headerService.updateHeader(
-        'Add a new crop',                  // headerTitle
-        'arrow_back',                     // leftIconName
-        'search',                         // rightIconName
-        this.handleLeftClick.bind(this),  // leftBtnClick
-        null,                             // rightBtnClick
-      );
   }
 
-  public handleLeftClick(data: string){
+  public backClicked() {
+    this.location.back();
+  }
+
+  public onHeaderClick(data:string){
+    if(data == 'leftBtn'){
+      this.backClicked();
+    }else {
+      //TODO
+    }
+  }
+
+  public handleLeftClick(){
     this.backToMyCrops();
   }
 

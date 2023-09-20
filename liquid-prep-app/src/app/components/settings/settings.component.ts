@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { HeaderService } from 'src/app/service/header.service';
+import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
 
 @Component({
   selector: 'app-settings',
@@ -10,21 +11,19 @@ import { HeaderService } from 'src/app/service/header.service';
 })
 export class SettingsComponent implements OnInit {
 
+  headerConfig: HeaderConfig = {
+    headerTitle: 'Settings',
+    leftIconName: 'arrow_back',
+    rightIconName: 'volume_up',
+    leftBtnClick: this.backClicked.bind(this),
+    rightBtnClick: null,
+  };
+
   constructor(
     private router: Router,
     private location: Location,
     private headerService: HeaderService
     ) { }
-
-  ngOnInit(): void {
-    this.headerService.updateHeader(
-      'Settings',   // headerTitle
-      'arrow_back', // leftIconName
-      'volume_up',   // rightIconName
-      this.handleLeftClick.bind(this),  // leftBtnClick
-      null,          // rightBtnClick
-    );
-  }
 
   public volumeClicked() {
     this.router.navigateByUrl('/my-crops');
@@ -34,15 +33,11 @@ export class SettingsComponent implements OnInit {
     this.location.back();
   }
 
-  public handleLeftClick(data:string){
+  public onHeaderClick(data:string){
     this.backClicked();
   }
 
-  // public onHeaderClick(data:string){
-  //   if(data == 'leftBtn'){
-  //     this.backClicked();
-  //   }else {
-  //     //TODO
-  //   }
-  // }
+  ngOnInit(): void {
+    this.headerService.updateHeader(this.headerConfig);
+  }
 }
