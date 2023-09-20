@@ -49,6 +49,7 @@ import { HeaderTitleComponent } from './components/header-title/header-title.com
 import { PastReadingsComponent } from './components/past-readings/past-readings.component';
 import { DeleteCropComponent } from './components/delete-crop/delete-crop.component';
 import { HamburgerMenuComponent } from './components/hamburger-menu/hamburger-menu.component';
+import { WateringInsightsComponent } from './components/watering-insights/watering-insights.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   observer: true,
@@ -76,6 +77,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     PastReadingsComponent,
     DeleteCropComponent,
     HamburgerMenuComponent,
+    WateringInsightsComponent,
   ],
   imports: [
     BrowserModule,

@@ -55,7 +55,7 @@ export class AdviceComponent implements OnInit {
 
   ngOnInit(): void {
     this.headerService.updateHeader(
-      'Crop Insights',   // headerTitle
+      'Watering Insights',   // headerTitle
       'arrow_back',       // leftIconName
       'volume_up',  // rightIconName
       undefined,    // leftBtnClick
@@ -88,7 +88,7 @@ export class AdviceComponent implements OnInit {
       this.temperature = advice.temperature;
       this.soilMoistureLevel = advice.soilMoistureReading.soilMoistureIndex;
       this.soilMoistureColorClass = this.soilMoistureIndexColorMap.get(this.soilMoistureLevel);
-      this.soilMoisturePercentage = advice.soilMoistureReading.soilMoisturePercentage;
+      this.soilMoisturePercentage = advice.soilMoistureReading.soilMoisturePercentage || 0;
       this.rainfallIndex = advice.rainfallIndex;
       this.rainfallPercentage = advice.rainfallPercentage;
       this.weatherIcon = advice.weatherIconTemp;
