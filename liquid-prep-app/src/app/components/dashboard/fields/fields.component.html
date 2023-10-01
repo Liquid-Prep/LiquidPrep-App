@@ -1,1 +1,77 @@
-<p>fields works!</p>
+
+<div class="full-div">
+  <mat-grid-list cols="1" rowHeight="80">
+    <mat-grid-tile class="grid-list">
+      <div class="header-div">
+        <div class="header-column">
+          <h2>Frog Hill Farm</h2>
+          <p>Albany, NY</p>
+        </div>
+        <div class="widget-column">
+          <!-- <div style="display: flex; flex-wrap: wrap;">
+            <img src="./../../../../assets/icons/dashboadWeatherIcons/WeatherIcon_PartSun.svg" alt="Weather">
+            <h2 style="margin-left: 10px;">72℉</h2>
+          </div> -->
+          <div class="grid-container">
+            <div><img src="./../../../../assets/icons/dashboard-icons/WeatherIcon_PartSun.svg" alt="Weather"></div>
+            <div>
+              <h1 style="margin-left: 10px; margin-bottom: 2px; margin-top: 5px;">72℉</h1>
+              <p>0% Rain</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
+<div>
+  <div class="fields-header-div">
+    <mat-tab-group>
+      <mat-tab label="Needs Watering">
+        <div class="card-container">
+          <div>
+            <mat-card *ngFor="let fields of waterFields">
+              <mat-card-content>
+                <div class="fields-container">
+                  <img class="field-photo" src="assets/crops-images/corn.png">
+                  <div>
+                    <h3> {{fields.name}} <br> {{fields.type}} </h3>
+                  </div>
+                  <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon">
+                    <!-- <mat-icon>water_drop</mat-icon> -->
+                    <mat-icon>water_drop</mat-icon>
+                  </button>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Recently Watered">
+        <div class="card-container">
+          <div>
+            <mat-card *ngFor="let fields of wateredFields">
+              <mat-card-content>
+                <div class="fields-container">
+                  <img class="field-photo" src="assets/crops-images/corn.png">
+                  <div>
+                    <h3> {{fields.name}} <br> {{fields.type}}</h3>
+                  </div>
+                  <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon">
+                    <mat-icon>mood</mat-icon>
+                  </button>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
+
+
+
+
+
+

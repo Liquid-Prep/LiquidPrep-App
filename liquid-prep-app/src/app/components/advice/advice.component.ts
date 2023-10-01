@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { ActivatedRoute, Router} from '@angular/router';
-
 import { WaterAdviceService } from 'src/app/service/WaterAdviceService';
 import { Crop } from '../../models/Crop';
 import { CropDataService } from '../../service/CropDataService';
 import { CropStaticInfo } from '../../models/CropStatic';
 import { DatePipe } from '@angular/common';
 import { HeaderService } from 'src/app/service/header.service';
+import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
 
 @Component({
   selector: 'app-advice',
@@ -15,6 +15,14 @@ import { HeaderService } from 'src/app/service/header.service';
   styleUrls: ['./advice.component.scss']
 })
 export class AdviceComponent implements OnInit {
+
+  headerConfig: HeaderConfig = {
+    headerTitle: 'Watering Insights',
+    leftIconName: 'menu',
+    rightIconName: 'arrow_back',
+    rightBtnClick: this.backClicked.bind(this),
+    leftBtnClick: null,
+  };
 
   crop: Crop;
   cropStatic: CropStaticInfo;
@@ -35,13 +43,6 @@ export class AdviceComponent implements OnInit {
 
   adviceImg = undefined; // this.ADVICE_IMAGES[0];
 
-  headerConfig = {
-    title: 'Crops insights',
-    leftIcon: 'arrow_back',
-    rightIcon: 'volume_up',
-    leftBtnClick: this.handleLeftClick.bind(this),
-  };
-
   public soilMoistureColorClass = 'color-high';
   public soilMoistureIndexColorMap = new Map([
     ['LOW', 'color-low'],
@@ -51,13 +52,12 @@ export class AdviceComponent implements OnInit {
 
   private datePipe: DatePipe = new DatePipe('en-US');
 
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private waterAdviceService: WaterAdviceService,
     private cropService: CropDataService,
-    private headerService: HeaderService
+    private headerService: HeaderService,
   ) {}
 
   ngOnInit(): void {
@@ -101,6 +101,14 @@ export class AdviceComponent implements OnInit {
 
   public volumeClicked() {
 
+  }
+
+  public onHeaderClick(data:string){
+    if(data == 'leftBtn'){
+      this.backClicked();
+    }else {
+      //TODO
+    }
   }
 
   public handleLeftClick(data: string){
