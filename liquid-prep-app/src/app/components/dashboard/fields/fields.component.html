@@ -4,8 +4,8 @@
     <mat-grid-tile class="grid-list">
       <div class="header-div">
         <div class="header-column">
-          <h2>Frog Hill Farm</h2>
-          <p>Albany, NY</p>
+          <h2>{{location}}</h2>
+          <p>{{location}}</p>
         </div>
         <div class="widget-column">
           <!-- <div style="display: flex; flex-wrap: wrap;">
@@ -13,10 +13,10 @@
             <h2 style="margin-left: 10px;">72℉</h2>
           </div> -->
           <div class="grid-container">
-            <div><img src="./../../../../assets/icons/dashboard-icons/WeatherIcon_PartSun.svg" alt="Weather"></div>
+            <div><img src="{{ todayWeather.nightTime.iconImageUrl }}" alt="Weather"></div>
             <div>
-              <h1 style="margin-left: 10px; margin-bottom: 2px; margin-top: 5px;">72℉</h1>
-              <p>0% Rain</p>
+              <h1 style="margin-left: 10px; margin-bottom: 2px; margin-top: 5px;">{{todayWeather.nightTime.temperature}} ℉</h1>
+              <p>{{todayWeather.nightTime.precipitaion}}% Rain</p>
             </div>
           </div>
         </div>
@@ -29,7 +29,7 @@
     <mat-tab-group>
       <mat-tab label="Needs Watering">
         <div class="card-container">
-          <div>
+          <div style="overflow-y: auto;">
             <mat-card *ngFor="let fields of waterFields">
               <mat-card-content>
                 <div class="fields-container">
@@ -37,9 +37,9 @@
                   <div>
                     <h3> {{fields.name}} <br> {{fields.type}} </h3>
                   </div>
-                  <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon">
+                  <button mat-mini-fab color="primary" aria-label="water" (click)="onWaterClick()">
                     <!-- <mat-icon>water_drop</mat-icon> -->
-                    <mat-icon>water_drop</mat-icon>
+                    <mat-icon>shower</mat-icon>
                   </button>
                 </div>
               </mat-card-content>
@@ -57,8 +57,8 @@
                   <div>
                     <h3> {{fields.name}} <br> {{fields.type}}</h3>
                   </div>
-                  <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon">
-                    <mat-icon>mood</mat-icon>
+                  <button mat-mini-fab color="primary" aria-label="Water" (click)="onWaterClick()">
+                    <mat-icon>shower</mat-icon>
                   </button>
                 </div>
               </mat-card-content>

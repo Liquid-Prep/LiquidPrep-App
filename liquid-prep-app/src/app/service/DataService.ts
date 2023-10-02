@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, pipe, of, Observer } from 'rxjs';
 import { WeatherMeasuringUnit } from '../utility/WeatherMeasuringUnit';
 import { GeoLocationUtil } from '../utility/GeoLocationUtil';
+import { FieldDataService } from './FieldDataService';
 import { WeatherResponse } from '../models/api/WeatherResponse';
 import { CropListResponse } from '../models/api/CropListResponse';
 import { LocationResponse } from '../models/api/LocationResponse';
@@ -22,7 +23,8 @@ export class DataService {
 
   constructor(
     private http: HttpClient,
-    private geoLocationUtil: GeoLocationUtil
+    private geoLocationUtil: GeoLocationUtil,
+    private fieldDataService: FieldDataService
   ) {}
 
   public getWeatherInfo(): Observable<WeatherResponse> {
@@ -125,5 +127,11 @@ export class DataService {
         }
       );
     });
+  }
+
+  public getFieldList(type: boolean) {
+    const fieldList = this.fieldDataService.getFieldData();
+    const filteredList = fieldList.filter((field) => field.water == type);
+    return filteredList;
   }
 }

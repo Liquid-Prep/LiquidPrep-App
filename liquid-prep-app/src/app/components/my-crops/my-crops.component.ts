@@ -129,7 +129,6 @@ export class MyCropsComponent implements OnInit {
   }
 
   updateWeatherInfo(){
-
     this.loading = true;
     this.weatherService.getTodayWeather().subscribe(
         (todayWeather: TodayWeather) => {

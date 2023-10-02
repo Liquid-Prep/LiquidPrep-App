@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { GeoLocationService } from 'src/app/service/GeoLocationService';
 import { FieldsComponent } from './fields.component';
 
 describe('FieldsComponent', () => {
