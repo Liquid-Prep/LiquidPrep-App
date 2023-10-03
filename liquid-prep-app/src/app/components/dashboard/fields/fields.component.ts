@@ -43,7 +43,6 @@ export class FieldsComponent implements OnInit {
   }
 
   public onHeaderClick(data: string) {
-    console.log(data);
     if (data == 'leftBtn') {
       this.backClicked();
     } else {
@@ -71,7 +70,6 @@ export class FieldsComponent implements OnInit {
         (todayWeather: TodayWeather) => {
           this.loading = false;
           this.todayWeather = todayWeather;
-          console.log(this.todayWeather);
         },
         (err) => {
           this.loading = false;
