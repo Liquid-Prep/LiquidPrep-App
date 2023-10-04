@@ -19,7 +19,7 @@ export class WeatherDataService {
   constructor(
     private dataService: DataService,
     @Inject(LOCAL_STORAGE) private localStorage: StorageService,
-    private http: HttpClient
+    private http: HttpClient,
   ) {
     this.dateTimeUtil = new DateTimeUtil();
   }
@@ -58,7 +58,7 @@ export class WeatherDataService {
               error(err) {
                 observer.error(
                   'Error getting weather data: ' +
-                    (err.message ? err.message : err)
+                    (err.message ? err.message : err),
                 );
               },
             });
@@ -81,7 +81,7 @@ export class WeatherDataService {
             error(err) {
               console.error(
                 'Error getting weather data: ' +
-                  (err.message ? err.message : err)
+                  (err.message ? err.message : err),
               );
             },
           });
@@ -100,7 +100,7 @@ export class WeatherDataService {
     weatherToday.maxTemperature = weatherInfo.calendarDayTemperatureMax[0];
     weatherToday.minTemperature = weatherInfo.calendarDayTemperatureMin[0];
     weatherToday.date = this.dateTimeUtil.extractDateFromDateTime(
-      weatherInfo.validTimeLocal[0]
+      weatherInfo.validTimeLocal[0],
     );
     weatherToday.weatherUpdateTs = Date.now();
 

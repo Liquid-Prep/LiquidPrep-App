@@ -8,13 +8,13 @@
   {
     "id": "c319bfce-2eed-475d-ad93-06709ced4f5d",
     "name": "South West Field 2",
-    "type": "Corn",
+    "type": "Soybean",
     "water": false
   },
   {
     "id": "b5d8f5ed-24b0-44bb-bfaa-84f8d9a37583",
     "name": "South West Field 3",
-    "type": "Corn",
+    "type": "Wheat",
     "water": false
   },
   {
@@ -26,13 +26,13 @@
   {
     "id": "0e8dd62d-f235-484a-a3f5-3592bd4d77fd",
     "name": "North West Field 2",
-    "type": "Corn",
+    "type": "Wheat",
     "water": true
   },
   {
     "id": "efc3bd0d-9b77-41e0-96c4-ef16b20b6fec",
     "name": "North West Field 3",
-    "type": "Corn",
+    "type": "Soybean",
     "water": true
   },
   {
@@ -44,7 +44,7 @@
   {
     "id": "a7dad0f1-1d6a-4c17-a191-4ea0475354a7",
     "name": "North West Field 2",
-    "type": "Corn",
+    "type": "Cotton",
     "water": true
   },
   {

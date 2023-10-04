@@ -1,11 +1,13 @@
-
 <div class="full-div">
   <mat-grid-list cols="1" rowHeight="80">
     <mat-grid-tile class="grid-list">
       <div class="header-div">
         <div class="header-column">
-          <h2>{{location}}</h2>
-          <p>{{location}}</p>
+          <h2>{{ location }}</h2>
+          <p>
+            <img src="assets\icons\dashboard-icons\location-on.svg" />
+            {{ location }}
+          </p>
         </div>
         <div class="widget-column">
           <!-- <div style="display: flex; flex-wrap: wrap;">
@@ -13,10 +15,21 @@
             <h2 style="margin-left: 10px;">72℉</h2>
           </div> -->
           <div class="grid-container">
-            <div><img src="{{ todayWeather.nightTime.iconImageUrl }}" alt="Weather"></div>
             <div>
-              <h1 style="margin-left: 10px; margin-bottom: 2px; margin-top: 5px;">{{todayWeather.nightTime.temperature}} ℉</h1>
-              <p>{{todayWeather.nightTime.precipitaion}}% Rain</p>
+              <img
+                [src]="
+                  getWeatherIconImage(this.todayWeather.nightTime.iconImageUrl)
+                "
+                alt="Weather"
+              />
+            </div>
+            <div>
+              <h1
+                style="margin-left: 10px; margin-bottom: 2px; margin-top: 5px"
+              >
+                {{ todayWeather.nightTime.temperature }} ℉
+              </h1>
+              <span>{{ todayWeather.nightTime.precipitaion }}% Rain</span>
             </div>
           </div>
         </div>
@@ -25,21 +38,43 @@
   </mat-grid-list>
 </div>
 <div>
-  <div class="fields-header-div">
-    <mat-tab-group>
-      <mat-tab label="Needs Watering">
+  <div>
+    <mat-tab-group mat-stretch-tabs="true">
+      <mat-tab>
+        <ng-template mat-tab-label class="mat-tab-label-header">
+          <img src="assets\icons\dashboard-icons\sprinkler.svg" />
+          <span>Needs Watering</span>
+        </ng-template>
         <div class="card-container">
-          <div style="overflow-y: auto;">
+          <div *ngIf="waterFields.length == 0" class="empty-container">
+            <div>
+              <h1>It Looks a little empty here</h1>
+              <p>Get Start by adding a field and setting up your sensors</p>
+            </div>
+          </div>
+          <div style="overflow-y: auto">
             <mat-card *ngFor="let fields of waterFields">
               <mat-card-content>
                 <div class="fields-container">
-                  <img class="field-photo" src="assets/crops-images/corn.png">
+                  <img class="field-photo" [src]="getPlantImage(fields.type)" />
                   <div>
-                    <h3> {{fields.name}} <br> {{fields.type}} </h3>
+                    <h3>
+                      {{ fields.name }} <br />
+                      {{ fields.type }}
+                    </h3>
                   </div>
-                  <button mat-mini-fab color="primary" aria-label="water" (click)="onWaterClick()">
-                    <!-- <mat-icon>water_drop</mat-icon> -->
-                    <mat-icon>shower</mat-icon>
+                  <button
+                    mat-mini-fab
+                    class="field-icon"
+                    color="basic"
+                    aria-label="water"
+                    (click)="
+                      onWaterClick(fields.id, fields.name, dialogContent)
+                    "
+                  >
+                    <mat-icon class="icon"
+                      ><img src="assets\icons\dashboard-icons\sprinkler.svg"
+                    /></mat-icon>
                   </button>
                 </div>
               </mat-card-content>
@@ -47,18 +82,40 @@
           </div>
         </div>
       </mat-tab>
-      <mat-tab label="Recently Watered">
+      <mat-tab>
+        <ng-template mat-tab-label class="mat-tab-label-header">
+          <img src="assets\icons\dashboard-icons\check.svg" />
+          <span>Needs Watering</span>
+        </ng-template>
         <div class="card-container">
-          <div>
+          <div *ngIf="wateredFields.length == 0" class="empty-container">
+            <div>
+              <h1>It Looks a little empty here</h1>
+              <p>Get Start by adding a field and setting up your sensors</p>
+            </div>
+          </div>
+          <div style="overflow-y: auto">
             <mat-card *ngFor="let fields of wateredFields">
               <mat-card-content>
                 <div class="fields-container">
-                  <img class="field-photo" src="assets/crops-images/corn.png">
+                  <img class="field-photo" [src]="getPlantImage(fields.type)" />
                   <div>
-                    <h3> {{fields.name}} <br> {{fields.type}}</h3>
+                    <h3>
+                      {{ fields.name }} <br />
+                      {{ fields.type }}
+                    </h3>
                   </div>
-                  <button mat-mini-fab color="primary" aria-label="Water" (click)="onWaterClick()">
-                    <mat-icon>shower</mat-icon>
+                  <button
+                    mat-mini-fab
+                    color="basic"
+                    aria-label="Water"
+                    (click)="
+                      onWaterClick(fields.id, fields.name, dialogContent)
+                    "
+                  >
+                    <mat-icon
+                      ><img src="assets\icons\dashboard-icons\sprinkler.svg"
+                    /></mat-icon>
                   </button>
                 </div>
               </mat-card-content>
@@ -70,8 +127,16 @@
   </div>
 </div>
 
-
-
-
-
-
+<ng-template #dialogContent>
+  <h1>Confirm Irrigation Status</h1>
+  <p>
+    Would you like to mark {{ name }} as watered?
+    <br />
+    <br />
+    The updated task will then appear in the "Recently Watered" list
+  </p>
+  <div class="dialog-buttons">
+    <button mat-button mat-dialog-close (click)="onClose()">Close</button>
+    <button mat-button mat-dialog-close (click)="onConfirm()">Yes</button>
+  </div>
+</ng-template>
