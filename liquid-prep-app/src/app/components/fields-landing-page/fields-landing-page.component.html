@@ -1,0 +1,28 @@
+<!-- <mat-sidenav-container>
+  <mat-sidenav #sidenav mode="over">
+    <app-hamburger-menu (closeSidenav)="sidenav.close()"></app-hamburger-menu>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <app-header-title
+      class="header"
+      fxFlexFill
+      (sidenavToggle)="sidenav.toggle()"
+    ></app-header-title>
+  </mat-sidenav-content>
+</mat-sidenav-container> -->
+<app-header-title fxFlexFill> </app-header-title>
+<div class="fields-container">
+  <div style="width: 100%">
+    <mat-card style="width: 100%" *ngFor="let field of fields">
+      <mat-card-content (click)="onFieldClick(field.id)">
+        <div class="field-contents">
+          <img class="field-photo" src="{{ field.photo }}" />
+          <div>
+            <h3>{{ field.name }}</h3>
+            <span class="type">{{ field.type }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
