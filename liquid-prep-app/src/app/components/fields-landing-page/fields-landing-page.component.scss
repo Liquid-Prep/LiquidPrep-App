@@ -1,0 +1,41 @@
+.fields-container {
+  display: flex;
+  width: 100%;
+
+  .field-contents {
+    display: flex;
+    align-items: center;
+    height: 50px;
+
+    .field-photo {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    h3 {
+      padding: 0px;
+      margin: 0px;
+      font-weight: 550;
+    }
+
+    .type {
+      color: gray;
+    }
+  }
+}
+
+.empty-fields-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+}
+
+.add-field-button {
+  position: fixed;
+  bottom: 250px;
+  right: 70px;
+}

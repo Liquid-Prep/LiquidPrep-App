@@ -1,0 +1,51 @@
+<app-header-title fxFlexFill> </app-header-title>
+<div class="details-container">
+  <h1>{{ fieldDetails.fieldName }}</h1>
+  <span class="title">DESCRIPTION</span>
+  <p>
+    {{ fieldDetails.description }}
+  </p>
+  <span class="title">CROP</span>
+  <div class="crop-container">
+    <img class="field-photo" [src]="getFieldPhoto(fieldDetails.crop)" />
+    <div class="photo-details">
+      <h2>{{ fieldDetails.crop }}</h2>
+      <span>{{ fieldDetails.plantDate }}</span>
+    </div>
+  </div>
+  <span class="title">SOIL TYPE</span>
+  <h3>Sandy Clay Loam</h3>
+  <span>Detected from field Location</span>
+
+  <span class="title">SENSORS</span>
+  <mat-card>
+    <mat-card-content class="sensor-container">
+      <div>
+        <h3>A1</h3>
+        <span>Moisture Level: 80</span> <br />
+        <span>Last Reading" 11:00AM CDT</span> <br />
+        <span>GPS: 48.40228</span>
+      </div>
+    </mat-card-content>
+    <mat-card-content class="sensor-container">
+      <div>
+        <h3>A2</h3>
+        <span>Moisture Level: 80</span> <br />
+        <span>Last Reading" 11:00AM CDT</span> <br />
+        <span>GPS: 48.40228</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+<ng-template #warningDialog>
+  <div class="dialog-wrapper">
+    <h2>Delete Field?</h2>
+    <p>This will permanently delete this field from your list</p>
+  </div>
+  <div class="dialog-buttons">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button color="warn" (click)="deleteField()" mat-dialog-close>
+      DELETE
+    </button>
+  </div>
+</ng-template>

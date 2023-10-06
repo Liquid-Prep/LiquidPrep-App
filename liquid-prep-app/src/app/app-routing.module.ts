@@ -13,7 +13,9 @@ import { CropStaticInfoResolver } from './resolve/CropStaticInfoResolver';
 import { HomeComponent } from './components/dashboard/home/home.component';
 import { FieldsComponent } from './components/dashboard/fields/fields.component';
 import { SensorsComponent } from './components/dashboard/sensors/sensors.component';
-
+import { DetailsComponent } from './components/dashboard/fields/details/details.component';
+import { AddFieldComponent } from './components/dashboard/fields/add-field/add-field.component';
+import { EditFieldComponent } from './components/dashboard/fields/edit-field/edit-field.component';
 
 const routes: Routes = [
   { path: '', component: WelcomeComponent },
@@ -24,52 +26,68 @@ const routes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
       { path: 'sensors', component: SensorsComponent },
-      { path: 'fields', component: FieldsComponent }
-    ]
+      { path: 'fields', component: FieldsComponent },
+    ],
   },
-  { path: 'select-crop', loadChildren: () => import('./components/select-crop/select-crop.module')
-      .then(m => m.SelectCropModule)
+  {
+    path: 'select-crop',
+    loadChildren: () =>
+      import('./components/select-crop/select-crop.module').then(
+        (m) => m.SelectCropModule
+      ),
   },
   {
     path: 'my-crops',
-    component: MyCropsComponent
+    component: MyCropsComponent,
+  },
+  {
+    path: 'add-field',
+    component: AddFieldComponent,
+  },
+  {
+    path: 'edit-field',
+    component: EditFieldComponent,
+  },
+  {
+    path: 'details',
+    component: DetailsComponent,
   },
   {
     path: 'measure-soil/:id',
-    component: MeasureSoilComponent
+    component: MeasureSoilComponent,
   },
   {
     path: 'seed-date/:id',
-    component: SeedDateComponent
+    component: SeedDateComponent,
   },
   {
     path: 'settings',
-    component: SettingsComponent
+    component: SettingsComponent,
   },
   {
     path: 'advice/:id',
     component: AdviceComponent,
     resolve: {
-      cropStaticInfo: CropStaticInfoResolver
-    }
+      cropStaticInfo: CropStaticInfoResolver,
+    },
   },
   {
     path: 'test-sensor',
-    component: TestSensorComponent
+    component: TestSensorComponent,
   },
   {
     path: 'past-readings',
-    component: PastReadingsComponent
+    component: PastReadingsComponent,
   },
   {
     path: 'sensors',
-    component: SensorsComponent
+    component: SensorsComponent,
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
   providers: [CropStaticInfoResolver],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

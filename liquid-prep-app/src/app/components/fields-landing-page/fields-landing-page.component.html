@@ -1,3 +1,4 @@
+<app-header-title fxFlexFill> </app-header-title>
 <div class="fields-container" *ngIf="fields">
   <div style="width: 100%">
     <mat-card style="width: 100%" *ngFor="let field of fields">
@@ -13,7 +14,7 @@
     </mat-card>
   </div>
 </div>
-<div class="empty-fields-container" *ngIf="fields.length === 0">
+<div class="empty-fields-container" *ngIf="!fields">
   <div>
     <h2>It looks a little empty here</h2>
     <p>Add a field to beging using the app.</p>

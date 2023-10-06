@@ -14,14 +14,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatRadioModule } from '@angular/material/radio';
-
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   exports: [
     // Material
     MatToolbarModule,
@@ -36,7 +33,8 @@ import { MatRadioModule } from '@angular/material/radio';
     MatFormFieldModule,
     MatGridListModule,
     MatSlideToggleModule,
-    MatRadioModule
-  ]
+    MatRadioModule,
+    MatTooltipModule,
+  ],
 })
-export class MaterialModule { }
+export class MaterialModule {}

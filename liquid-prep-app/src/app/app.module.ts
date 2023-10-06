@@ -19,6 +19,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSortModule } from '@angular/material/sort';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -28,7 +29,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {
@@ -53,6 +54,9 @@ import { HomeComponent } from './components/dashboard/home/home.component';
 import { FieldsComponent } from './components/dashboard/fields/fields.component';
 import { SensorsComponent } from './components/dashboard/sensors/sensors.component';
 import { SortModalComponent } from './components/sort-modal/sort-modal.component';
+import { DetailsComponent } from './components/dashboard/fields/details/details.component';
+import { AddFieldComponent } from './components/dashboard/fields/add-field/add-field.component';
+import { EditFieldComponent } from './components/dashboard/fields/edit-field/edit-field.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   observer: true,
@@ -84,6 +88,9 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     FieldsComponent,
     SensorsComponent,
     SortModalComponent,
+    DetailsComponent,
+    AddFieldComponent,
+    EditFieldComponent,
   ],
   imports: [
     BrowserModule,
@@ -101,6 +108,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     MatTabsModule,
     MatPaginatorModule,
     MatSortModule,
+    MatTooltipModule,
     MatProgressSpinnerModule,
     MatRadioModule,
     MatSlideToggleModule,
@@ -109,6 +117,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     MatNativeDateModule,
     MatButtonToggleModule,
     FormsModule,
+    ReactiveFormsModule,
     SwiperModule,
     FlexLayoutModule,
     MatGridListModule,

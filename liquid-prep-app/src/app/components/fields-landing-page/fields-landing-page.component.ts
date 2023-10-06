@@ -5,12 +5,11 @@ import { Router } from '@angular/router';
 import { FieldDataService } from 'src/app/service/FieldDataService';
 
 @Component({
-  selector: 'app-fields',
-  templateUrl: './fields.component.html',
-  styleUrls: ['./fields.component.scss']
+  selector: 'app-fields-landing-page',
+  templateUrl: './fields-landing-page.component.html',
+  styleUrls: ['./fields-landing-page.component.scss'],
 })
-export class FieldsComponent implements OnInit {
-
+export class FieldsLandingPageComponent implements OnInit {
   headerConfig: HeaderConfig = {
     headerTitle: 'Fields',
     leftIconName: 'menu',
@@ -19,14 +18,14 @@ export class FieldsComponent implements OnInit {
     rightBtnClick: this.reload.bind(this),
   };
 
-  fields: any[] = [];
+  fields: any;
 
   constructor(
     private headerService: HeaderService,
     private router: Router,
     private fieldService: FieldDataService
   ) {}
-  
+
   ngOnInit(): void {
     this.headerService.updateHeader(this.headerConfig);
     this.getFields();
@@ -60,5 +59,4 @@ export class FieldsComponent implements OnInit {
   public reload() {
     location.reload();
   }
-
 }
