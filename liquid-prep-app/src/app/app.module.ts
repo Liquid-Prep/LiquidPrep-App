@@ -55,6 +55,7 @@ import { SensorsComponent } from './components/dashboard/sensors/sensors.compone
 import { SortModalComponent } from './components/sort-modal/sort-modal.component';
 import { FieldsLandingPageComponent } from './components/fields-landing-page/fields-landing-page.component';
 import { DetailsComponent } from './components/fields-landing-page/details/details.component';
+import { AddFieldComponent } from './components/fields-landing-page/add-field/add-field.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   observer: true,
@@ -88,6 +89,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     SortModalComponent,
     FieldsLandingPageComponent,
     DetailsComponent,
+    AddFieldComponent,
   ],
   imports: [
     BrowserModule,
