@@ -32,6 +32,11 @@
   }
 }
 
+.dialog-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .sensor-container {
   margin-top: 2px;
 

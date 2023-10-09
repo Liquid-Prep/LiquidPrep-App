@@ -27,6 +27,13 @@
   }
 }
 
+.empty-fields-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+}
+
 .add-field-button {
   position: fixed;
   bottom: 250px;

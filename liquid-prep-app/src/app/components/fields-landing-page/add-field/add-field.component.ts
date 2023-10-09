@@ -12,9 +12,9 @@ export class AddFieldComponent implements OnInit {
   headerConfig: HeaderConfig = {
     headerTitle: 'Add Field',
     leftIconName: 'arrow_back',
-    rightIconName: 'cached',
+    rightIconName: 'save',
     leftBtnClick: this.handleLeftClick.bind(this),
-    rightBtnClick: null,
+    rightBtnClick: this.save.bind(this),
   };
 
   constructor(
@@ -28,5 +28,10 @@ export class AddFieldComponent implements OnInit {
 
   public handleLeftClick(data: string) {
     this.location.back();
+  }
+
+  public save() {
+    //TODO
+    console.log('save');
   }
 }

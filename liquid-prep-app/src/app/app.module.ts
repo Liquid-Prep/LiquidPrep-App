@@ -19,6 +19,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSortModule } from '@angular/material/sort';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -107,6 +108,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     MatTabsModule,
     MatPaginatorModule,
     MatSortModule,
+    MatTooltipModule,
     MatProgressSpinnerModule,
     MatRadioModule,
     MatSlideToggleModule,

@@ -14,7 +14,7 @@ export class FieldsLandingPageComponent implements OnInit {
     leftIconName: 'menu',
     rightIconName: 'cached',
     leftBtnClick: null,
-    rightBtnClick: null,
+    rightBtnClick: this.reload.bind(this),
   };
 
   fields = [
@@ -71,7 +71,10 @@ export class FieldsLandingPageComponent implements OnInit {
   }
 
   public addField() {
-    console.log('Add Field');
     this.router.navigateByUrl(`add-field`);
+  }
+
+  public reload() {
+    location.reload();
   }
 }
