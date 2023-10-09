@@ -4,7 +4,8 @@
 
   .field-contents {
     display: flex;
-    height: 40px;
+    align-items: center;
+    height: 50px;
 
     .field-photo {
       border: 1px solid #ddd;
@@ -24,4 +25,10 @@
       color: gray;
     }
   }
+}
+
+.add-field-button {
+  position: fixed;
+  bottom: 250px;
+  right: 70px;
 }

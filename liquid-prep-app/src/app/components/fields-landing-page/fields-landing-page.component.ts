@@ -14,7 +14,7 @@ export class FieldsLandingPageComponent implements OnInit {
     leftIconName: 'menu',
     rightIconName: 'cached',
     leftBtnClick: null,
-    rightBtnClick: null,
+    rightBtnClick: null
   };
 
   fields = [
@@ -68,5 +68,9 @@ export class FieldsLandingPageComponent implements OnInit {
   public onFieldClick(id: string) {
     console.log(id);
     this.router.navigateByUrl(`details/${id}`);
+  }
+
+  public addField() {
+    console.log("Add Field")
   }
 }
