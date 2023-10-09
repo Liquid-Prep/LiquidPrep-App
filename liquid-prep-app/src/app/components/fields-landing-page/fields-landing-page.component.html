@@ -1,5 +1,5 @@
 <app-header-title fxFlexFill> </app-header-title>
-<div class="fields-container">
+<div class="fields-container" *ngIf="fields">
   <div style="width: 100%">
     <mat-card style="width: 100%" *ngFor="let field of fields">
       <mat-card-content (click)="onFieldClick(field.id)">
@@ -14,6 +14,18 @@
     </mat-card>
   </div>
 </div>
-<button mat-fab color="primary" class="add-field-button" (click)="addField()">
+<div class="empty-fields-container" *ngIf="!fields">
+  <div>
+    <h2>It looks a little empty here</h2>
+    <p>Add a field to beging using the app.</p>
+  </div>
+</div>
+<button
+  mat-fab
+  matTooltip="Tap to Add New Field"
+  color="primary"
+  class="add-field-button"
+  (click)="addField()"
+>
   <mat-icon>add</mat-icon>
 </button>
