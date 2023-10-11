@@ -1,16 +1,17 @@
 <app-header-title fxFlexFill> </app-header-title>
 <div class="details-container">
-  <h1>North Field 1</h1>
+  <h1>{{ fieldDetails.fieldName }}</h1>
   <span class="title">DESCRIPTION</span>
   <p>
-    The left hall of the field next to that big oak tree on the hill. On crop
-    rotation #2, next rotation will be cover top
+    {{ fieldDetails.description }}
   </p>
   <span class="title">CROP</span>
   <div class="crop-container">
-    <img class="field-photo" src="assets/crops-images/corn.png" />
-    <!-- <h3>Rice</h3>
-    <span>Planted 04/15/2023</span> -->
+    <img class="field-photo" [src]="getFieldPhoto(fieldDetails.crop)" />
+    <div class="photo-details">
+      <h2>{{ fieldDetails.crop }}</h2>
+      <span>{{ fieldDetails.plantDate }}</span>
+    </div>
   </div>
   <span class="title">SOIL TYPE</span>
   <h3>Sandy Clay Loam</h3>

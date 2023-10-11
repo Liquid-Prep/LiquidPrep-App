@@ -27,8 +27,22 @@
   flex-wrap: wrap;
   margin-bottom: 10px;
 
-  h3 {
-    width: 100%;
+  .field-photo {
+    height: 60px;
+  }
+
+  .photo-details {
+    margin-left: 30px;
+
+    h2 {
+      font-size: large;
+      padding: 0;
+      margin-bottom: 0;
+    }
+
+    span {
+      color: gray;
+    }
   }
 }
 

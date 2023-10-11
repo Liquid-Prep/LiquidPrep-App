@@ -4,10 +4,10 @@
     <mat-card style="width: 100%" *ngFor="let field of fields">
       <mat-card-content (click)="onFieldClick(field.id)">
         <div class="field-contents">
-          <img class="field-photo" src="{{ field.photo }}" />
+          <img class="field-photo" [src]="getFieldPhoto(field.crop)" />
           <div>
-            <h3>{{ field.name }}</h3>
-            <span class="type">{{ field.type }}</span>
+            <h3>{{ field.fieldName }}</h3>
+            <span class="type">{{ field.crop }}</span>
           </div>
         </div>
       </mat-card-content>

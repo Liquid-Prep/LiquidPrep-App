@@ -1,8 +1,16 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+  TemplateRef,
+} from '@angular/core';
 import { Location } from '@angular/common';
 import { HeaderService } from 'src/app/service/header.service';
 import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
 import { MatDialog } from '@angular/material/dialog';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FieldDataService } from 'src/app/service/FieldDataService';
 
 @Component({
   selector: 'app-details',
@@ -17,19 +25,27 @@ export class DetailsComponent implements OnInit {
     leftBtnClick: this.handleLeftClick.bind(this),
     rightBtnClick: this.openWarningDialog.bind(this),
   };
-
+  id: string;
   @ViewChild('warningDialog') dialogTemplate!: TemplateRef<any>;
 
-  private id = 'sadsadasd';
+  fieldDetails: any;
 
   constructor(
     private headerService: HeaderService,
     private location: Location,
     private dialog: MatDialog,
-  ) {}
+    private route: ActivatedRoute,
+    private router: Router,
+    private fieldService: FieldDataService
+  ) {
+    this.id = this.route.snapshot.queryParamMap.get('id');
+    console.log(this.id);
+    this.getFieldDetails(this.id);
+  }
 
   ngOnInit(): void {
     this.headerService.updateHeader(this.headerConfig);
+    const navigation = this.router.getCurrentNavigation();
   }
 
   public handleLeftClick() {
@@ -43,6 +59,25 @@ export class DetailsComponent implements OnInit {
 
   public deleteField() {
     console.log('Deleted');
+    this.fieldService.removeFieldFromLocalStorage(this.id);
+    this.router.navigate([`/fields`]);
+  }
+
+  public async getFieldDetails(id: string) {
+    this.fieldDetails = await this.fieldService.getFieldFromMyFieldById(id);
+    console.log(this.fieldDetails);
+  }
+
+  public getFieldPhoto(type: string) {
+    if (type === 'corn') {
+      return 'assets/crops-images/corn.png';
+    } else if (type === 'wheat') {
+      return 'assets/crops-images/wheat.png';
+    } else if (type === 'cotton') {
+      return 'assets/crops-images/cotton.png';
+    } else {
+      return 'assets/crops-images/missing.jpg';
+    }
   }
 
   public backToMyFields() {
