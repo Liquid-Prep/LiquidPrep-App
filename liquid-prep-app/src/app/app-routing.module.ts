@@ -33,7 +33,7 @@ const routes: Routes = [
     path: 'select-crop',
     loadChildren: () =>
       import('./components/select-crop/select-crop.module').then(
-        (m) => m.SelectCropModule,
+        (m) => m.SelectCropModule
       ),
   },
   {
@@ -49,7 +49,7 @@ const routes: Routes = [
     component: AddFieldComponent,
   },
   {
-    path: 'details/:id',
+    path: 'details',
     component: DetailsComponent,
   },
   {

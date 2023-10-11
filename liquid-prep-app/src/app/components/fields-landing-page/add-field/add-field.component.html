@@ -1,35 +1,37 @@
 <app-header-title fxFlexFill> </app-header-title>
+<form [formGroup]="fieldForm">
 <div class="form-container">
-  <h3>Field Name</h3>
-  <mat-form-field class="field-input">
-    <mat-label>Input</mat-label>
-    <input matInput />
-  </mat-form-field>
-  <h3>Description</h3>
-  <mat-form-field class="field-input">
-    <mat-label>Description</mat-label>
-    <textarea matInput class="description-input"></textarea>
-  </mat-form-field>
-  <h3>Select Crop</h3>
-  <mat-form-field class="field-input">
-    <mat-label>Select</mat-label>
-    <mat-select>
-      <mat-option value="one">Wheat</mat-option>
-      <mat-option value="two">Corn</mat-option>
-      <mat-option value="two">Cotton</mat-option>
-      <mat-option value="two">Rice</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <h3>Crop Plant Date</h3>
-  <mat-form-field style="width: 80%; margin-bottom: 20px">
-    <mat-label>Choose a date</mat-label>
-    <input matInput [matDatepicker]="picker" />
-    <mat-hint>MM/DD/YYYY</mat-hint>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-  <h3 style="width: 90%; margin-bottom: 15px">Sensors</h3>
-  <button mat-stroked-button color="primary" class="sensor-button">
-    <mat-icon aria-hidden="false">add</mat-icon>SENSOR
-  </button>
+    <h3>Field Name</h3>
+    <mat-form-field class="field-input" >
+      <mat-label>Input</mat-label>
+      <input formControlName="fieldName" matInput />
+    </mat-form-field>
+    <h3>Description</h3>
+    <mat-form-field class="field-input">
+      <mat-label>Description</mat-label>
+      <textarea formControlName="description" matInput class="description-input"></textarea>
+    </mat-form-field>
+    <h3>Select Crop</h3>
+    <mat-form-field class="field-input">
+      <mat-label>Select</mat-label>
+      <mat-select formControlName="crop">
+        <mat-option value="wheat">Wheat</mat-option>
+        <mat-option value="corn">Corn</mat-option>
+        <mat-option value="cotton">Cotton</mat-option>
+        <mat-option value="rice">Rice</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <h3>Crop Plant Date</h3>
+    <mat-form-field style="width: 80%; margin-bottom: 20px">
+      <mat-label>Choose a date</mat-label>
+      <input formControlName="plantDate" matInput [matDatepicker]="picker" />
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <h3 style="width: 90%; margin-bottom: 15px">Sensors</h3>
+    <button mat-stroked-button color="primary" class="sensor-button">
+      <mat-icon aria-hidden="false">add</mat-icon>SENSOR
+    </button>
 </div>
+</form>

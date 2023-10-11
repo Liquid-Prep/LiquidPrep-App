@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HeaderService } from 'src/app/service/header.service';
 import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
 import { Router } from '@angular/router';
+import { FieldDataService } from 'src/app/service/FieldDataService';
 
 @Component({
   selector: 'app-fields-landing-page',
@@ -17,57 +18,38 @@ export class FieldsLandingPageComponent implements OnInit {
     rightBtnClick: this.reload.bind(this),
   };
 
-  fields = [
-    {
-      id: '901802af-8889-497c-a3bf-ec7c3c6b2396',
-      name: 'North Field 1',
-      type: 'corn',
-      sensors: 4,
-      description: 'Crop Rotation',
-      soilType: 'Sandy Clay Loam',
-      photo: 'assets/crops-images/corn.png',
-    },
-    {
-      id: '3ac555fb-5826-4ebc-92a3-d7d8e73da826',
-      name: 'Southwest Field 1',
-      type: 'wheat',
-      sensors: 1,
-      description: 'Crop Rotation',
-      soilType: 'Sandy Clay Loam',
-      photo: 'assets/crops-images/wheat.png',
-    },
-    {
-      id: '8cdf5b1b-7249-44f2-950e-db07de4fe924',
-      name: 'West Field 1',
-      type: 'cotton',
-      sensors: 2,
-      description: 'Crop Rotation',
-      soilType: 'Sandy Clay Loam',
-      photo: 'assets/crops-images/cotton.png',
-    },
-    {
-      id: '1e1ea10c-d658-4437-9bdb-1c3786f7e966',
-      name: 'South Field 1',
-      type: 'corn',
-      sensors: 3,
-      description: 'Crop Rotation',
-      soilType: 'Sandy Clay Loam',
-      photo: 'assets/crops-images/corn.png',
-    },
-  ];
+  fields: any;
 
   constructor(
     private headerService: HeaderService,
     private router: Router,
+    private fieldService: FieldDataService
   ) {}
 
   ngOnInit(): void {
     this.headerService.updateHeader(this.headerConfig);
+    this.getFields();
   }
 
   public onFieldClick(id: string) {
-    console.log(id);
-    this.router.navigateByUrl(`details/${id}`);
+    this.router.navigate([`/details`], {queryParams: {id: id}});
+  }
+
+  public async getFields() {
+    const myFields = await  this.fieldService.getLocalStorageMyFields();
+    this.fields = myFields;
+  }
+
+  public getFieldPhoto(type: string) {
+    if (type === 'corn') {
+      return 'assets/crops-images/corn.png'
+    } else if (type === 'wheat') {
+      return 'assets/crops-images/wheat.png'
+    } else if (type === 'cotton') {
+      return 'assets/crops-images/cotton.png'
+    } else {
+      return 'assets/crops-images/missing.jpg'
+    }
   }
 
   public addField() {
