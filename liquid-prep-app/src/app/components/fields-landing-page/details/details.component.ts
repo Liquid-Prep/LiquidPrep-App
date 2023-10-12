@@ -22,8 +22,10 @@ export class DetailsComponent implements OnInit {
     headerTitle: 'Field Details',
     leftIconName: 'close',
     rightIconName: 'delete',
+    sortIconName: 'edit',
     leftBtnClick: this.handleLeftClick.bind(this),
     rightBtnClick: this.openWarningDialog.bind(this),
+    sortBtnClick: this.editField.bind(this),
   };
   id: string;
   @ViewChild('warningDialog') dialogTemplate!: TemplateRef<any>;
@@ -55,6 +57,11 @@ export class DetailsComponent implements OnInit {
   public openWarningDialog() {
     console.log('Delete');
     this.dialog.open(this.dialogTemplate);
+  }
+
+  public editField() {
+    console.log(this.id);
+    this.router.navigate([`/edit-field`], { queryParams: { id: this.id } });
   }
 
   public deleteField() {
