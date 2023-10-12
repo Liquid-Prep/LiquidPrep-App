@@ -13,6 +13,8 @@ import { CropStaticInfoResolver } from './resolve/CropStaticInfoResolver';
 import { HomeComponent } from './components/dashboard/home/home.component';
 import { FieldsComponent } from './components/dashboard/fields/fields.component';
 import { SensorsComponent } from './components/dashboard/sensors/sensors.component';
+import { SensorDetailsComponent } from './components/dashboard/sensors/sensor-details/sensor-details.component';
+// import { SensorEditDetailsComponent } from './components/dashboard/sensors/sensor-details/sensor-details.component';
 
 
 const routes: Routes = [
@@ -62,9 +64,13 @@ const routes: Routes = [
     component: PastReadingsComponent
   },
   {
-    path: 'sensors',
-    component: SensorsComponent
+    path: 'dashboard/sensors/:sensorId',
+    component: SensorDetailsComponent,
   },
+  // {
+  //   path: 'dashboard/sensors/edit/:sensorId',
+  //   component: SensorEditDetailsComponent,
+  // },
 ];
 
 @NgModule({
