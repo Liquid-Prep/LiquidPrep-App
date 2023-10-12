@@ -319,8 +319,8 @@ getSelectedFilterOptions() {
       });
       if (this.selectedFilterOptions.length > 0) {
         this.isFilteredByVisible = true;
-        this.isSortedByVisible = true;
       }
+      this.isSortedByVisible = true;
     }
 
   }
