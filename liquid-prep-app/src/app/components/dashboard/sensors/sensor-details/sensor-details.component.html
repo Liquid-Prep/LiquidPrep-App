@@ -1,0 +1,106 @@
+<app-header-title fxFlexFill></app-header-title>
+
+<!-- {{ sensor.name }} -->
+
+<div class="sensor-details">
+  <span class="sensor-name">A2</span>
+  <mat-card class="sensor-details-card">
+    <mat-card-header>
+      <mat-card-title class="sensor-detail-group-title">Location</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item class="sensor-detail-group">
+          <span class="sensor-detail-label">Sensor gps location</span>
+          <span class="sensor-detail-value">41.40338, 2.17403</span>
+          <span class="sensor-detail-description emphasized">Set using device GPS</span>
+        </mat-list-item>
+
+        <mat-list-item>
+          <span class="sensor-detail-label">Field</span>
+          <span class="sensor-detail-value">Southwest Field 1</span>
+        </mat-list-item>
+
+      </mat-list>
+
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="sensor-details-card">
+    <mat-card-header>
+      <mat-card-title class="sensor-detail-group-title">Moisture Readings</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item class="sensor-detail-group">
+          <span class="sensor-detail-label">Last moisture reading</span>
+          <span class="sensor-detail-value">19.57</span>
+          <span class="sensor-detail-description">Today at 11:00 AM CDT</span>
+        </mat-list-item>
+
+        <mat-list-item>
+          <span class="sensor-detail-label">Next scheduled reading</span>
+          <span class="sensor-detail-value">Today at 2:00 PM CDT</span>
+
+          <p class="sensor-detail-description">Sensor interval is set at 3 readings a day beginning at 11:00 AM CDT,
+            every 3 hours.</p>
+        </mat-list-item>
+      </mat-list>
+
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="sensor-details-card">
+    <mat-card-content>
+      <span class="sensor-detail-label">Past Readings</span>
+
+
+      <table mat-table [dataSource]="pastReadingsData" class="past-readings-table">
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef class="mat-header-cell"> Date </th>
+          <td mat-cell *matCellDef="let element"> {{ element.datetime | date:'M/d/yy' }} </td>
+        </ng-container>
+        <ng-container matColumnDef="time">
+          <th mat-header-cell *matHeaderCellDef class="mat-header-cell"> Time </th>
+          <td mat-cell *matCellDef="let element"> {{ element.datetime | date:'h:mm a' }} </td>
+        </ng-container>
+        <ng-container matColumnDef="moisturelevel">
+          <th mat-header-cell *matHeaderCellDef class="mat-header-cell"> Moisture Level </th>
+          <td mat-cell *matCellDef="let element"> {{ element.moisturelevel | number:'1.2-2' }} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="sensor-details-card">
+    <mat-card-header>
+      <mat-card-title class="sensor-detail-group-title">Connection Info</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item class="sensor-detail-group">
+          <span class="sensor-detail-label">Edge Gateway</span>
+          <span class="sensor-detail-value">Farmer IP</span>
+          <span class="sensor-detail-description">http://192.168.86.40:3003</span>
+        </mat-list-item>
+
+        <mat-list-item class="sensor-detail-group">
+          <span class="sensor-detail-label">esp-now Gateway</span>
+          <span class="sensor-detail-value">Farmer IP</span>
+          <span class="sensor-detail-description">http://192.168.86.40:3003</span>
+        </mat-list-item>
+
+        <mat-list-item class="sensor-detail-group">
+          <span class="sensor-detail-label">Web socket</span>
+          <span class="sensor-detail-value">http://192.168.86.40:3003</span>
+        </mat-list-item>
+
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -53,6 +53,7 @@ import { HomeComponent } from './components/dashboard/home/home.component';
 import { FieldsComponent } from './components/dashboard/fields/fields.component';
 import { SensorsComponent } from './components/dashboard/sensors/sensors.component';
 import { SortModalComponent } from './components/sort-modal/sort-modal.component';
+import { SensorDetailsComponent } from './components/dashboard/sensors/sensor-details/sensor-details.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   observer: true,
@@ -84,6 +85,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     FieldsComponent,
     SensorsComponent,
     SortModalComponent,
+    SensorDetailsComponent,
   ],
   imports: [
     BrowserModule,

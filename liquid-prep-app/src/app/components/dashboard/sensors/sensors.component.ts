@@ -1,10 +1,12 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { HeaderService } from 'src/app/service/header.service';
 import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
 import { SortModalComponent } from '../../sort-modal/sort-modal.component';
 import { DatePipe } from '@angular/common';
+import { sensors } from './sensor-data';
 
 @Component({
   selector: 'app-sensors',
@@ -29,10 +31,10 @@ export class SensorsComponent implements OnInit {
   isFilteredByVisible: boolean = false;
   isSearchVisible: boolean = false;
   isSortedByVisible: boolean = true;
-  displayedItems: any[] = [];
+  displayedSensors: any[] = [];
   searchQuery: string = '';
   clearSearchDisplayText: string = 'Clear search to see all sensors.';
-  originalDisplayedItemsLength: number;
+  originalDisplayedSensorsLength: number;
 
   headerConfig: HeaderConfig = {
     headerTitle: 'Sensors',
@@ -46,56 +48,12 @@ export class SensorsComponent implements OnInit {
     filterBtnClick: this.toggleFilter.bind(this),
   };
 
-  items = [
-    {
-      lastUpdated: '1694674978',
-      sensorName: 'A6',
-      fieldLocation: 'Field 1',
-      moistureLevel: 43.12,
-      connectionStatus: 'Connected',
-    },
-    {
-      lastUpdated: '1694611378',
-      sensorName: 'A4',
-      fieldLocation: 'Field 1',
-      moistureLevel: 65,
-      connectionStatus: 'Connected',
-    },
-    {
-      lastUpdated: '1632215520',
-      sensorName: 'A3',
-      fieldLocation: null,
-      moistureLevel: 42,
-      connectionStatus: 'Connected',
-    },
-    {
-      lastUpdated: '1689365400',
-      sensorName: 'A2',
-      fieldLocation: 'Field 4',
-      moistureLevel: 50,
-      connectionStatus: 'Connected',
-    },
-    {
-      lastUpdated: '1689182700',
-      sensorName: 'A5',
-      fieldLocation: 'Field 3',
-      moistureLevel: 65.16,
-      connectionStatus: 'Connected',
-    },
-    {
-      lastUpdated: '1691813700',
-      sensorName: 'A1',
-      fieldLocation: 'Field 5',
-      moistureLevel: null,
-      connectionStatus: 'Not Connected',
-    },
-  ];
-
   constructor(
     public dialog: MatDialog,
     private location: Location,
     private headerService: HeaderService,
     private datePipe: DatePipe,
+    private router: Router,
   ) {}
 
   public handleLeftClick(data: string) {
@@ -129,11 +87,11 @@ export class SensorsComponent implements OnInit {
 
     this.lastSelectedSortOption = this.selectedSortOption;
 
-    // Initialize displayedItems with the original sensor data
-    this.displayedItems = [...this.items];
-    this.originalDisplayedItemsLength = this.displayedItems.length;
+    // Initialize displayedSensors with the original sensor data
+    this.displayedSensors = [...sensors];
+    this.originalDisplayedSensorsLength = this.displayedSensors.length;
 
-    if (this.displayedItems.length === 0) {
+    if (this.displayedSensors.length === 0) {
       this.isFilterVisible = false;
       this.isSearchVisible = false;
       this.isFilteredByVisible = false;
@@ -141,8 +99,8 @@ export class SensorsComponent implements OnInit {
     }
 
     // Convert Date format
-    this.items.forEach((item) => {
-      const epochTimestamp = parseInt(item.lastUpdated, 10);
+    sensors.forEach((sensor) => {
+      const epochTimestamp = parseInt(sensor.lastUpdated, 10);
       const utcDate = new Date(epochTimestamp * 1000);
 
       // Calculate today and yesterday dates
@@ -151,11 +109,11 @@ export class SensorsComponent implements OnInit {
       yesterday.setDate(yesterday.getDate() - 1);
 
       if (isSameDate(utcDate, now)) {
-        item.lastUpdated = 'today ' + this.datePipe.transform(utcDate, 'h:mm a');
+        sensor.lastUpdated = 'today ' + this.datePipe.transform(utcDate, 'h:mm a');
       } else if (isSameDate(utcDate, yesterday)) {
-        item.lastUpdated = 'yesterday ' + this.datePipe.transform(utcDate, 'h:mm a');
+        sensor.lastUpdated = 'yesterday ' + this.datePipe.transform(utcDate, 'h:mm a');
       } else {
-        item.lastUpdated = this.datePipe.transform(utcDate, "MM.dd.yy 'at' h:mm a");
+        sensor.lastUpdated = this.datePipe.transform(utcDate, "MM.dd.yy 'at' h:mm a");
       }
     });
 
@@ -183,13 +141,13 @@ export class SensorsComponent implements OnInit {
         this.selectedSortOption = selection.selectedSortOption;
         this.selectedSortLabel = selection.selectedSortLabel.toLowerCase();
         this.lastSelectedSortOption = this.selectedSortOption;
-        this.sortItems();
+        this.sortSensors();
       }
     });
   }
 
-sortItems() {
-  this.displayedItems.sort((a, b) => {
+sortSensors() {
+  this.displayedSensors.sort((a, b) => {
     switch (this.selectedSortOption) {
       case 'sensorName':
         return a.sensorName.localeCompare(b.sensorName);
@@ -228,27 +186,27 @@ toggleConnectionStatusSort(statusA: string, statusB: string): number {
 
   applyFilterAndSort() {
     // Apply filtering based on selected filter options
-    let filteredItems = [...this.items];
+    let filteredSensors = [...sensors];
 
     if (this.selectedFilterOptions.length > 0) {
-      filteredItems = filteredItems.filter((item) => {
+      filteredSensors = filteredSensors.filter((sensor) => {
 
         return (
-          this.selectedFilterOptions.includes(item.fieldLocation) ||
-          this.selectedFilterOptions.includes(item.connectionStatus)
+          this.selectedFilterOptions.includes(sensor.fieldLocation) ||
+          this.selectedFilterOptions.includes(sensor.connectionStatus)
         );
       });
     }
 
-    // Update the displayedItems with the filtered and sorted items
-    this.displayedItems = filteredItems;
+    // Update the displayedSensors with the filtered and sorted sensors
+    this.displayedSensors = filteredSensors;
     this.toggleFilter();
     this.isSortedByVisible = true;
   }
 
   clearFilter() {
     this.selectedFilterOptions = []; // Clear all selected filter options
-    this.displayedItems = [...this.items]; // Reset displayedItems to the original list
+    this.displayedSensors = [...sensors]; // Reset displayedSensors to the original list
     this.isFilteredByVisible = false;
   }
 
@@ -262,10 +220,10 @@ getSelectedFilterOptions() {
   const selectedConnectionStatus = new Set<string>();
   const fieldLocationOptions = new Set<string>(); // Use a Set to deduplicate options
 
-  this.items.forEach((item) => {
-    selectedConnectionStatus.add(item.connectionStatus);
-    if (item.fieldLocation !== null) {
-      fieldLocationOptions.add(item.fieldLocation);
+  sensors.forEach((sensor) => {
+    selectedConnectionStatus.add(sensor.connectionStatus);
+    if (sensor.fieldLocation !== null) {
+      fieldLocationOptions.add(sensor.fieldLocation);
     }
   });
 
@@ -274,7 +232,7 @@ getSelectedFilterOptions() {
   const fieldLocationArray = Array.from(fieldLocationOptions);
 
   // Add "No field selected" at the top if it exists
-  if (this.items.some((item) => item.fieldLocation === null)) {
+  if (sensors.some((sensor) => sensor.fieldLocation === null)) {
     fieldLocationArray.unshift(null);
   }
 
@@ -326,7 +284,7 @@ getSelectedFilterOptions() {
   }
 
   toggleSearch() {
-    this.displayedItems = this.items;
+    this.displayedSensors = sensors;
     this.isSearchVisible = !this.isSearchVisible;
 
     if (this.isSearchVisible) {
@@ -342,12 +300,18 @@ getSelectedFilterOptions() {
   }
 
   applySearchFilter() {
-    this.displayedItems = this.items.filter((item) => {
+    this.displayedSensors = sensors.filter((sensor) => {
       return (
-        item.sensorName.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        (item.fieldLocation && item.fieldLocation.toLowerCase().includes(this.searchQuery.toLowerCase())) || // Check if fieldLocation is not null
-        (item.moistureLevel && item.moistureLevel.toString().toLowerCase().includes(this.searchQuery.toLowerCase())) // Check if moistureLevel is not null
+        sensor.sensorName.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        (sensor.fieldLocation && sensor.fieldLocation.toLowerCase().includes(this.searchQuery.toLowerCase())) || // Check if fieldLocation is not null
+        (sensor.moistureLevel && sensor.moistureLevel.toString().toLowerCase().includes(this.searchQuery.toLowerCase())) // Check if moistureLevel is not null
       );
     });
   }
+
+  onSensorClicked(sensorId) {
+    const url = `/dashboard/sensors/${sensorId}`;
+    this.router.navigate([url]);
+  }
+
 }
