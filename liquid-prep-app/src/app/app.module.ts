@@ -57,6 +57,7 @@ import { SortModalComponent } from './components/sort-modal/sort-modal.component
 import { FieldsLandingPageComponent } from './components/fields-landing-page/fields-landing-page.component';
 import { DetailsComponent } from './components/fields-landing-page/details/details.component';
 import { AddFieldComponent } from './components/fields-landing-page/add-field/add-field.component';
+import { EditFieldComponent } from './components/fields-landing-page/edit-field/edit-field.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   observer: true,
@@ -91,6 +92,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     FieldsLandingPageComponent,
     DetailsComponent,
     AddFieldComponent,
+    EditFieldComponent,
   ],
   imports: [
     BrowserModule,
