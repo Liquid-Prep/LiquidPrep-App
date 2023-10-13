@@ -1,0 +1,39 @@
+  <div class="sensor-locator-modal">
+
+    <div *ngIf="showStep1">
+      <span class="modal-step">Step 1 of 2</span>
+      <h1 mat-dialog-title class="dialog-title">Set Sensor Location</h1>
+      <p class="sensor-locator-text">Make sure you are standing next to the sensor in the field.</p>
+      <p class="sensor-locator-instruction">Tap NEXT when you are ready. This will set your device location as the sensor location.</p>
+    </div>
+
+    <div *ngIf="showStep2">
+      <span class="modal-step">Step 2 of 2</span>
+      <h1 mat-dialog-title class="dialog-title">Set Sensor Location</h1>
+      <div>
+        <p *ngIf="requestingLocation" class="sensor-locator-status">Getting GPS location.</p>
+        <p *ngIf="!requestingLocation" class="sensor-locator-status">GPS location found.</p>
+        <div
+          class="locator-spinner"
+          fxFlexFill fxLayout="column"
+          fxLayoutGap="25px"
+          fxLayoutAlign="center center"
+          *ngIf="requestingLocation">
+          <div>
+            <mat-spinner diameter="38" color="primary"></mat-spinner>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!requestingLocation">
+        <span class="sensor-gps-label">GPS coordinates:</span>
+        <span class="sensor-gps-value">{{geocode}}</span>
+      </div>
+    </div>
+
+    <div mat-dialog-actions class="action-buttons horizontal">
+      <button mat-button (click)="onCancel()" class="secondary-button">Cancel</button>
+      <button *ngIf="showStep1" mat-button (click)="requestLocation()" class="secondary-button">Next</button>
+      <button *ngIf="showStep2" [disabled]="requestingLocation" mat-button (click)="saveSelection()" class="secondary-button">Save</button>
+    </div>
+  </div>

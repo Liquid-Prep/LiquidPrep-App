@@ -61,7 +61,7 @@
   <div class="sortedby-section" [hidden]="!isSortedByVisible">
     <span class="sort-label">Sorted by </span>
     <span class="sort-option">
-      {{ selectedSortLabel }}
+      {{ selectedLabel }}
     </span>
   </div>
 
@@ -72,7 +72,7 @@
       <ng-container *ngIf="displayedSensors.length > 0; else noResults">
         <mat-list-item *ngFor="let sensor of displayedSensors">
           <a mat-list-item class="sensorLink" [ngClass]="{'offline': sensor.connectionStatus === 'Not Connected'}" (click)="onSensorClicked(sensor.id)">
-            <h4 mat-line class="lastUpdatedTime">{{ sensor.lastUpdated }}</h4>
+            <h4 mat-line class="lastUpdatedTime">{{ sensor.formattedLastUpdatedTime }}</h4>
             <p mat-line class="menu-list-body">
               <span class="sensor-info">
                 {{ sensor.sensorName }} <span class="sensorSpacer">&#183;</span>

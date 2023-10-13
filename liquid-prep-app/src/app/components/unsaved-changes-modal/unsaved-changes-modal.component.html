@@ -1,0 +1,11 @@
+<div class="unsaved-changes-modal">
+  <h1 mat-dialog-title class="dialog-title">Exit without saving?</h1>
+  <p>
+    You have unsaved changes. Are you sure you want to leave this page without saving?
+  </p>
+
+  <div mat-dialog-actions class="action-buttons horizontal">
+    <button mat-button (click)="onCancel()" class="secondary-button">Cancel</button>
+    <button mat-button (click)="backClicked()" class="secondary-button">Exit</button>
+  </div>
+</div>

@@ -14,7 +14,8 @@ import { HomeComponent } from './components/dashboard/home/home.component';
 import { FieldsComponent } from './components/dashboard/fields/fields.component';
 import { SensorsComponent } from './components/dashboard/sensors/sensors.component';
 import { SensorDetailsComponent } from './components/dashboard/sensors/sensor-details/sensor-details.component';
-// import { SensorEditDetailsComponent } from './components/dashboard/sensors/sensor-details/sensor-details.component';
+import { EditSensorComponent } from './components/dashboard/sensors/edit-sensor/edit-sensor.component';
+
 
 
 const routes: Routes = [
@@ -67,10 +68,10 @@ const routes: Routes = [
     path: 'dashboard/sensors/:sensorId',
     component: SensorDetailsComponent,
   },
-  // {
-  //   path: 'dashboard/sensors/edit/:sensorId',
-  //   component: SensorEditDetailsComponent,
-  // },
+  {
+    path: 'dashboard/sensors/edit/:sensorId',
+    component: EditSensorComponent,
+  },
 ];
 
 @NgModule({
