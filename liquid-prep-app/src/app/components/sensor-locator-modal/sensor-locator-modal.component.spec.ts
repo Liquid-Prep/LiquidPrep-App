@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeleteCropComponent } from './delete-crop.component';
+import { SensorLocatorModalComponent } from './sensor-locator-modal.component';
 
-describe('DeleteCropComponent', () => {
-  let component: DeleteCropComponent;
-  let fixture: ComponentFixture<DeleteCropComponent>;
+describe('SensorLocatorModalComponent', () => {
+  let component: SensorLocatorModalComponent;
+  let fixture: ComponentFixture<SensorLocatorModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DeleteCropComponent ]
+      declarations: [ SensorLocatorModalComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DeleteCropComponent);
+    fixture = TestBed.createComponent(SensorLocatorModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

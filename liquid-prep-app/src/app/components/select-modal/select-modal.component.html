@@ -1,0 +1,14 @@
+<h1 mat-dialog-title class="dialog-title">{{modalTitle}}</h1>
+
+<div class="selectOptions">
+  <mat-radio-group [(ngModel)]="selectedOption">
+    <mat-radio-button *ngFor="let option of options" [value]="option.value">
+      {{ option.label }}
+    </mat-radio-button>
+  </mat-radio-group>
+</div>
+
+<div mat-dialog-actions class="action-buttons horizontal">
+  <button mat-button (click)="onCancel()" class="secondary-button">Cancel</button>
+  <button mat-button (click)="saveSelection()" class="secondary-button">OK</button>
+</div>

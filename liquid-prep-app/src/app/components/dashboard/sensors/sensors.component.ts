@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { HeaderService } from 'src/app/service/header.service';
 import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
-import { SortModalComponent } from '../../sort-modal/sort-modal.component';
+import { SelectModalComponent } from '../../select-modal/select-modal.component';
 import { DatePipe } from '@angular/common';
 import { sensors } from './sensor-data';
 
@@ -12,20 +12,20 @@ import { sensors } from './sensor-data';
   selector: 'app-sensors',
   templateUrl: './sensors.component.html',
   styleUrls: ['./sensors.component.scss'],
-  encapsulation : ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None,
 })
 export class SensorsComponent implements OnInit {
-
-  selectedSortOption: string = 'lastUpdated';
-  selectedSortLabel: string = 'last updated time';
+  selectedOption: string = 'lastUpdated';
+  selectedLabel: string = 'last updated time';
   noFieldSelectedText: string = 'No field selected';
   selectedFilterOption: string = '';
   selectedFilterOptions: string[] = [];
   filterOptions: {
-    connectionStatusOptions: string[],
-    fieldLocationOptions: string[] } = {
-      connectionStatusOptions: [],
-      fieldLocationOptions: [],
+    connectionStatusOptions: string[];
+    fieldLocationOptions: string[];
+  } = {
+    connectionStatusOptions: [],
+    fieldLocationOptions: [],
   };
   isFilterVisible: boolean = false;
   isFilteredByVisible: boolean = false;
@@ -35,6 +35,12 @@ export class SensorsComponent implements OnInit {
   searchQuery: string = '';
   clearSearchDisplayText: string = 'Clear search to see all sensors.';
   originalDisplayedSensorsLength: number;
+  sortOptions: Array<{ value: string; label: string }> = [
+    { value: 'lastUpdated', label: 'Last Updated Time' },
+    { value: 'sensorName', label: 'Sensor Name (A-Z)' },
+    { value: 'fieldLocation', label: 'Field Location (A-Z)' },
+    { value: 'connectionStatus', label: 'Connection Status' },
+  ];
 
   headerConfig: HeaderConfig = {
     headerTitle: 'Sensors',
@@ -53,7 +59,7 @@ export class SensorsComponent implements OnInit {
     private location: Location,
     private headerService: HeaderService,
     private datePipe: DatePipe,
-    private router: Router,
+    private router: Router
   ) {}
 
   public handleLeftClick(data: string) {
@@ -73,19 +79,16 @@ export class SensorsComponent implements OnInit {
   }
 
   private renderedHeadings: Set<string> = new Set<string>();
-  private lastSelectedSortOption: string = '';
+  private lastSelectedOption: string = '';
 
   ngOnInit(): void {
-
     this.headerService.updateHeader(this.headerConfig);
 
     this.filterOptions = this.getSelectedFilterOptions();
     this.filterOptions.connectionStatusOptions.sort();
     this.filterOptions.fieldLocationOptions.sort();
 
-
-
-    this.lastSelectedSortOption = this.selectedSortOption;
+    this.lastSelectedOption = this.selectedOption;
 
     // Initialize displayedSensors with the original sensor data
     this.displayedSensors = [...sensors];
@@ -99,8 +102,8 @@ export class SensorsComponent implements OnInit {
     }
 
     // Convert Date format
-    sensors.forEach((sensor) => {
-      const epochTimestamp = parseInt(sensor.lastUpdated, 10);
+    sensors.forEach((sensor: Sensor) => {
+      const epochTimestamp = sensor.lastUpdatedTime;
       const utcDate = new Date(epochTimestamp * 1000);
 
       // Calculate today and yesterday dates
@@ -108,13 +111,12 @@ export class SensorsComponent implements OnInit {
       const yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
 
-      if (isSameDate(utcDate, now)) {
-        sensor.lastUpdated = 'today ' + this.datePipe.transform(utcDate, 'h:mm a');
-      } else if (isSameDate(utcDate, yesterday)) {
-        sensor.lastUpdated = 'yesterday ' + this.datePipe.transform(utcDate, 'h:mm a');
-      } else {
-        sensor.lastUpdated = this.datePipe.transform(utcDate, "MM.dd.yy 'at' h:mm a");
-      }
+      // Create a new property to store the formatted string
+      sensor.formattedLastUpdatedTime = isSameDate(utcDate, now)
+        ? 'today ' + this.datePipe.transform(utcDate, 'h:mm a')
+        : isSameDate(utcDate, yesterday)
+        ? 'yesterday ' + this.datePipe.transform(utcDate, 'h:mm a')
+        : this.datePipe.transform(utcDate, "MM.dd.yy 'at' h:mm a");
     });
 
     // Function to check if two dates are on the same day
@@ -128,51 +130,57 @@ export class SensorsComponent implements OnInit {
   }
 
   openSortModal() {
-    const dialogRef = this.dialog.open(SortModalComponent, {
+    const sortOptions = this.sortOptions;
+    const dialogRef = this.dialog.open(SelectModalComponent, {
       width: '80%',
       data: {
-        selectedSortOption: this.selectedSortOption,
-        selectedSortLabel: this.selectedSortLabel
+        selectedOption: this.selectedOption,
+        selectedLabel: this.selectedLabel,
+        modalTitle: 'Sort by',
+        options: sortOptions,
       },
     });
 
     dialogRef.afterClosed().subscribe((selection) => {
       if (selection) {
-        this.selectedSortOption = selection.selectedSortOption;
-        this.selectedSortLabel = selection.selectedSortLabel.toLowerCase();
-        this.lastSelectedSortOption = this.selectedSortOption;
+        this.selectedOption = selection.selectedOption;
+        this.selectedLabel = selection.selectedLabel.toLowerCase();
+        this.lastSelectedOption = this.selectedOption;
         this.sortSensors();
       }
     });
   }
 
-sortSensors() {
-  this.displayedSensors.sort((a, b) => {
-    switch (this.selectedSortOption) {
-      case 'sensorName':
-        return a.sensorName.localeCompare(b.sensorName);
-      case 'fieldLocation':
-        return a.fieldLocation.localeCompare(b.fieldLocation);
-      case 'connectionStatus':
-        return this.toggleConnectionStatusSort(a.connectionStatus, b.connectionStatus);
-      default:
-        const dateA = new Date(a.lastUpdated * 1000);
-        const dateB = new Date(b.lastUpdated * 1000);
-        // Compare in descending order (most recent first)
-        return dateB.getTime() - dateA.getTime();
-    }
-  });
-}
-
-toggleConnectionStatusSort(statusA: string, statusB: string): number {
-  if (statusA === 'Not Connected' && statusB !== 'Not Connected') {
-    return 1; // Move "Not Connected" to the bottom
-  } else if (statusA !== 'Not Connected' && statusB === 'Not Connected') {
-    return -1; // Move "Not Connected" to the bottom
-  } else {
-    return statusA.localeCompare(statusB); // Sort other statuses alphabetically
+  sortSensors() {
+    this.displayedSensors.sort((a, b) => {
+      switch (this.selectedOption) {
+        case 'sensorName':
+          return a.sensorName.localeCompare(b.sensorName);
+        case 'fieldLocation':
+          return a.fieldLocation.localeCompare(b.fieldLocation);
+        case 'connectionStatus':
+          return this.toggleConnectionStatusSort(
+            a.connectionStatus,
+            b.connectionStatus
+          );
+        default:
+          const dateA = new Date(a.lastUpdated * 1000);
+          const dateB = new Date(b.lastUpdated * 1000);
+          // Compare in descending order (most recent first)
+          return dateB.getTime() - dateA.getTime();
+      }
+    });
   }
-}
+
+  toggleConnectionStatusSort(statusA: string, statusB: string): number {
+    if (statusA === 'Not Connected' && statusB !== 'Not Connected') {
+      return 1; // Move "Not Connected" to the bottom
+    } else if (statusA !== 'Not Connected' && statusB === 'Not Connected') {
+      return -1; // Move "Not Connected" to the bottom
+    } else {
+      return statusA.localeCompare(statusB); // Sort other statuses alphabetically
+    }
+  }
 
   toggleFilterOption(option: string) {
     const index = this.selectedFilterOptions.indexOf(option);
@@ -190,7 +198,6 @@ toggleConnectionStatusSort(statusA: string, statusB: string): number {
 
     if (this.selectedFilterOptions.length > 0) {
       filteredSensors = filteredSensors.filter((sensor) => {
-
         return (
           this.selectedFilterOptions.includes(sensor.fieldLocation) ||
           this.selectedFilterOptions.includes(sensor.connectionStatus)
@@ -215,32 +222,32 @@ toggleConnectionStatusSort(statusA: string, statusB: string): number {
     this.toggleFilter();
   }
 
-// Get filter selections
-getSelectedFilterOptions() {
-  const selectedConnectionStatus = new Set<string>();
-  const fieldLocationOptions = new Set<string>(); // Use a Set to deduplicate options
+  // Get filter selections
+  getSelectedFilterOptions() {
+    const selectedConnectionStatus = new Set<string>();
+    const fieldLocationOptions = new Set<string>(); // Use a Set to deduplicate options
 
-  sensors.forEach((sensor) => {
-    selectedConnectionStatus.add(sensor.connectionStatus);
-    if (sensor.fieldLocation !== null) {
-      fieldLocationOptions.add(sensor.fieldLocation);
+    sensors.forEach((sensor) => {
+      selectedConnectionStatus.add(sensor.connectionStatus);
+      if (sensor.fieldLocation !== null) {
+        fieldLocationOptions.add(sensor.fieldLocation);
+      }
+    });
+
+    // Convert the Sets back to arrays
+    const connectionStatusOptions = Array.from(selectedConnectionStatus);
+    const fieldLocationArray = Array.from(fieldLocationOptions);
+
+    // Add "No field selected" at the top if it exists
+    if (sensors.some((sensor) => sensor.fieldLocation === null)) {
+      fieldLocationArray.unshift(null);
     }
-  });
 
-  // Convert the Sets back to arrays
-  const connectionStatusOptions = Array.from(selectedConnectionStatus);
-  const fieldLocationArray = Array.from(fieldLocationOptions);
-
-  // Add "No field selected" at the top if it exists
-  if (sensors.some((sensor) => sensor.fieldLocation === null)) {
-    fieldLocationArray.unshift(null);
+    return {
+      connectionStatusOptions,
+      fieldLocationOptions: fieldLocationArray,
+    };
   }
-
-  return {
-    connectionStatusOptions,
-    fieldLocationOptions: fieldLocationArray,
-  };
-}
 
   isSelectedFilterOption(option: string): boolean {
     return this.selectedFilterOptions.includes(option);
@@ -280,7 +287,6 @@ getSelectedFilterOptions() {
       }
       this.isSortedByVisible = true;
     }
-
   }
 
   toggleSearch() {
@@ -292,7 +298,6 @@ getSelectedFilterOptions() {
       this.isFilteredByVisible = false;
       this.isSortedByVisible = false;
     }
-
   }
 
   onSearchInputChange() {
@@ -302,9 +307,18 @@ getSelectedFilterOptions() {
   applySearchFilter() {
     this.displayedSensors = sensors.filter((sensor) => {
       return (
-        sensor.sensorName.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        (sensor.fieldLocation && sensor.fieldLocation.toLowerCase().includes(this.searchQuery.toLowerCase())) || // Check if fieldLocation is not null
-        (sensor.moistureLevel && sensor.moistureLevel.toString().toLowerCase().includes(this.searchQuery.toLowerCase())) // Check if moistureLevel is not null
+        sensor.sensorName
+          .toLowerCase()
+          .includes(this.searchQuery.toLowerCase()) ||
+        (sensor.fieldLocation &&
+          sensor.fieldLocation
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase())) || // Check if fieldLocation is not null
+        (sensor.moistureLevel &&
+          sensor.moistureLevel
+            .toString()
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase())) // Check if moistureLevel is not null
       );
     });
   }
@@ -313,5 +327,31 @@ getSelectedFilterOptions() {
     const url = `/dashboard/sensors/${sensorId}`;
     this.router.navigate([url]);
   }
+}
 
+interface Sensor {
+  id: string;
+  lastUpdatedTime: number;
+  sensorName: string;
+  fieldLocation: string;
+  moistureLevel: number;
+  geocode: string;
+  nextScheduledReading: number;
+  pastReadings: { dateTime: number; moistureLevel: number }[];
+  connectionStatus: string;
+  connectionInfo: {
+    edgeGateway: {
+      value: string;
+      url: string;
+    };
+    espNowGateway: {
+      value: string;
+      url: string;
+    };
+    webSocket: {
+      url: string;
+    };
+  };
+  formattedLastUpdatedTime?: string;
+  formattedNextUpdatedTime?: string;
 }
