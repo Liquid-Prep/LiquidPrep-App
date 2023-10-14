@@ -71,7 +71,6 @@ export class AddFieldComponent implements OnInit {
       crop, //Get Crop Data
       plantDate: new Date(formattedDate)
     }
-    console.log(params);
     this.fieldService.storeFieldsInLocalStorage(params);
     this.router.navigate([`/fields`]);
 

@@ -41,7 +41,6 @@ export class DetailsComponent implements OnInit {
     private fieldService: FieldDataService
   ) {
     this.id = this.route.snapshot.queryParamMap.get('id');
-    console.log(this.id);
     this.getFieldDetails(this.id);
   }
 
@@ -55,24 +54,20 @@ export class DetailsComponent implements OnInit {
   }
 
   public openWarningDialog() {
-    console.log('Delete');
     this.dialog.open(this.dialogTemplate);
   }
 
   public editField() {
-    console.log(this.id);
     this.router.navigate([`/edit-field`], { queryParams: { id: this.id } });
   }
 
   public deleteField() {
-    console.log('Deleted');
     this.fieldService.removeFieldFromLocalStorage(this.id);
     this.router.navigate([`/fields`]);
   }
 
   public async getFieldDetails(id: string) {
     this.fieldDetails = await this.fieldService.getFieldFromMyFieldById(id);
-    console.log(this.fieldDetails);
   }
 
   public getFieldPhoto(type: string) {
