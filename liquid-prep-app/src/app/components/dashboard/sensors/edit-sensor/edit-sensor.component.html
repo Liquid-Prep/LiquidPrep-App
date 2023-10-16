@@ -19,10 +19,11 @@
         <div *ngIf="!showDeviceLocatorButton" class="device-locator-static">
           <div class="input-box">
             <mat-form-field>
-              <input matInput [disabled]="true" [(ngModel)]="geocode" name="geocode">            </mat-form-field>
+              <input matInput [disabled]="true" [(ngModel)]="geocode" name="geocode"> </mat-form-field>
           </div>
 
-          <button class="device-locator-reset-button" (click)="showDeviceLocatorButton = !showDeviceLocatorButton">Reset Location</button>
+          <button class="device-locator-reset-button" (click)="showDeviceLocatorButton = !showDeviceLocatorButton">Reset
+            Location</button>
         </div>
 
         <mat-list-item class="sensor-detail-group" *ngIf="showDeviceLocatorButton">
@@ -36,7 +37,7 @@
           <mat-list-item>
             <span class="sensor-detail-label">Field</span>
             <button class="fake-select-box" (click)="openFieldSelectorModal()">
-              {{selectedField}}
+              {{selectedFieldName}}
               <mat-icon class="select-box-icon">arrow_drop_down</mat-icon>
             </button>
 

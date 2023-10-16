@@ -1,4 +1,4 @@
-export const sensors = [
+export const SENSORS_MOCK_DATA = [
   {
     id: '9addc374-e035-4d45-abe8-f1f54ca2a786',
     lastUpdatedTime: 1694674978,
@@ -90,7 +90,7 @@ export const sensors = [
     },
   },
   {
-    id: '6bf92a8d-c7e5-44f2-836e-88ec1c9f5f01',
+    id: '9ffb75c3-1c93-4fb4-b2a9-2ab9e7a9a68d',
     lastUpdatedTime: 1694893425,
     sensorName: 'C3',
     fieldLocation: null,

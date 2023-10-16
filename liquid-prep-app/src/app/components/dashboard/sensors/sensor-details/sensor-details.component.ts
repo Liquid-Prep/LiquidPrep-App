@@ -2,9 +2,10 @@ import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { sensors } from '../sensor-data';
 import { HeaderService } from 'src/app/service/header.service';
 import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
+import { SensorStorageService } from '../../../../service/sensor-storage.service';
+import type { SensorsData } from '../sensors.component';
 
 @Component({
   selector: 'app-sensor-details',
@@ -13,8 +14,10 @@ import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
   encapsulation: ViewEncapsulation.None,
 })
 export class SensorDetailsComponent implements OnInit {
+  sensors: SensorsData;
   sensor: any;
   sensorId: string;
+  selectedFieldName: string;
 
   headerConfig: HeaderConfig = {
     headerTitle: 'Sensor Details',
@@ -31,18 +34,26 @@ export class SensorDetailsComponent implements OnInit {
     private router: Router,
     private headerService: HeaderService,
     private location: Location,
+    private sensorStorageService: SensorStorageService
   ) {}
 
   ngOnInit(): void {
     this.headerService.updateHeader(this.headerConfig);
+    this.retrieveSensorData();
     this.route.params.subscribe((params) => {
       this.sensorId = params['sensorId'];
       this.loadSensorDetails(this.sensorId);
     });
   }
 
+  private retrieveSensorData() {
+    const savedSensors = this.sensorStorageService.getSensorData();
+    this.sensors = savedSensors;
+  }
+
   loadSensorDetails(sensorId: string): void {
-    this.sensor = sensors.find((sensor) => sensor.id === sensorId);
+    this.sensor = this.sensors.find((sensor) => sensor.id === sensorId);
+    this.selectedFieldName = this.sensor.fieldLocation === null ? 'None' : this.sensor.fieldLocation ;
 
     if (this.sensor && this.sensor.lastUpdatedTime) {
       this.sensor.formattedLastUpdatedTime = this.convertAndFormatDate(this.sensor.lastUpdatedTime * 1000);
@@ -74,11 +85,9 @@ export class SensorDetailsComponent implements OnInit {
   }
 
   convertAndFormatDate = (inputDate) => {
-    // Create a Date object from the input ISO string
     const date = new Date(inputDate);
     const targetTimeZone = 'America/New_York';
 
-    // Define the formatting options with type annotations
     const options: Intl.DateTimeFormatOptions = {
       timeZone: targetTimeZone,
       year: 'numeric',
@@ -90,12 +99,9 @@ export class SensorDetailsComponent implements OnInit {
       hour12: true,
     };
 
-    // Format the date using Intl.DateTimeFormat
     const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
-
     const datePart = formattedDate.split(', ')[0];
     const timePart = formattedDate.split(', ')[1];
-
     const formattedDateAtTime = `${datePart} at ${timePart}`;
 
     return formattedDateAtTime;
