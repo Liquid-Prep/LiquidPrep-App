@@ -6,7 +6,8 @@ import { HeaderService } from 'src/app/service/header.service';
 import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
 import { SelectModalComponent } from '../../select-modal/select-modal.component';
 import { DatePipe } from '@angular/common';
-import { sensors } from './sensor-data';
+import { SENSORS_MOCK_DATA } from './sensor-data';
+import { SensorStorageService } from '../../../service/sensor-storage.service'; // Update the path
 
 @Component({
   selector: 'app-sensors',
@@ -15,6 +16,7 @@ import { sensors } from './sensor-data';
   encapsulation: ViewEncapsulation.None,
 })
 export class SensorsComponent implements OnInit {
+  sensors: SensorsData;
   selectedOption: string = 'lastUpdated';
   selectedLabel: string = 'last updated time';
   noFieldSelectedText: string = 'No field selected';
@@ -59,7 +61,8 @@ export class SensorsComponent implements OnInit {
     private location: Location,
     private headerService: HeaderService,
     private datePipe: DatePipe,
-    private router: Router
+    private router: Router,
+    private sensorStorageService: SensorStorageService
   ) {}
 
   public handleLeftClick(data: string) {
@@ -82,8 +85,11 @@ export class SensorsComponent implements OnInit {
   private lastSelectedOption: string = '';
 
   ngOnInit(): void {
+
     this.headerService.updateHeader(this.headerConfig);
 
+    this.saveSensorData();
+    this.retrieveSensorData();
     this.filterOptions = this.getSelectedFilterOptions();
     this.filterOptions.connectionStatusOptions.sort();
     this.filterOptions.fieldLocationOptions.sort();
@@ -91,7 +97,7 @@ export class SensorsComponent implements OnInit {
     this.lastSelectedOption = this.selectedOption;
 
     // Initialize displayedSensors with the original sensor data
-    this.displayedSensors = [...sensors];
+    this.displayedSensors = [...this.sensors];
     this.originalDisplayedSensorsLength = this.displayedSensors.length;
 
     if (this.displayedSensors.length === 0) {
@@ -102,7 +108,7 @@ export class SensorsComponent implements OnInit {
     }
 
     // Convert Date format
-    sensors.forEach((sensor: Sensor) => {
+    this.sensors.forEach((sensor: Sensor) => {
       const epochTimestamp = sensor.lastUpdatedTime;
       const utcDate = new Date(epochTimestamp * 1000);
 
@@ -127,6 +133,20 @@ export class SensorsComponent implements OnInit {
         date1.getDate() === date2.getDate()
       );
     }
+  }
+
+  private saveSensorData() {
+    const savedSensors = this.sensorStorageService.getSensorData();
+
+    if (!savedSensors || savedSensors.length === 0) {
+      const sensors = SENSORS_MOCK_DATA;
+      this.sensorStorageService.saveSensorData(sensors);
+    }
+  }
+
+  private retrieveSensorData() {
+    const savedSensors = this.sensorStorageService.getSensorData();
+    this.sensors = savedSensors;
   }
 
   openSortModal() {
@@ -194,7 +214,7 @@ export class SensorsComponent implements OnInit {
 
   applyFilterAndSort() {
     // Apply filtering based on selected filter options
-    let filteredSensors = [...sensors];
+    let filteredSensors = [...this.sensors];
 
     if (this.selectedFilterOptions.length > 0) {
       filteredSensors = filteredSensors.filter((sensor) => {
@@ -213,7 +233,7 @@ export class SensorsComponent implements OnInit {
 
   clearFilter() {
     this.selectedFilterOptions = []; // Clear all selected filter options
-    this.displayedSensors = [...sensors]; // Reset displayedSensors to the original list
+    this.displayedSensors = [...this.sensors]; // Reset displayedSensors to the original list
     this.isFilteredByVisible = false;
   }
 
@@ -227,7 +247,7 @@ export class SensorsComponent implements OnInit {
     const selectedConnectionStatus = new Set<string>();
     const fieldLocationOptions = new Set<string>(); // Use a Set to deduplicate options
 
-    sensors.forEach((sensor) => {
+    this.sensors.forEach((sensor) => {
       selectedConnectionStatus.add(sensor.connectionStatus);
       if (sensor.fieldLocation !== null) {
         fieldLocationOptions.add(sensor.fieldLocation);
@@ -239,7 +259,7 @@ export class SensorsComponent implements OnInit {
     const fieldLocationArray = Array.from(fieldLocationOptions);
 
     // Add "No field selected" at the top if it exists
-    if (sensors.some((sensor) => sensor.fieldLocation === null)) {
+    if (this.sensors.some((sensor) => sensor.fieldLocation === null)) {
       fieldLocationArray.unshift(null);
     }
 
@@ -290,7 +310,7 @@ export class SensorsComponent implements OnInit {
   }
 
   toggleSearch() {
-    this.displayedSensors = sensors;
+    this.displayedSensors = this.sensors;
     this.isSearchVisible = !this.isSearchVisible;
 
     if (this.isSearchVisible) {
@@ -305,7 +325,7 @@ export class SensorsComponent implements OnInit {
   }
 
   applySearchFilter() {
-    this.displayedSensors = sensors.filter((sensor) => {
+    this.displayedSensors = this.sensors.filter((sensor) => {
       return (
         sensor.sensorName
           .toLowerCase()
@@ -329,7 +349,7 @@ export class SensorsComponent implements OnInit {
   }
 }
 
-interface Sensor {
+export interface Sensor {
   id: string;
   lastUpdatedTime: number;
   sensorName: string;
@@ -355,3 +375,5 @@ interface Sensor {
   formattedLastUpdatedTime?: string;
   formattedNextUpdatedTime?: string;
 }
+
+export type SensorsData = Sensor[];
