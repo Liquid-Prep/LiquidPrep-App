@@ -7,6 +7,12 @@ export const SENSORS_MOCK_DATA = [
     moistureLevel: 43.12,
     geocode: '41.40338, 2.17403',
     nextScheduledReading: 1699674978,
+    broadcastIntervals: {
+      timesPerDay: null,
+      firstReadingTime: null,
+      timeBetweenReading: null,
+    },
+    disableOnInactivity: false,
     pastReadings: [
       {
         dateTime: 1694595000,
@@ -52,6 +58,12 @@ export const SENSORS_MOCK_DATA = [
     moistureLevel: 57.89,
     geocode: '39.12345, -120.67890',
     nextScheduledReading: 1699674978,
+    broadcastIntervals: {
+      timesPerDay: null,
+      firstReadingTime: null,
+      timeBetweenReading: null,
+    },
+    disableOnInactivity: false,
     pastReadings: [
       {
         dateTime: 1694872600,
@@ -97,6 +109,12 @@ export const SENSORS_MOCK_DATA = [
     moistureLevel: 57.89,
     geocode: '39.12345, -120.67890',
     nextScheduledReading: 1699674978,
+    broadcastIntervals: {
+      timesPerDay: null,
+      firstReadingTime: null,
+      timeBetweenReading: null,
+    },
+    disableOnInactivity: false,
     pastReadings: [
       {
         dateTime: 1694872600,
@@ -142,6 +160,12 @@ export const SENSORS_MOCK_DATA = [
     moistureLevel: 50,
     geocode: '30.2672, -97.7431',
     nextScheduledReading: 1699674978,
+    broadcastIntervals: {
+      timesPerDay: null,
+      firstReadingTime: null,
+      timeBetweenReading: null,
+    },
+    disableOnInactivity: false,
     pastReadings: [
       {
         dateTime: 1694872600,
@@ -187,6 +211,12 @@ export const SENSORS_MOCK_DATA = [
     moistureLevel: 65.16,
     geocode: '30.2672, -97.7431',
     nextScheduledReading: 1699674978,
+    broadcastIntervals: {
+      timesPerDay: null,
+      firstReadingTime: null,
+      timeBetweenReading: null,
+    },
+    disableOnInactivity: false,
     pastReadings: [
       {
         dateTime: 1694872600,
@@ -232,6 +262,12 @@ export const SENSORS_MOCK_DATA = [
     moistureLevel: null,
     geocode: '30.2672, -97.7431',
     nextScheduledReading: 1699674978,
+    broadcastIntervals: {
+      timesPerDay: null,
+      firstReadingTime: null,
+      timeBetweenReading: null,
+    },
+    disableOnInactivity: false,
     pastReadings: [
       {
         dateTime: 1694872600,

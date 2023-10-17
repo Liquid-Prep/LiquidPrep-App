@@ -357,6 +357,12 @@ export interface Sensor {
   moistureLevel: number;
   geocode: string;
   nextScheduledReading: number;
+  broadcastIntervals: {
+      timesPerDay?: number | null;
+      firstReadingTime?: number | null;
+      timeBetweenReading?: number | null;
+  };
+  disableOnInactivity; boolean;
   pastReadings: { dateTime: number; moistureLevel: number }[];
   connectionStatus: string;
   connectionInfo: {

@@ -37,4 +37,10 @@ export class DateTimeUtil {
   public getTodayDate() {
     return new Date();
   }
+
+  public formatHourLabel(selectedHour: number): string {
+    const formattedHour = selectedHour % 12 === 0 ? 12 : selectedHour % 12;
+    const amPm = selectedHour < 12 ? 'AM' : 'PM';
+    return `${formattedHour.toString().padStart(2, '0')}:00 ${amPm}`;
+  }
 }

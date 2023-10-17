@@ -18,6 +18,11 @@ export class SensorDetailsComponent implements OnInit {
   sensor: any;
   sensorId: string;
   selectedFieldName: string;
+  timesPerDay: number;
+  timeBetweenReading: number;
+  timeBetweenReadingLabel: string;
+  formattedFirstReadingTime: string;
+  firstReadingTime: number;
 
   headerConfig: HeaderConfig = {
     headerTitle: 'Sensor Details',
@@ -55,12 +60,32 @@ export class SensorDetailsComponent implements OnInit {
     this.sensor = this.sensors.find((sensor) => sensor.id === sensorId);
     this.selectedFieldName = this.sensor.fieldLocation === null ? 'None' : this.sensor.fieldLocation ;
 
+    this.timesPerDay = this.sensor.broadcastIntervals.timesPerDay;
+    this.timeBetweenReading = this.sensor.broadcastIntervals.timeBetweenReading;
+    this.timeBetweenReadingLabel = this.getTimeBetweenLabel(this.sensor.broadcastIntervals.timeBetweenReading);
+    this.formattedFirstReadingTime = this.formatHour(this.sensor.broadcastIntervals.firstReadingTime);
+
     if (this.sensor && this.sensor.lastUpdatedTime) {
       this.sensor.formattedLastUpdatedTime = this.convertAndFormatDate(this.sensor.lastUpdatedTime * 1000);
     }
     if (this.sensor && this.sensor.nextScheduledReading) {
       this.sensor.formattedNextUpdatedTime = this.convertAndFormatDate(this.sensor.nextScheduledReading * 1000);
     }
+  }
+
+  getTimeBetweenLabel(i: number): string {
+    if (i === 1) {
+      return `${i} hour`;
+    } else if (i <= 24) {
+      return `${i} hours`;
+    }
+    return null;
+  }
+
+  private formatHour(hour: number): string {
+    const amPm = hour < 12 ? 'AM' : 'PM';
+    const formattedHour = hour % 12 === 0 ? 12 : hour % 12;
+    return `${formattedHour.toString()}:00 ${amPm}`;
   }
 
   public backBrowserClicked() {
