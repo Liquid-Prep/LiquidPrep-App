@@ -73,8 +73,8 @@
               <div class="select-box">
                 <mat-form-field>
                   <span class="sensor-input-label">Time of first reading</span>
-                  <mat-select>
-                    <mat-option *ngFor="let hour of hours" [value]="hour">{{ hour }}</mat-option>
+                  <mat-select [(ngModel)]="selectedReadingTime">
+                    <mat-option *ngFor="let hour of hours" [value]="hour">{{ formatHourLabel(hour) }}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
@@ -98,7 +98,7 @@
 
       <div class="toggle-container">
         <span class="toggle-text">Disable sensor after 10 days of inactivity</span>
-        <mat-slide-toggle [(ngModel)]="isSensorDisabled" class="toggle"></mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]="disableOnInactivity" class="toggle"></mat-slide-toggle>
       </div>
 
     </mat-card-content>

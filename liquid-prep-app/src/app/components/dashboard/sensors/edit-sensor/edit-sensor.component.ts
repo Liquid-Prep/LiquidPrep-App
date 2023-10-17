@@ -10,7 +10,6 @@ import { SelectModalComponent } from '../../../select-modal/select-modal.compone
 import { SensorStorageService } from '../../../../service/sensor-storage.service';
 import type { SensorsData } from '../sensors.component';
 
-
 @Component({
   selector: 'app-edit-sensor',
   templateUrl: './edit-sensor.component.html',
@@ -23,13 +22,22 @@ import type { SensorsData } from '../sensors.component';
 export class EditSensorComponent implements OnInit {
   sensors: SensorsData;
   sensor: any;
-  hours: string[] = [];
-  timesPerDayOptions: { value: string; label: string }[] = [];
-  timeBetweenOptions: { value: string; label: string }[] = [];
-  selectedTimesPerDay: string = '';
-  selectedTimeBetween: string = '';
+  hours: number[] = [];
+  timesPerDayOptions: { value: number; label: string }[] = [];
+  timeBetweenOptions: { value: number; label: string }[] = [];
+  selectedTimesPerDay: number;
+  selectedTimeBetween: number = 0; // Initialize it with a default value
+
+  firstReadingTime: number;
+  formattedFirstReadingTime: string;
+  timesPerDay: number;
+  timeBetweenReading: number;
+
+  selectedReadingTime: number;
+  disableOnInactivity: boolean = false;
   isSensorDisabled: boolean = false;
   showDeviceLocatorButton: boolean = false;
+  currentFieldLabel: string = '';
   selectedField: string = '';
   selectedFieldValue: string = '';
   selectedFieldName: string = '';
@@ -44,6 +52,8 @@ export class EditSensorComponent implements OnInit {
     leftBtnClick: this.confirmExit.bind(this),
     rightTextBtnClick: this.onSave.bind(this),
   };
+  private newFieldSelection: any;
+  private originalFieldSelection: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -53,36 +63,35 @@ export class EditSensorComponent implements OnInit {
     private sensorStorageService: SensorStorageService
   ) {
     for (let i = 0; i < 24; i++) {
-      const hour = this.formatHour(i);
-      this.hours.push(hour);
+      this.hours.push((i + 12) % 24); // Convert to 24-hour format
     }
 
     // Times per day
     for (let i = 1; i <= 24; i++) {
       this.timesPerDayOptions.push({
-        value: `timesPerDay${i}`,
+        value: i,
         label: i.toString(),
       });
 
       // TODO: Fix logic to limit the timeBetweenOptions based on selectedTimesPerDay
       if (i === 1) {
         this.timeBetweenOptions.push({
-          value: `timeBetween${i}`,
+          value: i,
           label: `${i} hour`,
         });
       } else if (i <= 24) {
         this.timeBetweenOptions.push({
-          value: `timeBetween${i}`,
+          value: i,
           label: `${i} hours`,
         });
       }
     }
   }
 
-  private formatHour(hour: number): string {
-    const amPm = hour < 12 ? 'AM' : 'PM';
-    const formattedHour = hour % 12 === 0 ? 12 : hour % 12;
-    return `${formattedHour.toString().padStart(2, '0')}:00 ${amPm}`;
+  formatHourLabel(selectedHour: number): string {
+    const formattedHour = selectedHour % 12 === 0 ? 12 : selectedHour % 12;
+    const amPm = selectedHour < 12 ? 'AM' : 'PM';
+    return `${formattedHour.toString()}:00 ${amPm}`;
   }
 
   ngOnInit(): void {
@@ -90,10 +99,19 @@ export class EditSensorComponent implements OnInit {
     this.retrieveSensorData();
     this.route.params.subscribe((params) => {
       this.sensorId = params['sensorId'];
-
       this.loadSensorDetails(this.sensorId);
     });
     this.retrieveSensorData();
+
+    const amHours = this.hours.filter((hour) => hour < 12);
+    const pmHours = this.hours.filter((hour) => hour >= 12);
+
+    this.hours = amHours.concat(pmHours);
+
+    // Format the selectedReadingTime to 12-hour format
+    this.formattedFirstReadingTime = this.formatFirstReadingTime(
+      this.selectedReadingTime
+    );
   }
 
   private retrieveSensorData() {
@@ -106,7 +124,31 @@ export class EditSensorComponent implements OnInit {
     this.sensorName = this.sensor.sensorName;
     this.geocode = this.sensor.geocode;
     this.selectedField = this.sensor.fieldLocation;
-    this.selectedFieldName = this.sensor.fieldLocation === null ? 'None' : this.sensor.fieldLocation ;
+    this.selectedFieldName =
+      this.sensor.fieldLocation === null ? 'None' : this.sensor.fieldLocation;
+    this.selectedReadingTime = this.sensor.broadcastIntervals.firstReadingTime;
+    this.formattedFirstReadingTime = this.formatFirstReadingTime(
+      this.firstReadingTime
+    );
+    this.selectedTimesPerDay = this.sensor.broadcastIntervals.timesPerDay;
+    this.selectedTimeBetween =
+      this.sensor.broadcastIntervals.timeBetweenReading;
+  }
+
+  formatFirstReadingTime(selectedReadingTime: number): string {
+    if (
+      selectedReadingTime !== null &&
+      selectedReadingTime >= 0 &&
+      selectedReadingTime <= 23
+    ) {
+      const formattedHour = selectedReadingTime;
+      const amPm = selectedReadingTime < 12 ? 'AM' : 'PM';
+      const displayHour =
+        selectedReadingTime % 12 === 0 ? 12 : selectedReadingTime % 12;
+      return `${displayHour.toString().padStart(2, '0')}:00 ${amPm}`;
+    } else {
+      return null;
+    }
   }
 
   backClicked() {
@@ -128,7 +170,7 @@ export class EditSensorComponent implements OnInit {
 
     const uniqueFieldLocations = [...fieldLocations];
 
-    // Place "None" at the top of the list
+    // Place "None" at the top
     uniqueFieldLocations.sort((a: string, b: string) => {
       if (a === 'None') return -1;
       if (b === 'None') return 1;
@@ -164,8 +206,15 @@ export class EditSensorComponent implements OnInit {
   openFieldSelectorModal() {
     const fields = this.getAllFieldLocations(this.sensors);
     const currentField: string = this.sensor.fieldLocation;
-    const currentFieldLabel: string = currentField === null ? 'None' : currentField;
-    const selectedOption = fields.find((field) => field.label === currentFieldLabel)?.value || null;
+    this.currentFieldLabel =
+      currentField === null || currentField === undefined
+        ? 'None'
+        : currentField;
+
+    const selectedOption =
+      this.newFieldSelection?.selectedOption ||
+      fields.find((field) => field.label === this.currentFieldLabel)?.value ||
+      null;
 
     const dialogRef = this.dialog.open(SelectModalComponent, {
       width: '80%',
@@ -178,11 +227,25 @@ export class EditSensorComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((selection: any) => {
       if (selection !== 'cancel') {
-        this.selectedField = selection?.selectedOption === null ? null : selection?.selectedLabel;
+        this.newFieldSelection = selection;
+        this.selectedField =
+          selection?.selectedOption === null ? null : selection?.selectedLabel;
         this.selectedFieldName = selection?.selectedLabel;
         this.selectedFieldValue = selection?.selectedOption;
+
+        // Store the selected option as the original selection
+        this.originalFieldSelection = {
+          selectedOption: selection.selectedOption,
+          selectedLabel: selection.selectedLabel,
+        };
       } else {
-        this.selectedField = selectedOption;
+        // If "cancel" is selected, restore the original selection
+        this.selectedField =
+          this.originalFieldSelection.selectedOption === null
+            ? null
+            : this.originalFieldSelection.selectedLabel;
+        this.selectedFieldName = this.originalFieldSelection.selectedLabel;
+        this.selectedFieldValue = this.originalFieldSelection.selectedOption;
       }
     });
   }
@@ -199,18 +262,26 @@ export class EditSensorComponent implements OnInit {
 
   updateAndSaveSensorData(): void {
     // Find the correct sensor within this.sensors based on the uuid
-    const sensorToUpdate = this.sensors.find(sensor => sensor.id === this.sensor.id);
+    const sensorToUpdate = this.sensors.find(
+      (sensor) => sensor.id === this.sensor.id
+    );
 
     if (sensorToUpdate) {
-        // Update the properties of the correct sensor
-        sensorToUpdate.sensorName = this.sensorName;
-        sensorToUpdate.geocode = this.geocode;
-        sensorToUpdate.fieldLocation = this.selectedField;
+      // Update the properties of the identified sensor
+      sensorToUpdate.sensorName = this.sensorName;
+      sensorToUpdate.geocode = this.geocode;
+      sensorToUpdate.fieldLocation = this.selectedField ?? null;
+      sensorToUpdate.broadcastIntervals.timesPerDay = this.selectedTimesPerDay;
+      sensorToUpdate.broadcastIntervals.timeBetweenReading =
+        this.selectedTimeBetween;
+      sensorToUpdate.broadcastIntervals.firstReadingTime =
+        this.selectedReadingTime;
+      sensorToUpdate.disableOnInactivity = this.disableOnInactivity;
 
-        // Save the updated data to the storage service
-        this.sensorStorageService.saveSensorData(this.sensors);
+      // Save the updated data to local storage
+      this.sensorStorageService.saveSensorData(this.sensors);
     }
-}
+  }
 
   onSave() {
     const sensorId = this.sensorId;
@@ -218,7 +289,6 @@ export class EditSensorComponent implements OnInit {
     const url = `/dashboard/sensors/${sensorId}`;
     this.router.navigate([url]);
   }
-
 }
 
 export interface PastReadings {

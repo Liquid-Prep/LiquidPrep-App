@@ -40,9 +40,8 @@
         <mat-list-item>
           <span class="sensor-detail-label">Next scheduled reading</span>
           <span class="sensor-detail-value">{{sensor.formattedNextUpdatedTime}}</span>
-
-          <p class="sensor-detail-description">Sensor interval is set at 3 readings a day beginning at 11:00 AM CDT,
-            every 3 hours.</p>
+          <p *ngIf="formattedFirstReadingTime" class="sensor-detail-description">Sensor interval is set at {{timesPerDay}} readings a day beginning at {{formattedFirstReadingTime}},
+            every {{timeBetweenReadingLabel}}.</p>
         </mat-list-item>
       </mat-list>
 
