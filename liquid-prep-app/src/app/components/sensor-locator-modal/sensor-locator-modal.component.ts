@@ -18,6 +18,8 @@ export class SensorLocatorModalComponent implements OnInit {
   geocode: string;
 
   public requestingLocation = false;
+  public locationFound = false;
+  public errorMessage: string;
 
   constructor(
     private router: Router,
@@ -43,19 +45,22 @@ export class SensorLocatorModalComponent implements OnInit {
     this.showStep2 = true;
     this.requestingLocation = true;
 
+
     setTimeout(() => {
       this.geoLocationUtil.getCurrentLocation().subscribe({
         next: (location) => {
           this.requestingLocation = false;
+          this.locationFound = true;
           this.geocode = location;
         },
         error: (err) => {
-          const msg = `Geolocation not found because \n${err.message}`;
-          alert(msg); // TODO: replace with LP designed alert message
+          const msg = `No location found. Please check that your phone's location services are turned on. \n${err.message}.`;
           this.requestingLocation = false;
+          this.locationFound = false;
+          this.errorMessage = msg;
         },
       });
-    }, 100);
+    }, 50);
   }
 
 }
