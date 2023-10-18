@@ -82,19 +82,19 @@
       <mat-list>
         <mat-list-item class="sensor-detail-group">
           <span class="sensor-detail-label">Edge Gateway</span>
-          <span class="sensor-detail-value">{{ sensor.connectionInfo.edgeGateway.value }}</span>
-          <span class="sensor-detail-description">{{ sensor.connectionInfo.edgeGateway.url }}</span>
+          <span class="sensor-detail-value">{{ sensor?.connectionInfo?.edgeGateway.value }}</span>
+          <span class="sensor-detail-description">{{ sensor?.connectionInfo?.edgeGateway.url }}</span>
         </mat-list-item>
 
         <mat-list-item class="sensor-detail-group">
           <span class="sensor-detail-label">esp-now Gateway</span>
-          <span class="sensor-detail-value">{{ sensor.connectionInfo.espNowGateway.value }}</span>
-          <span class="sensor-detail-description">{{ sensor.connectionInfo.espNowGateway.url }}</span>
+          <span class="sensor-detail-value">{{ sensor?.connectionInfo?.espNowGateway.value }}</span>
+          <span class="sensor-detail-description">{{ sensor?.connectionInfo?.espNowGateway.url }}</span>
         </mat-list-item>
 
         <mat-list-item class="sensor-detail-group">
           <span class="sensor-detail-label">Web socket</span>
-          <span class="sensor-detail-value">{{ sensor.connectionInfo.webSocket.url }}</span>
+          <span class="sensor-detail-value">{{ sensor?.connectionInfo?.webSocket.url }}</span>
         </mat-list-item>
 
       </mat-list>
