@@ -365,16 +365,16 @@ export interface Sensor {
   disableOnInactivity; boolean;
   pastReadings: { dateTime: number; moistureLevel: number }[];
   connectionStatus: string;
-  connectionInfo: {
-    edgeGateway: {
+  connectionInfo?: {
+    edgeGateway?: {
       value: string;
       url: string;
     };
-    espNowGateway: {
+    espNowGateway?: {
       value: string;
       url: string;
     };
-    webSocket: {
+    webSocket?: {
       url: string;
     };
   };
