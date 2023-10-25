@@ -15,6 +15,7 @@ import { FieldsComponent } from './components/dashboard/fields/fields.component'
 import { SensorsComponent } from './components/dashboard/sensors/sensors.component';
 import { SensorDetailsComponent } from './components/dashboard/sensors/sensor-details/sensor-details.component';
 import { EditSensorComponent } from './components/dashboard/sensors/edit-sensor/edit-sensor.component';
+import { WateringInsightsComponent } from './components/watering-insights/watering-insights.component';
 
 
 
@@ -27,42 +28,50 @@ const routes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
       { path: 'sensors', component: SensorsComponent },
-      { path: 'fields', component: FieldsComponent }
-    ]
+      { path: 'fields', component: FieldsComponent },
+    ],
   },
-  { path: 'select-crop', loadChildren: () => import('./components/select-crop/select-crop.module')
-      .then(m => m.SelectCropModule)
+  {
+    path: 'select-crop',
+    loadChildren: () =>
+      import('./components/select-crop/select-crop.module').then(
+        (m) => m.SelectCropModule
+      ),
   },
   {
     path: 'my-crops',
-    component: MyCropsComponent
+    component: MyCropsComponent,
+  },
+  {
+    path: 'insights/:id',
+    component: WateringInsightsComponent,
   },
   {
     path: 'measure-soil/:id',
-    component: MeasureSoilComponent
+    component: MeasureSoilComponent,
   },
   {
     path: 'seed-date/:id',
-    component: SeedDateComponent
+    component: SeedDateComponent,
   },
   {
     path: 'settings',
-    component: SettingsComponent
+    component: SettingsComponent,
   },
   {
     path: 'advice/:id',
     component: AdviceComponent,
     resolve: {
-      cropStaticInfo: CropStaticInfoResolver
-    }
+      cropStaticInfo: CropStaticInfoResolver,
+    },
   },
   {
     path: 'test-sensor',
-    component: TestSensorComponent
+    component: TestSensorComponent,
   },
   {
     path: 'past-readings',
-    component: PastReadingsComponent
+    component: PastReadingsComponent,
   },
   {
     path: 'dashboard/sensors/:sensorId',
@@ -77,6 +86,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
   providers: [CropStaticInfoResolver],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

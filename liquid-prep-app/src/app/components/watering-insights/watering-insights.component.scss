@@ -1,0 +1,128 @@
+.header-container {
+  display: flex;
+  flex-wrap: wrap;
+  color: white;
+  width: auto;
+  height: 140px;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  .header-title {
+    margin-top: 10px;
+    margin-left: 15px;
+    width: 100%;
+
+    h2 {
+      padding: 0px;
+      margin: 0px;
+      font-size: medium;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+
+    .crop-name {
+      font-size: 20px;
+      font-weight: 550;
+    }
+  }
+
+  .header-details {
+    opacity: 0.8;
+    display: grid;
+    margin-left: 15px;
+    grid-template-columns: 130px 100px 100px;
+  }
+}
+
+.card-container {
+  margin: 15px;
+
+  .card-title {
+    letter-spacing: 1px;
+    color: gray;
+    font-size: 10px;
+  }
+
+  .card-advice {
+    display: grid;
+    grid-template-columns: 180px 120px;
+
+    .mark-button {
+      color: white;
+      letter-spacing: 2px;
+      font-size: smaller;
+      background-color: #2f4ff3;
+    }
+
+    .watered-button {
+      color: blue;
+      letter-spacing: 2px;
+      font-size: smaller;
+    }
+
+    h2 {
+      padding: 0px;
+      margin: 0px;
+      font-size: 23px;
+      font-weight: bold;
+    }
+  }
+
+  .soil-moisture-container {
+    .card-details {
+      width: 100%;
+      color: blue;
+      letter-spacing: 1px;
+      font-size: 12px;
+    }
+
+    .view-logs {
+      font-weight: bold;
+      letter-spacing: 1px;
+      color: #2f4ff3;
+    }
+  }
+
+  .history-container {
+    display: grid;
+    grid-template-columns: 150px 150px;
+
+    .view-history {
+      font-weight: bold;
+      letter-spacing: 1px;
+      color: #2f4ff3;
+    }
+  }
+
+  .water-image {
+    width: 120px;
+    height: 100px;
+    margin-top: 10px;
+  }
+
+  mat-card {
+    margin-bottom: 15px;
+  }
+}
+
+.slider-container {
+  display: flex;
+
+  .percentage {
+    letter-spacing: 1px;
+    color: gray;
+    margin-top: 10px;
+    font-size: 15px;
+  }
+
+  mat-slider {
+    width: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+::ng-deep .mat-dialog-container {
+  padding-left: 0px !important;
+}

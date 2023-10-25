@@ -22,6 +22,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatSliderModule } from '@angular/material/slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
@@ -40,6 +41,7 @@ import { MeasureSoilComponent } from './components/measure-soil/measure-soil.com
 import { SettingsComponent } from './components/settings/settings.component';
 import { AdviceComponent } from './components/advice/advice.component';
 import { SeedDateComponent } from './components/seed-date/seed-date.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DataService } from './service/DataService';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { SlideIndicatorComponent } from './components/slide-indicator/slide-indicator.component';
@@ -57,6 +59,8 @@ import { SensorDetailsComponent } from './components/dashboard/sensors/sensor-de
 import { EditSensorComponent } from './components/dashboard/sensors/edit-sensor/edit-sensor.component';
 import { SensorLocatorModalComponent } from './components/sensor-locator-modal/sensor-locator-modal.component';
 import { UnsavedChangesModalComponent } from './components/unsaved-changes-modal/unsaved-changes-modal.component';
+import { WateringInsightsComponent } from './components/watering-insights/watering-insights.component';
+import { MoistureLogsComponent } from './components/watering-insights/moisture-logs/moisture-logs.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   observer: true,
@@ -92,6 +96,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     EditSensorComponent,
     SensorLocatorModalComponent,
     UnsavedChangesModalComponent,
+    WateringInsightsComponent,
+    MoistureLogsComponent,
   ],
   imports: [
     BrowserModule,
@@ -108,6 +114,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     MatTableModule,
     MatTabsModule,
     MatPaginatorModule,
+    MatSnackBarModule,
+    MatSliderModule,
     MatSortModule,
     MatProgressSpinnerModule,
     MatRadioModule,

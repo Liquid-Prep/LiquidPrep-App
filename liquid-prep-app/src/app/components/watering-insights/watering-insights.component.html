@@ -1,0 +1,104 @@
+<app-header-title fxFlexFill> </app-header-title>
+<div>
+  <div
+    class="header-container"
+    [ngStyle]="{
+      'background-image':
+        'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(' +
+        dynamicImageUrl +
+        ')'
+    }"
+  >
+    <div class="header-title">
+      <h2>{{ sensor.fieldLocation }}</h2>
+      <span class="crop-name"> {{ crop.cropName }}</span>
+    </div>
+    <div class="header-details">
+      <div>
+        <span>Planted</span>
+        <p>{{ seedDate }}</p>
+      </div>
+      <div>
+        <span>Harvest in</span>
+        <p>46 Days</p>
+      </div>
+      <div>
+        <span>Growth Stage</span>
+        <p>{{ advice.stage.stageNumber }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="card-container">
+    <mat-card style="background-color: #edf5ff">
+      <mat-card-content>
+        <div class="card-advice">
+          <div>
+            <span class="card-title">WATERING ADVICE</span>
+            <h2>Water Today</h2>
+            <h3>15 GPM/acre</h3>
+            <button
+              *ngIf="!watered"
+              mat-raised-button
+              class="mark-button"
+              (click)="markAsWatered()"
+            >
+              MARK AS WATERED
+            </button>
+            <button *ngIf="watered" mat-stroked-button class="watered-button">
+              <mat-icon>check</mat-icon> FIELD WATERED
+            </button>
+          </div>
+          <div>
+            <img [src]="moistureImageUrl" class="water-image" />
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-content>
+        <div class="soil-moisture-container">
+          <span class="card-title">CURRENT SOIL MOISTURE</span>
+          <div>
+            <span class="card-details">Daily Average Moisture Level: </span>
+            <span class="card-details" *ngIf="percentageValues"
+              >{{ percentageValues | number : ".2-2" }}%</span
+            >
+          </div>
+          <div class="slider-container">
+            <span class="percentage">1</span>
+            <mat-slider
+              min="0"
+              max="100"
+              [(ngModel)]="percentageValues"
+              thumbLabel="always"
+              step="1"
+            ></mat-slider>
+            <span class="percentage">100</span>
+          </div>
+          <div>
+            <p>
+              Last Measured:
+              <span style="color: gray">{{ lastMeasuredDate }}</span>
+            </p>
+            <button mat-button class="view-logs" (click)="openFullViewDialog()">
+              VIEW LOGS
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-content>
+        <div class="history-container">
+          <div>
+            <span class="card-title">LAST WATERED</span>
+            <h2>{{ lastWateredDate }}</h2>
+          </div>
+          <button mat-button class="view-history" (click)="viewHistory()">
+            VIEW HISTORY
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
