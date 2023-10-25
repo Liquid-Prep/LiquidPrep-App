@@ -14,7 +14,9 @@ import { DatePipe } from '@angular/common';
 })
 export class SensorsComponent implements OnInit {
 
-  selectedSortOption: string = '';
+  selectedSortOption: string = 'lastUpdated';
+  selectedSortLabel: string = 'last updated time';
+  noFieldSelectedText: string = 'No field selected';
   selectedFilterOption: string = '';
   selectedFilterOptions: string[] = [];
   filterOptions: {
@@ -26,8 +28,11 @@ export class SensorsComponent implements OnInit {
   isFilterVisible: boolean = false;
   isFilteredByVisible: boolean = false;
   isSearchVisible: boolean = false;
+  isSortedByVisible: boolean = true;
   displayedItems: any[] = [];
   searchQuery: string = '';
+  clearSearchDisplayText: string = 'Clear search to see all sensors.';
+  originalDisplayedItemsLength: number;
 
   headerConfig: HeaderConfig = {
     headerTitle: 'Sensors',
@@ -59,7 +64,7 @@ export class SensorsComponent implements OnInit {
     {
       lastUpdated: '1632215520',
       sensorName: 'A3',
-      fieldLocation: 'Field 2',
+      fieldLocation: null,
       moistureLevel: 42,
       connectionStatus: 'Connected',
     },
@@ -81,7 +86,7 @@ export class SensorsComponent implements OnInit {
       lastUpdated: '1691813700',
       sensorName: 'A1',
       fieldLocation: 'Field 5',
-      moistureLevel: 44,
+      moistureLevel: null,
       connectionStatus: 'Not Connected',
     },
   ];
@@ -119,10 +124,21 @@ export class SensorsComponent implements OnInit {
     this.filterOptions = this.getSelectedFilterOptions();
     this.filterOptions.connectionStatusOptions.sort();
     this.filterOptions.fieldLocationOptions.sort();
+
+
+
     this.lastSelectedSortOption = this.selectedSortOption;
 
     // Initialize displayedItems with the original sensor data
     this.displayedItems = [...this.items];
+    this.originalDisplayedItemsLength = this.displayedItems.length;
+
+    if (this.displayedItems.length === 0) {
+      this.isFilterVisible = false;
+      this.isSearchVisible = false;
+      this.isFilteredByVisible = false;
+      this.isSortedByVisible = false;
+    }
 
     // Convert Date format
     this.items.forEach((item) => {
@@ -156,12 +172,16 @@ export class SensorsComponent implements OnInit {
   openSortModal() {
     const dialogRef = this.dialog.open(SortModalComponent, {
       width: '80%',
-      data: { selectedSortOption: this.lastSelectedSortOption },
+      data: {
+        selectedSortOption: this.selectedSortOption,
+        selectedSortLabel: this.selectedSortLabel
+      },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.selectedSortOption = result;
+    dialogRef.afterClosed().subscribe((selection) => {
+      if (selection) {
+        this.selectedSortOption = selection.selectedSortOption;
+        this.selectedSortLabel = selection.selectedSortLabel.toLowerCase();
         this.lastSelectedSortOption = this.selectedSortOption;
         this.sortItems();
       }
@@ -223,6 +243,7 @@ toggleConnectionStatusSort(statusA: string, statusB: string): number {
     // Update the displayedItems with the filtered and sorted items
     this.displayedItems = filteredItems;
     this.toggleFilter();
+    this.isSortedByVisible = true;
   }
 
   clearFilter() {
@@ -236,21 +257,32 @@ toggleConnectionStatusSort(statusA: string, statusB: string): number {
     this.toggleFilter();
   }
 
-  // Get filter sellections
-  getSelectedFilterOptions() {
-    const selectedConnectionStatus = new Set<string>();
-    const selectedFieldLocation = new Set<string>();
+// Get filter selections
+getSelectedFilterOptions() {
+  const selectedConnectionStatus = new Set<string>();
+  const fieldLocationOptions = new Set<string>(); // Use a Set to deduplicate options
 
-    this.items.forEach((item) => {
-      selectedConnectionStatus.add(item.connectionStatus);
-      selectedFieldLocation.add(item.fieldLocation);
-    });
+  this.items.forEach((item) => {
+    selectedConnectionStatus.add(item.connectionStatus);
+    if (item.fieldLocation !== null) {
+      fieldLocationOptions.add(item.fieldLocation);
+    }
+  });
 
-    return {
-      connectionStatusOptions: Array.from(selectedConnectionStatus),
-      fieldLocationOptions: Array.from(selectedFieldLocation),
-    };
+  // Convert the Sets back to arrays
+  const connectionStatusOptions = Array.from(selectedConnectionStatus);
+  const fieldLocationArray = Array.from(fieldLocationOptions);
+
+  // Add "No field selected" at the top if it exists
+  if (this.items.some((item) => item.fieldLocation === null)) {
+    fieldLocationArray.unshift(null);
   }
+
+  return {
+    connectionStatusOptions,
+    fieldLocationOptions: fieldLocationArray,
+  };
+}
 
   isSelectedFilterOption(option: string): boolean {
     return this.selectedFilterOptions.includes(option);
@@ -262,6 +294,7 @@ toggleConnectionStatusSort(statusA: string, statusB: string): number {
     if (this.isFilterVisible) {
       this.isSearchVisible = false;
       this.isFilteredByVisible = false;
+      this.isSortedByVisible = false;
 
       this.headerService.updateHeader({
         headerTitle: null,
@@ -287,6 +320,7 @@ toggleConnectionStatusSort(statusA: string, statusB: string): number {
       if (this.selectedFilterOptions.length > 0) {
         this.isFilteredByVisible = true;
       }
+      this.isSortedByVisible = true;
     }
 
   }
@@ -298,6 +332,7 @@ toggleConnectionStatusSort(statusA: string, statusB: string): number {
     if (this.isSearchVisible) {
       this.isFilterVisible = false;
       this.isFilteredByVisible = false;
+      this.isSortedByVisible = false;
     }
 
   }
@@ -308,13 +343,11 @@ toggleConnectionStatusSort(statusA: string, statusB: string): number {
 
   applySearchFilter() {
     this.displayedItems = this.items.filter((item) => {
-
       return (
         item.sensorName.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        item.fieldLocation.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        item.moistureLevel.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
+        (item.fieldLocation && item.fieldLocation.toLowerCase().includes(this.searchQuery.toLowerCase())) || // Check if fieldLocation is not null
+        (item.moistureLevel && item.moistureLevel.toString().toLowerCase().includes(this.searchQuery.toLowerCase())) // Check if moistureLevel is not null
       );
     });
   }
-
 }
