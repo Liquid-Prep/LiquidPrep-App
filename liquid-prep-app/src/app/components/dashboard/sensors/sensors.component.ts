@@ -85,7 +85,6 @@ export class SensorsComponent implements OnInit {
   private lastSelectedOption: string = '';
 
   ngOnInit(): void {
-
     this.headerService.updateHeader(this.headerConfig);
 
     this.saveSensorData();
@@ -358,11 +357,12 @@ export interface Sensor {
   geocode: string;
   nextScheduledReading: number;
   broadcastIntervals: {
-      timesPerDay?: number | null;
-      firstReadingTime?: number | null;
-      timeBetweenReading?: number | null;
+    timesPerDay?: number | null;
+    firstReadingTime?: number | null;
+    timeBetweenReading?: number | null;
   };
-  disableOnInactivity; boolean;
+  disableOnInactivity;
+  boolean;
   pastReadings: { dateTime: number; moistureLevel: number }[];
   connectionStatus: string;
   connectionInfo?: {

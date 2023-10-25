@@ -1,20 +1,32 @@
 <div class="sensors-landing-page">
   <div class="search-section" [hidden]="!isSearchVisible">
-    <input type="text" class="searchbox" [(ngModel)]="searchQuery" placeholder="Search sensors"
-      (input)="onSearchInputChange()" />
+    <input
+      type="text"
+      class="searchbox"
+      [(ngModel)]="searchQuery"
+      placeholder="Search sensors"
+      (input)="onSearchInputChange()"
+    />
   </div>
 
   <div class="filter-section" [hidden]="!isFilterVisible">
     <div class="filter-buttons">
-
       <!-- Connection Status -->
       <div class="filter-button-group">
-        <ng-container *ngFor="let option of filterOptions.connectionStatusOptions; let isFirst = first">
+        <ng-container
+          *ngFor="
+            let option of filterOptions.connectionStatusOptions;
+            let isFirst = first
+          "
+        >
           <ng-container *ngIf="isFirst">
             <h2 class="filter-heading">Status</h2>
           </ng-container>
-          <button class="filter-button" (click)="toggleFilterOption(option)"
-            [class.active]="isSelectedFilterOption(option)">
+          <button
+            class="filter-button"
+            (click)="toggleFilterOption(option)"
+            [class.active]="isSelectedFilterOption(option)"
+          >
             <span [class.no-field-selected]="option === null">
               {{ option === null ? noFieldSelectedText : option }}
             </span>
@@ -24,19 +36,31 @@
 
       <!-- Field Location -->
       <div class="filter-button-group">
-        <ng-container *ngFor="let option of filterOptions.fieldLocationOptions; let isFirst = first">
+        <ng-container
+          *ngFor="
+            let option of filterOptions.fieldLocationOptions;
+            let isFirst = first
+          "
+        >
           <ng-container *ngIf="isFirst">
             <h2 class="filter-heading">Field Location</h2>
           </ng-container>
-          <button class="filter-button" (click)="toggleFilterOption(option)"
-            [class.active]="isSelectedFilterOption(option)">
+          <button
+            class="filter-button"
+            (click)="toggleFilterOption(option)"
+            [class.active]="isSelectedFilterOption(option)"
+          >
             <span [class.no-field-selected]="option === null">
               {{ option === null ? noFieldSelectedText : option }}
             </span>
           </button>
         </ng-container>
       </div>
-      <button class="clear-filters-button" (click)="clearFilter()" [class.active]="selectedFilterOptions.length === 0">
+      <button
+        class="clear-filters-button"
+        (click)="clearFilter()"
+        [class.active]="selectedFilterOptions.length === 0"
+      >
         Clear Filters
       </button>
     </div>
@@ -46,14 +70,22 @@
     <span class="filter-label">Filtered by</span>
     <div class="filter-button-group">
       <ng-container *ngFor="let option of selectedFilterOptions">
-        <button class="filter-button" [class.active]="isSelectedFilterOption(option)" disabled>
+        <button
+          class="filter-button"
+          [class.active]="isSelectedFilterOption(option)"
+          disabled
+        >
           <span [class.no-field-selected]="option === null">
             {{ option === null ? noFieldSelectedText : option }}
           </span>
         </button>
       </ng-container>
     </div>
-    <button class="clear-filters-button" (click)="clearFilter()" [class.active]="selectedFilterOptions.length === 0">
+    <button
+      class="clear-filters-button"
+      (click)="clearFilter()"
+      [class.active]="selectedFilterOptions.length === 0"
+    >
       Clear Filters
     </button>
   </div>
@@ -65,22 +97,34 @@
     </span>
   </div>
 
-
   <!-- Display the filtered and sorted sensors -->
   <div class="sensor-results" [hidden]="isFilterVisible">
     <mat-list>
       <ng-container *ngIf="displayedSensors.length > 0; else noResults">
         <mat-list-item *ngFor="let sensor of displayedSensors">
-          <a mat-list-item class="sensorLink" [ngClass]="{'offline': sensor.connectionStatus === 'Not Connected'}" (click)="onSensorClicked(sensor.id)">
-            <h4 mat-line class="lastUpdatedTime">{{ sensor.formattedLastUpdatedTime }}</h4>
+          <a
+            mat-list-item
+            class="sensorLink"
+            [ngClass]="{ offline: sensor.connectionStatus === 'Not Connected' }"
+            (click)="onSensorClicked(sensor.id)"
+          >
+            <h4 mat-line class="lastUpdatedTime">
+              {{ sensor.formattedLastUpdatedTime }}
+            </h4>
             <p mat-line class="menu-list-body">
               <span class="sensor-info">
                 {{ sensor.sensorName }} <span class="sensorSpacer">&#183;</span>
                 <span [class.no-field-selected]="sensor.fieldLocation === null">
-                  {{ sensor.fieldLocation === null ? noFieldSelectedText : sensor.fieldLocation }}
+                  {{
+                    sensor.fieldLocation === null
+                      ? noFieldSelectedText
+                      : sensor.fieldLocation
+                  }}
                 </span>
                 <span class="sensor-moisture">
-                  <span *ngIf="sensor.moistureLevel; else moistureLevelNotDetected">
+                  <span
+                    *ngIf="sensor.moistureLevel; else moistureLevelNotDetected"
+                  >
                     Moisture Level: {{ sensor.moistureLevel }}
                   </span>
                   <ng-template #moistureLevelNotDetected>
@@ -95,27 +139,36 @@
     </mat-list>
 
     <ng-template #noResults>
-      <div class="no-results" *ngIf="originalDisplayedSensorsLength !== 0 && displayedSensors.length === 0 && selectedFilterOptions.length === 0">
+      <div
+        class="no-results"
+        *ngIf="
+          originalDisplayedSensorsLength !== 0 &&
+          displayedSensors.length === 0 &&
+          selectedFilterOptions.length === 0
+        "
+      >
         <div class="no-sensors-text">
           <p>No sensors found with these parameters.</p>
-          <p>{{clearSearchDisplayText}}</p>
+          <p>{{ clearSearchDisplayText }}</p>
         </div>
       </div>
 
       <div class="no-sensors" *ngIf="originalDisplayedSensorsLength === 0">
         <mat-icon class="no-sensor-icon">sensors_off</mat-icon>
 
-        <div class="no-sensors-title">
-          No sensors detected
-        </div>
+        <div class="no-sensors-title">No sensors detected</div>
 
         <div class="no-sensors-text">
-          <p>Check that wifi and bluetooth are enabled on your device and the sensors are turned on.</p>
-          <p>You may need to set up your gateways first. See the user manual for instructions.</p>
+          <p>
+            Check that wifi and bluetooth are enabled on your device and the
+            sensors are turned on.
+          </p>
+          <p>
+            You may need to set up your gateways first. See the user manual for
+            instructions.
+          </p>
         </div>
       </div>
-  </ng-template>
-
-
+    </ng-template>
   </div>
 </div>
