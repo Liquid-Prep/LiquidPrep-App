@@ -1,0 +1,132 @@
+.custom-toolbar.mat-toolbar-single-row {
+  padding: 0 5px;
+}
+
+.sensor-details,
+.edit-details {
+  padding-bottom: 25px;
+
+  .mat-list-base .mat-list-item {
+    height: auto;
+  }
+
+  .mat-list-base .mat-list-item .mat-list-item-content,
+  .mat-list-base .mat-list-option .mat-list-item-content{
+    display: block;
+    padding: 0;
+  }
+  .mat-list-item {
+    display: block;
+    margin-bottom: 16px;
+  }
+  .mat-card-header-text {
+    margin: 0
+  }
+  .mat-card {
+    margin-bottom: 16px;
+  }
+
+  .sensor-name {
+    font-size: 24px;
+  }
+
+  h2, h3 {
+    margin: 0;
+  }
+
+  p {
+    margin: 16px 0;
+    font-size: 16px;
+  }
+
+  .sensor-name {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    margin: 24px 16px;
+    display: block;
+  }
+
+  .sensor-details-card {
+    margin-bottom: 30px;
+    padding: 0 16px 16px;
+    border-bottom: 1px solid rgba(33, 33, 33, 0.12);
+    box-shadow: none;
+  }
+
+  .sensor-detail-group {
+      margin-bottom: 30px;
+  }
+
+  .sensor-detail-group-title {
+    font-size: 20px;
+    font-weight: 300;
+    letter-spacing: 0.15px;
+    margin-bottom: 16px;
+  }
+
+  .sensor-detail-label {
+    color: #6F6F6F;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    display: block;
+  }
+
+  .sensor-detail-value {
+    color: #262626;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    display: block;
+  }
+
+  .sensor-detail-description {
+    color: #262626;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0.25px;
+    display: block;
+    margin-bottom: 0;
+    &.emphasized {
+      font-style: italic;
+    }
+  }
+
+  .past-readings-table {
+    border: 1px solid #8B8A8A;
+    background: #F8F8F8;
+    width: 100%;
+    tr.mat-row {
+      height: 32px;
+      border-bottom: 1px solid rgba(152, 151, 151, 0.50);
+    }
+    tr.mat-header-row {
+      height: 29px;
+    }
+    th.mat-header-cell:first-of-type,
+    td.mat-cell:first-of-type,
+    td.mat-footer-cell:first-of-type {
+      padding-left: 8px;
+    }
+    .mat-cell {
+      width: 33.33%;
+      box-sizing: border-box;
+      text-align: left;
+    }
+    .mat-header-cell {
+      color: var(--default-gray-50, #8D8D8D);
+      font-size: 10px;
+      font-weight: 500;
+      line-height: 16px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+  }
+}

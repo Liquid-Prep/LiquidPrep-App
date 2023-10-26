@@ -1,0 +1,108 @@
+<app-header-title fxFlexFill></app-header-title>
+
+<div class="edit-details">
+  <div class="sensor-name-input">
+    <span class="sensor-input-label">Sensor Name</span>
+    <mat-form-field appearance="outline">
+      <input matInput [(ngModel)]="sensorName">
+    </mat-form-field>
+
+  </div>
+  <mat-card class="sensor-details-card">
+    <mat-card-header>
+      <mat-card-title class="edit-sensor-group-title">Location</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-list>
+
+        <div *ngIf="!showDeviceLocatorButton" class="device-locator-static">
+          <div class="input-box">
+            <mat-form-field>
+              <input matInput [disabled]="true" [(ngModel)]="geocode" name="geocode"> </mat-form-field>
+          </div>
+
+          <button class="device-locator-reset-button" (click)="showDeviceLocatorButton = !showDeviceLocatorButton">Reset
+            Location</button>
+        </div>
+
+        <mat-list-item class="sensor-detail-group" *ngIf="showDeviceLocatorButton">
+          <span class="sensor-input-label">Sensor GPS location</span>
+          <button mat-flat-button color="primary-customise" class="primary-btn" (click)="openLocatorModal()">
+            Use Device Location
+          </button>
+        </mat-list-item>
+
+        <div class="select-box-large">
+          <mat-list-item>
+            <span class="sensor-detail-label">Field</span>
+            <button class="fake-select-box" (click)="openFieldSelectorModal()">
+              {{selectedFieldName}}
+              <mat-icon class="select-box-icon">arrow_drop_down</mat-icon>
+            </button>
+
+          </mat-list-item>
+        </div>
+
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="sensor-details-card">
+    <mat-card-header>
+      <mat-card-title class="edit-sensor-group-title">Broadcast Intervals</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list>
+        <span class="sensor-detail-description">How often you would like this sensor to deliver a reading</span>
+        <mat-list-item>
+          <div fxLayout="column" fxLayoutGap="11px">
+            <div fxLayout="row" fxLayoutGap="11px">
+
+              <div class="select-box">
+                <mat-form-field>
+                  <span class="sensor-input-label">Times per day</span>
+                  <mat-select [(ngModel)]="selectedTimesPerDay">
+                    <mat-option *ngFor="let option of timesPerDayOptions" [value]="option.value">
+                      {{ option.label }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="select-box">
+                <mat-form-field>
+                  <span class="sensor-input-label">Time of first reading</span>
+                  <mat-select [(ngModel)]="selectedReadingTime">
+                    <mat-option *ngFor="let hour of hours" [value]="hour">{{ formatHourLabel(hour) }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+            </div>
+
+            <div class="select-box">
+              <mat-form-field>
+                <span class="sensor-input-label">Time between readings</span>
+                <mat-select [(ngModel)]="selectedTimeBetween">
+                  <mat-option *ngFor="let option of timeBetweenOptions" [value]="option.value">
+                    {{ option.label }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+        </mat-list-item>
+      </mat-list>
+
+      <div class="toggle-container">
+        <span class="toggle-text">Disable sensor after 10 days of inactivity</span>
+        <mat-slide-toggle [(ngModel)]="disableOnInactivity" class="toggle"></mat-slide-toggle>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+
+
+</div>

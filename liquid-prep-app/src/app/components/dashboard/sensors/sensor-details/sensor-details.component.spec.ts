@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeleteCropComponent } from './delete-crop.component';
+import { SensorDetailsComponent } from './sensor-details.component';
 
-describe('DeleteCropComponent', () => {
-  let component: DeleteCropComponent;
-  let fixture: ComponentFixture<DeleteCropComponent>;
+describe('SensorDetailsComponent', () => {
+  let component: SensorDetailsComponent;
+  let fixture: ComponentFixture<SensorDetailsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DeleteCropComponent ]
+      declarations: [ SensorDetailsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DeleteCropComponent);
+    fixture = TestBed.createComponent(SensorDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
