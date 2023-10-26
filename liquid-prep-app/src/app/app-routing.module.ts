@@ -80,8 +80,12 @@ const routes: Routes = [
     component: PastReadingsComponent,
   },
   {
-    path: 'sensors',
-    component: SensorsComponent,
+    path: 'dashboard/sensors/:sensorId',
+    component: SensorDetailsComponent,
+  },
+  {
+    path: 'dashboard/sensors/edit/:sensorId',
+    component: EditSensorComponent,
   },
 ];
 

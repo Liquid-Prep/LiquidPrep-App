@@ -91,6 +91,10 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     DetailsComponent,
     AddFieldComponent,
     EditFieldComponent,
+    SensorDetailsComponent,
+    EditSensorComponent,
+    SensorLocatorModalComponent,
+    UnsavedChangesModalComponent,
   ],
   imports: [
     BrowserModule,

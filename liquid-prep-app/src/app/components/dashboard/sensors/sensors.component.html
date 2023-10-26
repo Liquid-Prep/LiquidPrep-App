@@ -61,27 +61,27 @@
   <div class="sortedby-section" [hidden]="!isSortedByVisible">
     <span class="sort-label">Sorted by </span>
     <span class="sort-option">
-      {{ selectedSortLabel }}
+      {{ selectedLabel }}
     </span>
   </div>
 
 
-  <!-- Display the filtered and sorted items -->
+  <!-- Display the filtered and sorted sensors -->
   <div class="sensor-results" [hidden]="isFilterVisible">
     <mat-list>
-      <ng-container *ngIf="displayedItems.length > 0; else noResults">
-        <mat-list-item *ngFor="let item of displayedItems">
-          <a mat-list-item class="sensorLink" [ngClass]="{'offline': item.connectionStatus === 'Not Connected'}">
-            <h4 mat-line class="lastUpdatedTime">{{ item.lastUpdated }}</h4>
+      <ng-container *ngIf="displayedSensors.length > 0; else noResults">
+        <mat-list-item *ngFor="let sensor of displayedSensors">
+          <a mat-list-item class="sensorLink" [ngClass]="{'offline': sensor.connectionStatus === 'Not Connected'}" (click)="onSensorClicked(sensor.id)">
+            <h4 mat-line class="lastUpdatedTime">{{ sensor.formattedLastUpdatedTime }}</h4>
             <p mat-line class="menu-list-body">
               <span class="sensor-info">
-                {{ item.sensorName }} <span class="sensorSpacer">&#183;</span>
-                <span [class.no-field-selected]="item.fieldLocation === null">
-                  {{ item.fieldLocation === null ? noFieldSelectedText : item.fieldLocation }}
+                {{ sensor.sensorName }} <span class="sensorSpacer">&#183;</span>
+                <span [class.no-field-selected]="sensor.fieldLocation === null">
+                  {{ sensor.fieldLocation === null ? noFieldSelectedText : sensor.fieldLocation }}
                 </span>
                 <span class="sensor-moisture">
-                  <span *ngIf="item.moistureLevel; else moistureLevelNotDetected">
-                    Moisture Level: {{ item.moistureLevel }}
+                  <span *ngIf="sensor.moistureLevel; else moistureLevelNotDetected">
+                    Moisture Level: {{ sensor.moistureLevel }}
                   </span>
                   <ng-template #moistureLevelNotDetected>
                     Moisture levels not detected. Check connection.
@@ -95,14 +95,14 @@
     </mat-list>
 
     <ng-template #noResults>
-      <div class="no-results" *ngIf="originalDisplayedItemsLength !== 0 && displayedItems.length === 0 && selectedFilterOptions.length === 0">
+      <div class="no-results" *ngIf="originalDisplayedSensorsLength !== 0 && displayedSensors.length === 0 && selectedFilterOptions.length === 0">
         <div class="no-sensors-text">
           <p>No sensors found with these parameters.</p>
           <p>{{clearSearchDisplayText}}</p>
         </div>
       </div>
 
-      <div class="no-sensors" *ngIf="originalDisplayedItemsLength === 0">
+      <div class="no-sensors" *ngIf="originalDisplayedSensorsLength === 0">
         <mat-icon class="no-sensor-icon">sensors_off</mat-icon>
 
         <div class="no-sensors-title">
