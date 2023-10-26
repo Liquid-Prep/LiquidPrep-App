@@ -18,7 +18,7 @@ export class FieldsLandingPageComponent implements OnInit {
     rightBtnClick: this.reload.bind(this),
   };
 
-  fields: any;
+  fields: any[] = [];
 
   constructor(
     private headerService: HeaderService,

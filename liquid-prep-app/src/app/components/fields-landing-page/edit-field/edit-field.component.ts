@@ -65,7 +65,6 @@ export class EditFieldComponent implements OnInit {
   public async getFieldDetails(id: string) {
     this.fieldDetails = await this.fieldService.getFieldFromMyFieldById(id);
     this.patchFieldValue();
-    console.log(this.fieldDetails);
   }
 
   public save() {
@@ -82,7 +81,7 @@ export class EditFieldComponent implements OnInit {
     } else {
       console.error('plantDate is not a Date object');
     }
-    const id = Guid.create().toString();
+    const id = this.id;
     const params: Field = {
       id,
       fieldName: name,
@@ -90,7 +89,6 @@ export class EditFieldComponent implements OnInit {
       crop, //Get Crop Data
       plantDate: new Date(formattedDate),
     };
-    console.log(params);
     this.fieldService.storeFieldsInLocalStorage(params);
     this.router.navigate([`/fields`]);
   }
