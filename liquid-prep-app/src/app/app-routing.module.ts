@@ -17,6 +17,8 @@ import { FieldsLandingPageComponent } from './components/fields-landing-page/fie
 import { DetailsComponent } from './components/fields-landing-page/details/details.component';
 import { AddFieldComponent } from './components/fields-landing-page/add-field/add-field.component';
 import { EditFieldComponent } from './components/fields-landing-page/edit-field/edit-field.component';
+import { SensorDetailsComponent } from './components/dashboard/sensors/sensor-details/sensor-details.component';
+import { EditSensorComponent } from './components/dashboard/sensors/edit-sensor/edit-sensor.component';
 
 const routes: Routes = [
   { path: '', component: WelcomeComponent },
@@ -85,8 +87,12 @@ const routes: Routes = [
     component: PastReadingsComponent,
   },
   {
-    path: 'sensors',
-    component: SensorsComponent,
+    path: 'dashboard/sensors/:sensorId',
+    component: SensorDetailsComponent,
+  },
+  {
+    path: 'dashboard/sensors/edit/:sensorId',
+    component: EditSensorComponent,
   },
 ];
 
