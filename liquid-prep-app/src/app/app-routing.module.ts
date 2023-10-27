@@ -13,12 +13,13 @@ import { CropStaticInfoResolver } from './resolve/CropStaticInfoResolver';
 import { HomeComponent } from './components/dashboard/home/home.component';
 import { FieldsComponent } from './components/dashboard/fields/fields.component';
 import { SensorsComponent } from './components/dashboard/sensors/sensors.component';
+import { SensorDetailsComponent } from './components/dashboard/sensors/sensor-details/sensor-details.component';
+import { EditSensorComponent } from './components/dashboard/sensors/edit-sensor/edit-sensor.component';
+
 import { FieldsLandingPageComponent } from './components/fields-landing-page/fields-landing-page.component';
 import { DetailsComponent } from './components/fields-landing-page/details/details.component';
 import { AddFieldComponent } from './components/fields-landing-page/add-field/add-field.component';
 import { EditFieldComponent } from './components/fields-landing-page/edit-field/edit-field.component';
-import { SensorDetailsComponent } from './components/dashboard/sensors/sensor-details/sensor-details.component';
-import { EditSensorComponent } from './components/dashboard/sensors/edit-sensor/edit-sensor.component';
 
 const routes: Routes = [
   { path: '', component: WelcomeComponent },
