@@ -25,3 +25,14 @@
     align-items: center;
   }
 }
+
+.sensor-container {
+  width: 100%;
+
+  .remove-button {
+    float: right;
+    margin-right: 10px;
+    color: blue;
+    font-weight: 500;
+  }
+}
