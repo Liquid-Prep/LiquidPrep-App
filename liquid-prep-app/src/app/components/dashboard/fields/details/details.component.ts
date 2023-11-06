@@ -31,6 +31,7 @@ export class DetailsComponent implements OnInit {
   @ViewChild('warningDialog') dialogTemplate!: TemplateRef<any>;
 
   fieldDetails: any;
+  sensors: any[] = [];
 
   constructor(
     private headerService: HeaderService,
@@ -68,6 +69,12 @@ export class DetailsComponent implements OnInit {
 
   public async getFieldDetails(id: string) {
     this.fieldDetails = await this.fieldService.getFieldFromMyFieldById(id);
+    console.log(this.fieldDetails);
+    this.sensors = this.fieldDetails.sensors;
+  }
+
+  public adjustDate(timestamp: number) {
+    return new Date(timestamp * 1000);
   }
 
   public getFieldPhoto(type: string) {

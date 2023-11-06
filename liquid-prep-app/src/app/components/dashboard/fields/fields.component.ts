@@ -7,10 +7,9 @@ import { FieldDataService } from 'src/app/service/FieldDataService';
 @Component({
   selector: 'app-fields',
   templateUrl: './fields.component.html',
-  styleUrls: ['./fields.component.scss']
+  styleUrls: ['./fields.component.scss'],
 })
 export class FieldsComponent implements OnInit {
-
   headerConfig: HeaderConfig = {
     headerTitle: 'Fields',
     leftIconName: 'menu',
@@ -26,30 +25,30 @@ export class FieldsComponent implements OnInit {
     private router: Router,
     private fieldService: FieldDataService
   ) {}
-  
+
   ngOnInit(): void {
     this.headerService.updateHeader(this.headerConfig);
     this.getFields();
   }
 
   public onFieldClick(id: string) {
-    this.router.navigate([`/details`], {queryParams: {id: id}});
+    this.router.navigate([`/details`], { queryParams: { id: id } });
   }
 
   public async getFields() {
-    const myFields = await  this.fieldService.getLocalStorageMyFields();
+    const myFields = await this.fieldService.getLocalStorageMyFields();
     this.fields = myFields;
   }
 
   public getFieldPhoto(type: string) {
     if (type === 'corn') {
-      return 'assets/crops-images/corn.png'
+      return 'assets/crops-images/corn.png';
     } else if (type === 'wheat') {
-      return 'assets/crops-images/wheat.png'
+      return 'assets/crops-images/wheat.png';
     } else if (type === 'cotton') {
-      return 'assets/crops-images/cotton.png'
+      return 'assets/crops-images/cotton.png';
     } else {
-      return 'assets/crops-images/missing.jpg'
+      return 'assets/crops-images/missing.jpg';
     }
   }
 
@@ -60,5 +59,4 @@ export class FieldsComponent implements OnInit {
   public reload() {
     location.reload();
   }
-
 }
