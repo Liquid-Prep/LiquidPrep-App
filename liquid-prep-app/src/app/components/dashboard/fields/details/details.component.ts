@@ -63,7 +63,7 @@ export class DetailsComponent implements OnInit {
 
   public deleteField() {
     this.fieldService.removeFieldFromLocalStorage(this.id);
-    this.router.navigate([`/fields`]);
+    this.router.navigate([`/dashboard/fields`]);
   }
 
   public async getFieldDetails(id: string) {

@@ -54,10 +54,9 @@ import { HomeComponent } from './components/dashboard/home/home.component';
 import { FieldsComponent } from './components/dashboard/fields/fields.component';
 import { SensorsComponent } from './components/dashboard/sensors/sensors.component';
 import { SortModalComponent } from './components/sort-modal/sort-modal.component';
-import { FieldsLandingPageComponent } from './components/fields-landing-page/fields-landing-page.component';
-import { DetailsComponent } from './components/fields-landing-page/details/details.component';
-import { AddFieldComponent } from './components/fields-landing-page/add-field/add-field.component';
-import { EditFieldComponent } from './components/fields-landing-page/edit-field/edit-field.component';
+import { DetailsComponent } from './components/dashboard/fields/details/details.component';
+import { AddFieldComponent } from './components/dashboard/fields/add-field/add-field.component';
+import { EditFieldComponent } from './components/dashboard/fields/edit-field/edit-field.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   observer: true,
@@ -89,7 +88,6 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     FieldsComponent,
     SensorsComponent,
     SortModalComponent,
-    FieldsLandingPageComponent,
     DetailsComponent,
     AddFieldComponent,
     EditFieldComponent,

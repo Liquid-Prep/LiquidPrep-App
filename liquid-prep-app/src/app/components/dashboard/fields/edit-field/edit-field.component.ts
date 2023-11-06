@@ -90,6 +90,6 @@ export class EditFieldComponent implements OnInit {
       plantDate: new Date(formattedDate),
     };
     this.fieldService.storeFieldsInLocalStorage(params);
-    this.router.navigate([`/fields`]);
+    this.router.navigate([`/dashboard/fields`]);
   }
 }
