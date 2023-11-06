@@ -1,33 +1,48 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { HeaderService } from 'src/app/service/header.service';
 import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
-import { SortModalComponent } from '../../sort-modal/sort-modal.component';
+import { SelectModalComponent } from '../../select-modal/select-modal.component';
 import { DatePipe } from '@angular/common';
+import { SENSORS_MOCK_DATA } from './sensor-data';
+import { SensorStorageService } from '../../../service/sensor-storage.service'; // Update the path
 
 @Component({
   selector: 'app-sensors',
   templateUrl: './sensors.component.html',
   styleUrls: ['./sensors.component.scss'],
-  encapsulation : ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None,
 })
 export class SensorsComponent implements OnInit {
-
-  selectedSortOption: string = '';
+  sensors: SensorsData;
+  selectedOption: string = 'lastUpdated';
+  selectedLabel: string = 'last updated time';
+  noFieldSelectedText: string = 'No field selected';
   selectedFilterOption: string = '';
   selectedFilterOptions: string[] = [];
   filterOptions: {
-    connectionStatusOptions: string[],
-    fieldLocationOptions: string[] } = {
-      connectionStatusOptions: [],
-      fieldLocationOptions: [],
+    connectionStatusOptions: string[];
+    fieldLocationOptions: string[];
+  } = {
+    connectionStatusOptions: [],
+    fieldLocationOptions: [],
   };
   isFilterVisible: boolean = false;
   isFilteredByVisible: boolean = false;
   isSearchVisible: boolean = false;
-  displayedItems: any[] = [];
+  isSortedByVisible: boolean = true;
+  displayedSensors: any[] = [];
   searchQuery: string = '';
+  clearSearchDisplayText: string = 'Clear search to see all sensors.';
+  originalDisplayedSensorsLength: number;
+  sortOptions: Array<{ value: string; label: string }> = [
+    { value: 'lastUpdated', label: 'Last Updated Time' },
+    { value: 'sensorName', label: 'Sensor Name (A-Z)' },
+    { value: 'fieldLocation', label: 'Field Location (A-Z)' },
+    { value: 'connectionStatus', label: 'Connection Status' },
+  ];
 
   headerConfig: HeaderConfig = {
     headerTitle: 'Sensors',
@@ -41,56 +56,13 @@ export class SensorsComponent implements OnInit {
     filterBtnClick: this.toggleFilter.bind(this),
   };
 
-  items = [
-    {
-      lastUpdated: '1694674978',
-      sensorName: 'A6',
-      fieldLocation: 'Field 1',
-      moistureLevel: 43.12,
-      connectionStatus: 'Connected',
-    },
-    {
-      lastUpdated: '1694611378',
-      sensorName: 'A4',
-      fieldLocation: 'Field 1',
-      moistureLevel: 65,
-      connectionStatus: 'Connected',
-    },
-    {
-      lastUpdated: '1632215520',
-      sensorName: 'A3',
-      fieldLocation: 'Field 2',
-      moistureLevel: 42,
-      connectionStatus: 'Connected',
-    },
-    {
-      lastUpdated: '1689365400',
-      sensorName: 'A2',
-      fieldLocation: 'Field 4',
-      moistureLevel: 50,
-      connectionStatus: 'Connected',
-    },
-    {
-      lastUpdated: '1689182700',
-      sensorName: 'A5',
-      fieldLocation: 'Field 3',
-      moistureLevel: 65.16,
-      connectionStatus: 'Connected',
-    },
-    {
-      lastUpdated: '1691813700',
-      sensorName: 'A1',
-      fieldLocation: 'Field 5',
-      moistureLevel: 44,
-      connectionStatus: 'Not Connected',
-    },
-  ];
-
   constructor(
     public dialog: MatDialog,
     private location: Location,
     private headerService: HeaderService,
     private datePipe: DatePipe,
+    private router: Router,
+    private sensorStorageService: SensorStorageService
   ) {}
 
   public handleLeftClick(data: string) {
@@ -110,23 +82,34 @@ export class SensorsComponent implements OnInit {
   }
 
   private renderedHeadings: Set<string> = new Set<string>();
-  private lastSelectedSortOption: string = '';
+  private lastSelectedOption: string = '';
 
   ngOnInit(): void {
 
     this.headerService.updateHeader(this.headerConfig);
 
+    this.saveSensorData();
+    this.retrieveSensorData();
     this.filterOptions = this.getSelectedFilterOptions();
     this.filterOptions.connectionStatusOptions.sort();
     this.filterOptions.fieldLocationOptions.sort();
-    this.lastSelectedSortOption = this.selectedSortOption;
 
-    // Initialize displayedItems with the original sensor data
-    this.displayedItems = [...this.items];
+    this.lastSelectedOption = this.selectedOption;
+
+    // Initialize displayedSensors with the original sensor data
+    this.displayedSensors = [...this.sensors];
+    this.originalDisplayedSensorsLength = this.displayedSensors.length;
+
+    if (this.displayedSensors.length === 0) {
+      this.isFilterVisible = false;
+      this.isSearchVisible = false;
+      this.isFilteredByVisible = false;
+      this.isSortedByVisible = false;
+    }
 
     // Convert Date format
-    this.items.forEach((item) => {
-      const epochTimestamp = parseInt(item.lastUpdated, 10);
+    this.sensors.forEach((sensor: Sensor) => {
+      const epochTimestamp = sensor.lastUpdatedTime;
       const utcDate = new Date(epochTimestamp * 1000);
 
       // Calculate today and yesterday dates
@@ -134,13 +117,12 @@ export class SensorsComponent implements OnInit {
       const yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
 
-      if (isSameDate(utcDate, now)) {
-        item.lastUpdated = 'today ' + this.datePipe.transform(utcDate, 'h:mm a');
-      } else if (isSameDate(utcDate, yesterday)) {
-        item.lastUpdated = 'yesterday ' + this.datePipe.transform(utcDate, 'h:mm a');
-      } else {
-        item.lastUpdated = this.datePipe.transform(utcDate, "MM.dd.yy 'at' h:mm a");
-      }
+      // Create a new property to store the formatted string
+      sensor.formattedLastUpdatedTime = isSameDate(utcDate, now)
+        ? 'today ' + this.datePipe.transform(utcDate, 'h:mm a')
+        : isSameDate(utcDate, yesterday)
+        ? 'yesterday ' + this.datePipe.transform(utcDate, 'h:mm a')
+        : this.datePipe.transform(utcDate, "MM.dd.yy 'at' h:mm a");
     });
 
     // Function to check if two dates are on the same day
@@ -153,48 +135,72 @@ export class SensorsComponent implements OnInit {
     }
   }
 
+  private saveSensorData() {
+    const savedSensors = this.sensorStorageService.getSensorData();
+
+    if (!savedSensors || savedSensors.length === 0) {
+      const sensors = SENSORS_MOCK_DATA;
+      this.sensorStorageService.saveSensorData(sensors);
+    }
+  }
+
+  private retrieveSensorData() {
+    const savedSensors = this.sensorStorageService.getSensorData();
+    this.sensors = savedSensors;
+  }
+
   openSortModal() {
-    const dialogRef = this.dialog.open(SortModalComponent, {
+    const sortOptions = this.sortOptions;
+    const dialogRef = this.dialog.open(SelectModalComponent, {
       width: '80%',
-      data: { selectedSortOption: this.lastSelectedSortOption },
+      data: {
+        selectedOption: this.selectedOption,
+        selectedLabel: this.selectedLabel,
+        modalTitle: 'Sort by',
+        options: sortOptions,
+      },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.selectedSortOption = result;
-        this.lastSelectedSortOption = this.selectedSortOption;
-        this.sortItems();
+    dialogRef.afterClosed().subscribe((selection) => {
+      if (selection) {
+        this.selectedOption = selection.selectedOption;
+        this.selectedLabel = selection.selectedLabel.toLowerCase();
+        this.lastSelectedOption = this.selectedOption;
+        this.sortSensors();
       }
     });
   }
 
-sortItems() {
-  this.displayedItems.sort((a, b) => {
-    switch (this.selectedSortOption) {
-      case 'sensorName':
-        return a.sensorName.localeCompare(b.sensorName);
-      case 'fieldLocation':
-        return a.fieldLocation.localeCompare(b.fieldLocation);
-      case 'connectionStatus':
-        return this.toggleConnectionStatusSort(a.connectionStatus, b.connectionStatus);
-      default:
-        const dateA = new Date(a.lastUpdated * 1000);
-        const dateB = new Date(b.lastUpdated * 1000);
-        // Compare in descending order (most recent first)
-        return dateB.getTime() - dateA.getTime();
-    }
-  });
-}
-
-toggleConnectionStatusSort(statusA: string, statusB: string): number {
-  if (statusA === 'Not Connected' && statusB !== 'Not Connected') {
-    return 1; // Move "Not Connected" to the bottom
-  } else if (statusA !== 'Not Connected' && statusB === 'Not Connected') {
-    return -1; // Move "Not Connected" to the bottom
-  } else {
-    return statusA.localeCompare(statusB); // Sort other statuses alphabetically
+  sortSensors() {
+    this.displayedSensors.sort((a, b) => {
+      switch (this.selectedOption) {
+        case 'sensorName':
+          return a.sensorName.localeCompare(b.sensorName);
+        case 'fieldLocation':
+          return a.fieldLocation.localeCompare(b.fieldLocation);
+        case 'connectionStatus':
+          return this.toggleConnectionStatusSort(
+            a.connectionStatus,
+            b.connectionStatus
+          );
+        default:
+          const dateA = new Date(a.lastUpdated * 1000);
+          const dateB = new Date(b.lastUpdated * 1000);
+          // Compare in descending order (most recent first)
+          return dateB.getTime() - dateA.getTime();
+      }
+    });
   }
-}
+
+  toggleConnectionStatusSort(statusA: string, statusB: string): number {
+    if (statusA === 'Not Connected' && statusB !== 'Not Connected') {
+      return 1; // Move "Not Connected" to the bottom
+    } else if (statusA !== 'Not Connected' && statusB === 'Not Connected') {
+      return -1; // Move "Not Connected" to the bottom
+    } else {
+      return statusA.localeCompare(statusB); // Sort other statuses alphabetically
+    }
+  }
 
   toggleFilterOption(option: string) {
     const index = this.selectedFilterOptions.indexOf(option);
@@ -208,26 +214,26 @@ toggleConnectionStatusSort(statusA: string, statusB: string): number {
 
   applyFilterAndSort() {
     // Apply filtering based on selected filter options
-    let filteredItems = [...this.items];
+    let filteredSensors = [...this.sensors];
 
     if (this.selectedFilterOptions.length > 0) {
-      filteredItems = filteredItems.filter((item) => {
-
+      filteredSensors = filteredSensors.filter((sensor) => {
         return (
-          this.selectedFilterOptions.includes(item.fieldLocation) ||
-          this.selectedFilterOptions.includes(item.connectionStatus)
+          this.selectedFilterOptions.includes(sensor.fieldLocation) ||
+          this.selectedFilterOptions.includes(sensor.connectionStatus)
         );
       });
     }
 
-    // Update the displayedItems with the filtered and sorted items
-    this.displayedItems = filteredItems;
+    // Update the displayedSensors with the filtered and sorted sensors
+    this.displayedSensors = filteredSensors;
     this.toggleFilter();
+    this.isSortedByVisible = true;
   }
 
   clearFilter() {
     this.selectedFilterOptions = []; // Clear all selected filter options
-    this.displayedItems = [...this.items]; // Reset displayedItems to the original list
+    this.displayedSensors = [...this.sensors]; // Reset displayedSensors to the original list
     this.isFilteredByVisible = false;
   }
 
@@ -236,19 +242,30 @@ toggleConnectionStatusSort(statusA: string, statusB: string): number {
     this.toggleFilter();
   }
 
-  // Get filter sellections
+  // Get filter selections
   getSelectedFilterOptions() {
     const selectedConnectionStatus = new Set<string>();
-    const selectedFieldLocation = new Set<string>();
+    const fieldLocationOptions = new Set<string>(); // Use a Set to deduplicate options
 
-    this.items.forEach((item) => {
-      selectedConnectionStatus.add(item.connectionStatus);
-      selectedFieldLocation.add(item.fieldLocation);
+    this.sensors.forEach((sensor) => {
+      selectedConnectionStatus.add(sensor.connectionStatus);
+      if (sensor.fieldLocation !== null) {
+        fieldLocationOptions.add(sensor.fieldLocation);
+      }
     });
 
+    // Convert the Sets back to arrays
+    const connectionStatusOptions = Array.from(selectedConnectionStatus);
+    const fieldLocationArray = Array.from(fieldLocationOptions);
+
+    // Add "No field selected" at the top if it exists
+    if (this.sensors.some((sensor) => sensor.fieldLocation === null)) {
+      fieldLocationArray.unshift(null);
+    }
+
     return {
-      connectionStatusOptions: Array.from(selectedConnectionStatus),
-      fieldLocationOptions: Array.from(selectedFieldLocation),
+      connectionStatusOptions,
+      fieldLocationOptions: fieldLocationArray,
     };
   }
 
@@ -262,6 +279,7 @@ toggleConnectionStatusSort(statusA: string, statusB: string): number {
     if (this.isFilterVisible) {
       this.isSearchVisible = false;
       this.isFilteredByVisible = false;
+      this.isSortedByVisible = false;
 
       this.headerService.updateHeader({
         headerTitle: null,
@@ -287,19 +305,19 @@ toggleConnectionStatusSort(statusA: string, statusB: string): number {
       if (this.selectedFilterOptions.length > 0) {
         this.isFilteredByVisible = true;
       }
+      this.isSortedByVisible = true;
     }
-
   }
 
   toggleSearch() {
-    this.displayedItems = this.items;
+    this.displayedSensors = this.sensors;
     this.isSearchVisible = !this.isSearchVisible;
 
     if (this.isSearchVisible) {
       this.isFilterVisible = false;
       this.isFilteredByVisible = false;
+      this.isSortedByVisible = false;
     }
-
   }
 
   onSearchInputChange() {
@@ -307,14 +325,61 @@ toggleConnectionStatusSort(statusA: string, statusB: string): number {
   }
 
   applySearchFilter() {
-    this.displayedItems = this.items.filter((item) => {
-
+    this.displayedSensors = this.sensors.filter((sensor) => {
       return (
-        item.sensorName.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        item.fieldLocation.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        item.moistureLevel.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
+        sensor.sensorName
+          .toLowerCase()
+          .includes(this.searchQuery.toLowerCase()) ||
+        (sensor.fieldLocation &&
+          sensor.fieldLocation
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase())) || // Check if fieldLocation is not null
+        (sensor.moistureLevel &&
+          sensor.moistureLevel
+            .toString()
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase())) // Check if moistureLevel is not null
       );
     });
   }
 
+  onSensorClicked(sensorId) {
+    const url = `/dashboard/sensors/${sensorId}`;
+    this.router.navigate([url]);
+  }
 }
+
+export interface Sensor {
+  id: string;
+  lastUpdatedTime: number;
+  sensorName: string;
+  fieldLocation: string;
+  moistureLevel: number;
+  geocode: string;
+  nextScheduledReading: number;
+  broadcastIntervals: {
+      timesPerDay?: number | null;
+      firstReadingTime?: number | null;
+      timeBetweenReading?: number | null;
+  };
+  disableOnInactivity; boolean;
+  pastReadings: { dateTime: number; moistureLevel: number }[];
+  connectionStatus: string;
+  connectionInfo?: {
+    edgeGateway?: {
+      value: string;
+      url: string;
+    };
+    espNowGateway?: {
+      value: string;
+      url: string;
+    };
+    webSocket?: {
+      url: string;
+    };
+  };
+  formattedLastUpdatedTime?: string;
+  formattedNextUpdatedTime?: string;
+}
+
+export type SensorsData = Sensor[];
