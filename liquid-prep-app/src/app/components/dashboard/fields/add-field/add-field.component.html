@@ -1,0 +1,84 @@
+<app-header-title fxFlexFill> </app-header-title>
+<mat-progress-bar *ngIf="progress" mode="indeterminate"></mat-progress-bar>
+<form [formGroup]="fieldForm">
+  <div class="form-container">
+    <h3>Field Name</h3>
+    <mat-form-field class="field-input">
+      <mat-label>Input</mat-label>
+      <input formControlName="fieldName" matInput />
+    </mat-form-field>
+    <h3>Description</h3>
+    <mat-form-field class="field-input">
+      <mat-label>Description</mat-label>
+      <textarea
+        formControlName="description"
+        matInput
+        class="description-input"
+      ></textarea>
+    </mat-form-field>
+    <h3>Select Crop</h3>
+    <mat-form-field class="field-input">
+      <mat-label>Select Crop</mat-label>
+      <input
+        matInput
+        formControlName="crop"
+        (click)="openDialog(dialogTemplate)"
+      />
+      <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+    </mat-form-field>
+    <h3>Crop Plant Date</h3>
+    <mat-form-field style="width: 80%; margin-bottom: 20px">
+      <mat-label>Choose a date</mat-label>
+      <input formControlName="plantDate" matInput [matDatepicker]="picker" />
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <h3 style="width: 90%; margin-bottom: 15px">Sensors</h3>
+    <div *ngFor="let sensor of sensors" class="sensor-container">
+      <h3>{{ sensor.sensorName }}</h3>
+      <span style="color: gray">GPS: {{ sensor.geocode }}</span>
+      <button
+        mat-button
+        class="remove-button"
+        (click)="removeSensor(sensor.id)"
+      >
+        REMOVE
+      </button>
+      <hr />
+    </div>
+    <button
+      mat-stroked-button
+      color="primary"
+      class="sensor-button"
+      (click)="openFullViewDialog()"
+    >
+      <mat-icon aria-hidden="false">add</mat-icon>SENSOR
+    </button>
+  </div>
+
+  <ng-template #dialogTemplate>
+    <h2 mat-dialog-title>Select a crop</h2>
+    <hr />
+    <mat-dialog-content>
+      <div class="options-container">
+        <mat-radio-group
+          aria-label="Select an option"
+          formControlName="cropSelect"
+        >
+          <mat-radio-button *ngFor="let crop of cropsList" [value]="crop">{{
+            crop.cropName
+          }}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="actions-container">
+        <button mat-button mat-dialog-close>CANCEL</button>
+        <button mat-button mat-dialog-close (click)="clickCropNext()">
+          NEXT
+        </button>
+      </div>
+    </mat-dialog-content>
+  </ng-template>
+</form>
+
+

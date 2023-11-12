@@ -19,17 +19,21 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSortModule } from '@angular/material/sort';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { FormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {
@@ -41,7 +45,6 @@ import { MeasureSoilComponent } from './components/measure-soil/measure-soil.com
 import { SettingsComponent } from './components/settings/settings.component';
 import { AdviceComponent } from './components/advice/advice.component';
 import { SeedDateComponent } from './components/seed-date/seed-date.component';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DataService } from './service/DataService';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { SlideIndicatorComponent } from './components/slide-indicator/slide-indicator.component';
@@ -61,6 +64,10 @@ import { SensorLocatorModalComponent } from './components/sensor-locator-modal/s
 import { UnsavedChangesModalComponent } from './components/unsaved-changes-modal/unsaved-changes-modal.component';
 import { WateringInsightsComponent } from './components/watering-insights/watering-insights.component';
 import { MoistureLogsComponent } from './components/watering-insights/moisture-logs/moisture-logs.component';
+import { DetailsComponent } from './components/dashboard/fields/details/details.component';
+import { AddFieldComponent } from './components/dashboard/fields/add-field/add-field.component';
+import { EditFieldComponent } from './components/dashboard/fields/edit-field/edit-field.component';
+import { SensorListComponent } from './components/dashboard/fields/sensor-list/sensor-list.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   observer: true,
@@ -92,12 +99,16 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     FieldsComponent,
     SensorsComponent,
     SelectModalComponent,
+    DetailsComponent,
+    AddFieldComponent,
+    EditFieldComponent,
     SensorDetailsComponent,
     EditSensorComponent,
     SensorLocatorModalComponent,
     UnsavedChangesModalComponent,
     WateringInsightsComponent,
     MoistureLogsComponent,
+    SensorListComponent,
   ],
   imports: [
     BrowserModule,
@@ -113,10 +124,14 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     MatInputModule,
     MatTableModule,
     MatTabsModule,
+    MatProgressBarModule,
     MatPaginatorModule,
     MatSnackBarModule,
     MatSliderModule,
+    MatCheckboxModule,
     MatSortModule,
+    MatTooltipModule,
+    MatTooltipModule,
     MatProgressSpinnerModule,
     MatRadioModule,
     MatSlideToggleModule,
@@ -125,6 +140,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     MatNativeDateModule,
     MatButtonToggleModule,
     FormsModule,
+    MatSnackBarModule,
+    ReactiveFormsModule,
     SwiperModule,
     FlexLayoutModule,
     MatGridListModule,

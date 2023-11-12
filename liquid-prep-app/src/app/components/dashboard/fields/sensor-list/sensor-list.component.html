@@ -1,0 +1,21 @@
+<h2>Select a Sensor</h2>
+<form [formGroup]="form">
+  <div class="radio-container">
+    <mat-radio-group formControlName="selectedOption">
+      <mat-radio-button *ngFor="let sensor of sensors" [value]="sensor.id">{{
+        sensor.sensorName
+      }}</mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <div class="dialog-buttons">
+    <button mat-button mat-dialog-close>CANCEL</button>
+    <button
+      *ngIf="form.value.selectedOption"
+      mat-button
+      mat-dialog-close
+      (click)="addSensor()"
+    >
+      OK
+    </button>
+  </div>
+</form>
