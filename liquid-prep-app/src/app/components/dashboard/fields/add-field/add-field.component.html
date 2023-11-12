@@ -17,13 +17,13 @@
     </mat-form-field>
     <h3>Select Crop</h3>
     <mat-form-field class="field-input">
-      <mat-label>Select</mat-label>
-      <mat-select formControlName="crop">
-        <mat-option value="wheat">Wheat</mat-option>
-        <mat-option value="corn">Corn</mat-option>
-        <mat-option value="cotton">Cotton</mat-option>
-        <mat-option value="rice">Rice</mat-option>
-      </mat-select>
+      <mat-label>Select Crop</mat-label>
+      <input
+        matInput
+        formControlName="crop"
+        (click)="openDialog(dialogTemplate)"
+      />
+      <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
     </mat-form-field>
     <h3>Crop Plant Date</h3>
     <mat-form-field style="width: 80%; margin-bottom: 20px">
@@ -55,4 +55,27 @@
       <mat-icon aria-hidden="false">add</mat-icon>SENSOR
     </button>
   </div>
+
+  <ng-template #dialogTemplate>
+    <h2 mat-dialog-title>Select a crop</h2>
+    <hr />
+    <mat-dialog-content>
+      <div class="options-container">
+        <mat-radio-group
+          aria-label="Select an option"
+          formControlName="cropSelect"
+        >
+          <mat-radio-button *ngFor="let crop of cropsList" [value]="crop">{{
+            crop.cropName
+          }}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="actions-container">
+        <button mat-button mat-dialog-close>CANCEL</button>
+        <button mat-button mat-dialog-close (click)="clickCropNext()">
+          NEXT
+        </button>
+      </div>
+    </mat-dialog-content>
+  </ng-template>
 </form>

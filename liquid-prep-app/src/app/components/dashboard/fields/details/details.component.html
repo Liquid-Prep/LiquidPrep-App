@@ -7,9 +7,12 @@
   </p>
   <span class="title">CROP</span>
   <div class="crop-container">
-    <img class="field-photo" [src]="getFieldPhoto(fieldDetails.crop)" />
+    <img
+      class="field-photo"
+      [src]="getFieldPhoto(fieldDetails.crop.cropName)"
+    />
     <div class="photo-details">
-      <h2>{{ fieldDetails.crop }}</h2>
+      <h2>{{ fieldDetails.crop.cropName }}</h2>
       <span>{{ fieldDetails.plantDate }}</span>
     </div>
   </div>

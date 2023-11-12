@@ -26,9 +26,11 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -53,7 +55,11 @@ import { HamburgerMenuComponent } from './components/hamburger-menu/hamburger-me
 import { HomeComponent } from './components/dashboard/home/home.component';
 import { FieldsComponent } from './components/dashboard/fields/fields.component';
 import { SensorsComponent } from './components/dashboard/sensors/sensors.component';
-import { SortModalComponent } from './components/sort-modal/sort-modal.component';
+import { SelectModalComponent } from './components/select-modal/select-modal.component';
+import { SensorDetailsComponent } from './components/dashboard/sensors/sensor-details/sensor-details.component';
+import { EditSensorComponent } from './components/dashboard/sensors/edit-sensor/edit-sensor.component';
+import { SensorLocatorModalComponent } from './components/sensor-locator-modal/sensor-locator-modal.component';
+import { UnsavedChangesModalComponent } from './components/unsaved-changes-modal/unsaved-changes-modal.component';
 import { DetailsComponent } from './components/dashboard/fields/details/details.component';
 import { AddFieldComponent } from './components/dashboard/fields/add-field/add-field.component';
 import { EditFieldComponent } from './components/dashboard/fields/edit-field/edit-field.component';
@@ -88,7 +94,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     HomeComponent,
     FieldsComponent,
     SensorsComponent,
-    SortModalComponent,
+    SelectModalComponent,
     DetailsComponent,
     AddFieldComponent,
     EditFieldComponent,
@@ -113,6 +119,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     MatTableModule,
     MatTabsModule,
     MatPaginatorModule,
+    MatCheckboxModule,
     MatSortModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
@@ -123,6 +130,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     MatNativeDateModule,
     MatButtonToggleModule,
     FormsModule,
+    MatSnackBarModule,
     ReactiveFormsModule,
     SwiperModule,
     FlexLayoutModule,

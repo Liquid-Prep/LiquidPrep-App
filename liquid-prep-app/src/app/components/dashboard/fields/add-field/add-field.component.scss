@@ -36,3 +36,23 @@
     font-weight: 500;
   }
 }
+
+.options-container {
+  margin-top: 20px;
+
+  .mat-radio-button {
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+.actions-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: calc(100% - 160px);
+
+  button {
+    color: blue;
+    letter-spacing: 1px;
+  }
+}

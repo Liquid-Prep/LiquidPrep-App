@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { HeaderService } from 'src/app/service/header.service';
 import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -9,7 +15,10 @@ import { Guid } from 'guid-typescript';
 import { SENSORS_MOCK_DATA } from './../../sensors/sensor-data';
 import { Field } from 'src/app/models/Field';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SensorListComponent } from './../sensor-list/sensor-list.component';
+import { CropDataService } from 'src/app/service/CropDataService';
+import { forkJoin, from } from 'rxjs';
 
 @Component({
   selector: 'app-edit-field',
@@ -17,6 +26,8 @@ import { SensorListComponent } from './../sensor-list/sensor-list.component';
   styleUrls: ['./edit-field.component.scss'],
 })
 export class EditFieldComponent implements OnInit {
+  @ViewChild('dialogTemplate') dialogTemplate: TemplateRef<any>;
+
   headerConfig: HeaderConfig = {
     headerTitle: 'Edit Field',
     leftIconName: 'arrow_back',
@@ -29,6 +40,8 @@ export class EditFieldComponent implements OnInit {
   fieldDetails: any;
   sensorsData = SENSORS_MOCK_DATA;
   sensors: any[] = [];
+  cropsList;
+  cropValue;
 
   constructor(
     private headerService: HeaderService,
@@ -36,12 +49,15 @@ export class EditFieldComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private fieldService: FieldDataService,
-    public dialog: MatDialog
+    private cropService: CropDataService,
+    public dialog: MatDialog,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
     this.headerService.updateHeader(this.headerConfig);
     this.loadForm();
+    this.loadCropData();
     this.id = this.route.snapshot.queryParamMap.get('id');
     this.getFieldDetails(this.id);
   }
@@ -52,10 +68,64 @@ export class EditFieldComponent implements OnInit {
       description: new FormControl(null),
       crop: new FormControl(null, [Validators.required]),
       plantDate: new FormControl(null, [Validators.required]),
+      cropSelect: new FormControl(),
     });
+    const cropForm = this.fieldForm.get('crop');
+    cropForm.disable();
+  }
+
+  loadCropData() {
+    forkJoin({
+      cropsListData: this.cropService.getCropListFromApi(),
+      myCrops: from(this.cropService.getLocalStorageMyCrops()),
+    }).subscribe(
+      (results) => {
+        const cropsListData = results.cropsListData;
+        const myCrops = results.myCrops;
+
+        this.cropsList = cropsListData.filter((crop) => {
+          return !myCrops.some((myCrop) => myCrop.id === crop.id);
+        });
+
+        const cropForm = this.fieldForm.get('crop');
+        cropForm.enable();
+      },
+      (error) => {
+        alert('Could not get crop list: ' + error);
+      }
+    );
   }
 
   public handleLeftClick(data: string) {
+    if (!this.fieldForm.dirty) {
+      this.openDialog(this.dialogTemplate);
+    } else {
+      this.location.back();
+    }
+  }
+
+  openDialog(dialogTemplate: TemplateRef<any>): void {
+    this.dialog.open(dialogTemplate, {
+      height: '300px',
+      width: '400px',
+    });
+  }
+
+  openCropDialog(dialogTemplate: TemplateRef<any>): void {
+    this.dialog.open(dialogTemplate, {
+      height: '300px',
+      width: '400px',
+    });
+  }
+
+  clickCropNext() {
+    this.fieldForm.patchValue({
+      crop: this.fieldForm.get('cropSelect').value.cropName,
+    });
+    this.cropValue = this.fieldForm.get('cropSelect').value;
+  }
+
+  backedClicked() {
     this.location.back();
   }
 
@@ -63,10 +133,11 @@ export class EditFieldComponent implements OnInit {
     this.fieldForm.patchValue({
       fieldName: this.fieldDetails.fieldName,
       description: this.fieldDetails.description,
-      crop: this.fieldDetails.crop,
+      crop: this.fieldDetails.crop.cropName,
       plantDate: this.fieldDetails.plantDate,
     });
     this.sensors = this.fieldDetails.sensors;
+    this.cropValue = this.fieldDetails.crop;
   }
 
   public async getFieldDetails(id: string) {
@@ -82,10 +153,8 @@ export class EditFieldComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log('Dialog closed with result:', result);
         const data = this.sensorsData.find((item) => item.id === result);
         this.sensors.push(data);
-        console.log(this.sensors);
       }
     });
   }
@@ -97,7 +166,13 @@ export class EditFieldComponent implements OnInit {
   }
 
   public save() {
-    //TODO
+    if (!this.fieldForm.valid) {
+      this._snackBar.open('Please Fill up the Form', 'Ok', {
+        duration: 3000,
+      });
+      return;
+    }
+
     let formattedDate, description;
     const name = this.fieldForm.get('fieldName').value;
     if (this.fieldForm.get('description').value) {
@@ -112,7 +187,7 @@ export class EditFieldComponent implements OnInit {
       id,
       fieldName: name,
       description: description || undefined,
-      crop, //Get Crop Data
+      crop: this.cropValue,
       plantDate: new Date(formattedDate),
       sensors: sensorList,
     };
