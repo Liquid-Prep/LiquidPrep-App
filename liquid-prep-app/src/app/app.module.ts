@@ -122,6 +122,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     MatCheckboxModule,
     MatSortModule,
     MatTooltipModule,
+    MatTooltipModule,
     MatProgressSpinnerModule,
     MatRadioModule,
     MatSlideToggleModule,
