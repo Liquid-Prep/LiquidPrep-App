@@ -69,12 +69,7 @@ export class AddFieldComponent implements OnInit {
     }).subscribe(
       (results) => {
         const cropsListData = results.cropsListData;
-        const myCrops = results.myCrops;
-
-        this.cropsList = cropsListData.filter((crop) => {
-          return !myCrops.some((myCrop) => myCrop.id === crop.id);
-        });
-
+        this.cropsList = cropsListData;
         const cropForm = this.fieldForm.get('crop');
         cropForm.enable();
       },
