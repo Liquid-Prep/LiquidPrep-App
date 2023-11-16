@@ -1,0 +1,20 @@
+.radio-container {
+  .mat-radio-button {
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+h2 {
+  font-weight: bold;
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: flex-end;
+
+  button {
+    color: blue;
+    letter-spacing: 1px;
+  }
+}

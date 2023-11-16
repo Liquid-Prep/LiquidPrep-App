@@ -17,7 +17,9 @@ import { SensorDetailsComponent } from './components/dashboard/sensors/sensor-de
 import { EditSensorComponent } from './components/dashboard/sensors/edit-sensor/edit-sensor.component';
 import { WateringInsightsComponent } from './components/watering-insights/watering-insights.component';
 
-
+import { DetailsComponent } from './components/dashboard/fields/details/details.component';
+import { AddFieldComponent } from './components/dashboard/fields/add-field/add-field.component';
+import { EditFieldComponent } from './components/dashboard/fields/edit-field/edit-field.component';
 
 const routes: Routes = [
   { path: '', component: WelcomeComponent },
@@ -45,6 +47,18 @@ const routes: Routes = [
   {
     path: 'insights/:id',
     component: WateringInsightsComponent,
+  },
+  {
+    path: 'add-field',
+    component: AddFieldComponent,
+  },
+  {
+    path: 'edit-field',
+    component: EditFieldComponent,
+  },
+  {
+    path: 'details',
+    component: DetailsComponent,
   },
   {
     path: 'measure-soil/:id',
