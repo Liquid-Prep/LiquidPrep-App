@@ -320,7 +320,7 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
   }
 
   onGetAdvise() {
-    this.router.navigate(['advice/' + this.crop.id ]).then(r => {});
+    this.router.navigate(['insights/' + this.crop.id ]).then(r => {});
   }
 
   onMeasure(){

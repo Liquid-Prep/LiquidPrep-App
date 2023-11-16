@@ -1,0 +1,51 @@
+<button mat-button class="icon-button" mat-dialog-close>
+  <mat-icon>close</mat-icon>
+</button>
+<div class="dialog-container">
+  <div class="header-container">
+    <span class="card-title">SOIL MOISTURE LOGS</span>
+    <h3>{{ fieldName }} ({{ cropType }})</h3>
+  </div>
+  <div class="date-container">
+    <mat-card class="demo-inline-calendar-card">
+      <mat-calendar
+        [(selected)]="selected"
+        (selectedChange)="onDateChange($event)"
+      ></mat-calendar>
+    </mat-card>
+  </div>
+  <div class="card-container">
+    <h2>{{ selectedDate || "Please choose a Date" }}</h2>
+    <mat-card>
+      <mat-card-content class="card-content">
+        <div class="slider-container">
+          <!-- TODO... -->
+          <span class="card-title">Daily Average Moisture Level</span>
+          <span class="card-title" *ngIf="percentageValues"
+            >{{ percentageValues | number : ".2-2" }}%</span
+          >
+          <span class="card-values">1</span>
+          <mat-slider
+            min="0"
+            max="100"
+            [(ngModel)]="percentageValues"
+            thumbLabel="always"
+            step="1"
+          ></mat-slider>
+          <span class="card-values">100</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card *ngFor="let readings of pastReadings">
+      <mat-card-content class="percentage-container">
+        <div>
+          <span class="card-title">Soil Moisture Level</span>
+          <h2 style="color: green">{{ readings.moistureLevel }}%</h2>
+          <span class="card-title">{{
+            formatUnixTimestamp(readings.dateTime)
+          }}</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

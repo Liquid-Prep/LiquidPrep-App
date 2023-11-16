@@ -1,4 +1,10 @@
-import {Component, OnInit, Input, ApplicationRef, NgZone} from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ApplicationRef,
+  NgZone,
+} from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { formatDate, Location } from '@angular/common';
 import { Router } from '@angular/router';
@@ -13,7 +19,6 @@ import { DeleteCropComponent } from '../delete-crop/delete-crop.component';
 import { HeaderService } from 'src/app/service/header.service';
 import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
 
-
 @Component({
   selector: 'app-my-crops',
   templateUrl: './my-crops.component.html',
@@ -27,7 +32,7 @@ export class MyCropsComponent implements OnInit {
   tabs = ['My Crops', 'Settings'];
   activeTab = this.tabs[0];
   background: ThemePalette = undefined;
-  seedDate =  null;
+  seedDate = null;
 
   headerConfig: HeaderConfig = {
     headerTitle: 'My Crops',
@@ -48,25 +53,24 @@ export class MyCropsComponent implements OnInit {
   public errorMessage = '';
 
   constructor(
-    private router: Router, private location: Location,
+    private router: Router,
+    private location: Location,
     private weatherService: WeatherDataService,
     private cropDataService: CropDataService,
     public dialog: MatDialog,
     private headerService: HeaderService
-    ) {
+  ) {
     this.updateWeatherInfo();
   }
 
   ngOnInit(): void {
     this.headerService.updateHeader(this.headerConfig);
-    this.cropDataService.getLocalStorageMyCrops().then(
-      (myCrops) => {
-        this.myCrops = myCrops;
-        if (this.myCrops.length > 0){
-          this.myCropStatus = 'crop-selected';
-        }
+    this.cropDataService.getLocalStorageMyCrops().then((myCrops) => {
+      this.myCrops = myCrops;
+      if (this.myCrops.length > 0) {
+        this.myCropStatus = 'crop-selected';
       }
-    );
+    });
 
     // TODO: Add weather template
     /*this.dataService.getWeatherInfo().subscribe((weatherInfo: WeatherResponse) => {
@@ -74,71 +78,69 @@ export class MyCropsComponent implements OnInit {
     });*/
   }
 
-  public handleLeftClick(data: string){
+  public handleLeftClick(data: string) {
     this.backClicked();
   }
 
   public tabClicked(tab) {
     this.activeTab = tab;
     if (tab === tab[0]) {
-      this.router.navigateByUrl('/my-crops').then(r => {});
+      this.router.navigateByUrl('/my-crops').then((r) => {});
     } else {
-      this.router.navigateByUrl('/settings').then(r => {});
+      this.router.navigateByUrl('/settings').then((r) => {});
     }
   }
 
   public fabClicked() {
-    this.router.navigateByUrl('/select-crop').then(r => {});
+    this.router.navigateByUrl('/select-crop').then((r) => {});
   }
 
-  public volumeClicked() {
+  public volumeClicked() {}
 
-  }
-
-  public cropClicked(event){
-    this.router.navigate(['advice']).then(r => {});
+  public cropClicked(event) {
+    this.router.navigate(['advice']).then((r) => {});
   }
 
   public backClicked() {
     this.location.back();
   }
 
-  onContextMenu($event: MouseEvent, crop: Crop) {
-  }
+  onContextMenu($event: MouseEvent, crop: Crop) {}
 
   onViewCropAdvice(crop: Crop) {
     this.cropDataService.storeSelectedCropIdInSession(crop.id);
-    this.router.navigate(['advice/' + crop.id]).then(r => {});
+    this.router.navigate(['insights/' + crop.id]).then((r) => {});
   }
 
   onRemoveCrop(crop: Crop) {
-    this.cropDataService.removeCropFromLocalStorage(crop.id).then(r => window.location.reload());
+    this.cropDataService
+      .removeCropFromLocalStorage(crop.id)
+      .then((r) => window.location.reload());
   }
 
   onAdd1stCrop() {
-    this.router.navigateByUrl('/select-crop').then(r => {});
+    this.router.navigateByUrl('/select-crop').then((r) => {});
   }
 
-  public onHeaderClick(data:string){
-    if(data == 'leftBtn'){
+  public onHeaderClick(data: string) {
+    if (data == 'leftBtn') {
       this.backClicked();
-    }else {
+    } else {
       //TODO
     }
   }
 
-  updateWeatherInfo(){
-
+  updateWeatherInfo() {
     this.loading = true;
     this.weatherService.getTodayWeather().subscribe(
-        (todayWeather: TodayWeather) => {
-          this.loading = false;
-          this.todayWeather = todayWeather;
-        },
-        (err) => {
-          this.loading = false;
-          this.errorMessage = err ;
-        }
+      (todayWeather: TodayWeather) => {
+        this.loading = false;
+        this.todayWeather = todayWeather;
+      },
+      (err) => {
+        this.loading = false;
+        this.errorMessage = err;
+      }
     );
   }
 
@@ -147,11 +149,14 @@ export class MyCropsComponent implements OnInit {
   }
 
   openDeleteCropDialog(crop: Crop): void {
-    const dialogRef2: MatDialogRef<DeleteCropComponent> = this.dialog.open(DeleteCropComponent, {
-      width: '80%',
-      panelClass: 'delete-crop-dialog',
-      data: crop,
-    });
+    const dialogRef2: MatDialogRef<DeleteCropComponent> = this.dialog.open(
+      DeleteCropComponent,
+      {
+        width: '80%',
+        panelClass: 'delete-crop-dialog',
+        data: crop,
+      }
+    );
 
     dialogRef2.componentInstance.onDelete.subscribe(() => {
       this.onRemoveCrop(crop);
