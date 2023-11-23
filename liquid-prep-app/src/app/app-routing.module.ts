@@ -16,13 +16,13 @@ import { SensorsComponent } from './components/dashboard/sensors/sensors.compone
 import { SensorDetailsComponent } from './components/dashboard/sensors/sensor-details/sensor-details.component';
 import { EditSensorComponent } from './components/dashboard/sensors/edit-sensor/edit-sensor.component';
 import { WateringInsightsComponent } from './components/watering-insights/watering-insights.component';
-
+import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
 import { DetailsComponent } from './components/dashboard/fields/details/details.component';
 import { AddFieldComponent } from './components/dashboard/fields/add-field/add-field.component';
 import { EditFieldComponent } from './components/dashboard/fields/edit-field/edit-field.component';
 
 const routes: Routes = [
-  { path: '', component: WelcomeComponent },
+  { path: '', component: SplashScreenComponent },
   {
     path: 'dashboard',
     component: DashboardComponent,
@@ -33,6 +33,7 @@ const routes: Routes = [
       { path: 'fields', component: FieldsComponent },
     ],
   },
+  { path: 'welcome', component: WelcomeComponent },
   {
     path: 'select-crop',
     loadChildren: () =>

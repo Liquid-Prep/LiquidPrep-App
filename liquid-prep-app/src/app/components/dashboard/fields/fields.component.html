@@ -1,6 +1,15 @@
+<div class="search-section" [hidden]="!isSearchVisible">
+  <input
+    type="text"
+    class="searchbox"
+    [(ngModel)]="searchQuery"
+    placeholder="Search Fields"
+    (input)="onSearchInputChange()"
+  />
+</div>
 <div class="fields-container" *ngIf="fields">
   <div style="width: 100%">
-    <mat-card style="width: 100%" *ngFor="let field of fields">
+    <mat-card style="width: 100%" *ngFor="let field of displayedFields">
       <mat-card-content (click)="onFieldClick(field.id)">
         <div class="field-contents">
           <img class="field-photo" [src]="getFieldPhoto(field.crop.cropName)" />
