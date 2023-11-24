@@ -1,1 +1,86 @@
-<p>home works!</p>
+<div class="location-weather">
+  <div class="location">
+    <mat-card class="custom-card">
+      <mat-card-title class="farm mat-subheading">Frog Hill Form</mat-card-title>
+      <mat-card-content class="city-info">
+        <mat-icon class="material-icons-outlined">location_on</mat-icon>
+        <span>{{location}}</span>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="space">
+  </div>
+  <div class="weather">
+    <div class="weather-icon" >
+      <img [src]="weatherIconImage" width="36" height="36">
+    </div>
+    <mat-card class="custom-card">
+      <mat-card-title>{{temperature}}&deg;C</mat-card-title>
+      <mat-card-content>
+        <span style="margin-right: 4px">{{loading ? '' : precipChance}}%</span>
+        <span>{{loading ? '' : precipType}}</span>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<mat-tab-group #tabGroup mat-stretch-tabs (selectedTabChange)="onTabChange($event)">
+  <mat-tab #tab1>
+    <ng-template mat-tab-label>
+      <div class="vertical-align-center">
+        <mat-icon class="mat-primary material-symbols-outlined">sprinkler</mat-icon>
+        <span>Needs Watering</span>
+      </div>
+    </ng-template>
+    <mat-list>
+      <ng-container *ngFor="let crop of needsWateringCrops">
+        <mat-list-item>
+          <div fxLayout="row" fxFlexFill  fxLayoutAlign="space-between center" class="item-container">
+            <div fxFlex="nogrow">
+              <img src="{{ crop.url }}" alt="{{ crop.cropName }}" class="square-image">
+            </div>
+            <div fxFlex class="item-content">
+              <h3 matLine> Northwest Field 3 </h3>
+              <p matLine>
+                <span> {{crop.cropName}} </span>
+              </p>
+            </div>
+            <div class="item-actions" fxFlex="none">
+              <button mat-mini-fab color="primary" (click)="onWaterClick(crop)">
+                <mat-icon class="material-symbols-outlined">sprinkler</mat-icon>
+              </button>
+            </div>
+          </div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </ng-container>
+    </mat-list>
+  </mat-tab>
+  <mat-tab #tab2>
+    <ng-template mat-tab-label>
+      <div class="vertical-align-center">
+        <mat-icon class="mat-primary">done</mat-icon>
+        <span>Recently Watered</span>
+      </div>
+    </ng-template>
+    <mat-list>
+      <ng-container *ngFor="let crop of recentlyWateredCrops">
+        <mat-list-item>
+          <div fxLayout="row" fxFlexFill  fxLayoutAlign="space-between center" class="item-container">
+            <div fxFlex="nogrow">
+              <img src="{{ crop.url }}" alt="{{ crop.cropName }}" class="square-image">
+            </div>
+            <div fxFlex class="item-content">
+              <h3 matLine> Northwest Field 3 </h3>
+              <p matLine>
+                <span> {{crop.cropName}} </span>
+              </p>
+            </div>
+          </div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </ng-container>
+    </mat-list>
+  </mat-tab>
+</mat-tab-group>
+
