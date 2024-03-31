@@ -81,7 +81,7 @@ export class WaterAdviceService {
     }
 
     public getWaterAdviceByCrop(crop: Crop): Observable<Advice>{
-      const lastReading = crop.measureRecord[crop.measureRecord.length - 1].measureValue;
+      const lastReading = crop.measureRecord && crop.measureRecord.length > 0 ? crop.measureRecord[crop.measureRecord.length - 1].measureValue : -1;
       const soilMoisture = this.soilMoistureService.getSoilMoistureByPercentage(lastReading);
       return new Observable((observer: Observer<Advice>) => {
         this.weatherDataService.getTodayWeather().subscribe(todayWeather => {

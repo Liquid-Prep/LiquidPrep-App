@@ -9,10 +9,11 @@ import { FieldDataService } from 'src/app/service/FieldDataService';
 import { Guid } from 'guid-typescript';
 import { Field } from 'src/app/models/Field';
 import { MatDialog } from '@angular/material/dialog';
-import { SENSORS_MOCK_DATA } from './../../sensors/sensor-data';
-import { SensorListComponent } from './../sensor-list/sensor-list.component';
+import { SENSORS_MOCK_DATA } from '../../sensors/sensor-data';
+import { SensorListComponent } from '../sensor-list/sensor-list.component';
 import { CropDataService } from 'src/app/service/CropDataService';
 import { forkJoin, from } from 'rxjs';
+import {CropInfoResp} from "../../../../models/api/CropInfoResp";
 
 @Component({
   selector: 'app-add-field',
@@ -130,6 +131,8 @@ export class AddFieldComponent implements OnInit {
     }
     const sensorList = this.sensors;
     const id = Guid.create().toString();
+    this.cropValue.seedingDate = new Date(formattedDate);
+    this.cropValue.waterDate = new Date(formattedDate);//Assume that each time a crop is planted, it will be watered.
     const params: Field = {
       id,
       fieldName: name,
@@ -144,13 +147,24 @@ export class AddFieldComponent implements OnInit {
 
   openDialog(dialogTemplate: TemplateRef<any>): void {
     this.dialog.open(dialogTemplate, {
-      height: '300px',
+      height: '430px',
       width: '400px',
     });
   }
 
   clickCropNext() {
     this.cropValue = this.fieldForm.get('cropSelect').value;
+    this.cropService.getCropInfo(this.cropValue.id).subscribe(
+      (resp: CropInfoResp)=>{
+        this.cropValue.id = resp.data.docs[0]._id;
+        this.cropValue.cropName = resp.data.docs[0].cropName;
+        this.cropValue.facts = resp.data.docs[0];
+      },
+      (error) =>{
+        alert('clickCropNext Could not get crop info: ' + error);
+        console.error('clickCropNext Error getting CropInfo:', error);
+      }
+    );
     this.fieldForm.patchValue({
       crop: this.fieldForm.get('cropSelect').value.cropName,
     });

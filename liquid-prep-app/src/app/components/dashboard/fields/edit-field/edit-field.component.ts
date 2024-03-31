@@ -19,6 +19,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SensorListComponent } from './../sensor-list/sensor-list.component';
 import { CropDataService } from 'src/app/service/CropDataService';
 import { forkJoin, from } from 'rxjs';
+import {CropInfoResp} from "../../../../models/api/CropInfoResp";
 
 @Component({
   selector: 'app-edit-field',
@@ -113,12 +114,23 @@ export class EditFieldComponent implements OnInit {
 
   openCropDialog(dialogTemplate: TemplateRef<any>): void {
     this.dialog.open(dialogTemplate, {
-      height: '300px',
+      height: '430px',
       width: '400px',
     });
   }
 
   clickCropNext() {
+    this.cropService.getCropInfo(this.cropValue.id).subscribe(
+      (resp: CropInfoResp)=>{
+        this.cropValue.id = resp.data.docs[0]._id;
+        this.cropValue.cropName = resp.data.docs[0].cropName;
+        this.cropValue.facts = resp.data.docs[0];
+      },
+      (error) =>{
+        alert('clickCropNext Could not get crop info: ' + error);
+        console.error('clickCropNext Error getting CropInfo:', error);
+      }
+    );
     this.fieldForm.patchValue({
       crop: this.fieldForm.get('cropSelect').value.cropName,
     });
@@ -183,6 +195,7 @@ export class EditFieldComponent implements OnInit {
     formattedDate = formatDate(plantDateValue, 'yyyy-MM-dd', 'en-US');
     const sensorList = this.sensors;
     const id = this.id;
+    this.cropValue.seedingDate = new Date(formattedDate);
     const params: Field = {
       id,
       fieldName: name,

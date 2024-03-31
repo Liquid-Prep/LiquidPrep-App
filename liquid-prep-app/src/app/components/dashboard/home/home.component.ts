@@ -7,11 +7,12 @@ import { TodayWeather } from '../../../models/TodayWeather';
 import { formatDate } from '@angular/common';
 import { WeatherDataService } from '../../../service/WeatherDataService';
 import {Crop} from '../../../models/Crop';
-import {CropDataService} from '../../../service/CropDataService';
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {WaterConfirmDialogComponent} from './water-confirm-dialog.component';
 import {DateTimeUtil} from '../../../utility/DateTimeUtil';
 import {WaterAdviceService} from '../../../service/WaterAdviceService';
+import {Field} from "../../../models/Field";
+import {FieldDataService} from "../../../service/FieldDataService";
 
 const RECENTLY = 48;
 
@@ -44,18 +45,17 @@ export class HomeComponent implements OnInit {
   public nextDayTemperatureMin: number;
   public currentDate = '';
   public location: string;
-  public myCrops: Crop[];
-  public needsWateringCrops: Crop[];
-  public recentlyWateredCrops: Crop[];
-  public nonRecentlyWateredCrops: Crop[];
-  public myCropStatus: 'no-crop' | 'crop-selected' = 'no-crop';
+  public myFields: Field[]
+  public needsWateringFields: Field[];
+  public recentlyWateredFields: Field[];
+  public nonRecentlyWateredFields: Field[];
 
   constructor(
     private waterAdviceService: WaterAdviceService,
     private weatherService: WeatherDataService,
     private headerService: HeaderService,
     private geoLocationService: GeoLocationService,
-    private cropDataService: CropDataService,
+    private fieldDataService: FieldDataService,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: { crop: Crop }
   ) {}
@@ -63,40 +63,39 @@ export class HomeComponent implements OnInit {
     this.headerService.updateHeader(this.headerConfig);
     this.updateWeatherInfo();
     this.getLocation();
-    this.cropDataService.getLocalStorageMyCrops().then(
-      (myCrops) => {
-        this.myCrops = myCrops;
-        if (this.myCrops.length > 0){
-          this.myCropStatus = 'crop-selected';
-          this.FilterWateredCrops(this.myCrops);
-          this.FilterNeedsWaterCrop(this.nonRecentlyWateredCrops);
-        }
-      }
-    );
+    this.fieldDataService.getLocalStorageMyFields()
+      .then((fields: Field[]) => {
+          this.myFields = fields;
+          this.FilterWateredFields(this.myFields);
+          this.FilterNeedsWaterField(this.nonRecentlyWateredFields)
+      })
+      .catch((error) => {
+        console.error('Error loading fields:', error);
+      });
   }
 
-  private FilterWateredCrops(myCrops: Crop[]){
-    this.recentlyWateredCrops = [];
-    this.nonRecentlyWateredCrops = [];
+  private FilterWateredFields(MyFields: Field[]){
+    this.recentlyWateredFields = [];
+    this.nonRecentlyWateredFields=[];
     const now = new Date();
     const recentlyAgo = new Date(now.getTime() - RECENTLY * 60 * 60 * 1000);
-    myCrops.forEach((cropItem) => {
-      const waterDate = new Date(cropItem.waterDate);
+    MyFields.forEach((item:Field)=>{
+      const waterDate = new Date(item.crop.waterDate);
       if (waterDate >= recentlyAgo && waterDate <= now) {
-        this.recentlyWateredCrops.push(cropItem);
+        this.recentlyWateredFields.push(item);
       } else {
-        this.nonRecentlyWateredCrops.push(cropItem);
+        this.nonRecentlyWateredFields.push(item);
       }
-    });
+    })
   }
 
-  private FilterNeedsWaterCrop(crops: Crop[]){
-    this.needsWateringCrops = [];
-    this.nonRecentlyWateredCrops.forEach((item) => {
-      this.waterAdviceService.getWaterAdviceByCrop(item).subscribe(advice => {
-        console.log('water advice:', item.cropName, advice.wateringDecision, advice.waterRecommended);
+  private FilterNeedsWaterField(fields: Field[]){
+    this.needsWateringFields = [];
+    this.nonRecentlyWateredFields.forEach((item:Field)=>{
+      this.waterAdviceService.getWaterAdviceByCrop(item.crop).subscribe(advice => {
+        console.log('water advice:', item.crop.cropName, advice.wateringDecision, advice.waterRecommended);
         if (advice.wateringDecision !== 'None'){
-          this.needsWateringCrops.push(item);
+          this.needsWateringFields.push(item);
         }
       });
     });
@@ -157,25 +156,26 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  onWaterClick(crop: Crop) {
+  onWaterClick(field: Field) {
     const dialogRef = this.dialog.open(WaterConfirmDialogComponent, {
       width: '500px',
       panelClass: ['form-dialog'],
-      data: { crop },
+      data: { field },
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'confirm') {
-        crop.waterDate = new DateTimeUtil().getTodayDate();
-        this.cropDataService.storeMyCropsInLocalStorage(crop).then(
+        field.crop.waterDate = new DateTimeUtil().getTodayDate();
+        this.fieldDataService.storeFieldsInLocalStorage(field).then(
           (r) => {
-            console.log(`water ${crop.cropName} onConfirm water date ${crop.waterDate}`);
-            this.needsWateringCrops = this.needsWateringCrops.filter(item => item !== crop);
-            this.recentlyWateredCrops.push(crop);
+            console.log(`water ${field.crop.cropName} onConfirm water date ${field.crop.waterDate}`);
+            this.needsWateringFields = this.needsWateringFields.filter(item => item !== field);
+            this.recentlyWateredFields.push(field);
           },
-          (e) => { console.error('save water data fail:', crop.cropName, e); }
+          (e) => { console.error('save water data fail:', field.fieldName,field.crop.cropName, e); }
         );
       }
     });
   }
+
 }

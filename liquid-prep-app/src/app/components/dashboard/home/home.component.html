@@ -33,20 +33,20 @@
       </div>
     </ng-template>
     <mat-list>
-      <ng-container *ngFor="let crop of needsWateringCrops">
+      <ng-container *ngFor="let field of needsWateringFields">
         <mat-list-item>
           <div fxLayout="row" fxFlexFill  fxLayoutAlign="space-between center" class="item-container">
             <div fxFlex="nogrow">
-              <img src="{{ crop.url }}" alt="{{ crop.cropName }}" class="square-image">
+              <img src="{{ field.crop.url }}" alt="{{ field.crop.cropName }}" class="square-image">
             </div>
             <div fxFlex class="item-content">
-              <h3 matLine> Northwest Field 3 </h3>
+              <h3 matLine> {{field.fieldName}} </h3>
               <p matLine>
-                <span> {{crop.cropName}} </span>
+                <span> {{field.crop.cropName}} </span>
               </p>
             </div>
             <div class="item-actions" fxFlex="none">
-              <button mat-mini-fab color="primary" (click)="onWaterClick(crop)">
+              <button mat-mini-fab color="primary" (click)="onWaterClick(field)">
                 <mat-icon class="material-symbols-outlined">sprinkler</mat-icon>
               </button>
             </div>
@@ -64,16 +64,16 @@
       </div>
     </ng-template>
     <mat-list>
-      <ng-container *ngFor="let crop of recentlyWateredCrops">
+      <ng-container *ngFor="let field of recentlyWateredFields">
         <mat-list-item>
           <div fxLayout="row" fxFlexFill  fxLayoutAlign="space-between center" class="item-container">
             <div fxFlex="nogrow">
-              <img src="{{ crop.url }}" alt="{{ crop.cropName }}" class="square-image">
+              <img src="{{ field.crop.url }}" alt="{{ field.crop.cropName }}" class="square-image">
             </div>
             <div fxFlex class="item-content">
-              <h3 matLine> Northwest Field 3 </h3>
+              <h3 matLine> {{field.fieldName}} </h3>
               <p matLine>
-                <span> {{crop.cropName}} </span>
+                <span> {{ field.crop.cropName}} </span>
               </p>
             </div>
           </div>

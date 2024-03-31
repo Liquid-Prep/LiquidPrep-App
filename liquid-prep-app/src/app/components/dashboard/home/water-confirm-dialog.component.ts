@@ -1,13 +1,13 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {Crop} from '../../../models/Crop';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {Field} from "../../../models/Field";
 
 @Component({
   selector: 'app-water-confirm-dialog',
   template: `
     <h1>Confirm Irrigation Status</h1>
     <p>
-      Would you like to mark {{ data.crop.cropName }} as watered?
+      Would you like to mark {{ data.field.crop.cropName }} as watered?
       <br />
       <br />
       The updated task will then appear in the "Recently Watered" list
@@ -29,7 +29,7 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 })
 export class WaterConfirmDialogComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { crop: Crop }) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { field: Field }) { }
 
   ngOnInit(): void {
   }

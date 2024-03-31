@@ -1,21 +1,11 @@
-import { Inject, Injectable } from '@angular/core';
-import { from, Observable, Observer, of } from 'rxjs';
-import { ImageMapping } from '../models/ImageMapping';
-import { DataService } from './DataService';
-import { HttpClient } from '@angular/common/http';
-import {
-  LOCAL_STORAGE,
-  SESSION_STORAGE,
-  StorageService,
-} from 'ngx-webstorage-service';
+import {Inject, Injectable} from '@angular/core';
+import {DataService} from './DataService';
+import {HttpClient} from '@angular/common/http';
+import {LOCAL_STORAGE, SESSION_STORAGE, StorageService,} from 'ngx-webstorage-service';
 
-import { DateTimeUtil } from '../utility/DateTimeUtil';
-import { catchError, map, mergeMap, toArray } from 'rxjs/operators';
-import { Field } from '../models/Field';
-import config from '../../config.json';
+import {Field} from '../models/Field';
 
-const FIELD_LIST_KEY = 'field-list-test';
-const FIELD_STORAGE_KEY = 'my-fields-test';
+const FIELD_STORAGE_KEY = 'my-fields';
 
 @Injectable({
   providedIn: 'root',
@@ -85,7 +75,6 @@ export class FieldDataService {
 
 
   private getEmptyMyFields(): Field[] {
-    const emptyArray: Field[] = [];
-    return emptyArray;
+    return [];
   }
 }
