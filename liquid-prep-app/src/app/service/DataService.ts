@@ -12,11 +12,11 @@ import config from 'src/config.json';
 })
 export class DataService {
 
-  private weatherAPIUrl =  '/get_weather_info?';
+  private weatherAPIUrl =  '/weather/data?';
 
-  private cropsListAPIUrl = '/get_crop_list';
+  private cropsListAPIUrl = '/crop/list';
 
-  private cropAPIUrl = '/get_crop_info?';
+  private cropAPIUrl = '/crop/';
 
   constructor(private http: HttpClient) {}
 
@@ -79,7 +79,7 @@ export class DataService {
   public getCropInfo(id: string): Observable<any> {
     const self = this;
     return new Observable((observer: Observer<any>) => {
-      const params = 'id=' + id;
+      const params = ':' + id;
       const url = config.backendAPIEndpoint + self.cropAPIUrl + params;
       self.http.get<any>(url)
         .subscribe(
