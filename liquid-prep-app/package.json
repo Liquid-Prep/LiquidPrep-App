@@ -22,9 +22,9 @@
     "@angular/common": "^14.3.0",
     "@angular/compiler": "^14.3.0",
     "@angular/core": "^14.3.0",
-    "@angular/flex-layout": "13.0.0-beta.38",
+    "@angular/flex-layout": "14.0.0-beta.41",
     "@angular/forms": "^14.3.0",
-    "@angular/material": "^13.2.0",
+    "@angular/material": "^14.3.0",
     "@angular/platform-browser": "^14.3.0",
     "@angular/platform-browser-dynamic": "^14.3.0",
     "@angular/router": "^14.3.0",
@@ -40,7 +40,7 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^13.2.0",
+    "@angular-devkit/build-angular": "^14.2.13",
     "@angular/cli": "^14.2.13",
     "@angular/compiler-cli": "^14.3.0",
     "@angular/language-service": "^14.3.0",
