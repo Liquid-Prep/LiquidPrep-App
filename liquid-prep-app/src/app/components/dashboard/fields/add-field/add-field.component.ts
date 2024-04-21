@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { HeaderService } from 'src/app/service/header.service';
 import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { formatDate, Location } from '@angular/common';
 import { Router } from '@angular/router';
@@ -28,7 +28,7 @@ export class AddFieldComponent implements OnInit {
     rightBtnClick: this.save.bind(this),
   };
 
-  fieldForm: FormGroup;
+  fieldForm: UntypedFormGroup;
   sensorsData = SENSORS_MOCK_DATA;
   sensors: any[] = [];
   cropsList;
@@ -52,12 +52,12 @@ export class AddFieldComponent implements OnInit {
   }
 
   loadForm() {
-    this.fieldForm = new FormGroup({
-      fieldName: new FormControl(null, [Validators.required]),
-      description: new FormControl(null),
-      crop: new FormControl(null, [Validators.required]),
-      plantDate: new FormControl(null, [Validators.required]),
-      cropSelect: new FormControl(),
+    this.fieldForm = new UntypedFormGroup({
+      fieldName: new UntypedFormControl(null, [Validators.required]),
+      description: new UntypedFormControl(null),
+      crop: new UntypedFormControl(null, [Validators.required]),
+      plantDate: new UntypedFormControl(null, [Validators.required]),
+      cropSelect: new UntypedFormControl(),
     });
     const cropForm = this.fieldForm.get('crop');
     cropForm.disable();

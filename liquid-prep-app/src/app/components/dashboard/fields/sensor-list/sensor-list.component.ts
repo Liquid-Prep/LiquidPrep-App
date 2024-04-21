@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { SENSORS_MOCK_DATA } from './../../sensors/sensor-data';
 import { SensorStorageService } from 'src/app/service/sensor-storage.service';
 
@@ -10,17 +10,17 @@ import { SensorStorageService } from 'src/app/service/sensor-storage.service';
   styleUrls: ['./sensor-list.component.scss'],
 })
 export class SensorListComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
   sensors = SENSORS_MOCK_DATA;
   selectedOption: string;
 
   constructor(
     public dialogRef: MatDialogRef<SensorListComponent>,
     private sensorStorageService: SensorStorageService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {
     this.form = this.fb.group({
-      selectedOption: new FormControl(''),
+      selectedOption: new UntypedFormControl(''),
     });
   }
 
