@@ -10,9 +10,10 @@
     "module": "es2020",
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2015",
+    "target": "ES2022",
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "useDefineForClassFields": false,
     "lib": [
       "es2018",
       "dom"
