@@ -40,59 +40,7 @@ export class CropDataService {
   private cropStaticInfoFile = 'assets/json/CropStaticInfoMapping.json';
 
   private crop: Crop; // used for passing data between components
-
-  public getCropsListData(): Observable<any> {
-    return new Observable((observer: Observer<any>) => {
-      this.dataService.getCropsList().subscribe(
-        (cropsList: any) => {
-          const cropListData = cropsList.data.docs;
-          // Map the crop images
-          if (cropListData) {
-            cropListData.map((crop) => {
-              crop.id = crop._id;
-              this.fetchCropListImage(crop);
-            });
-            this.storeCropListInSession(cropListData);
-            const filteredCropList = this.filterOutExistingCrops(cropListData);
-            observer.next(filteredCropList);
-            observer.complete();
-          } else {
-            observer.error('crops list is null or empty');
-          }
-        },
-        (err) => {
-          observer.error(
-            'Error getting crop data: ' + (err.message ? err.message : err)
-          );
-        }
-      );
-    });
-  }
-
-  public getCropData(id): Observable<any> {
-    return new Observable((observer: Observer<any>) => {
-      this.dataService.getCropInfo(id).subscribe(
-        (cropInfo: any) => {
-          const cropData: Crop = cropInfo.data.docs[0];
-          if (cropData) {
-            cropData.id = cropInfo.data.docs[0]._id;
-            this.fetchCropStageImages(cropData);
-            observer.next(cropData);
-            observer.complete();
-          } else {
-            observer.error('crops data is null or empty');
-          }
-        },
-        (err) => {
-          observer.error(
-            'Error getting crop data: ' + (err.message ? err.message : err)
-          );
-        }
-      );
-    });
-  }
-
-  // store crops list in session storage
+// store crops list in session storage
   public storeCropListInSession(cropsListData) {
     this.getCropListFromSessionStorage().subscribe(
       (cropsList: Crop[]) => {
@@ -231,36 +179,6 @@ export class CropDataService {
         });
     });
   }
-
-  private fetchCropStageImages(crop: Crop) {
-    this.getCropGrowthStageImageMapping().subscribe(
-      (cropGrowthStageImageMapping: ImageMapping) => {
-        if (cropGrowthStageImageMapping != null) {
-          if (crop.cropGrowthStage) {
-            crop.cropGrowthStage.stages.forEach((stage) => {
-              const stageUrl =
-                cropGrowthStageImageMapping.cropStageMap[
-                  stage.stageNumber.toString()
-                ].url;
-              stage.url = stageUrl;
-            });
-          }
-        } else {
-          if (crop.cropGrowthStage) {
-            crop.cropGrowthStage.stages.forEach((stage) => {
-              const stageUrl =
-                '../assets/crops-images/stage' + stage.stageNumber + '.png';
-              stage.url = stageUrl;
-            });
-          }
-        }
-      },
-      (err) => {
-        console.error('fetchCropStageImages', err);
-      }
-    );
-  }
-
   private fetchCropListImage(crop: Crop) {
     this.getCropImageMapping().subscribe(
       (cropImageMapping: ImageMapping) => {
@@ -378,7 +296,6 @@ export class CropDataService {
                   id: item._id,
                   cropName: item.cropName,
                   type: '',
-                  cropGrowthStage: null,
                   url: imageUrl,
                   facts: null,
                   seedingDate: null,
