@@ -1,0 +1,100 @@
+<app-header-title class="settings-header" fxFlexFill leftIconName="arrow_back" headerTitle="Past Readings" rightIconName="volume_up" (click)="onHeaderClick($event)">
+</app-header-title>
+
+<!-- <mat-calendar [(selected)]="selected"></mat-calendar> -->
+<!-- <mat-calendar [dateClass]="dateClass()" (selectedChange)="onSelect($event)"></mat-calendar> -->
+<mat-calendar [dateClass]="selectedDateHasReadingClass"></mat-calendar>
+
+<!--  START Reading Card -->
+<mat-card class="readingCard">
+  <div class="reading">
+    <div class="readingBody">
+      <div class="readingDate">
+        Monday, November 17, 00:00
+      </div>
+      <div class="readingsData">
+        <div class="readingDataPoint">
+          <div class="soilMoistureIndicator color-medium"></div>
+          45%
+        </div>
+        <div class="readingDataPoint">
+          <div class="soilMoistureIndicator color-medium"></div>
+          45%
+        </div>
+        <div class="readingDataPoint">
+          <div class="soilMoistureIndicator color-medium"></div>
+          45%
+        </div>
+      </div>
+    </div>
+    <div class="readingMenu">
+      <button class="readingInfo" mat-icon-button aria-label="Reading Info">
+        <mat-icon>info</mat-icon>
+      </button>
+      <button class="editReading" mat-icon-button aria-label="Edit Reading">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button class="deleteReading" mat-icon-button aria-label="Delete Reading">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-card>
+<!--  END Reading Card -->
+
+<!--  START Reading Card -->
+<mat-card class="readingCard">
+  <div class="reading">
+    <div class="readingBody">
+      <div class="readingDate">
+        Thursday, November 20, 00:00
+      </div>
+      <div class="readingsData">
+        <div class="readingDataPoint">
+          <div class="soilMoistureIndicator color-medium"></div>
+          48%
+        </div>
+      </div>
+    </div>
+    <div class="readingMenu">
+      <button class="readingInfo" mat-icon-button aria-label="Reading Info">
+        <mat-icon>info</mat-icon>
+      </button>
+      <button class="deleteReading" mat-icon-button aria-label="Delete Reading">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-card>
+<!--  END Reading Card -->
+
+<!--  START Reading Card -->
+<mat-card class="readingCard">
+  <div class="reading">
+    <div class="readingBody">
+      <div class="readingDate">
+        Monday, November 25, 00:00
+      </div>
+      <div class="readingsData">
+        <div class="readingDataPoint">
+          <div class="soilMoistureIndicator color-high"></div>
+          65%
+        </div>
+        <div class="readingDataPoint">
+          <div class="soilMoistureIndicator color-medium"></div>
+          45%
+        </div>
+      </div>
+    </div>
+    <div class="readingMenu">
+      <button class="readingInfo" mat-icon-button aria-label="Reading Info">
+        <mat-icon>info</mat-icon>
+      </button>
+      <button class="deleteReading" mat-icon-button aria-label="Delete Reading">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-card>
+<!--  END Reading Card -->
+

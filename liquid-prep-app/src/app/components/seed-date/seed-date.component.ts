@@ -40,6 +40,14 @@ export class SeedDateComponent implements OnInit {
     );
   }
 
+  public onHeaderClick(data:string){
+    if(data == 'leftBtn'){
+      this.backClicked();
+    }else {
+      //TODO
+    }
+  }
+
   public volumeClicked() {
 
   }
@@ -62,7 +70,7 @@ export class SeedDateComponent implements OnInit {
     // store selected crop id in session to generate water advise
     this.cropService.storeSelectedCropIdInSession(this.crop.id);
 
-    this.router.navigate(['/measure-soil']).then(r => {});
+    this.router.navigate(['/measure-soil/' + this.crop.id]).then(r => {});
   }
 
   // @desc  Identify the current crop growth stage based on the number of days from the seeding date

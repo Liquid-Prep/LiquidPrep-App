@@ -16,6 +16,7 @@ import { MyCropsComponent } from './components/my-crops/my-crops.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -25,6 +26,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatButtonToggleModule} from '@angular/material/button-toggle'
 import { FormsModule } from '@angular/forms';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -37,6 +39,9 @@ import { DataService } from './service/DataService';
 import { WaterAdviceService } from './service/WaterAdviceService';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { SlideIndicatorComponent } from './components/slide-indicator/slide-indicator.component';
+import { TestSensorComponent } from './components/test-sensor/test-sensor.component';
+import { HeaderTitleComponent } from './components/header-title/header-title.component';
+import { PastReadingsComponent } from './components/past-readings/past-readings.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   observer: true,
@@ -57,7 +62,10 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     AdviceComponent,
     SeedDateComponent,
     DateAgoPipe,
-    SlideIndicatorComponent],
+    SlideIndicatorComponent,
+    TestSensorComponent,
+    HeaderTitleComponent,
+    PastReadingsComponent],
   imports: [
     BrowserModule,
     MaterialModule,
@@ -75,9 +83,11 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     MatPaginatorModule,
     MatSortModule,
     MatProgressSpinnerModule,
+    MatSlideToggleModule,
     MatCardModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatButtonToggleModule,
     FormsModule,
     SwiperModule,
     FlexLayoutModule,
