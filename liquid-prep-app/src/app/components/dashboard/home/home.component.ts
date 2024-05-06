@@ -1,13 +1,13 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import { HeaderService } from 'src/app/service/header.service';
 import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatLegacyTabChangeEvent as MatTabChangeEvent } from '@angular/material/legacy-tabs';
 import { GeoLocationService } from '../../../service/GeoLocationService';
 import { TodayWeather } from '../../../models/TodayWeather';
 import { formatDate } from '@angular/common';
 import { WeatherDataService } from '../../../service/WeatherDataService';
 import {Crop} from '../../../models/Crop';
-import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
+import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {WaterConfirmDialogComponent} from './water-confirm-dialog.component';
 import {DateTimeUtil} from '../../../utility/DateTimeUtil';
 import {WaterAdviceService} from '../../../service/WaterAdviceService';

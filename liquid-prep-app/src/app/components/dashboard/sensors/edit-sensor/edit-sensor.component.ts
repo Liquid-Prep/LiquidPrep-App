@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { HeaderService } from 'src/app/service/header.service';
 import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { SensorLocatorModalComponent } from '../../../sensor-locator-modal/sensor-locator-modal.component';
 import { UnsavedChangesModalComponent } from '../../../unsaved-changes-modal/unsaved-changes-modal.component';
 import { SelectModalComponent } from '../../../select-modal/select-modal.component';
