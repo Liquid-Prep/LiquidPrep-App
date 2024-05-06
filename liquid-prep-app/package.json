@@ -37,7 +37,7 @@
     "swiper": "^6.2.0",
     "tslib": "^2.0.0",
     "webusb": "^2.2.0",
-    "zone.js": "^0.14.5"
+    "zone.js": "^0.13.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^15.2.11",
