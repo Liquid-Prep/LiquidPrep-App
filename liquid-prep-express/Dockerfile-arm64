@@ -1,0 +1,36 @@
+FROM --platform=linux/arm64 node:20-alpine
+#FROM arm64v8/node:20
+#FROM node:bullseye-slim
+
+#RUN apt-get update && \ 
+#    apt-get install -y build-essential \
+#    wget \
+#    python3 \
+#    make \
+#    gcc \ 
+#    libc6-dev \
+#    ffmpeg 
+
+#RUN apt-get update -y && apt-get install ffmpeg -y && apt-get install vim -y
+#RUN apt-get update -y && apt-get install -y apt-utils && apt-get install fswebcam ffmpeg -y && apt-get install mpg123 -y && apt-get install vim -y
+
+RUN apk add --no-cache  --update nodejs-current npm curl bash procps tzdata
+RUN node --version
+RUN npm --version
+
+ENV TZ="America/New_York"
+
+#RUN apt-get update -y && apt-get install -y apt-utils tzdata && apt-get install fswebcam ffmpeg -y && apt-get install mpg123 -y && apt-get install vim -y
+
+WORKDIR /server
+
+COPY . /server
+
+RUN npm install -g npm
+RUN npm install
+#RUN npm rebuild @tensorflow/tfjs-node --build-from-source
+RUN npm run build
+
+VOLUME /mms_shared_volume
+EXPOSE 3000
+CMD [ "npm", "start" ]
