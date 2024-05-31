@@ -70,6 +70,8 @@ import { AddFieldComponent } from './components/dashboard/fields/add-field/add-f
 import { EditFieldComponent } from './components/dashboard/fields/edit-field/edit-field.component';
 import { SensorListComponent } from './components/dashboard/fields/sensor-list/sensor-list.component';
 import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
+import { PlaygroundComponent } from './components/dashboard/playground/playground.component';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   observer: true,
@@ -113,6 +115,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     MoistureLogsComponent,
     SensorListComponent,
     SplashScreenComponent,
+    PlaygroundComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,

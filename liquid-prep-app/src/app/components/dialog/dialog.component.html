@@ -1,0 +1,48 @@
+<h1 mat-dialog-title>{{data.title}}</h1>
+<div mat-dialog-content>
+  <form #form="ngForm" class="demo-form">
+    <div [ngSwitch]="data.type">
+      <div *ngSwitchCase="'input'" class="full-width">
+        <mat-form-field appearance="fill">
+          <mat-label>Actions</mat-label>
+          <mat-select name="action" required>
+            <mat-option *ngFor="let action of data.object" [value]="action.value" (onSelectionChange)="onSelectChange($event)">
+              {{action.text}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" *ngIf="show">
+          <mat-label>{{label}}</mat-label>
+          <input matInput name="title" [(ngModel)]="newValue" required>
+        </mat-form-field>
+        <div class="align-elements">
+          <!--<mat-form-field appearance="fill">
+            <mat-label>Motion Sensor</mat-label>
+            <mat-select [(value)]="data.object.sensorId" name="sensorId" required>
+              <mat-option *ngFor="let sensor of data.sensors" [value]="sensor.id">
+                {{sensor.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Action Trigger</mat-label>
+            <mat-select [(value)]="data.object.action" name="action" required>
+              <mat-option *ngFor="let trigger of data.triggers" [value]="trigger.id">
+                {{trigger.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>-->
+        </div>
+      </div>
+      <div *ngSwitchCase="'display'" class="full-width">
+        <div #display></div>
+      </div>
+      <div *ngSwitchDefault>
+      </div>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-raised-button type="button" class="device-form-button" (click)="cancel()">{{cancelLabel}}</button>
+      <button mat-raised-button type="button" class="device-form-button" (click)="run()" [disabled]="!form.valid" cdkFocusInitial>{{okLabel}}</button>
+    </div>
+  </form>
+</div>
