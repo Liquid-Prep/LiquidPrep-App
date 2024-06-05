@@ -1,0 +1,35 @@
+{
+  "name": "mms-docker",
+  "version": "1.0.0",
+  "description": "Model Management System",
+  "main": "index.js",
+  "directories": {
+    "example": "open-horizon"
+  },
+  "scripts": {
+    "start": "node node-mon.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/playground/open-labs"
+  },
+  "keywords": [
+    "IEAM",
+    "Open",
+    "Horizon",
+    "edge",
+    "computing",
+    "MMS",
+    "Model",
+    "Management",
+    "Service"
+  ],
+  "author": "ljeff@us.ibm.com",
+  "license": "ISC",
+  "dependencies": {
+    "find-process": "^1.4.4",
+    "is-zip-file": "^1.0.2",
+    "jsonfile": "^6.1.0"
+  }
+}

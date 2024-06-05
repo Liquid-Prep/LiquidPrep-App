@@ -1,0 +1,46 @@
+{
+  "images": {
+    "/static/images/image-old.png": {
+      "bbox": [
+        {
+          "detectedBox": [
+            "0.02",
+            "0.28",
+            "0.41",
+            "0.54"
+          ],
+          "detectedClass": "hardhat",
+          "detectedScore": "1.00"
+        },
+        {
+          "detectedBox": [
+            "0.42",
+            "0.18",
+            "1.00",
+            "0.53"
+          ],
+          "detectedClass": "vest",
+          "detectedScore": "1.00"
+        },
+        {
+          "detectedBox": [
+            "0.04",
+            "0.17",
+            "1.00",
+            "0.62"
+          ],
+          "detectedClass": "person",
+          "detectedScore": "0.99"
+        }
+      ],
+      "elapsedTime": 2249
+    }
+  },
+  "version": {
+    "name": "Demo model",
+    "version": "2.0.0"
+  },
+  "confidentCutoff": 0.5,
+  "platform": "darwin:arm64",
+  "timestamp": 1684291123448
+}

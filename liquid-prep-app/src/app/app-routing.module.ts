@@ -20,6 +20,7 @@ import { SplashScreenComponent } from './components/splash-screen/splash-screen.
 import { DetailsComponent } from './components/dashboard/fields/details/details.component';
 import { AddFieldComponent } from './components/dashboard/fields/add-field/add-field.component';
 import { EditFieldComponent } from './components/dashboard/fields/edit-field/edit-field.component';
+import { PlaygroundComponent } from './components/dashboard/playground/playground.component';
 
 const routes: Routes = [
   { path: '', component: SplashScreenComponent },
@@ -29,7 +30,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
-      { path: 'sensors', component: SensorsComponent },
+      { path: 'sensors', component: PlaygroundComponent },
       { path: 'fields', component: FieldsComponent },
     ],
   },
