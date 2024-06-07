@@ -7,4 +7,5 @@ export class Field {
   crop: Crop; //Get Crop Data, one field-one crop
   plantDate: Date;
   sensors?: any; // Get Sensor Data
+  soil: string;
 }

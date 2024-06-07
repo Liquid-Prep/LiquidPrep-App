@@ -1,18 +1,27 @@
+@media screen and (min-width: 768px) {
+  .form-container {
+    width: 400px;
+  }
+}
+
 .form-container {
   display: flex;
+  margin: 24px auto;
+  flex-direction: column;
   flex-wrap: wrap;
   padding-left: 20px;
   padding-top: 30px;
+  padding: 16px;
 
   h3 {
     padding: 0px;
-    margin: 0px;
+    margin: 32px 0 16px 0;
     font-weight: 550;
   }
 
-  .field-input {
-    width: 90%;
-  }
+  // .field-input {
+  //   background-color: aqua;
+  // }
 
   .description-input {
     width: 90%;
@@ -23,17 +32,34 @@
     color: blue;
     padding-left: 5px;
     align-items: center;
+    margin-top: 16px;
   }
 }
 
 .sensor-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   width: 100%;
+  padding: 8px 0;
+  border-top: 1px solid #eaeaea;
+  justify-content: space-between;
+
+  &:first-of-type {
+    border: none;
+  }
+
+  h4 {
+    margin: 0;
+  }
+  span {
+    padding: 16px;
+    flex-grow: 1;
+  }
 
   .remove-button {
-    float: right;
-    margin-right: 10px;
-    color: blue;
     font-weight: 500;
+    color: blue;
   }
 }
 
@@ -54,5 +80,6 @@
   button {
     color: blue;
     letter-spacing: 1px;
+    margin-top: 16px;
   }
 }
