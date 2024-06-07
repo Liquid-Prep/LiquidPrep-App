@@ -3,6 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { WebSocketService } from '../../service/web-socket.service';
+import { FieldDataService } from 'src/app/service/FieldDataService';
 
 export interface DialogData {
   title: string;
@@ -14,6 +15,7 @@ export interface DialogData {
   mac: string;
   object: any;
   buttons: any;
+  sensor: any;
 }
 @Component({
   selector: 'app-dialog',
@@ -27,20 +29,36 @@ export class DialogComponent implements OnInit {
   notOK = true;
   label = '';
   newValue = '';
-  show = false;
+  showSingleInput = false;
+  showNameInput = false;
   msg = '';
   html = '';
   selected = '';
+
+  name = '';
+  sensorType = '';
+  fieldId = '';
+
+  fieldOptions = [];
   
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private webSocketService: WebSocketService,
-    private http: HttpClient   
+    private http: HttpClient,
+    private fieldService: FieldDataService
   ) { }
 
-  ngOnInit(): void {
-    console.log(this.data)
+  async ngOnInit() {
+    console.log(this.data);
+    let fields = await this.fieldService.getLocalStorageMyFields();
+    console.log(fields);
+    this.fieldOptions = fields.map(field=> {
+      return {
+        value: field.id,
+        label: field.fieldName
+      }
+    })
     if(this.data.buttons) {
       this.okLabel = this.data.buttons.ok ? this.data.buttons.ok : this.okLabel
       this.cancelLabel = this.data.buttons.cancel ? this.data.buttons.cancel : this.cancelLabel
@@ -54,39 +72,51 @@ export class DialogComponent implements OnInit {
         case 'device_name':
           this.label = 'Name'
           this.newValue = this.data.title;
-          this.show = true;
+          this.name = this.data?.sensor?.name || '';
+          this.sensorType = this.data?.sensor?.sensorType || '';
+          this.fieldId = this.data?.sensor?.fieldId || '';
+          this.showSingleInput = false;
+          this.showNameInput = true;
           break;
         case 'air_value':
           this.label = 'Air Value'
-          this.show = false;
+          this.showSingleInput = false;
+          this.showNameInput = false;
           break;
         case 'query':
           this.label = 'Query';
-          this.show = false;
+          this.showSingleInput = false;
+          this.showNameInput = false;
           break;  
         case 'ping':
           this.label = 'Ping';
-          this.show = false;
+          this.showSingleInput = false;
+          this.showNameInput = false;
           break;  
         case 'water_value':
           this.label = 'Water Value'
-          this.show = false;
+          this.showSingleInput = false;
+          this.showNameInput = false;
           break;
         case 'enable_bluetooth':
-          this.show = false;
+          this.showSingleInput = false;
+          this.showNameInput = false;
           break;
         case 'disable_bluetooth':
-          this.show = false;
+          this.showSingleInput = false;
+          this.showNameInput = false;
           break;
         case 'esp_interval':
           this.label = 'Interval'
           this.newValue = "";
-          this.show = true;
+          this.showSingleInput = true;
+          this.showNameInput = false;
           break;
         case 'update_pin':
           this.label = 'Update Pin'
           this.newValue = "";
-          this.show = true;
+          this.showSingleInput = true;
+          this.showNameInput = false;
           break;
         }
     }
@@ -100,51 +130,61 @@ export class DialogComponent implements OnInit {
         case 'device_name':
           this.label = 'Name'
           this.newValue = this.data.title;
-          this.show = true;
+          this.showSingleInput = false;
+          this.showNameInput = true;
           this.msg = `${this.data.espnow}/${type}?host_addr=${this.data.mac}&device_name=${this.newValue}&web_request=true`;
           break;
         case 'air_value':
           this.label = 'Air Value'
-          this.show = false;
+          this.showSingleInput = false;
+          this.showNameInput = false;
           this.msg = `${this.data.espnow}/${type}?host_addr=${this.data.mac}&web_request=true`;
           break;
         case 'query':
           this.label = 'Query';
-          this.show = false;
+          this.showSingleInput = false;
+          this.showNameInput = false;
           this.msg = `${this.data.espnow}/${type}?host_addr=${this.data.mac}&web_request=true`;
           break;  
         case 'ping':
           this.label = 'Ping';
-          this.show = false;
+          this.showSingleInput = false;
+          this.showNameInput = false;
           this.msg = `${this.data.espnow}/${type}?host_addr=${this.data.mac}&web_request=true`;
           break;  
         case 'moisture':
           this.label = 'Get Moiture';
-          this.show = false;
+          this.showSingleInput = false;
+          this.showNameInput = false;
           this.msg = `${this.data.espnow}/${type}?host_addr=${this.data.mac}&web_request=true`;
           break;  
         case 'water_value':
           this.label = 'Water Value'
-          this.show = false;
+          this.showSingleInput = false;
+          this.showNameInput = false;
           break;
         case 'esp_interval':
           this.label = 'Interval'
           this.newValue = "";
-          this.show = true;
+          this.showSingleInput = true;
+          this.showNameInput = false;
           this.msg = `${this.data.espnow}/${type}?host_addr=${this.data.mac}&interval=${this.newValue}&web_request=true`;
           break;
         case 'enable_bluetooth':
           this.label = 'Enable Bluetooth'
-          this.show = false;
+          this.showSingleInput = false;
+          this.showNameInput = false;
           break;
         case 'disable_bluetooth':
           this.label = 'Disable Bluetooth'
-          this.show = false;
+          this.showSingleInput = false;
+          this.showNameInput = false;
           break;
         case 'update_pin':
           this.label = 'Update Pin'
           this.newValue = "";
-          this.show = true;
+          this.showSingleInput = true;
+          this.showNameInput = false;
           break;
         }
     }
@@ -166,6 +206,9 @@ export class DialogComponent implements OnInit {
           this.msg = `${this.data.espnow}/${type}?host_addr=${this.data.mac}&web_request=true`;
         break;  
       case 'device_name':
+        this.msg = `${this.data.espnow}/update?host_addr=${this.data.mac}&${type}=${this.name}-${this.sensorType}-${this.fieldId}`;
+        console.log(this.msg);
+        break;
       case 'esp_interval':
         this.msg = `${this.data.espnow}/update?host_addr=${this.data.mac}&${type}=${this.newValue}`;
         break;

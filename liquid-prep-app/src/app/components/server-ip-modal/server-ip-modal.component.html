@@ -1,0 +1,26 @@
+<div mat-dialog-content>
+  <p>Server IPs</p>
+  <div [formGroup]="ipForm" class = "ip-form">
+    <mat-form-field appearance="fill">
+      <mat-label>Edge Gateway</mat-label>
+      <input matInput formControlName="edgeGateway" />
+      <mat-error *ngIf="edgeGatewayFrmCtrl.invalid">You must enter Edge Gateway.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Web Socket</mat-label>
+      <input matInput formControlName="ws" />
+      <mat-error *ngIf="webSocketFrmCtrl.invalid">You must enter Web Socket.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>ESP-NOW Gateway</mat-label>
+      <input matInput formControlName="espNowGateway" />
+      <mat-error *ngIf="espNowGatewayFrmCtrl.invalid">You must enter ESP-NOW Gateway.</mat-error>
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions [align]="'end'">
+  <button mat-button [mat-dialog-close]>Cancel</button>
+  <button mat-flat-button color="primary" (click)="updateServer()" cdkFocusInitial [disabled]="!this.ipForm.valid">Update</button>
+</div>

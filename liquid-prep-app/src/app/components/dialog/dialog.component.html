@@ -11,10 +11,29 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field appearance="outline" *ngIf="show">
+        <mat-form-field appearance="outline" *ngIf="showSingleInput">
           <mat-label>{{label}}</mat-label>
           <input matInput name="title" [(ngModel)]="newValue" required>
         </mat-form-field>
+        <div  *ngIf="showNameInput">
+          <mat-form-field appearance="outline">
+            <mat-label>{{label}}</mat-label>
+            <input matInput name="name" [(ngModel)]="name" required maxlength="10">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Sensor Type</mat-label>
+            <mat-select [(ngModel)]="sensorType" name="sensorType" required>
+              <mat-option value="gen">Generic Moisture Sensor</mat-option>
+              <mat-option value="plm">Plantmate Moisture Sensor</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Field</mat-label>
+            <mat-select [(ngModel)]="fieldId" name="fieldId" required>
+              <mat-option *ngFor = "let field of fieldOptions" [value]="field.value">{{field.label}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
         <div class="align-elements">
           <!--<mat-form-field appearance="fill">
             <mat-label>Motion Sensor</mat-label>

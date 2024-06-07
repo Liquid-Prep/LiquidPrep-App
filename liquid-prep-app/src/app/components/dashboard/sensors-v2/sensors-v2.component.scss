@@ -1,0 +1,69 @@
+:host {
+  .no-sensors,
+  .no-results {
+    padding: 36px 16px;
+    text-align: center;
+
+    .no-sensor-icon {
+      width: 48px;
+      height: 48px;
+      font-size: 48px;
+      color: #ababab;
+      display: block;
+      margin: 0 auto 6px;
+    }
+
+    .no-sensors-title {
+      color: #262626;
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 15px;
+    }
+
+    .no-sensors-text {
+      color: #262626;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 400;
+    }
+  }
+
+  .no-sensors {
+    p {
+      margin-bottom: 25px;
+    }
+  }
+
+  .sensor-name {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .sensor-type {
+    margin-left: 8px;
+    border-radius: 20px;
+    font-size: 10px;
+    padding: 0 10px;
+    background-color: #0000001f;
+
+    &.plm {
+      color: #fff;
+      background-color: #00bcd4;
+    }
+  }
+  .assigned-field {
+    mat-icon {
+      color: #666;
+    }
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .unassigned-field {
+    mat-icon {
+      color: #666;
+    }
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+}

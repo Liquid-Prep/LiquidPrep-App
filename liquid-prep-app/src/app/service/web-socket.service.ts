@@ -53,7 +53,19 @@ export class WebSocketService {
     this.localStorage.set('server-info', servers);
   }
   getServers() {
-    return this.localStorage.get('server-info');
+    let servers = this.localStorage.get('server-info');
+    let defaultEspNowGateway = 'http://192.168.1.48';
+    let defaultEdgeGateway = 'http://192.168.1.138:3003';
+    let defaultWs = 'ws://192.168.1.138:3003';
+
+    let espNowGateway = servers?.espNowGateway || defaultEspNowGateway;
+    let edgeGateway = servers?.edgeGateway || defaultEdgeGateway;
+    let ws = servers?.ws || defaultWs;
+    return {
+      espNowGateway,
+      edgeGateway,
+      ws
+    }
   }
   saveSensorData(data: any) {
     this.localStorage.set('sensor-data', data);

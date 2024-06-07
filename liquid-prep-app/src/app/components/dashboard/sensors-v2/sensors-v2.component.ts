@@ -9,7 +9,11 @@ import {
 } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { WebSocketService } from 'src/app/service/web-socket.service';
+import { SensorV2Service } from 'src/app/service/sensor-v2.service';
 import { DialogComponent } from '../../dialog/dialog.component';
+import { HeaderConfig, HeaderService } from 'src/app/service/header.service';
+import { map } from 'rxjs/operators';
+import { ServerIpModalComponent } from '../../server-ip-modal/server-ip-modal.component';
 
 
 export class Device {
@@ -22,6 +26,9 @@ export class Device {
 export class TimeSeries {
   id?: string;
   name?: string;
+  fullName?: string;
+  sensorType?: string;
+  fieldId?: string;
   mac?: string;
   lastUpdate?: any;
   moisture?: number;
@@ -33,11 +40,32 @@ export interface IServer {
 }
 
 @Component({
-  selector: 'app-playground',
-  templateUrl: './playground.component.html',
-  styleUrls: ['./playground.component.scss']
+  selector: 'app-sensors-v2',
+  templateUrl: './sensors-v2.component.html',
+  styleUrls: ['./sensors-v2.component.scss']
 })
-export class PlaygroundComponent implements OnInit {
+export class SensorsV2Component implements OnInit {
+
+  SENSOR_TYPE_MAP = {
+    gen: 'Generic Moisture Sensor',
+    plm: 'PlantMate Moisture Sensor',
+  }
+
+  headerConfig: HeaderConfig = {
+    headerTitle: 'Sensors',
+    leftIconName: 'menu',
+    leftBtnClick: null,
+    rightIconName: 'refresh',
+    rightBtnClick: this.refresh.bind(this),
+    sortIconName: 'dns',
+    sortBtnClick: this.openIpConfigModal.bind(this)
+  };
+
+
+  selectedOption: string = 'lastUpdated';
+  selectedLabel: string = 'last updated time';
+  noFieldSelectedText: string = 'No field selected';
+
   devices: TimeSeries[] = [];
   columns: string[] = ['name', 'moisture', 'lastUpdate', 'action'];
   dataSource = new MatTableDataSource<TimeSeries>([]);
@@ -63,33 +91,36 @@ export class PlaygroundComponent implements OnInit {
   ws = 'ws://192.168.1.138:3003';
   servers: IServer;
   showServers = false;
+  displayedSensors = [];
   
   constructor(
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private webSocketService: WebSocketService,
-    private http: HttpClient
+    private http: HttpClient,
+    private headerService: HeaderService,
+    private sensorV2Service: SensorV2Service
   ) { }
 
   ngOnInit(): void {
-    this.servers = this.webSocketService.getServers();
-    if(this.servers) {
-      this.edgeGateway = this.servers.edgeGateway;
-      this.espNowGateway = this.servers.espNowGateway;
-      this.ws = this.servers.ws;
-    }
+    this.headerService.updateHeader(this.headerConfig);
+    this.loadServerIps();
     this.fetchTimeSeries();
   }
+
+  loadServerIps() {
+    this.servers = this.webSocketService.getServers();
+    this.edgeGateway = this.servers.edgeGateway;
+    this.espNowGateway = this.servers.espNowGateway;
+    this.ws = this.servers.ws;
+  }
+
   fetchTimeSeries() {
-    this.http.get<Device>(`${this.edgeGateway}/log`)
+    this.sensorV2Service.fetchSensors()
       .subscribe(
         (data) => {
-          this.device = data;
-          let oldData = this.webSocketService.getSensorData() || {};
-          this.timeSeries = Object.assign(oldData, data.timeSeries);
-          this.webSocketService.saveSensorData(this.timeSeries);
-          console.log(this.device)
-          this.listDevice(this.timeSeries)
+          this.displayedSensors = data;
+          this.dataSource.data = data;
         }
       )
   }
@@ -107,23 +138,7 @@ export class PlaygroundComponent implements OnInit {
   recommend(mac: string) {
     console.log(mac)
   }
-  listDevice(devices: TimeSeries) {
-    let data: TimeSeries[] = [];
-    Object.keys(devices).forEach((key) => {
-      console.log('**', devices[key])
-        let element = devices[key];
-        element.mac = key;
-        this.devices.push(element);
-        data.push({
-          id: element.id,
-          name: element.name,
-          mac: element.mac,
-          moisture: element.moisture,
-          lastUpdate: new Date(element.timestamp).toLocaleTimeString(navigator.language, {month: '2-digit', day: '2-digit', year: '2-digit', hour: '2-digit', minute:'2-digit'})
-        })
-      this.dataSource.data = data;
-    })
-  }
+  
   openDialog(payload: any, cb: any) {
     this.dialogRef = this.dialog.open(DialogComponent, {
       hasBackdrop: true,
@@ -144,14 +159,26 @@ export class PlaygroundComponent implements OnInit {
     config.duration = 3000;
     this.snackBar.open(msg, action, config);
   }
-  showDialog(row: string) {
-    let sensor = this.timeSeries[row]
-    console.log(row, sensor)
-    this.openDialog({title: sensor.name, ws: this.ws, espnow: this.espNowGateway, type: 'input', placeholder: 'Sensor', buttons: {ok: 'Run'}, object: this.actions, mac: sensor.mac}, (resp: any) => {
+  showDialog(sensor: any) {
+    this.openDialog({title: sensor.name, sensor: sensor, ws: this.ws, espnow: this.espNowGateway, type: 'input', placeholder: 'Sensor', buttons: {ok: 'Run'}, object: this.actions, mac: sensor.mac}, (resp: any) => {
       if (resp) {
         console.log(resp);
         this.showMessage('Condition has been saved.')
       }
     })
   }  
+
+  openIpConfigModal() {
+    const dialogRef = this.dialog.open(ServerIpModalComponent, {
+    });
+
+    dialogRef.afterClosed().subscribe(servers => {
+      console.log(servers);
+      if (servers) {
+        this.edgeGateway = servers.edgeGateway;
+        this.espNowGateway = servers.espNowGateway;
+        this.ws = servers.ws;
+      }
+    });
+  }
 }

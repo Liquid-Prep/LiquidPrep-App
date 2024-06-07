@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { formatDate, Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { FieldDataService } from 'src/app/service/FieldDataService';
-import { Guid } from 'guid-typescript';
+import { nanoid } from 'nanoid'
 import { Field } from 'src/app/models/Field';
 import { MatDialog } from '@angular/material/dialog';
 import { SENSORS_MOCK_DATA } from '../../sensors/sensor-data';
@@ -47,6 +47,9 @@ export class AddFieldComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
+    const id = nanoid(4);
+    console.log(id);
     this.headerService.updateHeader(this.headerConfig);
     this.loadForm();
     this.loadCropData();
@@ -130,7 +133,7 @@ export class AddFieldComponent implements OnInit {
       console.error('plantDate is not a Date object');
     }
     const sensorList = this.sensors;
-    const id = Guid.create().toString();
+    const id = nanoid(4);
     this.cropValue.seedingDate = new Date(formattedDate);
     this.cropValue.waterDate = new Date(formattedDate);//Assume that each time a crop is planted, it will be watered.
     const params: Field = {

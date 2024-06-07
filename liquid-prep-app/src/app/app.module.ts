@@ -31,6 +31,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import {MatChipsModule} from '@angular/material/chips';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -70,8 +71,9 @@ import { AddFieldComponent } from './components/dashboard/fields/add-field/add-f
 import { EditFieldComponent } from './components/dashboard/fields/edit-field/edit-field.component';
 import { SensorListComponent } from './components/dashboard/fields/sensor-list/sensor-list.component';
 import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
-import { PlaygroundComponent } from './components/dashboard/playground/playground.component';
 import { DialogComponent } from './components/dialog/dialog.component';
+import { SensorsV2Component } from './components/dashboard/sensors-v2/sensors-v2.component';
+import { ServerIpModalComponent } from './components/server-ip-modal/server-ip-modal.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   observer: true,
@@ -115,8 +117,9 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     MoistureLogsComponent,
     SensorListComponent,
     SplashScreenComponent,
-    PlaygroundComponent,
-    DialogComponent
+    SensorsV2Component,
+    DialogComponent,
+    ServerIpModalComponent
   ],
   imports: [
     BrowserModule,
@@ -131,6 +134,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     HttpClientModule,
     MatInputModule,
     MatTableModule,
+    MatChipsModule,
     MatTabsModule,
     MatProgressBarModule,
     MatPaginatorModule,

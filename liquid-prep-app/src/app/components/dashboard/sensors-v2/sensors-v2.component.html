@@ -1,0 +1,96 @@
+<!-- <table mat-table [dataSource]="dataSource" class="home-hub-table">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let sensor" (click)="showDialog(sensor)" class="hand-pointer"> {{sensor.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="moisture">
+      <th mat-header-cell *matHeaderCellDef> Moisture </th>
+      <td mat-cell *matCellDef="let sensor"> {{sensor.moisture}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastUpdate">
+      <th mat-header-cell *matHeaderCellDef> Last Update </th>
+      <td mat-cell *matCellDef="let sensor"> {{sensor.lastUpdate}} </td>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let sensor">
+        {{sensor | json}}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+    <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+   
+  </table> -->
+
+<div class="sensor-results">
+  <ng-container *ngIf="displayedSensors.length > 0; else noResults">
+    <mat-list>
+      <ng-container *ngFor="let sensor of displayedSensors">
+        <mat-list-item>
+          <div mat-line style="display: flex; align-items: center">
+            <span class = "sensor-name">{{ sensor.name }}</span>
+            <div
+              class="sensor-type"
+              *ngIf="SENSOR_TYPE_MAP[sensor.sensorType] else unspecifiedType"
+              [ngClass]="sensor.sensorType"
+            >
+              {{ SENSOR_TYPE_MAP[sensor.sensorType] }}
+            </div>
+          </div>
+          <div mat-line>
+            <ng-container *ngIf="sensor.fieldId; else noAssignedField">
+              <div class="assigned-field">
+                <mat-icon>location_on_outline</mat-icon> {{ sensor?.field?.fieldName }}
+              </div>
+            </ng-container>
+          </div>
+
+          <div mat-line>
+            Moisture Level: <span>{{ sensor.moisture }}</span> &nbsp; &nbsp;
+            <span>{{ sensor.lastUpdate }}</span>
+          </div>
+
+          <button mat-icon-button color="accent" (click)="showDialog(sensor)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-list-item>
+
+        <mat-divider></mat-divider>
+      </ng-container>
+    </mat-list>
+  </ng-container>
+
+  <ng-template #unspecifiedType>
+    <div class="sensor-type unspecified-type">
+      Unspecified Type
+    </div>
+  </ng-template>
+
+  <ng-template #noAssignedField>
+    <div class="unassigned-field">
+      <mat-icon>location_off_outline</mat-icon> Unassigned
+    </div>
+  </ng-template>
+
+  <ng-template #noResults>
+    <div class="no-sensors" *ngIf="displayedSensors.length === 0">
+      <mat-icon class="no-sensor-icon">sensors_off</mat-icon>
+
+      <div class="no-sensors-title">No sensors detected</div>
+
+      <div class="no-sensors-text">
+        <p>
+          Check that wifi and bluetooth are enabled on your device and the
+          sensors are turned on.
+        </p>
+        <p>
+          You may need to set up your gateways first. See the user manual for
+          instructions.
+        </p>
+      </div>
+    </div>
+  </ng-template>
+</div>

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PlaygroundComponent } from './playground.component';
+import { ServerIpModalComponent } from './server-ip-modal.component';
 
-describe('PlaygroundComponent', () => {
-  let component: PlaygroundComponent;
-  let fixture: ComponentFixture<PlaygroundComponent>;
+describe('ServerIpModalComponent', () => {
+  let component: ServerIpModalComponent;
+  let fixture: ComponentFixture<ServerIpModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PlaygroundComponent ]
+      declarations: [ ServerIpModalComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PlaygroundComponent);
+    fixture = TestBed.createComponent(ServerIpModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
