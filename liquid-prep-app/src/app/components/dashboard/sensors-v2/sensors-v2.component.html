@@ -41,7 +41,7 @@
             </div>
           </div>
           <div mat-line>
-            <ng-container *ngIf="sensor.fieldId; else noAssignedField">
+            <ng-container *ngIf="sensor.field; else noAssignedField">
               <div class="assigned-field">
                 <mat-icon>location_on_outline</mat-icon> {{ sensor?.field?.fieldName }}
               </div>
