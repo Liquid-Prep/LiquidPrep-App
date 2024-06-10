@@ -13,7 +13,7 @@ import { SENSORS_MOCK_DATA } from '../../sensors/sensor-data';
 import { SensorListComponent } from '../sensor-list/sensor-list.component';
 import { CropDataService } from 'src/app/service/CropDataService';
 import { forkJoin, from } from 'rxjs';
-import {CropInfoResp} from "../../../../models/api/CropInfoResp";
+import { CropInfoResp } from '../../../../models/api/CropInfoResp';
 
 @Component({
   selector: 'app-add-field',
@@ -60,8 +60,9 @@ export class AddFieldComponent implements OnInit {
       fieldName: new FormControl(null, [Validators.required]),
       description: new FormControl(null),
       crop: new FormControl(null, [Validators.required]),
+      soilType: new FormControl(null, [Validators.required]),
       plantDate: new FormControl(null, [Validators.required]),
-      cropSelect: new FormControl(),
+      // cropSelect: new FormControl(),
     });
     const cropForm = this.fieldForm.get('crop');
     cropForm.disable();
@@ -113,6 +114,7 @@ export class AddFieldComponent implements OnInit {
   }
 
   public save() {
+    console.log(this.fieldForm.value);
     if (!this.fieldForm.valid) {
       this._snackBar.open('Please Fill up the Form', 'Ok', {
         duration: 3000,
@@ -126,6 +128,10 @@ export class AddFieldComponent implements OnInit {
       description = this.fieldForm.get('description').value;
     }
     const crop = this.fieldForm.get('crop').value;
+    const cropType = this.fieldForm.get('crop').value;
+
+    const soilType = this.fieldForm.get('soilType').value;
+
     const plantDateValue = this.fieldForm.get('plantDate').value;
     if (plantDateValue instanceof Date) {
       formattedDate = formatDate(plantDateValue, 'yyyy-MM-dd', 'en-US');
@@ -134,13 +140,16 @@ export class AddFieldComponent implements OnInit {
     }
     const sensorList = this.sensors;
     const id = nanoid(4);
-    this.cropValue.seedingDate = new Date(formattedDate);
-    this.cropValue.waterDate = new Date(formattedDate);//Assume that each time a crop is planted, it will be watered.
     const params: Field = {
       id,
       fieldName: name,
       description: description || undefined,
-      crop: this.cropValue,
+      soil: soilType,
+      crop: {
+        seedingDate: new Date(formattedDate),
+        waterDate: new Date(formattedDate),
+        type: cropType,
+      },
       plantDate: new Date(formattedDate),
       sensors: sensorList,
     };
@@ -158,12 +167,12 @@ export class AddFieldComponent implements OnInit {
   clickCropNext() {
     this.cropValue = this.fieldForm.get('cropSelect').value;
     this.cropService.getCropInfo(this.cropValue.id).subscribe(
-      (resp: CropInfoResp)=>{
+      (resp: CropInfoResp) => {
         this.cropValue.id = resp.data.docs[0]._id;
         this.cropValue.cropName = resp.data.docs[0].cropName;
         this.cropValue.facts = resp.data.docs[0];
       },
-      (error) =>{
+      (error) => {
         alert('clickCropNext Could not get crop info: ' + error);
         console.error('clickCropNext Error getting CropInfo:', error);
       }
