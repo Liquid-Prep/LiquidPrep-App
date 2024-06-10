@@ -11,6 +11,7 @@ import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FieldDataService } from 'src/app/service/FieldDataService';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-details',
@@ -32,6 +33,7 @@ export class DetailsComponent implements OnInit {
 
   fieldDetails: any;
   sensors: any[] = [];
+  cropType: string;
 
   constructor(
     private headerService: HeaderService,
@@ -70,25 +72,76 @@ export class DetailsComponent implements OnInit {
   public async getFieldDetails(id: string) {
     this.fieldDetails = await this.fieldService.getFieldFromMyFieldById(id);
     this.sensors = this.fieldDetails.sensors;
+    this.cropType = this.fieldDetails.crop.type;
+
+    console.log(this.fieldDetails);
   }
 
   public adjustDate(timestamp: number) {
     return new Date(timestamp * 1000);
   }
 
-  public getFieldPhoto(type: string) {
+  // public getFieldPhoto(type: string) {
+  //   if (type === 'Corn') {
+  //     return 'assets/crops-images/corn.png';
+  //   } else if (type === 'Wheat') {
+  //     return 'assets/crops-images/wheat.png';
+  //   } else if (type === 'Cotton') {
+  //     return 'assets/crops-images/cotton.png';
+  //   } else if (type === 'Sorghum') {
+  //     return 'assets/crops-images/sorghum.png';
+  //   } else if (type === 'Soybean') {
+  //     return 'assets/crops-images/soybean.png';
+  //   } else {
+  //     return 'assets/crops-images/missing.jpg';
+  //   }
+  // }
+
+  public getFieldBannerPhoto(type: string) {
     if (type === 'Corn') {
-      return 'assets/crops-images/corn.png';
+      return 'bg-corn';
     } else if (type === 'Wheat') {
-      return 'assets/crops-images/wheat.png';
+      return 'bg-wheat';
     } else if (type === 'Cotton') {
-      return 'assets/crops-images/cotton.png';
+      return 'bg-cotton';
     } else if (type === 'Sorghum') {
-      return 'assets/crops-images/sorghum.png';
+      return 'bg-sorghum';
     } else if (type === 'Soybean') {
-      return 'assets/crops-images/soybean.png';
+      return 'bg-soy';
     } else {
-      return 'assets/crops-images/missing.jpg';
+      return 'bg-default';
+    }
+  }
+
+  public getThumbnailPhoto(type: string) {
+    if (type === 'Corn') {
+      return '/assets/crops-images/thumb-corn.jpg';
+    } else if (type === 'Wheat') {
+      return '/assets/crops-images/thumb-wheat.jpg';
+    } else if (type === 'Cotton') {
+      return '/assets/crops-images/thumb-cotton.jpg';
+    } else if (type === 'Sorghum') {
+      return '/assets/crops-images/thumb-sorghum.jpg';
+    } else if (type === 'Soybean') {
+      return '/assets/crops-images/thumb-soy.jpg';
+    } else {
+      return 'bg-default';
+    }
+  }
+
+  public getCropType(type: string) {
+    if (type === 'Corn') {
+      return 'corn-pill';
+    } else if (type === 'Wheat') {
+      return 'wheat-pill';
+    } else if (type === 'Cotton') {
+      return 'cotton-pill';
+    } else if (type === 'Sorghum') {
+      return 'sorghum-pill';
+    } else if (type === 'Soybean') {
+      return 'soybean-pill';
+    } else {
+      return 'bg-default';
     }
   }
 
