@@ -57,8 +57,8 @@
 
     <h3>Sensors</h3>
     <div *ngFor="let sensor of sensors" class="sensor-container">
-      <h4>{{ sensor.sensorName }}</h4>
-      <span style="color: gray">GPS: {{ sensor.geocode }}</span>
+      <h4>{{ sensor.name }}</h4>
+      <span style="color: gray">{{ sensor.sensorTypeName }}</span>
       <button
         mat-button
         class="remove-button"

@@ -14,6 +14,8 @@ import { SensorListComponent } from '../sensor-list/sensor-list.component';
 import { CropDataService } from 'src/app/service/CropDataService';
 import { forkJoin, from } from 'rxjs';
 import { CropInfoResp } from '../../../../models/api/CropInfoResp';
+import { WebSocketService } from 'src/app/service/web-socket.service';
+import { SensorV2Service } from 'src/app/service/sensor-v2.service';
 
 @Component({
   selector: 'app-add-field',
@@ -43,11 +45,11 @@ export class AddFieldComponent implements OnInit {
     private fieldService: FieldDataService,
     private cropService: CropDataService,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private sensorV2Service: SensorV2Service
   ) {}
 
   ngOnInit(): void {
-
     const id = nanoid(4);
     console.log(id);
     this.headerService.updateHeader(this.headerConfig);
@@ -95,21 +97,20 @@ export class AddFieldComponent implements OnInit {
 
   public openFullViewDialog(): void {
     const dialogRef = this.dialog.open(SensorListComponent, {
-      width: '80%',
-      height: '50%',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        const data = this.sensorsData.find((item) => item.id === result);
-        this.sensors.push(data);
+        let exists = this.sensors.find(sensor => sensor.mac === result.mac);
+        if(!exists) {
+          this.sensors.push(result);
+        }
       }
     });
   }
 
-  public removeSensor(id: String) {
-    const data = this.sensors.find((item) => item.id === id);
-    const index = this.sensors.indexOf(data);
+  public removeSensor(macAddress) {
+    const index = this.sensors.indexOf((sensor) => sensor.mac === macAddress);
     this.sensors.splice(index, 1);
   }
 
@@ -138,7 +139,6 @@ export class AddFieldComponent implements OnInit {
     } else {
       console.error('plantDate is not a Date object');
     }
-    const sensorList = this.sensors;
     const id = nanoid(4);
     const params: Field = {
       id,
@@ -150,10 +150,12 @@ export class AddFieldComponent implements OnInit {
         waterDate: new Date(formattedDate),
         type: cropType,
       },
-      plantDate: new Date(formattedDate),
-      sensors: sensorList,
+      plantDate: new Date(formattedDate)
     };
     this.fieldService.storeFieldsInLocalStorage(params);
+    this.sensors.forEach(sensor => {
+      this.sensorV2Service.updateSensorName(sensor.mac, sensor.name, sensor.sensorType, id);
+    })
     this.router.navigate([`dashboard/fields`]);
   }
 

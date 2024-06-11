@@ -3,6 +3,9 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { SENSORS_MOCK_DATA } from './../../sensors/sensor-data';
 import { SensorStorageService } from 'src/app/service/sensor-storage.service';
+import { SensorV2Service } from 'src/app/service/sensor-v2.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sensor-list',
@@ -10,13 +13,14 @@ import { SensorStorageService } from 'src/app/service/sensor-storage.service';
   styleUrls: ['./sensor-list.component.scss'],
 })
 export class SensorListComponent implements OnInit {
+  destroyed$ = new Subject<void>();
   form: FormGroup;
-  sensors = SENSORS_MOCK_DATA;
+  sensors: any = [];
   selectedOption: string;
 
   constructor(
     public dialogRef: MatDialogRef<SensorListComponent>,
-    private sensorStorageService: SensorStorageService,
+    private sensorV2Service: SensorV2Service,
     private fb: FormBuilder
   ) {
     this.form = this.fb.group({
@@ -25,8 +29,12 @@ export class SensorListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.saveSensorData();
     this.retrieveSensorData();
+  }
+  
+  ngOnDestroy(): void {
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   closeDialog(): void {
@@ -37,17 +45,16 @@ export class SensorListComponent implements OnInit {
     this.dialogRef.close(this.form.value.selectedOption);
   }
 
-  private saveSensorData() {
-    const savedSensors = this.sensorStorageService.getSensorData();
-
-    if (!savedSensors || savedSensors.length === 0) {
-      const sensors = SENSORS_MOCK_DATA;
-      this.sensorStorageService.saveSensorData(sensors);
-    }
-  }
 
   private retrieveSensorData() {
-    const savedSensors = this.sensorStorageService.getSensorData();
-    this.sensors = savedSensors;
+    this.sensorV2Service.fetchSensors().pipe(
+      takeUntil(this.destroyed$)
+    ).subscribe({
+      next: sensors => {
+        this.sensors = sensors;
+        console.log(sensors);
+      }
+    });
   }
+
 }

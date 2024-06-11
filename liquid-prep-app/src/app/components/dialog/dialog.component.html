@@ -51,6 +51,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>-->
+          <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
         </div>
       </div>
       <div *ngSwitchCase="'display'" class="full-width">
@@ -59,9 +60,9 @@
       <div *ngSwitchDefault>
       </div>
     </div>
-    <div mat-dialog-actions>
-      <button mat-raised-button type="button" class="device-form-button" (click)="cancel()">{{cancelLabel}}</button>
-      <button mat-raised-button type="button" class="device-form-button" (click)="run()" [disabled]="!form.valid" cdkFocusInitial>{{okLabel}}</button>
-    </div>
   </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button type="button" class="device-form-button" (click)="cancel()">{{cancelLabel}}</button>
+  <button mat-raised-button type="button" class="device-form-button" (click)="run()" [disabled]="!form.valid" cdkFocusInitial>{{okLabel}}</button>
 </div>

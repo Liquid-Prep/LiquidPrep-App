@@ -18,8 +18,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SensorListComponent } from './../sensor-list/sensor-list.component';
 import { CropDataService } from 'src/app/service/CropDataService';
-import { forkJoin, from } from 'rxjs';
+import { Subject, forkJoin, from } from 'rxjs';
 import { CropInfoResp } from '../../../../models/api/CropInfoResp';
+import { SensorV2Service } from 'src/app/service/sensor-v2.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-edit-field',
@@ -27,6 +29,7 @@ import { CropInfoResp } from '../../../../models/api/CropInfoResp';
   styleUrls: ['./edit-field.component.scss'],
 })
 export class EditFieldComponent implements OnInit {
+  destroyed$ = new Subject<void>();
   @ViewChild('dialogTemplate') dialogTemplate: TemplateRef<any>;
 
   headerConfig: HeaderConfig = {
@@ -45,6 +48,8 @@ export class EditFieldComponent implements OnInit {
   cropValue;
   progress: boolean = false;
 
+  sensorActions: any = {};
+
   constructor(
     private headerService: HeaderService,
     private location: Location,
@@ -52,6 +57,7 @@ export class EditFieldComponent implements OnInit {
     private route: ActivatedRoute,
     private fieldService: FieldDataService,
     private cropService: CropDataService,
+    private sensorV2Service: SensorV2Service,
     public dialog: MatDialog,
     private _snackBar: MatSnackBar
   ) {}
@@ -62,6 +68,11 @@ export class EditFieldComponent implements OnInit {
     this.loadCropData();
     this.id = this.route.snapshot.queryParamMap.get('id');
     this.getFieldDetails(this.id);
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   loadForm() {
@@ -150,36 +161,63 @@ export class EditFieldComponent implements OnInit {
       plantDate: this.fieldDetails.plantDate,
       soilType: this.fieldDetails.soil,
     });
-    this.sensors = this.fieldDetails.sensors;
     this.cropValue = this.fieldDetails.crop;
   }
 
   public async getFieldDetails(id: string) {
     this.fieldDetails = await this.fieldService.getFieldFromMyFieldById(id);
+    this.sensorV2Service.fetchSensorsByFieldId(id).pipe(
+      takeUntil(this.destroyed$)
+    ).subscribe({
+      next: sensors => {
+        this.sensors = sensors;
+        this.sensors.forEach(sensor => {
+          this.sensorActions[sensor.mac] = {
+            action: 'assigned',
+            sensor
+          };
+        })
+      }
+    })
     this.patchFieldValue();
   }
 
   public openFullViewDialog(): void {
-    const dialogRef = this.dialog.open(SensorListComponent, {
-      width: '80%',
-      height: '50%',
-    });
+    const dialogRef = this.dialog.open(SensorListComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        const data = this.sensorsData.find((item) => item.id === result);
-        this.sensors.push(data);
+        if (!this.sensorActions[result.mac]) {
+          this.sensors.push(result);
+          this.sensorActions[result.mac] = {
+            action: 'added',
+            sensor: result
+          };
+        }
+        else if (this.sensorActions[result.mac].action === 'removed') {
+          this.sensors.push(result);
+          this.sensorActions[result.mac] = {
+            action: 'assigned',
+            sensor: result
+          };
+        }
       }
     });
   }
 
-  public removeSensor(id: String) {
-    const data = this.sensors.find((item) => item.id === id);
-    const index = this.sensors.indexOf(data);
+  public removeSensor(macAddress) {
+    if (this.sensorActions[macAddress]?.action === 'assigned') {
+      this.sensorActions[macAddress].action = 'removed';
+    }
+    else if (this.sensorActions[macAddress]?.action === 'added') {
+      delete this.sensorActions[macAddress];
+    }
+    const index = this.sensors.indexOf((sensor) => sensor.mac === macAddress);
     this.sensors.splice(index, 1);
   }
 
   public save() {
+    console.log(this.sensorActions);
     if (!this.fieldForm.valid) {
       this._snackBar.open('Please Fill up the Form', 'Ok', {
         duration: 3000,
@@ -207,9 +245,17 @@ export class EditFieldComponent implements OnInit {
       description: description || undefined,
       crop: this.cropValue,
       plantDate: new Date(formattedDate),
-      sensors: sensorList,
     };
     this.fieldService.storeFieldsInLocalStorage(params);
+    Object.values(this.sensorActions).forEach((sensorAction: any) => {
+      if (sensorAction?.action === 'added') {
+        this.sensorV2Service.updateSensorName(sensorAction.sensor.mac, sensorAction.sensor.name, sensorAction.sensor.sensorType, id);
+      }
+      else if (sensorAction?.action === 'removed') {
+        this.sensorV2Service.updateSensorName(sensorAction.sensor.mac, sensorAction.sensor.name, sensorAction.sensor.sensorType, '');
+      }
+    })
+
     this.router.navigate([`/dashboard/fields`]);
   }
 }
