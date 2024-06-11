@@ -22,33 +22,33 @@ export class SensorV2Service {
 
   fetchSensors() {
     let servers = this.webSocketService.getServers();
-    // return of({}).pipe(
-      return this.http.get<any>(`${servers.edgeGateway}/log`).pipe(
-      // map((response) => {
-      //   return {
-      //     status: 200,
-      //     timeSeries: {
-      //       B0A732818BC0: {
-      //         name: 'sensor_2-gen-GxfS',
-      //         id: 5,
-      //         moisture: '0.00',
-      //         timestamp: 1717408435799,
-      //       },
-      //       B0B21CA74064: {
-      //         name: 'GATEWAY-gen-i6AG',
-      //         id: 0,
-      //         moisture: 11.42,
-      //         timestamp: 1717408437896,
-      //       },
-      //       B0A73281D49C: {
-      //         name: 'sensor_1',
-      //         id: 5,
-      //         moisture: '0.00',
-      //         timestamp: 1717408436684,
-      //       },
-      //     },
-      //   };
-      // }),
+    return of({}).pipe(
+      // return this.http.get<any>(`${servers.edgeGateway}/log`).pipe(
+      map((response) => {
+        return {
+          status: 200,
+          timeSeries: {
+            B0A732818BC0: {
+              name: 'sensor_2-gen-GxfS',
+              id: 5,
+              moisture: '0.00',
+              timestamp: 1717408435799,
+            },
+            B0B21CA74064: {
+              name: 'GATEWAY-gen-i6AG',
+              id: 0,
+              moisture: 11.42,
+              timestamp: 1717408437896,
+            },
+            B0A73281D49C: {
+              name: 'sensor_1',
+              id: 5,
+              moisture: '0.00',
+              timestamp: 1717408436684,
+            },
+          },
+        };
+      }),
       tap((response) => {
         let oldData = this.webSocketService.getSensorData() || {};
         let timeSeries = Object.assign(oldData, response.timeSeries);

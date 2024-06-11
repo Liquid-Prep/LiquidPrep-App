@@ -1,5 +1,65 @@
 <app-header-title fxFlexFill> </app-header-title>
-<div class="details-container">
+<main>
+  <div class="banner-header" [class]="getFieldBannerPhoto(cropType)"></div>
+
+  <div class="details-container">
+    <div class="details-header">
+      <div><img [src]="getThumbnailPhoto(cropType)" /></div>
+
+      <div class="fieldname-container">
+        <div>
+          <h1>{{ fieldDetails?.fieldName }}</h1>
+        </div>
+
+        <div>
+          <span class="crop-pill" [class]="getCropType(cropType)">{{
+            fieldDetails?.crop?.type
+          }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <span>Soil : {{ fieldDetails?.soil }}</span
+      ><br />
+      <span>Planted : {{ fieldDetails?.plantDate }}</span>
+    </div>
+  </div>
+
+  <div class="description-container">
+    <p>{{ fieldDetails?.description }}</p>
+  </div>
+
+  <div class="sensor-group">
+    <h2>Sensors</h2>
+
+    <div class="sensor-container" *ngFor="let sensor of sensors">
+      <div>
+        <div class="sensor-name">
+          <h3>{{ sensor.name }}</h3>
+          <span>Sensor Name</span>
+        </div>
+        <div class="moisture-level">
+          <h3>{{ sensor.moisture }}</h3>
+          <span>Moisture Level</span>
+        </div>
+      </div>
+      <div class="secondary-details">
+        <div>
+          <mat-icon
+            class="sensor-icon"
+            aria-hidden="false"
+            aria-label="Example history icon"
+            >history</mat-icon
+          >
+          <span>{{ sensor.lastUpdate }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- <div class="details-container">
   <h1>{{ fieldDetails?.fieldName }}</h1>
   <span class="title">DESCRIPTION</span>
   <p>
@@ -7,17 +67,14 @@
   </p>
   <span class="title">CROP</span>
   <div class="crop-container">
-    <img
-      class="field-photo"
-      [src]="getFieldPhoto(fieldDetails?.crop.type)"
-    />
+    <img class="field-photo" [src]="getFieldPhoto(cropType)" />
     <div class="photo-details">
       <h2>{{ fieldDetails?.crop.type }}</h2>
       <span>{{ fieldDetails?.plantDate }}</span>
     </div>
   </div>
   <span class="title">SOIL TYPE</span>
-  <h3>Sandy Clay Loam</h3>
+  <h3>{{ fieldDetails?.soil }}</h3>
   <span style="font-style: italic">Detected from field Location</span>
 
   <span class="title">SENSORS</span>
@@ -33,7 +90,8 @@
       </div>
     </mat-card-content>
   </mat-card>
-</div>
+</div> -->
+
 <ng-template #warningDialog>
   <div class="dialog-wrapper">
     <h2>Delete Field?</h2>
