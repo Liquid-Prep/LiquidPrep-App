@@ -70,7 +70,6 @@ export class DetailsComponent implements OnInit {
 
   public async getFieldDetails(id: string) {
     this.fieldDetails = await this.fieldService.getFieldFromMyFieldById(id);
-    console.log(this.fieldDetails);
     this.sensors = this.fieldDetails.sensors;
   }
 
@@ -79,7 +78,6 @@ export class DetailsComponent implements OnInit {
   }
 
   public getFieldPhoto(type: string) {
-    console.log(type);
     if (type === 'Corn') {
       return 'assets/crops-images/corn.png';
     } else if (type === 'Wheat') {
