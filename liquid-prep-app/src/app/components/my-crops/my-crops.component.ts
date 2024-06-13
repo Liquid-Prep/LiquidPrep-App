@@ -5,7 +5,7 @@ import {
   ApplicationRef,
   NgZone,
 } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { formatDate, Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { ThemePalette } from '@angular/material/core';

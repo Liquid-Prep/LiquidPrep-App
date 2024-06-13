@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { SENSORS_MOCK_DATA } from './../../sensors/sensor-data';
 import { SensorStorageService } from 'src/app/service/sensor-storage.service';

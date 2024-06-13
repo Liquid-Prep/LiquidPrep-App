@@ -3,7 +3,7 @@ import { HeaderService } from 'src/app/service/header.service';
 import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
 import { SelectModalComponent } from 'src/app/components/select-modal/select-modal.component';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { FieldDataService } from 'src/app/service/FieldDataService';
 
 @Component({
