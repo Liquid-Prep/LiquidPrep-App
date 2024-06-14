@@ -4,6 +4,7 @@ import { WebSocketService } from './web-socket.service';
 import { map, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { FieldDataService } from './FieldDataService';
+import { DecimalPipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,8 @@ export class SensorV2Service {
   constructor(
     private http: HttpClient,
     private webSocketService: WebSocketService,
-    private fieldService: FieldDataService
+    private fieldService: FieldDataService,
+    private decimalPipe: DecimalPipe
   ) {}
 
   sensorTypeMapper = {
@@ -35,7 +37,7 @@ export class SensorV2Service {
               timestamp: 1717408435799,
             },
             B0B21CA74064: {
-              name: 'GATEWAY-gen-i6AG',
+              name: 'GATEWAY-plm-i6AG',
               id: 0,
               moisture: 11.42,
               timestamp: 1717408437896,
@@ -67,6 +69,7 @@ export class SensorV2Service {
           let fieldId = fullNameArr[2] || '';
           let field = this.fieldService.getFieldFromMyFieldById(fieldId);
           let sensorTypeName = this.sensorTypeMapper[sensorType];
+          let moisture = this.calibrateMoisture(sensor.moisture, sensorType, field?.soil);
 
           data.push({
             id: sensor.id,
@@ -77,7 +80,8 @@ export class SensorV2Service {
             fieldId,
             field,
             mac: sensor.mac,
-            moisture: sensor.moisture,
+            moisture,
+            moistureRaw: sensor.moisture,
             lastUpdate: new Date(sensor.timestamp).toLocaleTimeString(
               navigator.language,
               {
@@ -93,6 +97,26 @@ export class SensorV2Service {
         return data;
       })
     );
+  }
+
+  private calibrateMoisture(moistureRaw, sensorType, soilType) {
+    if (soilType === 'Heavy clay soil') {
+      if (sensorType === 'gen') {
+        let calibrated = 64.13 + (2.001 * moistureRaw) - (0.01049 * (moistureRaw * moistureRaw));
+        return this.decimalPipe.transform(calibrated, '1.2-2');
+      }
+      else if (sensorType === 'plm') {
+        let calibrated = 7.845 - (0.1526 * moistureRaw) + (0.004196 * (moistureRaw * moistureRaw));
+        return this.decimalPipe.transform(calibrated, '1.2-2');
+      }
+      else  {
+        return '-.--';
+      }
+    }
+    
+    else  {
+      return '-.--';
+    }
   }
 
   updateSensorName(macAddress, name, sensorType, fieldId) {
