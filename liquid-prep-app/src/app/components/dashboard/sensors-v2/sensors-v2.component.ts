@@ -47,8 +47,8 @@ export interface IServer {
 export class SensorsV2Component implements OnInit {
 
   SENSOR_TYPE_MAP = {
-    gen: 'Generic Moisture Sensor',
-    plm: 'PlantMate Moisture Sensor',
+    gen: 'Capacitive Soil Moisture Sensor v1.2',
+    plm: 'PlantmateⓇ Capacitive Soil Moisture Sensor Module 3.3V',
   }
 
   headerConfig: HeaderConfig = {
