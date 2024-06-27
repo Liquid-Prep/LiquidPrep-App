@@ -121,7 +121,7 @@ export class SensorV2Service {
 
   updateSensorName(macAddress, name, sensorType, fieldId) {
     let servers = this.webSocketService.getServers();
-    let message = `${servers.espNowGateway}/update?host_addr=${macAddress}&type=device_name-${sensorType}-${fieldId}`;
+    let message = `${servers.espNowGateway}/update?host_addr=${macAddress}&device_name=${name}-${sensorType}-${fieldId}`;
     this.webSocketService.wsConnect(servers.ws);
     this.webSocketService.sendMsg('LP', { from: 'WEB_REQUEST', msg: message });
     console.log(message);
@@ -132,6 +132,16 @@ export class SensorV2Service {
       map(sensors => {
         return sensors.filter(sensor => {
           return sensor.field && sensor.fieldId === fieldId;
+        })
+      })
+    )
+  }
+
+  fetchSensorsNotInFieldId(fieldId: string) {
+    return this.fetchSensors().pipe(
+      map(sensors => {
+        return sensors.filter(sensor => {
+          return sensor.field && sensor.fieldId !== fieldId;
         })
       })
     )
