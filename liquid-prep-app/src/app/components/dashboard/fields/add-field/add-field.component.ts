@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { formatDate, Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { FieldDataService } from 'src/app/service/FieldDataService';
-import { nanoid } from 'nanoid'
+import { nanoid } from 'nanoid';
 import { Field } from 'src/app/models/Field';
 import { MatDialog } from '@angular/material/dialog';
 import { SENSORS_MOCK_DATA } from '../../sensors/sensor-data';
@@ -96,13 +96,12 @@ export class AddFieldComponent implements OnInit {
   }
 
   public openFullViewDialog(): void {
-    const dialogRef = this.dialog.open(SensorListComponent, {
-    });
+    const dialogRef = this.dialog.open(SensorListComponent, {});
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        let exists = this.sensors.find(sensor => sensor.mac === result.mac);
-        if(!exists) {
+        let exists = this.sensors.find((sensor) => sensor.mac === result.mac);
+        if (!exists) {
           this.sensors.push(result);
         }
       }
@@ -150,12 +149,25 @@ export class AddFieldComponent implements OnInit {
         waterDate: new Date(formattedDate),
         type: cropType,
       },
-      plantDate: new Date(formattedDate)
+      plantDate: new Date(formattedDate),
     };
     this.fieldService.storeFieldsInLocalStorage(params);
-    this.sensors.forEach(sensor => {
-      this.sensorV2Service.updateSensorName(sensor.mac, sensor.name, sensor.sensorType, id);
-    })
+    this.sensors.forEach((sensor) => {
+      this.sensorV2Service.updateSensorName(
+        sensor.mac,
+        sensor.name,
+        sensor.sensorType,
+        id
+      );
+    });
+
+    this._snackBar.open(
+      'Sensor list may take a while to update based on the interval settings of the sensor. You can go back or refresh this page after a while.',
+      'Ok',
+      {
+        duration: 10000,
+      }
+    );
     this.router.navigate([`dashboard/fields`]);
   }
 

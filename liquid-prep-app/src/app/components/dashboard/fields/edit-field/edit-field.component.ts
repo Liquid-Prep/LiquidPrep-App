@@ -166,19 +166,20 @@ export class EditFieldComponent implements OnInit {
 
   public async getFieldDetails(id: string) {
     this.fieldDetails = await this.fieldService.getFieldFromMyFieldById(id);
-    this.sensorV2Service.fetchSensorsByFieldId(id).pipe(
-      takeUntil(this.destroyed$)
-    ).subscribe({
-      next: sensors => {
-        this.sensors = sensors;
-        this.sensors.forEach(sensor => {
-          this.sensorActions[sensor.mac] = {
-            action: 'assigned',
-            sensor
-          };
-        })
-      }
-    })
+    this.sensorV2Service
+      .fetchSensorsByFieldId(id)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: (sensors) => {
+          this.sensors = sensors;
+          this.sensors.forEach((sensor) => {
+            this.sensorActions[sensor.mac] = {
+              action: 'assigned',
+              sensor,
+            };
+          });
+        },
+      });
     this.patchFieldValue();
   }
 
@@ -191,14 +192,13 @@ export class EditFieldComponent implements OnInit {
           this.sensors.push(result);
           this.sensorActions[result.mac] = {
             action: 'added',
-            sensor: result
+            sensor: result,
           };
-        }
-        else if (this.sensorActions[result.mac].action === 'removed') {
+        } else if (this.sensorActions[result.mac].action === 'removed') {
           this.sensors.push(result);
           this.sensorActions[result.mac] = {
             action: 'assigned',
-            sensor: result
+            sensor: result,
           };
         }
       }
@@ -208,8 +208,7 @@ export class EditFieldComponent implements OnInit {
   public removeSensor(macAddress) {
     if (this.sensorActions[macAddress]?.action === 'assigned') {
       this.sensorActions[macAddress].action = 'removed';
-    }
-    else if (this.sensorActions[macAddress]?.action === 'added') {
+    } else if (this.sensorActions[macAddress]?.action === 'added') {
       delete this.sensorActions[macAddress];
     }
     const index = this.sensors.indexOf((sensor) => sensor.mac === macAddress);
@@ -249,13 +248,28 @@ export class EditFieldComponent implements OnInit {
     this.fieldService.storeFieldsInLocalStorage(params);
     Object.values(this.sensorActions).forEach((sensorAction: any) => {
       if (sensorAction?.action === 'added') {
-        this.sensorV2Service.updateSensorName(sensorAction.sensor.mac, sensorAction.sensor.name, sensorAction.sensor.sensorType, id);
+        this.sensorV2Service.updateSensorName(
+          sensorAction.sensor.mac,
+          sensorAction.sensor.name,
+          sensorAction.sensor.sensorType,
+          id
+        );
+      } else if (sensorAction?.action === 'removed') {
+        this.sensorV2Service.updateSensorName(
+          sensorAction.sensor.mac,
+          sensorAction.sensor.name,
+          sensorAction.sensor.sensorType,
+          ''
+        );
       }
-      else if (sensorAction?.action === 'removed') {
-        this.sensorV2Service.updateSensorName(sensorAction.sensor.mac, sensorAction.sensor.name, sensorAction.sensor.sensorType, '');
+    });
+    this._snackBar.open(
+      'Sensor list may take a while to update based on the interval settings of the sensor. You can go back or refresh this page after a while.',
+      'Ok',
+      {
+        duration: 10000,
       }
-    })
-
+    );
     this.router.navigate([`/dashboard/fields`]);
   }
 }
