@@ -1,9 +1,8 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
-import { SwiperOptions } from 'swiper';
+import {AfterViewInit, Component, Inject, OnInit} from '@angular/core';
 import { Router, ActivatedRoute} from '@angular/router';
 import {LOCAL_STORAGE, StorageService} from 'ngx-webstorage-service';
-import {SwiperComponent} from 'ngx-swiper-wrapper';
-
+import Swiper from "swiper";
+import SwiperOptions from "swiper"
 
 @Component({
   selector: 'app-welcome',
@@ -11,9 +10,7 @@ import {SwiperComponent} from 'ngx-swiper-wrapper';
   styleUrls: ['./welcome.component.scss']
 })
 
-
-export class WelcomeComponent implements OnInit {
-
+export class WelcomeComponent implements OnInit,AfterViewInit{
   private IS_FIRST_START = `first-start`;
 
   constructor(
@@ -21,37 +18,40 @@ export class WelcomeComponent implements OnInit {
     private route: ActivatedRoute,
     @Inject( LOCAL_STORAGE ) private storage: StorageService) { }
 
-  public config: SwiperOptions = {
-    a11y: {enabled: true},
-    direction: 'horizontal',
-    slidesPerView: 1,
-    keyboard: true,
-    mousewheel: true,
-    scrollbar: false,
-    navigation: false,
-    pagination: false,
-    autoplay: false,
-    speed: 500,
-    longSwipesRatio: 0.1,
-    longSwipesMs: 100,
-    threshold: 5
-  };
-
-  @ViewChild(SwiperComponent, { static: false }) swiper?: SwiperComponent;
-
   public curIndex = 0;
   public isFirstSlide = true;
   public isLastSlide = false;
-
   public disabled = false;
-
   private firstStart = true;
+
 
   ngOnInit(): void {
     this.firstStart = this.storage.get(this.IS_FIRST_START);
     if (this.firstStart !== undefined && this.firstStart === false){
       this.router.navigate(['dashboard']).then(r => {});
     }
+  }
+
+  ngAfterViewInit(): void {
+    const swiperOptions: SwiperOptions = {
+      a11y: true,
+      speed: 500,
+      direction: 'horizontal',
+      on: {
+        init: () => {
+          console.log('on Swiper initialized');
+        },
+        slideNextTransitionEnd: () => {
+          this.onIndexChange(swiper.realIndex);
+          console.log('on slideNextTransitionEnd', swiper.realIndex);
+        },
+        slidePrevTransitionEnd: () => {
+          this.onIndexChange(swiper.realIndex);
+          console.log('on slidePrevTransitionEnd', swiper.realIndex);
+        }
+      }
+    };
+    const swiper = new Swiper('swiper-container',swiperOptions);
   }
 
   public onGetStarted(){
@@ -74,19 +74,20 @@ export class WelcomeComponent implements OnInit {
     }
   }
 
-  public onSwiperEvent(event: string): void {
-  }
-
   onSlideNav(direction: string){
+    const swiperEl = document.querySelector('swiper-container');
     if (direction === 'next'){
       if (this.isLastSlide === true){
         this.onGetStarted();
       }else{
-        this.swiper.directiveRef.nextSlide(200);
+        // this.swiper.directiveRef.nextSlide(200);
+        swiperEl.swiper.slideNext(200);
       }
     }else if (direction === 'back'){
-      this.swiper.directiveRef.prevSlide(200);
+      // this.swiper.directiveRef.prevSlide(200);
+      swiperEl.swiper.slidePrev(200);
     }else {
     }
+    console.log('onSlideNav swiperEl',swiperEl.swiper.realIndex);
   }
 }

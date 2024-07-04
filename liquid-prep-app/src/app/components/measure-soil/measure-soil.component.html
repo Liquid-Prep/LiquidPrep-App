@@ -3,42 +3,32 @@
 </app-header-title>
 
   <div *ngIf="measureView=='before-measuring'" class="content-container" >
-    <swiper #swiper class="swiper-container" [config]="config" [(index)]="curIndex" [disabled]="disabled"
-            (indexChange)="onIndexChange($event)" (swiperTransitionStart)="onSwiperEvent('transitionStart')"
-            (swiperTransitionEnd)="onSwiperEvent('transitionEnd')">
 
-          <div class="swiper-slide">
-            <div class="container" fxLayout="column" fxFlexFill fxLayoutAlign="end center" >
-              <div class="container text-area" fxLayout="column" fxFlexWrap fxLayoutAlign="start center" >
-                <p class="title" >Loosen the soil</p>
-                <p class="description">Using a shovel, auger, or sample drill, lossen the soil.</p>
-              </div>
-              <img mat-card-image class="cardImg" src="../../../assets/measure-guide/step-1-loosen-the-soil.png" alt="Step 1:">
-            </div>
+    <swiper-container appSwiper #swiper class="content-container" speed="500" css-mode="true">
+      <swiper-slide class="container" fxLayout="column" fxFlexFill fxLayoutAlign="end center">
+          <div class="container text-area" fxLayout="column" fxFlexWrap fxLayoutAlign="start center">
+            <p class="title" >Loosen the soil</p>
+            <p class="description">Using a shovel, auger, or sample drill, lossen the soil.</p>
           </div>
-
-          <div class="swiper-slide">
-            <div class="container" fxLayout="column" fxFlexFill fxLayoutAlign="end center" >
-              <div class="container text-area"  fxLayout="column" fxFlexWrap fxLayoutAlign="start center" >
-                <p class="title" textWrap="true">Insert the sensor</p>
-                <p class="description">Make sure sensor is under the soil {{stage.rootDepthRange.minDepth}} to {{stage.rootDepthRange.maxDepth}} {{crop.facts.plantGrowthStages.rootDepthMetric}}</p>
-              </div>
-              <img mat-card-image class="cardImg" src="../../../assets/measure-guide/step-2-insert-the-sensor.png" alt="Step 2:">
-            </div>
+          <img mat-card-image class="cardImg" src="../../../assets/measure-guide/step-1-loosen-the-soil.png" alt="Step 1:">
+      </swiper-slide>
+      <swiper-slide class="container" fxLayout="column" fxFlexFill fxLayoutAlign="end center">
+          <div class="container text-area"  fxLayout="column" fxFlexWrap fxLayoutAlign="start center" >
+            <p class="title" textWrap="true">Insert the sensor</p>
+            <p class="description">Make sure sensor is under the soil {{stage.rootDepthRange.minDepth}} to {{stage.rootDepthRange.maxDepth}} {{crop.facts.plantGrowthStages.rootDepthMetric}}</p>
           </div>
-
-          <div class="swiper-slide">
-            <div class="container" fxLayout="column" fxFlexFill fxLayoutAlign="end center" >
-              <div class="container text-area sensor-text" fxLayout="column" fxFlexWrap fxLayoutAlign="start center">
-                <p class="description" flex textWrap="false">Connect to Sensor</p>
-                <p class="description"></p>
-                <button mat-flat-button class="c-btn" (click)="onSensorConnect('usb')"><mat-icon>usb</mat-icon> Connect with USB</button>
-                <button mat-flat-button class="c-btn" (click)="onSensorConnect('ble')"><mat-icon>bluetooth</mat-icon> Connect with Bluetooth </button>
-              </div>
-              <img mat-card-image class="cardImg" src="../../../assets/measure-guide/step-3-connect-the-sensor.png" alt="Connect to Sensor" />
-            </div>
+          <img mat-card-image class="cardImg" src="../../../assets/measure-guide/step-2-insert-the-sensor.png" alt="Step 2:">
+      </swiper-slide>
+      <swiper-slide class="container" fxLayout="column" fxFlexFill fxLayoutAlign="end center">
+          <div class="container text-area sensor-text" fxLayout="column" fxFlexWrap fxLayoutAlign="start center">
+            <p class="description" flex textWrap="false">Connect to Sensor</p>
+            <p class="description"></p>
+            <button mat-flat-button class="c-btn" (click)="onSensorConnect('usb')"><mat-icon>usb</mat-icon> Connect with USB</button>
+            <button mat-flat-button class="c-btn" (click)="onSensorConnect('ble')"><mat-icon>bluetooth</mat-icon> Connect with Bluetooth </button>
           </div>
-    </swiper>
+          <img mat-card-image class="cardImg" src="../../../assets/measure-guide/step-3-connect-the-sensor.png" alt="Connect to Sensor" />
+      </swiper-slide>
+    </swiper-container>
   </div>
 
   <div *ngIf="measureView=='after-measuring' || measureView=='measuring'"

@@ -1,8 +1,6 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import { Location } from '@angular/common';
-import {ActivatedRoute, Navigation, Router} from '@angular/router';
-import { SwiperOptions } from 'swiper';
-import { SwiperComponent} from 'ngx-swiper-wrapper';
+import {ActivatedRoute, Router} from '@angular/router';
 import {SoilMoistureService} from '../../service/SoilMoistureService';
 import {SoilMoisture} from '../../models/SoilMoisture';
 import {LineBreakTransformer} from './LineBreakTransformer';
@@ -12,6 +10,9 @@ import {PlantGrowthStage} from '../../models/api/CropInfoResp';
 import {HeaderService} from '../../service/header.service';
 import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
 import {DateTimeUtil} from "../../utility/DateTimeUtil";
+import Swiper from "swiper";
+import SwiperOptions from "swiper"
+
 
 @Component({
   selector: 'app-measure-soil',
@@ -35,26 +36,6 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
               private cropService: CropDataService,
               private headerService: HeaderService) { }
 
-
-  public config: SwiperOptions = {
-    a11y: { enabled: true },
-    direction: 'horizontal',
-    slidesPerView: 1,
-    keyboard: true,
-    mousewheel: true,
-    scrollbar: false,
-    navigation: false,
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: false,
-      hideOnClick: false,
-    },
-    longSwipesRatio: 0.1,
-    longSwipesMs: 100,
-    threshold: 5,
-  };
-
-  @ViewChild(SwiperComponent, { static: false }) swiper?: SwiperComponent;
 
   public crop: Crop;
   public stage: PlantGrowthStage;
@@ -87,6 +68,25 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    const swiperOptions: SwiperOptions = {
+      a11y:true,
+      speed: 400,
+      direction: 'horizontal',
+      on:{
+        init: function () {
+          console.log('on Swiper initialized');
+        },
+        slideNextTransitionEnd: () => {
+          this.onIndexChange(swiper.realIndex);
+          console.log('on slideNextTransitionEnd', swiper.realIndex);
+        },
+        slidePrevTransitionEnd: () => {
+          this.onIndexChange(swiper.realIndex);
+          console.log('on slidePrevTransitionEnd', swiper.realIndex);
+        }
+      }
+    }
+    const swiper = new Swiper('swiper-container',swiperOptions);
   }
 
   public onSensorConnect(connectionOption){
@@ -268,9 +268,6 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public onSwiperEvent(event: string): void {
-  }
-
   public volumeClicked() {
   }
 
@@ -331,11 +328,16 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
   }
 
   onSlideNav(direction: string){
+    const swiperEl = document.querySelector('swiper-container');
+    console.log('onSlideNav swiperEl',swiperEl.swiper.realIndex);
     if (direction === 'next'){
-      this.swiper.directiveRef.nextSlide(200);
+      // this.swiper.directiveRef.nextSlide(200);
+      swiperEl.swiper.slideNext(200);
     }else{
-      this.swiper.directiveRef.prevSlide(200);
+      // this.swiper.directiveRef.prevSlide(200);
+      swiperEl.swiper.slidePrev(200);
     }
+    console.log('onSlideNav swiperEl',swiperEl.swiper.realIndex);
   }
 
   saveMeasuretoCrop(soilMoisture: number){
