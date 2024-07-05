@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 
 import { HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
@@ -36,11 +36,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
-import {
-  SwiperModule,
-  SwiperConfigInterface,
-  SWIPER_CONFIG,
-} from 'ngx-swiper-wrapper';
+
+import { register } from 'swiper/element/bundle';
+register();
 import { MeasureSoilComponent } from './components/measure-soil/measure-soil.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AdviceComponent } from './components/advice/advice.component';
@@ -70,15 +68,7 @@ import { AddFieldComponent } from './components/dashboard/fields/add-field/add-f
 import { EditFieldComponent } from './components/dashboard/fields/edit-field/edit-field.component';
 import { SensorListComponent } from './components/dashboard/fields/sensor-list/sensor-list.component';
 import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
-
-const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
-  observer: true,
-  direction: 'horizontal',
-  threshold: 50,
-  spaceBetween: 5,
-  slidesPerView: 1,
-  centeredSlides: true,
-};
+import { SwiperDirectiveDirective } from './directives/swiper-directive.directive';
 
 @NgModule({
   declarations: [
@@ -113,6 +103,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     MoistureLogsComponent,
     SensorListComponent,
     SplashScreenComponent,
+    SwiperDirectiveDirective,
   ],
   imports: [
     BrowserModule,
@@ -146,7 +137,6 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     FormsModule,
     MatSnackBarModule,
     ReactiveFormsModule,
-    SwiperModule,
     FlexLayoutModule,
     MatGridListModule,
     MatToolbarModule,
@@ -156,12 +146,11 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   providers: [
     DataService,
     DatePipe,
-    {
-      provide: SWIPER_CONFIG,
-      useValue: DEFAULT_SWIPER_CONFIG,
-    },
     { provide: MAT_DIALOG_DATA, useValue: {} }
   ],
   bootstrap: [AppComponent],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ]
 })
 export class AppModule {}
