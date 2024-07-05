@@ -30,7 +30,6 @@
     "@angular/router": "^13.2.0",
     "@angular/service-worker": "^13.2.0",
     "guid-typescript": "^1.0.9",
-    "ng2-search-filter": "^0.5.1",
     "ngx-swiper-wrapper": "^10.0.0",
     "ngx-webstorage-service": "^4.1.0",
     "rxjs": "^6.6.2",
