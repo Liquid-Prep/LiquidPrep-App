@@ -66,8 +66,7 @@ export class SensorV2Service {
           let sensor = devices[key];
           sensor.mac = key;
           let fullName = sensor.name;
-          let fullNameArr = fullName.split('-');
-          let name = fullNameArr[0] || '';
+          let name = fullName;
           let sensorType = sensorMap[key]?.sensorType || '';
           let fieldId =  sensorMap[key]?.fieldId || '';
           let field = this.fieldService.getFieldFromMyFieldById(fieldId);
