@@ -1,0 +1,44 @@
+<h1 mat-dialog-title>{{ data.title }}</h1>
+<div mat-dialog-content>
+  <form #form="ngForm" class="demo-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Sensor Type</mat-label>
+      <mat-select [(ngModel)]="sensorType" name="sensorType" required>
+        <mat-option value="gen"
+          >Capacitive Soil Moisture Sensor v1.2</mat-option
+        >
+        <mat-option value="plm"
+          >PlantmateⓇ Capacitive Soil Moisture Sensor Module 3.3V</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Field</mat-label>
+      <mat-select [(ngModel)]="fieldId" name="fieldId" required>
+        <mat-option *ngFor="let field of fieldOptions" [value]="field.value">{{
+          field.label
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button
+    mat-raised-button
+    type="button"
+    class="device-form-button"
+    (click)="cancel()"
+  >
+    Cancel
+  </button>
+  <button
+    mat-raised-button
+    type="button"
+    class="device-form-button"
+    (click)="save()"
+    [disabled]="!form.valid"
+    cdkFocusInitial
+  >
+    Save
+  </button>
+</div>
