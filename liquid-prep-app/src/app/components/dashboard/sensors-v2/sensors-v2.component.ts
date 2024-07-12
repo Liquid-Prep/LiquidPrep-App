@@ -14,6 +14,7 @@ import { DialogComponent } from '../../dialog/dialog.component';
 import { HeaderConfig, HeaderService } from 'src/app/service/header.service';
 import { map } from 'rxjs/operators';
 import { ServerIpModalComponent } from '../../server-ip-modal/server-ip-modal.component';
+import { SensorTypeAndFieldComponent } from '../../sensor-type-and-field/sensor-type-and-field.component';
 
 
 export class Device {
@@ -163,10 +164,33 @@ export class SensorsV2Component implements OnInit {
     this.openDialog({title: sensor.name, sensor: sensor, ws: this.ws, espnow: this.espNowGateway, type: 'input', placeholder: 'Sensor', buttons: {ok: 'Run'}, object: this.actions, mac: sensor.mac}, (resp: any) => {
       if (resp) {
         console.log(resp);
-        this.showMessage('Condition has been saved.')
+        this.showMessage('Condition has been saved.');
       }
     })
   }  
+
+  showSensorTypeAndFieldDialog(sensor: any) {
+    let payload = {
+      title: sensor.name, 
+      sensor: sensor,
+      ws: this.ws, 
+      espnow: this.espNowGateway, 
+      mac: sensor.mac
+    };
+    this.dialogRef = this.dialog.open(SensorTypeAndFieldComponent, {
+      hasBackdrop: true,
+      width: '300px',
+      height: 'auto',
+      panelClass: 'custom-modalbox',
+      data: payload
+    })
+    this.dialogRef.afterClosed().subscribe((result: any) => {
+      if (result === 'SAVED') {
+        this.showMessage('Sensor details successfully updated.')
+        this.fetchTimeSeries();
+      }
+    })
+  }
 
   openIpConfigModal() {
     const dialogRef = this.dialog.open(ServerIpModalComponent, {

@@ -5,6 +5,7 @@ import { map, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { FieldDataService } from './FieldDataService';
 import { DecimalPipe } from '@angular/common';
+import { SensorStorageService } from './sensor-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,8 @@ export class SensorV2Service {
     private http: HttpClient,
     private webSocketService: WebSocketService,
     private fieldService: FieldDataService,
-    private decimalPipe: DecimalPipe
+    private decimalPipe: DecimalPipe,
+    private sensorStorageService: SensorStorageService
   ) {}
 
   sensorTypeMapper = {
@@ -59,14 +61,15 @@ export class SensorV2Service {
       map((response) => {
         let devices = response.timeSeries;
         let data = [];
+        let sensorMap = this.sensorStorageService.getSensors();
         Object.keys(devices).forEach((key) => {
           let sensor = devices[key];
           sensor.mac = key;
           let fullName = sensor.name;
           let fullNameArr = fullName.split('-');
           let name = fullNameArr[0] || '';
-          let sensorType = fullNameArr[1] || '';
-          let fieldId = fullNameArr[2] || '';
+          let sensorType = sensorMap[key]?.sensorType || '';
+          let fieldId =  sensorMap[key]?.fieldId || '';
           let field = this.fieldService.getFieldFromMyFieldById(fieldId);
           let sensorTypeName = this.sensorTypeMapper[sensorType];
           let moisture = this.calibrateMoisture(sensor.moisture, sensorType, field?.soil);

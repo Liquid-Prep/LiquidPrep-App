@@ -52,9 +52,11 @@
             Moisture Level: <span>{{ sensor.moisture }}</span> &nbsp; &nbsp;
             <span>{{ sensor.lastUpdate }}</span>
           </div>
-
-          <button mat-icon-button color="accent" (click)="showDialog(sensor)">
+          <button mat-icon-button color="accent" (click)="showSensorTypeAndFieldDialog(sensor)">
             <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="accent" (click)="showDialog(sensor)">
+            <mat-icon>sensors</mat-icon>
           </button>
         </mat-list-item>
 

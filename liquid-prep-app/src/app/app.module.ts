@@ -75,6 +75,9 @@ import { DialogComponent } from './components/dialog/dialog.component';
 import { SensorsV2Component } from './components/dashboard/sensors-v2/sensors-v2.component';
 import { ServerIpModalComponent } from './components/server-ip-modal/server-ip-modal.component';
 
+import { ConnectingDialogComponent } from '../connecting-dialog/connecting-dialog.component';
+import { SensorTypeAndFieldComponent } from './components/sensor-type-and-field/sensor-type-and-field.component';
+
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   observer: true,
   direction: 'horizontal',
@@ -109,6 +112,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     AddFieldComponent,
     EditFieldComponent,
     SensorDetailsComponent,
+    ConnectingDialogComponent,
     EditSensorComponent,
     SensorLocatorModalComponent,
     UnsavedChangesModalComponent,
@@ -119,7 +123,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     SplashScreenComponent,
     SensorsV2Component,
     DialogComponent,
-    ServerIpModalComponent
+    ServerIpModalComponent,
+    SensorTypeAndFieldComponent
   ],
   imports: [
     BrowserModule,

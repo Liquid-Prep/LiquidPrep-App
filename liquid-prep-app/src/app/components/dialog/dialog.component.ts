@@ -36,10 +36,6 @@ export class DialogComponent implements OnInit {
   selected = '';
 
   name = '';
-  sensorType = '';
-  fieldId = '';
-
-  fieldOptions = [];
   
   constructor(
     public dialogRef: MatDialogRef<DialogComponent>,
@@ -50,15 +46,6 @@ export class DialogComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    console.log(this.data);
-    let fields = await this.fieldService.getLocalStorageMyFields();
-    console.log(fields);
-    this.fieldOptions = fields.map(field=> {
-      return {
-        value: field.id,
-        label: field.fieldName
-      }
-    })
     if(this.data.buttons) {
       this.okLabel = this.data.buttons.ok ? this.data.buttons.ok : this.okLabel
       this.cancelLabel = this.data.buttons.cancel ? this.data.buttons.cancel : this.cancelLabel
@@ -73,8 +60,6 @@ export class DialogComponent implements OnInit {
           this.label = 'Name'
           this.newValue = this.data.title;
           this.name = this.data?.sensor?.name || '';
-          this.sensorType = this.data?.sensor?.sensorType || '';
-          this.fieldId = this.data?.sensor?.fieldId || '';
           this.showSingleInput = false;
           this.showNameInput = true;
           break;
@@ -206,8 +191,7 @@ export class DialogComponent implements OnInit {
           this.msg = `${this.data.espnow}/${type}?host_addr=${this.data.mac}&web_request=true`;
         break;  
       case 'device_name':
-        this.msg = `${this.data.espnow}/update?host_addr=${this.data.mac}&${type}=${this.name}-${this.sensorType}-${this.fieldId}`;
-        console.log(this.msg);
+        this.msg = `${this.data.espnow}/update?host_addr=${this.data.mac}&${type}=${this.name}`;
         break;
       case 'esp_interval':
         this.msg = `${this.data.espnow}/update?host_addr=${this.data.mac}&${type}=${this.newValue}`;

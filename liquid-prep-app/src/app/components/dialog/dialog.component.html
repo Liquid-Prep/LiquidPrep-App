@@ -20,7 +20,7 @@
             <mat-label>{{label}}</mat-label>
             <input matInput name="name" [(ngModel)]="name" required maxlength="10">
           </mat-form-field>
-          <mat-form-field appearance="outline">
+          <!-- <mat-form-field appearance="outline">
             <mat-label>Sensor Type</mat-label>
             <mat-select [(ngModel)]="sensorType" name="sensorType" required>
               <mat-option value="gen">Capacitive Soil Moisture Sensor v1.2</mat-option>
@@ -32,7 +32,7 @@
             <mat-select [(ngModel)]="fieldId" name="fieldId" required>
               <mat-option *ngFor = "let field of fieldOptions" [value]="field.value">{{field.label}}</mat-option>
             </mat-select>
-          </mat-form-field>
+          </mat-form-field> -->
         </div>
         <div class="align-elements">
           <!--<mat-form-field appearance="fill">
@@ -51,7 +51,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>-->
-          <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+          <br /><br />
         </div>
       </div>
       <div *ngSwitchCase="'display'" class="full-width">
