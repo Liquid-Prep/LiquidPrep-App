@@ -165,6 +165,7 @@ export class SensorsV2Component implements OnInit {
       if (resp) {
         console.log(resp);
         this.showMessage('Condition has been saved.');
+        this.refresh();
       }
     })
   }  
