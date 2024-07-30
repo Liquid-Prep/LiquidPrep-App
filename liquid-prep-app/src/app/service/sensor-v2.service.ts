@@ -69,7 +69,7 @@ export class SensorV2Service {
           let fullName = sensor.name;
           let name = sensorMap[key]?.name;
           if (!name) {
-            name = 'Unnamed Sensor ' + unnamedCount;
+            name = 'Unnamed Sensor';
             unnamedCount++;
           }
           let sensorType = sensorMap[key]?.sensorType || '';
