@@ -62,11 +62,16 @@ export class SensorV2Service {
         let devices = response.timeSeries;
         let data = [];
         let sensorMap = this.sensorStorageService.getSensors();
+        let unnamedCount = 1;
         Object.keys(devices).forEach((key) => {
           let sensor = devices[key];
           sensor.mac = key;
           let fullName = sensor.name;
-          let name = fullName;
+          let name = sensorMap[key]?.name;
+          if (!name) {
+            name = 'Unnamed Sensor ' + unnamedCount;
+            unnamedCount++;
+          }
           let sensorType = sensorMap[key]?.sensorType || '';
           let fieldId =  sensorMap[key]?.fieldId || '';
           let field = this.fieldService.getFieldFromMyFieldById(fieldId);

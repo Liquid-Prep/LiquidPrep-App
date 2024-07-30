@@ -73,7 +73,7 @@ export class SensorsV2Component implements OnInit {
   device: Device;
   timeSeries = {};
   actions = [
-    {value: 'device_name', text: 'Device Name'},
+    // {value: 'device_name', text: 'Device Name'},
     {value: 'air_value', text: 'Calibrate Air'},
     {value: 'water_value', text: 'Calibrate Water'},
     {value: 'esp_interval', text: 'Interval'},

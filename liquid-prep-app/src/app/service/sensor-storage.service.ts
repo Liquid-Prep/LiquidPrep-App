@@ -29,9 +29,10 @@ export class SensorStorageService {
     localStorage.setItem(SENSOR_STORAGE_KEY, JSON.stringify(sensorMap));
   }
 
-  updateSensorByMacAddress(macAddress, sensorType, fieldId) {
+  updateSensorByMacAddress(macAddress, name, sensorType, fieldId) {
     let sensors = this.getSensors();
     sensors[macAddress]= {
+      name,
       sensorType,
       fieldId
     };

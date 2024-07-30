@@ -11,6 +11,7 @@ import { SensorStorageService } from 'src/app/service/sensor-storage.service';
 })
 export class SensorTypeAndFieldComponent implements OnInit {
 
+  name = '';
   sensorType = '';
   fieldId = '';
 
@@ -24,6 +25,7 @@ export class SensorTypeAndFieldComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
+    this.name = this.data?.sensor?.name || '';
     this.sensorType = this.data?.sensor?.sensorType || '';
     this.fieldId = this.data?.sensor?.fieldId || '';
 
@@ -42,7 +44,7 @@ export class SensorTypeAndFieldComponent implements OnInit {
 
   save(): void {
     if (this.data.mac) {
-      this.sensorStorageService.updateSensorByMacAddress(this.data.mac, this.sensorType, this.fieldId);
+      this.sensorStorageService.updateSensorByMacAddress(this.data.mac, this.name, this.sensorType, this.fieldId);
       this.dialogRef.close("SAVED");
     }
   }
