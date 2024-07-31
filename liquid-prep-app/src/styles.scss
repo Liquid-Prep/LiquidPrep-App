@@ -1,28 +1,27 @@
-
 // Custom Theming for Angular Material
+@use '@angular/material' as mat;
 // For more information: https://material.angular.io/guide/theming
-@import '~@angular/material/theming';
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
 
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat-core();
+@include mat.core();
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$liquid-prep-app-primary: mat-palette($mat-indigo);
-$liquid-prep-app-accent: mat-palette($mat-pink, A200, A100, A400);
+$liquid-prep-app-primary: mat.define-palette(mat.$indigo-palette);
+$liquid-prep-app-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$liquid-prep-app-warn: mat-palette($mat-red);
+$liquid-prep-app-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$liquid-prep-app-theme: mat-light-theme((
+$liquid-prep-app-theme: mat.define-light-theme((
   color: (
     primary: $liquid-prep-app-primary,
     accent: $liquid-prep-app-accent,
@@ -33,7 +32,7 @@ $liquid-prep-app-theme: mat-light-theme((
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($liquid-prep-app-theme);
+@include mat.all-component-themes($liquid-prep-app-theme);
 
 /* You can add global styles to this file, and also import other style files */
 
