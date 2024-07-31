@@ -123,7 +123,6 @@
       }
     }
   },
-  "defaultProject": "liquid-prep-app",
   "cli": {
     "analytics": "a6f6ebb2-6f71-41d2-bdae-cd0edfc49919"
   }
