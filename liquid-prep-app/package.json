@@ -11,7 +11,6 @@
     "build-prod": "ng build --configuration production",
     "serve-prod": "npm run build-prod && cd dist/liquid-prep-app && http-server -c-1",
     "deploy-github": "ng build --configuration production=true --outputPath=docs --baseHref=/Liquid-Prep/",
-    "postinstall": "ngcc",
     "http-server": "http-server -o"
   },
   "private": true,
