@@ -10,8 +10,9 @@ import {PlantGrowthStage} from '../../models/api/CropInfoResp';
 import {HeaderService} from '../../service/header.service';
 import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
 import {DateTimeUtil} from "../../utility/DateTimeUtil";
-import Swiper from "swiper";
-import SwiperOptions from "swiper"
+import Swiper from 'swiper';
+import { SwiperOptions } from 'swiper/types';
+
 
 
 @Component({
@@ -69,10 +70,12 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     const swiperOptions: SwiperOptions = {
-      a11y:true,
+      a11y: {
+        enabled: true
+      },
       speed: 400,
       direction: 'horizontal',
-      on:{
+      on: {
         init: function () {
           console.log('on Swiper initialized');
         },
@@ -85,8 +88,8 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
           console.log('on slidePrevTransitionEnd', swiper.realIndex);
         }
       }
-    }
-    const swiper = new Swiper('swiper-container',swiperOptions);
+    };
+    const swiper = new Swiper('.swiper-container', swiperOptions);
   }
 
   public onSensorConnect(connectionOption){

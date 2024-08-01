@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, Inject, OnInit} from '@angular/core';
 import { Router, ActivatedRoute} from '@angular/router';
 import {LOCAL_STORAGE, StorageService} from 'ngx-webstorage-service';
-import Swiper from "swiper";
-import SwiperOptions from "swiper"
+import Swiper from 'swiper';
+import { SwiperOptions } from 'swiper/types';
 
 @Component({
   selector: 'app-welcome',
@@ -34,11 +34,13 @@ export class WelcomeComponent implements OnInit,AfterViewInit{
 
   ngAfterViewInit(): void {
     const swiperOptions: SwiperOptions = {
-      a11y: true,
-      speed: 500,
+      a11y: {
+        enabled: true
+      },
+      speed: 400,
       direction: 'horizontal',
       on: {
-        init: () => {
+        init: function () {
           console.log('on Swiper initialized');
         },
         slideNextTransitionEnd: () => {
@@ -51,7 +53,7 @@ export class WelcomeComponent implements OnInit,AfterViewInit{
         }
       }
     };
-    const swiper = new Swiper('swiper-container',swiperOptions);
+    const swiper = new Swiper('.swiper-container', swiperOptions);
   }
 
   public onGetStarted(){
