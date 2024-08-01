@@ -1,6 +1,6 @@
 import {Inject, Injectable} from '@angular/core';
 import {DataService} from './DataService';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {LOCAL_STORAGE, SESSION_STORAGE, StorageService,} from 'ngx-webstorage-service';
 
 import {Field} from '../models/Field';
