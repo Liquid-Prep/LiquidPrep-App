@@ -5,7 +5,7 @@ import { SelectCropRoutingModule } from './select-crop-routing.module';
 import { SelectCropComponent } from './select-crop.component';
 import { MaterialModule } from '../../material/material.module';
 import { FormsModule } from '@angular/forms';
-import {MatLegacyProgressSpinnerModule as MatProgressSpinnerModule} from '@angular/material/legacy-progress-spinner';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 @NgModule({

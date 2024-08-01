@@ -4,12 +4,12 @@ import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WaterAdviceService } from 'src/app/service/WaterAdviceService';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Crop } from '../../models/Crop';
 import { CropDataService } from '../../service/CropDataService';
 import { CropStaticInfo } from '../../models/CropStatic';
 import { DatePipe } from '@angular/common';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MoistureLogsComponent } from './moisture-logs/moisture-logs.component';
 import { SENSORS_MOCK_DATA } from 'src/app/components/dashboard/sensors/sensor-data';
 

@@ -15,19 +15,19 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-devkit/schematics": "^16.2.14",
-    "@angular/animations": "^16.2.12",
-    "@angular/cdk": "^16.2.14",
-    "@angular/common": "^16.2.12",
-    "@angular/compiler": "^16.2.12",
-    "@angular/core": "^16.2.12",
+    "@angular-devkit/schematics": "^17.3.8",
+    "@angular/animations": "^17.3.12",
+    "@angular/cdk": "^17.3.10",
+    "@angular/common": "^17.3.12",
+    "@angular/compiler": "^17.3.12",
+    "@angular/core": "^17.3.12",
     "@angular/flex-layout": "^15.0.0-beta.42",
-    "@angular/forms": "^16.2.12",
-    "@angular/material": "^16.2.14",
-    "@angular/platform-browser": "^16.2.12",
-    "@angular/platform-browser-dynamic": "^16.2.12",
-    "@angular/router": "^16.2.12",
-    "@angular/service-worker": "^16.2.12",
+    "@angular/forms": "^17.3.12",
+    "@angular/material": "^17.3.10",
+    "@angular/platform-browser": "^17.3.12",
+    "@angular/platform-browser-dynamic": "^17.3.12",
+    "@angular/router": "^17.3.12",
+    "@angular/service-worker": "^17.3.12",
     "ng2-search-filter": "^0.5.1",
     "ngx-swiper-wrapper": "^10.0.0",
     "ngx-webstorage-service": "^4.1.0",
@@ -37,13 +37,13 @@
     "tslib": "^2.0.0",
     "web-bluetooth": "^0.1.2",
     "webusb": "^2.2.0",
-    "zone.js": "~0.13.3"
+    "zone.js": "~0.14.8"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^16.2.14",
-    "@angular/cli": "^16.2.14",
-    "@angular/compiler-cli": "^16.2.12",
-    "@angular/language-service": "^16.2.12",
+    "@angular-devkit/build-angular": "^17.3.8",
+    "@angular/cli": "^17.3.8",
+    "@angular/compiler-cli": "^17.3.12",
+    "@angular/language-service": "^17.3.12",
     "@types/jasmine": "~3.8.0",
     "@types/jasminewd2": "^2.0.3",
     "@types/node": "^14.11.1",
@@ -59,6 +59,6 @@
     "protractor": "^7.0.0",
     "ts-node": "^8.10.2",
     "tslint": "^6.1.0",
-    "typescript": "^5.1.6"
+    "typescript": "^5.4.5"
   }
 }

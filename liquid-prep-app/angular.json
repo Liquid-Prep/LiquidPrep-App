@@ -75,18 +75,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "liquid-prep-app:build"
+            "buildTarget": "liquid-prep-app:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "liquid-prep-app:build:production"
+              "buildTarget": "liquid-prep-app:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "liquid-prep-app:build"
+            "buildTarget": "liquid-prep-app:build"
           }
         },
         "test": {

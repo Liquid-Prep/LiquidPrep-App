@@ -8,7 +8,7 @@ import {
 import { Location } from '@angular/common';
 import { HeaderService } from 'src/app/service/header.service';
 import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FieldDataService } from 'src/app/service/FieldDataService';
 import { MatIconModule } from '@angular/material/icon';
