@@ -68,7 +68,6 @@ import { AddFieldComponent } from './components/dashboard/fields/add-field/add-f
 import { EditFieldComponent } from './components/dashboard/fields/edit-field/edit-field.component';
 import { SensorListComponent } from './components/dashboard/fields/sensor-list/sensor-list.component';
 import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
-import { SwiperDirectiveDirective } from './directives/swiper-directive.directive';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -102,7 +101,6 @@ import { SwiperDirectiveDirective } from './directives/swiper-directive.directiv
         MoistureLogsComponent,
         SensorListComponent,
         SplashScreenComponent,
-        SwiperDirectiveDirective,
     ],
     bootstrap: [AppComponent],
     schemas: [
