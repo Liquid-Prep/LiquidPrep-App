@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 import { SensorService } from '../../service/sensor.service';
 import { HeaderService } from 'src/app/service/header.service';
 import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-test-sensor',

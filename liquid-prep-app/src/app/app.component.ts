@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MatIconRegistry } from "@angular/material/icon";
-import { DomSanitizer } from "@angular/platform-browser";
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 import { SwUpdate } from '@angular/service-worker';
 
 @Component({
@@ -16,21 +16,37 @@ export class AppComponent implements OnInit {
   rightIconName = 'settings';
   rightBtnClick = '/settings';
 
-
-  constructor( private swUpdate: SwUpdate, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
-    this.matIconRegistry.
-      addSvgIcon('rain_drop',this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/test-sensor/rain-drop.svg') ).
-      addSvgIcon('soil_moisture',this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/test-sensor/soil-moisture-field.svg') ).
-      addSvgIcon('windy_strong',this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/test-sensor/windy-strong.svg') );
+  constructor(
+    private swUpdate: SwUpdate,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer
+  ) {
+    this.matIconRegistry
+      .addSvgIcon(
+        'rain_drop',
+        this.domSanitizer.bypassSecurityTrustResourceUrl(
+          '../assets/test-sensor/rain-drop.svg'
+        )
+      )
+      .addSvgIcon(
+        'soil_moisture',
+        this.domSanitizer.bypassSecurityTrustResourceUrl(
+          '../assets/test-sensor/soil-moisture-field.svg'
+        )
+      )
+      .addSvgIcon(
+        'windy_strong',
+        this.domSanitizer.bypassSecurityTrustResourceUrl(
+          '../assets/test-sensor/windy-strong.svg'
+        )
+      );
   }
 
   ngOnInit() {
-    if (this.swUpdate.isEnabled) {
-      this.swUpdate.available.subscribe(() => {
-        if (confirm('New version available, would like to update?')) {
-          window.location.reload();
-        }
-      });
-    }
+    this.swUpdate.versionUpdates.subscribe((event) => {
+      if (event.type === 'VERSION_READY') {
+        window.location.reload();
+      }
+    });
   }
 }

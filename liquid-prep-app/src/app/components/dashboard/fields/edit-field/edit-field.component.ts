@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { HeaderService } from 'src/app/service/header.service';
 import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { formatDate, Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FieldDataService } from 'src/app/service/FieldDataService';
@@ -37,7 +37,7 @@ export class EditFieldComponent implements OnInit {
     rightBtnClick: this.save.bind(this),
   };
   id: string;
-  fieldForm: FormGroup;
+  fieldForm: UntypedFormGroup;
   fieldDetails: any;
   sensorsData = SENSORS_MOCK_DATA;
   sensors: any[] = [];
@@ -65,13 +65,13 @@ export class EditFieldComponent implements OnInit {
   }
 
   loadForm() {
-    this.fieldForm = new FormGroup({
-      fieldName: new FormControl(null, [Validators.required]),
-      description: new FormControl(null),
-      crop: new FormControl(null, [Validators.required]),
-      plantDate: new FormControl(null, [Validators.required]),
-      cropSelect: new FormControl(),
-      soilType: new FormControl(null, [Validators.required]),
+    this.fieldForm = new UntypedFormGroup({
+      fieldName: new UntypedFormControl(null, [Validators.required]),
+      description: new UntypedFormControl(null),
+      crop: new UntypedFormControl(null, [Validators.required]),
+      plantDate: new UntypedFormControl(null, [Validators.required]),
+      cropSelect: new UntypedFormControl(),
+      soilType: new UntypedFormControl(null, [Validators.required]),
     });
     const cropForm = this.fieldForm.get('crop');
     cropForm.disable();

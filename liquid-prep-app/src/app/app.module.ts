@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -26,7 +26,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import {MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -70,87 +70,81 @@ import { SensorListComponent } from './components/dashboard/fields/sensor-list/s
 import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
 import { SwiperDirectiveDirective } from './directives/swiper-directive.directive';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    WelcomeComponent,
-    MyCropsComponent,
-    MeasureSoilComponent,
-    SettingsComponent,
-    AdviceComponent,
-    SeedDateComponent,
-    DateAgoPipe,
-    SlideIndicatorComponent,
-    DashboardComponent,
-    TestSensorComponent,
-    HeaderTitleComponent,
-    PastReadingsComponent,
-    DeleteCropComponent,
-    HamburgerMenuComponent,
-    HomeComponent,
-    FieldsComponent,
-    SensorsComponent,
-    SelectModalComponent,
-    DetailsComponent,
-    AddFieldComponent,
-    EditFieldComponent,
-    SensorDetailsComponent,
-    EditSensorComponent,
-    SensorLocatorModalComponent,
-    UnsavedChangesModalComponent,
-    WaterConfirmDialogComponent,
-    WateringInsightsComponent,
-    MoistureLogsComponent,
-    SensorListComponent,
-    SplashScreenComponent,
-    SwiperDirectiveDirective,
-  ],
-  imports: [
-    BrowserModule,
-    MaterialModule,
-    AppRoutingModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-    }),
-    BrowserAnimationsModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    MatInputModule,
-    MatTableModule,
-    MatTabsModule,
-    MatProgressBarModule,
-    MatPaginatorModule,
-    MatSnackBarModule,
-    MatSliderModule,
-    MatCheckboxModule,
-    MatSortModule,
-    MatTooltipModule,
-    MatTooltipModule,
-    MatProgressSpinnerModule,
-    MatRadioModule,
-    MatSlideToggleModule,
-    MatCardModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatButtonToggleModule,
-    FormsModule,
-    MatSnackBarModule,
-    ReactiveFormsModule,
-    FlexLayoutModule,
-    MatGridListModule,
-    MatToolbarModule,
-    MatDialogModule,
-    MatMenuModule,
-  ],
-  providers: [
-    DataService,
-    DatePipe,
-    { provide: MAT_DIALOG_DATA, useValue: {} }
-  ],
-  bootstrap: [AppComponent],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
-  ]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        WelcomeComponent,
+        MyCropsComponent,
+        MeasureSoilComponent,
+        SettingsComponent,
+        AdviceComponent,
+        SeedDateComponent,
+        DateAgoPipe,
+        SlideIndicatorComponent,
+        DashboardComponent,
+        TestSensorComponent,
+        HeaderTitleComponent,
+        PastReadingsComponent,
+        DeleteCropComponent,
+        HamburgerMenuComponent,
+        HomeComponent,
+        FieldsComponent,
+        SensorsComponent,
+        SelectModalComponent,
+        DetailsComponent,
+        AddFieldComponent,
+        EditFieldComponent,
+        SensorDetailsComponent,
+        EditSensorComponent,
+        SensorLocatorModalComponent,
+        UnsavedChangesModalComponent,
+        WaterConfirmDialogComponent,
+        WateringInsightsComponent,
+        MoistureLogsComponent,
+        SensorListComponent,
+        SplashScreenComponent,
+        SwiperDirectiveDirective,
+    ],
+    bootstrap: [AppComponent],
+    schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
+    ], imports: [BrowserModule,
+        MaterialModule,
+        AppRoutingModule,
+        ServiceWorkerModule.register('ngsw-worker.js', {
+            enabled: environment.production,
+        }),
+        BrowserAnimationsModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        MatInputModule,
+        MatTableModule,
+        MatTabsModule,
+        MatProgressBarModule,
+        MatPaginatorModule,
+        MatSnackBarModule,
+        MatSliderModule,
+        MatCheckboxModule,
+        MatSortModule,
+        MatTooltipModule,
+        MatTooltipModule,
+        MatProgressSpinnerModule,
+        MatRadioModule,
+        MatSlideToggleModule,
+        MatCardModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatButtonToggleModule,
+        FormsModule,
+        MatSnackBarModule,
+        ReactiveFormsModule,
+        FlexLayoutModule,
+        MatGridListModule,
+        MatToolbarModule,
+        MatDialogModule,
+        MatMenuModule], providers: [
+        DataService,
+        DatePipe,
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule {}

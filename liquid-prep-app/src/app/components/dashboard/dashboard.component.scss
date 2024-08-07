@@ -84,9 +84,9 @@ div>label{
   padding: 2em;
   background-color: #2f4ffe;
 
-  //-webkit-box-shadow: 3px 3px 5px 6px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-  //-moz-box-shadow: 3px 3px 5px 6px #ccc; /* Firefox 3.5 - 3.6 */
-  //box-shadow: 2px 2px 4px 5px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+  //-webkit-box-shadow: 3px 3px 5px 6px #ccc; __<<ngThemingMigrationEscapedComment0>>__
+  //-moz-box-shadow: 3px 3px 5px 6px #ccc; __<<ngThemingMigrationEscapedComment1>>__
+  //box-shadow: 2px 2px 4px 5px #ccc; __<<ngThemingMigrationEscapedComment2>>__
 }
 
 button:hover,
@@ -99,6 +99,12 @@ button:hover,
   color: lightgrey;
 }
 
+.toolbarNav button {
+  background-color: #2f4ffe !important;
+  color: lightgrey;
+}
+
 .mat-icon {
   margin-bottom: 4px;
 }
+
