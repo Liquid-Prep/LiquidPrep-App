@@ -6,8 +6,7 @@
   </div>
 </mat-toolbar>
 
-<swiper-container appSwiper #swiper class="content-container" speed="400"  css-mode="true">
-
+<swiper-container  #swiper class="swiper-container" speed="400" loop="false" pagination="true">
     <swiper-slide class="swiper-item" fxLayout="column" fxFlexFill fxLayoutAlign="center center">
       <img src="assets/welcome-bucket.png" alt="welcome 1" width="196" height="302">
       <div class="container text-area" fxLayout="column" fxLayoutAlign="center center">
@@ -29,24 +28,23 @@
         <p class="description">Soil moisture level is the key to accurate watering advice</p>
       </div>
     </swiper-slide>
-
 </swiper-container>
 
 <mat-toolbar class="toolbarNav">
 
-  <div class="container" fxLayout="row" fxFlexFill fxLayoutAlign="space-between center" >
+  <div class="container" fxLayout="row" fxFlexFill fxLayoutAlign="space-between center">
 
-    <button [ngClass]="{'invisible': isFirstSlide}" mat-icon-button style="margin-right: 24px">
-      <mat-icon class="blue-icon" (click)="onSlideNav('back')">navigate_before</mat-icon>
-      <span Class="tool-bar-text" (click)="onSlideNav('back')">BACK  </span>
-    </button>
+    <div  fxLayout="row"  fxLayoutAlign="space-between center" [ngClass]="{'invisible': isFirstSlide}" (click)="onSlideNav('back')">
+      <mat-icon class="blue-icon">navigate_before</mat-icon>
+      <span class="tool-bar-text">BACK</span>
+    </div>
 
     <app-slide-indicator [current]="curIndex" [length]="3"></app-slide-indicator>
 
-    <button  mat-icon-button style="margin-right: 24px">
-      <span Class="tool-bar-text" (click)="onSlideNav('next')">NEXT</span>
-      <mat-icon class="blue-icon" (click)="onSlideNav('next')">navigate_next</mat-icon>
-    </button>
+    <div fxLayout="row"  fxLayoutAlign="space-between center" (click)="onSlideNav('next')">
+      <span class="tool-bar-text" >NEXT</span>
+      <mat-icon class="blue-icon" >navigate_next</mat-icon>
+    </div>
 
   </div>
 </mat-toolbar>

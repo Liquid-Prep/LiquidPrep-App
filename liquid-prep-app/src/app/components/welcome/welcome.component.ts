@@ -1,8 +1,6 @@
 import {AfterViewInit, Component, Inject, OnInit} from '@angular/core';
 import { Router, ActivatedRoute} from '@angular/router';
 import {LOCAL_STORAGE, StorageService} from 'ngx-webstorage-service';
-import Swiper from 'swiper';
-import { SwiperOptions } from 'swiper/types';
 
 @Component({
   selector: 'app-welcome',
@@ -21,9 +19,7 @@ export class WelcomeComponent implements OnInit,AfterViewInit{
   public curIndex = 0;
   public isFirstSlide = true;
   public isLastSlide = false;
-  public disabled = false;
   private firstStart = true;
-
 
   ngOnInit(): void {
     this.firstStart = this.storage.get(this.IS_FIRST_START);
@@ -33,27 +29,12 @@ export class WelcomeComponent implements OnInit,AfterViewInit{
   }
 
   ngAfterViewInit(): void {
-    const swiperOptions: SwiperOptions = {
-      a11y: {
-        enabled: true
-      },
-      speed: 400,
-      direction: 'horizontal',
-      on: {
-        init: function () {
-          console.log('on Swiper initialized');
-        },
-        slideNextTransitionEnd: () => {
-          this.onIndexChange(swiper.realIndex);
-          console.log('on slideNextTransitionEnd', swiper.realIndex);
-        },
-        slidePrevTransitionEnd: () => {
-          this.onIndexChange(swiper.realIndex);
-          console.log('on slidePrevTransitionEnd', swiper.realIndex);
-        }
-      }
-    };
-    const swiper = new Swiper('.swiper-container', swiperOptions);
+    const swiperEl = document.querySelector('swiper-container');
+    swiperEl.addEventListener('swiperslidechange', (event) => {
+      this.curIndex = swiperEl.swiper.activeIndex;
+      this.isLastSlide=swiperEl.swiper.isEnd;
+      this.isFirstSlide=swiperEl.swiper.isBeginning;
+    });
   }
 
   public onGetStarted(){
@@ -61,35 +42,17 @@ export class WelcomeComponent implements OnInit,AfterViewInit{
     this.storage.set(this.IS_FIRST_START, false);
   }
 
-  public onIndexChange(index: number): void {
-
-    this.curIndex = index;
-    if (index === 0 ){
-      this.isFirstSlide = true;
-      this.isLastSlide = false;
-    }else if (index === 2){
-      this.isFirstSlide = false;
-      this.isLastSlide = true;
-    }else{
-      this.isFirstSlide = false;
-      this.isLastSlide = false;
-    }
-  }
-
   onSlideNav(direction: string){
     const swiperEl = document.querySelector('swiper-container');
     if (direction === 'next'){
-      if (this.isLastSlide === true){
+      if(swiperEl.swiper.isEnd){
         this.onGetStarted();
       }else{
-        // this.swiper.directiveRef.nextSlide(200);
         swiperEl.swiper.slideNext(200);
       }
-    }else if (direction === 'back'){
-      // this.swiper.directiveRef.prevSlide(200);
+    }else if  (direction === 'back'){
       swiperEl.swiper.slidePrev(200);
     }else {
     }
-    console.log('onSlideNav swiperEl',swiperEl.swiper.realIndex);
   }
 }

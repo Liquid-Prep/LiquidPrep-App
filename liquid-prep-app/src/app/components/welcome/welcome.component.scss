@@ -1,7 +1,7 @@
 div {
   overflow: hidden;
 }
-.content-container {
+.swiper-container {
   position: relative;
   height: 600px;
   min-height: 0;
@@ -79,6 +79,8 @@ h3.description {
 .tool-bar-text {
   font-size: medium;
   color: #2F4FFE;
+  display: flex;
+  align-items: center;
 }
 
 .tool-bar-text-disable{
