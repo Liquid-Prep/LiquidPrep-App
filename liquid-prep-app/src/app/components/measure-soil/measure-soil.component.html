@@ -4,7 +4,7 @@
 
   <div *ngIf="measureView=='before-measuring'" class="content-container" >
 
-    <swiper-container appSwiper #swiper class="content-container" speed="500" css-mode="true">
+    <swiper-container #swiper class="content-container" speed="400" loop="false">
       <swiper-slide class="container" fxLayout="column" fxFlexFill fxLayoutAlign="end center">
           <div class="container text-area" fxLayout="column" fxFlexWrap fxLayoutAlign="start center">
             <p class="title" >Loosen the soil</p>
@@ -23,8 +23,11 @@
           <div class="container text-area sensor-text" fxLayout="column" fxFlexWrap fxLayoutAlign="start center">
             <p class="description" flex textWrap="false">Connect to Sensor</p>
             <p class="description"></p>
-            <button mat-flat-button class="c-btn" (click)="onSensorConnect('usb')"><mat-icon>usb</mat-icon> Connect with USB</button>
-            <button mat-flat-button class="c-btn" (click)="onSensorConnect('ble')"><mat-icon>bluetooth</mat-icon> Connect with Bluetooth </button>
+            <button *ngIf="enableUSB" mat-flat-button class="c-btn" (click)="onSensorConnect('usb')"><mat-icon>usb</mat-icon>Connect with USB</button>
+            <button  mat-flat-button class="c-btn" (click)="onSensorConnect('ble')">
+              <mat-icon>bluetooth</mat-icon>
+              Connect with Bluetooth
+            </button>
           </div>
           <img mat-card-image class="cardImg" src="../../../assets/measure-guide/step-3-connect-the-sensor.png" alt="Connect to Sensor" />
       </swiper-slide>
@@ -69,20 +72,19 @@
   </div>
 
   <mat-toolbar *ngIf="measureView=='before-measuring'" class="toolbarNav">
-
     <div class="container" fxLayout="row" fxFlexFill fxLayoutAlign="space-between center" >
 
-        <button [ngClass]="{'invisible': isFirstSlide}" mat-icon-button style="margin-right: 24px">
-          <mat-icon class="blue-icon" (click)="onSlideNav('back')">navigate_before</mat-icon>
-          <span Class="tool-bar-text" (click)="onSlideNav('back')">BACK  </span>
-        </button>
+        <div [ngClass]="{'invisible': isFirstSlide}" fxLayout="row" fxLayoutAlign="space-between center" (click)="onSlideNav('back')">
+          <mat-icon class="blue-icon">navigate_before</mat-icon>
+          <span Class="tool-bar-text">BACK</span>
+        </div>
 
         <app-slide-indicator [current]="curIndex" [length]="3"></app-slide-indicator>
 
-        <button [ngClass]="{'invisible': isLastSlide}" mat-icon-button style="margin-right: 24px">
-          <span Class="tool-bar-text" (click)="onSlideNav('next')">NEXT</span>
-          <mat-icon class="blue-icon" (click)="onSlideNav('next')">navigate_next</mat-icon>
-        </button>
+        <div [ngClass]="{'invisible': isLastSlide}" fxLayout="row" fxLayoutAlign="space-between center" (click)="onSlideNav('next')">
+          <span Class="tool-bar-text">NEXT</span>
+          <mat-icon class="blue-icon">navigate_next</mat-icon>
+        </div>
 
     </div>
   </mat-toolbar>
