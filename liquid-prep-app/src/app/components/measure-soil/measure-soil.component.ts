@@ -8,6 +8,7 @@ import { SwiperOptions } from 'swiper';
 import { SoilMoisture } from '../../models/SoilMoisture';
 import { SoilMoistureService } from '../../service/SoilMoistureService';
 import { LineBreakTransformer } from './LineBreakTransformer';
+import { HeaderConfig, HeaderService } from 'src/app/service/header.service';
 
 @Component({
   selector: 'app-measure-soil',
@@ -19,7 +20,8 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
     private router: Router,
     private location: Location,
     private http: HttpClient,
-    private soilService: SoilMoistureService
+    private soilService: SoilMoistureService,
+    private headerService: HeaderService
   ) {}
 
   public config: SwiperOptions = {
@@ -65,7 +67,15 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
     ['HIGH', 'assets/moisture-water/soil_moisture_high.png'],
   ]);
 
-  ngOnInit(): void {}
+  headerConfig: HeaderConfig = {
+    headerTitle: 'Bluetooth',
+    leftIconName: 'menu',
+    leftBtnClick: null
+  };
+
+  ngOnInit(): void {
+    this.headerService.updateHeader(this.headerConfig);
+  }
 
   ngAfterViewInit(): void {}
 
