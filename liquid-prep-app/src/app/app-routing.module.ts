@@ -32,6 +32,7 @@ const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'sensors', component: SensorsComponent },
       { path: 'sensors-v2', component: SensorsV2Component },
+      { path: 'bluetooth', component: MeasureSoilComponent },
       { path: 'fields', component: FieldsComponent },
     ],
   },

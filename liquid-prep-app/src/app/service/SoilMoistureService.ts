@@ -8,6 +8,7 @@ import { SoilMoisture } from '../models/SoilMoisture';
 export class SoilMoistureService {
 
     private soilMoistureReadingPercentage = 0;
+    public sensorIp;
 
     public setSoilMoistureReading(valuePercentage) {
         this.soilMoistureReadingPercentage = valuePercentage;
