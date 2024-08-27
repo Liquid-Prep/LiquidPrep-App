@@ -67,9 +67,13 @@
     </span>
     <span> {{ soilMoisture }}% </span>
   </p>
-  <button mat-flat-button class="advice-btn" (click)="onGetAdvise()">
+
+  <code *ngIf = "waterAdvice">
+    {{ waterAdvice | json }}
+  </code>
+  <!-- <button mat-flat-button class="advice-btn" (click)="onGetAdvise()">
     GET ADVICE
-  </button>
+  </button> -->
 </div>
 
 <mat-toolbar *ngIf="measureView == 'before-measuring'" class="toolbarNav">

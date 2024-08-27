@@ -11,6 +11,7 @@ import { LineBreakTransformer } from './LineBreakTransformer';
 import { HeaderConfig, HeaderService } from 'src/app/service/header.service';
 import { FieldDataService } from 'src/app/service/FieldDataService';
 import { SensorV2Service } from 'src/app/service/sensor-v2.service';
+import { WaterAdviceV2Service } from 'src/app/service/WaterAdviceV2Service';
 
 @Component({
   selector: 'app-measure-soil',
@@ -25,13 +26,16 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
   soilMoisture = '-.--';
   soilMoistureIndex = '---';
 
+  waterAdvice = null;
+
   constructor(
     private router: Router,
     private location: Location,
     private http: HttpClient,
     private headerService: HeaderService,
     private fieldService: FieldDataService,
-    private sensorV2Service: SensorV2Service
+    private sensorV2Service: SensorV2Service,
+    private waterAdviceService: WaterAdviceV2Service
   ) {}
 
   public config: SwiperOptions = {
@@ -212,14 +216,7 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
         this.soilMoistureColorClass = 'color-high';
         this.moistureIcon = undefined;
       } else {
-        let soilMoistureValue = parseFloat(this.soilMoisture);
-        if (soilMoistureValue <= 33) {
-          this.soilMoistureIndex = 'LOW';
-        } else if (soilMoistureValue > 33 && soilMoistureValue <= 66) {
-          this.soilMoistureIndex = 'MEDIUM';
-        } else {
-          this.soilMoistureIndex = 'HIGH';
-        }
+        this.soilMoistureIndex =  this.waterAdviceService.getWaterMoistureIndex(this.soilMoisture);
         this.soilMoistureColorClass = this.soilMoistureIndexColorMap.get(
           this.soilMoistureIndex
         );
@@ -229,6 +226,10 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
       }
       this.setMeasureView('measuring');
       this.readingCountdown();
+
+      this.waterAdviceService.getWaterAdvice(this.soilMoisture).subscribe(waterAdvice => {
+        this.waterAdvice = waterAdvice;
+      })
     }
   }
   async calibrate() {
