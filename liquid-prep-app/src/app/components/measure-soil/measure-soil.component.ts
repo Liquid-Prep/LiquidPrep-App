@@ -9,6 +9,8 @@ import { SoilMoisture } from '../../models/SoilMoisture';
 import { SoilMoistureService } from '../../service/SoilMoistureService';
 import { LineBreakTransformer } from './LineBreakTransformer';
 import { HeaderConfig, HeaderService } from 'src/app/service/header.service';
+import { FieldDataService } from 'src/app/service/FieldDataService';
+import { SensorV2Service } from 'src/app/service/sensor-v2.service';
 
 @Component({
   selector: 'app-measure-soil',
@@ -16,12 +18,20 @@ import { HeaderConfig, HeaderService } from 'src/app/service/header.service';
   styleUrls: ['./measure-soil.component.scss'],
 })
 export class MeasureSoilComponent implements OnInit, AfterViewInit {
+  sensorType = '';
+  fieldId = '';
+  fieldOptions = [];
+
+  soilMoisture = '-.--';
+  soilMoistureIndex = '---';
+
   constructor(
     private router: Router,
     private location: Location,
     private http: HttpClient,
-    private soilService: SoilMoistureService,
-    private headerService: HeaderService
+    private headerService: HeaderService,
+    private fieldService: FieldDataService,
+    private sensorV2Service: SensorV2Service
   ) {}
 
   public config: SwiperOptions = {
@@ -54,13 +64,13 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
   private interval;
   public soilData: SoilMoisture;
 
-  public soilMoistureColorClass = 'color-high';
+  public soilMoistureColorClass = 'color-low';
   public soilMoistureIndexColorMap = new Map([
     ['LOW', 'color-low'],
     ['MEDIUM', 'color-medium'],
     ['HIGH', 'color-high'],
   ]);
-  public moistureIcon = undefined;
+  public moistureIcon = 'assets/moisture-water/soil_moisture_low.png';
   public soilMoistureIconMap = new Map([
     ['LOW', 'assets/moisture-water/soil_moisture_low.png'],
     ['MEDIUM', 'assets/moisture-water/soil_moisture_medium.png'],
@@ -73,8 +83,16 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
     leftBtnClick: null
   };
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.headerService.updateHeader(this.headerConfig);
+
+    let fields = await this.fieldService.getLocalStorageMyFields();
+    this.fieldOptions = fields.map(field=> {
+      return {
+        value: field.id,
+        label: field.fieldName
+      }
+    });
   }
 
   ngAfterViewInit(): void {}
@@ -186,9 +204,29 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
     return buf;
   }
   showReading(sensorValue: number) {
-    if (sensorValue) {
-      const soilMoisture = this.sensorValueLimitCorrection(sensorValue);
-      this.soilService.setSoilMoistureReading(soilMoisture);
+    let field = this.fieldService.getFieldFromMyFieldById(this.fieldId);
+    if (sensorValue && field && this.sensorType) {
+      this.soilMoisture = this.sensorV2Service.calibrateMoisture(sensorValue, this.sensorType, field.soil );
+      if (this.soilMoisture === '-.--') {
+        this.soilMoistureIndex = '---';
+        this.soilMoistureColorClass = 'color-high';
+        this.moistureIcon = undefined;
+      } else {
+        let soilMoistureValue = parseFloat(this.soilMoisture);
+        if (soilMoistureValue <= 33) {
+          this.soilMoistureIndex = 'LOW';
+        } else if (soilMoistureValue > 33 && soilMoistureValue <= 66) {
+          this.soilMoistureIndex = 'MEDIUM';
+        } else {
+          this.soilMoistureIndex = 'HIGH';
+        }
+        this.soilMoistureColorClass = this.soilMoistureIndexColorMap.get(
+          this.soilMoistureIndex
+        );
+        this.moistureIcon = this.soilMoistureIconMap.get(
+          this.soilMoistureIndex
+        );;
+      }
       this.setMeasureView('measuring');
       this.readingCountdown();
     }
@@ -221,27 +259,6 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
   async updateBLE() {
     const channel = prompt('Please enter new Device Name');
     return channel;
-  }
-  async connectWifi() {
-    let sensorMoisturePercantage: number;
-    const ip =
-      this.soilService.sensorIp && this.soilService.sensorIp.length > 0
-        ? this.soilService.sensorIp
-        : 'http://xxx.xxx.xxx.xxx/moisture.json';
-    const endpoint = prompt('Please enter sensor endpoint', ip);
-    if (endpoint) {
-      this.soilService.sensorIp = endpoint;
-    }
-
-    try {
-      let response: any = await this.http.get(endpoint).pipe().toPromise();
-      if (response) {
-        sensorMoisturePercantage = response.moisture;
-      }
-      return sensorMoisturePercantage;
-    } catch (e) {
-      window.alert('Failed to connect to sensor via WiFi.  Please try again.');
-    }
   }
   public async connectBluetooth() {
     // Vendor code to filter only for Arduino or similar micro-controllers
@@ -425,18 +442,11 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
   }
 
   public readingCountdown() {
-    // this.countdownSecond = seconds;
+    this.countdownSecond = 5;
     this.interval = setInterval(() => {
       if (this.countdownSecond <= 0) {
         this.setMeasureView('after-measuring');
         clearInterval(this.interval);
-        this.soilData = this.soilService.getSoilMoistureReading();
-        this.soilMoistureColorClass = this.soilMoistureIndexColorMap.get(
-          this.soilData.soilMoistureIndex
-        );
-        this.moistureIcon = this.soilMoistureIconMap.get(
-          this.soilData.soilMoistureIndex
-        );
       }
       this.countdownSecond--;
     }, 1000);
@@ -453,7 +463,7 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
   }
 
   onGetAdvise() {
-    this.router.navigate(['advice']).then((r) => {});
+    this.router.navigate(['advice', '85162eaa648e9e4ac76f7b9d85f2ebf0']).then((r) => {});
   }
 
   onSlideNav(direction: string) {

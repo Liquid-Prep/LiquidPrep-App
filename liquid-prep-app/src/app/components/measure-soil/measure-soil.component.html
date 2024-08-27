@@ -1,57 +1,109 @@
-<div *ngIf="measureView=='before-measuring'" class="content-container" >
-  <div class="container" fxLayout="column" fxFlexFill fxLayoutAlign="end center" >
-    <div class="container text-area sensor-text" fxLayout="column" fxFlexWrap fxLayoutAlign="start center">
-      <p class="description" flex textWrap="false">Connect to Sensor</p>
-      <button mat-flat-button class="c-btn" (click)="onSensorConnect('wifi')"><mat-icon>wifi</mat-icon> Update WiFi Channel</button>
-      <button mat-flat-button class="c-btn" (click)="onSensorConnect('calibrate')"><mat-icon>usb</mat-icon> Calibrate Sensor</button>
-      <button mat-flat-button class="c-btn" (click)="onSensorConnect('ble')"><mat-icon>bluetooth</mat-icon> Connect with Bluetooth </button>
-      <button mat-flat-button class="c-btn" (click)="onSensorConnect('ble_name')"><mat-icon>bluetooth</mat-icon> Rename Sensor  </button>
-      <button mat-flat-button class="c-btn" (click)="onSensorConnect('ble_off')"><mat-icon>bluetooth</mat-icon> Turn off Bluetooth  </button>
-      <button mat-flat-button class="c-btn" (click)="onSensorConnect('input_pin')"><mat-icon>bluetooth</mat-icon> Change Sensor Pin  </button>
-    </div>
-    <img mat-card-image class="cardImg" src="assets/measure-guide/graphic-3.png" alt="Connect to Sensor" />
+<div *ngIf="measureView == 'before-measuring'" class="bluetooth-container">
+  <form #form="ngForm" class="demo-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Sensor Type</mat-label>
+      <mat-select [(ngModel)]="sensorType" name="sensorType" required>
+        <mat-option value="gen"
+          >Capacitive Soil Moisture Sensor v1.2</mat-option
+        >
+        <mat-option value="plm"
+          >PlantmateⓇ Capacitive Soil Moisture Sensor Module 3.3V</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Select Field</mat-label>
+      <mat-select [(ngModel)]="fieldId" name="fieldId" required>
+        <mat-option *ngFor="let field of fieldOptions" [value]="field.value">{{
+          field.label
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+  <div class="bluetooth-btn-group">
+    <button mat-flat-button class="c-btn" (click)="onSensorConnect('wifi')" [disabled]="!fieldId || !sensorType">
+      <mat-icon>wifi</mat-icon> Update WiFi Channel
+    </button>
+    <button mat-flat-button class="c-btn" (click)="onSensorConnect('calibrate')" [disabled]="!fieldId || !sensorType">
+      <mat-icon>usb</mat-icon> Calibrate Sensor
+    </button>
+    <button mat-flat-button class="c-btn" (click)="onSensorConnect('ble')" [disabled]="!fieldId || !sensorType">
+      <mat-icon>bluetooth</mat-icon> Connect with Bluetooth
+    </button>
+    <button mat-flat-button class="c-btn" (click)="onSensorConnect('ble_name')" [disabled]="!fieldId || !sensorType">
+      <mat-icon>bluetooth</mat-icon> Rename Sensor
+    </button>
+    <button mat-flat-button class="c-btn" (click)="onSensorConnect('ble_off')" [disabled]="!fieldId || !sensorType">
+      <mat-icon>bluetooth</mat-icon> Turn off Bluetooth
+    </button>
+    <button mat-flat-button class="c-btn" (click)="onSensorConnect('input_pin')" [disabled]="!fieldId || !sensorType">
+      <mat-icon>bluetooth</mat-icon> Change Sensor Pin
+    </button>
   </div>
 </div>
 
-<div *ngIf="measureView=='measuring'"
-     fxFlexFill fxLayout="column"
-     fxLayoutGap="25px"
-     fxLayoutAlign="center center">
-    <div>
-      <mat-spinner diameter="100" color="primary"></mat-spinner>
-      <div style="position:relative; top: -60px; left: 45px;">{{countdownSecond}}</div>
+<div
+  *ngIf="measureView == 'measuring'"
+  class="center-container"
+>
+  <div>
+    <mat-spinner diameter="100" color="primary"></mat-spinner>
+    <div style="position: relative; top: -60px; left: 45px">
+      {{ countdownSecond }}
     </div>
-    <p>Reading...</p>
+  </div>
+  <p>Reading...</p>
 </div>
 
-<div *ngIf="measureView=='after-measuring'"
-     fxFlexFill fxLayout="column"
-     fxLayoutGap="28px"
-     fxLayoutAlign="center center">
-  <img [src]="moistureIcon" alt="low-moisture" height="160px" width="160px">
+<div
+  *ngIf="measureView == 'after-measuring'"
+  class="center-container"
+>
+  <img [src]="moistureIcon" alt="low-moisture" height="160px" width="160px" />
   <p class="mat-body-1">SOIL MOISTURE</p>
   <p class="mat-display-1">
-    <span [class]="soilMoistureColorClass">{{ soilData.soilMoistureIndex }} </span>
-    <span> {{soilData.soilMoisturePercentage}}% </span>
+    <span [class]="soilMoistureColorClass"
+      >{{ soilMoistureIndex }}
+    </span>
+    <span> {{ soilMoisture }}% </span>
   </p>
-  <button mat-flat-button color="primary" (click)="onGetAdvise()">GET ADVICE</button>
+  <button mat-flat-button class="advice-btn" (click)="onGetAdvise()">
+    GET ADVICE
+  </button>
 </div>
 
-<mat-toolbar *ngIf="measureView=='before-measuring'" class="toolbarNav">
+<mat-toolbar *ngIf="measureView == 'before-measuring'" class="toolbarNav">
+  <div
+    class="container"
+    fxLayout="row"
+    fxFlexFill
+    fxLayoutAlign="space-between center"
+  >
+    <button
+      [ngClass]="{ invisible: isFirstSlide }"
+      mat-icon-button
+      style="margin-right: 24px"
+    >
+      <mat-icon class="blue-icon" (click)="onSlideNav('back')"
+        >navigate_before</mat-icon
+      >
+      <span Class="tool-bar-text" (click)="onSlideNav('back')">BACK </span>
+    </button>
 
-  <div class="container" fxLayout="row" fxFlexFill fxLayoutAlign="space-between center" >
+    <app-slide-indicator
+      [current]="curIndex"
+      [length]="3"
+    ></app-slide-indicator>
 
-      <button [ngClass]="{'invisible': isFirstSlide}" mat-icon-button style="margin-right: 24px">
-        <mat-icon class="blue-icon" (click)="onSlideNav('back')">navigate_before</mat-icon>
-        <span Class="tool-bar-text" (click)="onSlideNav('back')">BACK  </span>
-      </button>
-
-      <app-slide-indicator [current]="curIndex" [length]="3"></app-slide-indicator>
-
-      <button [ngClass]="{'invisible': isLastSlide}" mat-icon-button style="margin-right: 24px">
-        <span Class="tool-bar-text" (click)="onSlideNav('next')">NEXT</span>
-        <mat-icon class="blue-icon" (click)="onSlideNav('next')">navigate_next</mat-icon>
-      </button>
-
+    <button
+      [ngClass]="{ invisible: isLastSlide }"
+      mat-icon-button
+      style="margin-right: 24px"
+    >
+      <span Class="tool-bar-text" (click)="onSlideNav('next')">NEXT</span>
+      <mat-icon class="blue-icon" (click)="onSlideNav('next')"
+        >navigate_next</mat-icon
+      >
+    </button>
   </div>
 </mat-toolbar>

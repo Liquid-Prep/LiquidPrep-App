@@ -1,3 +1,42 @@
+:host {
+  padding-top: 50px;
+
+  .bluetooth-container {
+    padding: 32px 16px 16px;
+    max-width: 420px;
+    margin: auto;
+
+    .demo-form {
+      mat-form-field {
+        width: 100%;
+      }
+    }
+  }
+
+  .center-container {
+    padding: 44px 16px 16px;
+    max-width: 420px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .bluetooth-btn-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: stretch;
+
+    > * {
+      width: 100%;
+      margin-bottom: 8px;
+    }
+  }
+
+}
+
 .content-container {
   position: relative;
   overflow: auto;
@@ -6,6 +45,28 @@
   margin: 0px 0px;
   border-radius: 00px;
   background-color: #fff;
+}
+
+.c-btn {
+  width: 100%;
+  height: auto;
+  display: flex;
+  color: white;
+  text-align: center;
+  background-color: #2F4FFE;
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+
+.advice-btn {
+  width: 100%;
+  height: auto;
+  color: white;
+  text-align: center;
+  background-color: #2F4FFE;
+  font-size: 16px;
+  letter-spacing: 2px;
 }
 
 .swiper-container {
@@ -96,18 +157,6 @@
 
 .sensor-text{
   margin-top: 12%;
-}
-
-.c-btn {
-  width: 100%;
-  height: auto;
-  margin:  5px;
-  display: flex;
-  color: white;
-  text-align: center;
-  background-color: #2F4FFE;
-  font-size: 16px;
-  letter-spacing: 2px;
 }
 
 .mat-success {
