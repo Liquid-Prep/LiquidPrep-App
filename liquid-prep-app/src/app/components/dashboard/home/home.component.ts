@@ -13,6 +13,7 @@ import {DateTimeUtil} from '../../../utility/DateTimeUtil';
 import {WaterAdviceService} from '../../../service/WaterAdviceService';
 import {Field} from "../../../models/Field";
 import {FieldDataService} from "../../../service/FieldDataService";
+import { WaterAdviceV2Service } from 'src/app/service/WaterAdviceV2Service';
 
 const RECENTLY = 48;
 
@@ -50,8 +51,15 @@ export class HomeComponent implements OnInit {
   public recentlyWateredFields: Field[];
   public nonRecentlyWateredFields: Field[];
 
+  displayedSensors = [];
+  SENSOR_TYPE_MAP = {
+    gen: 'Capacitive Soil Moisture Sensor v1.2',
+    plm: 'PlantmateⓇ Capacitive Soil Moisture Sensor Module 3.3V',
+  }
+
   constructor(
     private waterAdviceService: WaterAdviceService,
+    private waterAdviceV2Service: WaterAdviceV2Service,
     private weatherService: WeatherDataService,
     private headerService: HeaderService,
     private geoLocationService: GeoLocationService,
@@ -72,6 +80,12 @@ export class HomeComponent implements OnInit {
       .catch((error) => {
         console.error('Error loading fields:', error);
       });
+
+    this.waterAdviceV2Service.getSensorWaterAdvice().subscribe(sensors => {
+      this.displayedSensors = sensors;
+      console.log(sensors);
+    })
+      
   }
 
   private FilterWateredFields(MyFields: Field[]){

@@ -125,6 +125,7 @@ export class SensorsV2Component implements OnInit {
         }
       )
   }
+  
   toggleServers() {
     this.showServers = !this.showServers;
   }

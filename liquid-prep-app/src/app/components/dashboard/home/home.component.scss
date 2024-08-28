@@ -1,5 +1,80 @@
-.location-weather{
-  background-color: #EDF5FF;
+:host {
+  .no-sensors,
+  .no-results {
+    padding: 36px 16px;
+    text-align: center;
+
+    .no-sensor-icon {
+      width: 48px;
+      height: 48px;
+      font-size: 48px;
+      color: #ababab;
+      display: block;
+      margin: 0 auto 6px;
+    }
+
+    .no-sensors-title {
+      color: #262626;
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 15px;
+    }
+
+    .no-sensors-text {
+      color: #262626;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 400;
+    }
+  }
+
+  .no-sensors {
+    p {
+      margin-bottom: 25px;
+    }
+  }
+
+  .sensor-name {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .sensor-type {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    margin-left: 8px;
+    border-radius: 20px;
+    font-size: 10px;
+    padding: 0 10px;
+    background-color: #0000001f;
+
+    &.plm {
+      color: #fff;
+      background-color: #00bcd4;
+    }
+  }
+  .assigned-field {
+    mat-icon {
+      color: #666;
+    }
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .unassigned-field {
+    mat-icon {
+      color: #666;
+    }
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+}
+
+.location-weather {
+  background-color: #edf5ff;
   display: flex;
   flex-direction: row;
   padding-top: 12px;
@@ -8,7 +83,7 @@
   height: 100%;
 }
 
-.location{
+.location {
   flex: 0.42;
   display: flex;
   flex-direction: column;
@@ -16,7 +91,7 @@
   padding-left: 4%;
 }
 
-.farm{
+.farm {
   flex: 1;
 }
 
@@ -29,22 +104,22 @@
   //text-overflow: ellipsis;
 }
 
-.city{
+.city {
   flex: 1;
 }
 
-.city-info{
+.city-info {
   display: flex;
   flex-direction: row;
   align-items: center;
   height: 100%;
 }
 
-.space{
-  flex:0.16;
+.space {
+  flex: 0.16;
 }
 
-.weather{
+.weather {
   display: flex;
   flex: 0.42;
   background-color: white;
@@ -53,14 +128,14 @@
   padding-bottom: 10px;
 }
 
-.weather-icon{
+.weather-icon {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.custom-card{
+.custom-card {
   flex: 1;
   padding: 0;
   margin: 0;
@@ -88,4 +163,3 @@
 
 .item-actions {
 }
-

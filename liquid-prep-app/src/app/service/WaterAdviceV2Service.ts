@@ -7,10 +7,11 @@ import { CropDataService } from './CropDataService';
 import { WeatherDataService } from './WeatherDataService';
 import { SoilMoistureService } from './SoilMoistureService';
 import { SoilMoisture } from '../models/SoilMoisture';
-import { Observable, Observer } from 'rxjs';
+import { forkJoin, Observable, Observer } from 'rxjs';
 import { Injectable } from '@angular/core';
 import {PlantGrowthStage} from '../models/api/CropInfoResp';
 import { map } from 'rxjs/operators';
+import { SensorV2Service } from './sensor-v2.service';
 
 export interface AdviceV2 {
     waterRecommended?: number;
@@ -74,7 +75,7 @@ export class WaterAdviceV2Service {
     private DEFAULT_WATER_CROPS = this.WATER_CROPS; // 'Water your crops today ';
     private AND = ' and ';
 
-    constructor(private weatherDataService: WeatherDataService) {}
+    constructor(private weatherDataService: WeatherDataService, private sensorV2Service: SensorV2Service) {}
 
     public getWaterMoistureIndex(soilMoisture) {
         let soilMoistureValue = parseFloat(soilMoisture);
@@ -95,6 +96,23 @@ export class WaterAdviceV2Service {
         )
     }
 
+    public getSensorWaterAdvice() {
+        return forkJoin([
+            this.sensorV2Service.fetchSensors(),
+            this.weatherDataService.getTodayWeather()
+        ])
+        .pipe(
+            map(([sensors, todayWeather]) => {
+                return sensors.map(sensor => {
+                    return {
+                        ...sensor,
+                        waterAdvice: this.createWaterAdvice(todayWeather, sensor.moisture)
+                    }
+                })
+            })
+        )
+    }
+
     private createWaterAdvice(weatherInfo: TodayWeather, soilMoisture: string): AdviceV2 {
       // gather weather info
       // gather crop info for a stage
@@ -103,6 +121,11 @@ export class WaterAdviceV2Service {
       let waterAdvice: AdviceV2 = {};
 
       waterAdvice.soilMoisture = soilMoisture;
+      if (soilMoisture === '-.--') {
+        return {
+            wateringDecision: 'No advice'
+        };
+      }
       waterAdvice.soilMoistureIndex = this.getWaterMoistureIndex(soilMoisture);
 
       const isDayTime = dateTimeUtil.isDayTime(weatherInfo.sunriseTime.toString(), weatherInfo.sunsetTime.toString());

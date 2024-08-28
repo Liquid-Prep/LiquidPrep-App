@@ -24,63 +24,72 @@
   </div>
 </div>
 
-<mat-tab-group #tabGroup mat-stretch-tabs (selectedTabChange)="onTabChange($event)">
-  <mat-tab #tab1>
-    <ng-template mat-tab-label>
-      <div class="vertical-align-center">
-        <mat-icon class="mat-primary material-symbols-outlined">sprinkler</mat-icon>
-        <span>Needs Watering</span>
-      </div>
-    </ng-template>
+<div class="sensor-results">
+  <ng-container *ngIf="displayedSensors.length > 0; else noResults">
     <mat-list>
-      <ng-container *ngFor="let field of needsWateringFields">
+      <ng-container *ngFor="let sensor of displayedSensors">
         <mat-list-item>
-          <div fxLayout="row" fxFlexFill  fxLayoutAlign="space-between center" class="item-container">
-            <div fxFlex="nogrow">
-              <img src="{{ field.crop.url }}" alt="{{ field.crop.cropName }}" class="square-image">
-            </div>
-            <div fxFlex class="item-content">
-              <h3 matLine> {{field.fieldName}} </h3>
-              <p matLine>
-                <span> {{field.crop.cropName}} </span>
-              </p>
-            </div>
-            <div class="item-actions" fxFlex="none">
-              <button mat-mini-fab color="primary" (click)="onWaterClick(field)">
-                <mat-icon class="material-symbols-outlined">sprinkler</mat-icon>
-              </button>
+          <div mat-line style="display: flex; align-items: center">
+            <span class = "sensor-name">{{ sensor.name }}</span>
+            <div
+              class="sensor-type"
+              *ngIf="SENSOR_TYPE_MAP[sensor.sensorType] else unspecifiedType"
+              [ngClass]="sensor.sensorType"
+            >
+              {{ SENSOR_TYPE_MAP[sensor.sensorType] }}
             </div>
           </div>
-        </mat-list-item>
-        <mat-divider></mat-divider>
-      </ng-container>
-    </mat-list>
-  </mat-tab>
-  <mat-tab #tab2>
-    <ng-template mat-tab-label>
-      <div class="vertical-align-center">
-        <mat-icon class="mat-primary">done</mat-icon>
-        <span>Recently Watered</span>
-      </div>
-    </ng-template>
-    <mat-list>
-      <ng-container *ngFor="let field of recentlyWateredFields">
-        <mat-list-item>
-          <div fxLayout="row" fxFlexFill  fxLayoutAlign="space-between center" class="item-container">
-            <div fxFlex="nogrow">
-              <img src="{{ field.crop.url }}" alt="{{ field.crop.cropName }}" class="square-image">
-            </div>
-            <div fxFlex class="item-content">
-              <h3 matLine> {{field.fieldName}} </h3>
-              <p matLine>
-                <span> {{ field.crop.cropName}} </span>
-              </p>
-            </div>
+          <div mat-line>
+            <ng-container *ngIf="sensor.field; else noAssignedField">
+              <div class="assigned-field">
+                <mat-icon>location_on_outline</mat-icon> {{ sensor?.field?.fieldName }}
+              </div>
+            </ng-container>
           </div>
-        </mat-list-item>
-        <mat-divider></mat-divider>
-      </ng-container>
-    </mat-list>
-  </mat-tab>
-</mat-tab-group>
 
+          <div mat-line>
+            Moisture Level: <span>{{ sensor.moisture }}</span> &nbsp; &nbsp;
+            <span>{{ sensor.lastUpdate }}</span>
+          </div>
+
+          <div mat-line>
+            Water needed: <span>{{ sensor?.waterAdvice?.wateringDecision }}</span>
+          </div>
+        </mat-list-item>
+
+        <mat-divider></mat-divider>
+      </ng-container>
+    </mat-list>
+  </ng-container>
+
+  <ng-template #unspecifiedType>
+    <div class="sensor-type unspecified-type">
+      Unspecified Type
+    </div>
+  </ng-template>
+
+  <ng-template #noAssignedField>
+    <div class="unassigned-field">
+      <mat-icon>location_off_outline</mat-icon> Unassigned
+    </div>
+  </ng-template>
+
+  <ng-template #noResults>
+    <div class="no-sensors" *ngIf="displayedSensors.length === 0">
+      <mat-icon class="no-sensor-icon">sensors_off</mat-icon>
+
+      <div class="no-sensors-title">No sensors detected</div>
+
+      <div class="no-sensors-text">
+        <p>
+          Check that wifi and bluetooth are enabled on your device and the
+          sensors are turned on.
+        </p>
+        <p>
+          You may need to set up your gateways first. See the user manual for
+          instructions.
+        </p>
+      </div>
+    </div>
+  </ng-template>
+</div>
