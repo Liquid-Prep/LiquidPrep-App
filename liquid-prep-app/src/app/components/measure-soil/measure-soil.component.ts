@@ -26,12 +26,22 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
   soilMoisture = '-.--';
   soilMoistureIndex = '---';
 
-  waterAdvice = null;
+  // DEFAULT_WATER_ADVICE = {
+  //   soilMoisture: '111.85',
+  //   soilMoistureIndex: 'HIGH',
+  //   temperature: 30,
+  //   weatherIconTemp: '../assets/icons/weatherIcons/Thunderstorm.png',
+  //   rainfallIndex: 'HIGH',
+  //   rainfallPercentage: 100,
+  //   wateringDecision: 'NONE',
+  //   adviceImage: 'assets/moisture-water/nowater_mediummoisture.png'
+  // };
+  DEFAULT_WATER_ADVICE = null;
+  waterAdvice: any = this.DEFAULT_WATER_ADVICE;
 
   constructor(
     private router: Router,
     private location: Location,
-    private http: HttpClient,
     private headerService: HeaderService,
     private fieldService: FieldDataService,
     private sensorV2Service: SensorV2Service,
@@ -84,18 +94,18 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
   headerConfig: HeaderConfig = {
     headerTitle: 'Bluetooth',
     leftIconName: 'menu',
-    leftBtnClick: null
+    leftBtnClick: null,
   };
 
   async ngOnInit() {
     this.headerService.updateHeader(this.headerConfig);
 
     let fields = await this.fieldService.getLocalStorageMyFields();
-    this.fieldOptions = fields.map(field=> {
+    this.fieldOptions = fields.map((field) => {
       return {
         value: field.id,
-        label: field.fieldName
-      }
+        label: field.fieldName,
+      };
     });
   }
 
@@ -208,28 +218,37 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
     return buf;
   }
   showReading(sensorValue: number) {
+    this.waterAdvice = this.DEFAULT_WATER_ADVICE;
     let field = this.fieldService.getFieldFromMyFieldById(this.fieldId);
     if (sensorValue && field && this.sensorType) {
-      this.soilMoisture = this.sensorV2Service.calibrateMoisture(sensorValue, this.sensorType, field.soil );
+      this.soilMoisture = this.sensorV2Service.calibrateMoisture(
+        sensorValue,
+        this.sensorType,
+        field.soil
+      );
       if (this.soilMoisture === '-.--') {
         this.soilMoistureIndex = '---';
         this.soilMoistureColorClass = 'color-high';
         this.moistureIcon = undefined;
       } else {
-        this.soilMoistureIndex =  this.waterAdviceService.getWaterMoistureIndex(this.soilMoisture);
+        this.soilMoistureIndex = this.waterAdviceService.getWaterMoistureIndex(
+          this.soilMoisture
+        );
         this.soilMoistureColorClass = this.soilMoistureIndexColorMap.get(
           this.soilMoistureIndex
         );
         this.moistureIcon = this.soilMoistureIconMap.get(
           this.soilMoistureIndex
-        );;
+        );
       }
       this.setMeasureView('measuring');
       this.readingCountdown();
 
-      this.waterAdviceService.getWaterAdvice(this.soilMoisture).subscribe(waterAdvice => {
-        this.waterAdvice = waterAdvice;
-      })
+      this.waterAdviceService
+        .getWaterAdvice(this.soilMoisture)
+        .subscribe((waterAdvice) => {
+          this.waterAdvice = waterAdvice;
+        });
     }
   }
   async calibrate() {
@@ -405,16 +424,6 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private sensorValueLimitCorrection(sensorMoisturePercantage: number) {
-    if (sensorMoisturePercantage > 100.0) {
-      return 100.0;
-    } else if (sensorMoisturePercantage < 0.0) {
-      return 0.0;
-    } else {
-      return sensorMoisturePercantage;
-    }
-  }
-
   public onIndexChange(index: number): void {
     this.curIndex = index;
     if (index === 0) {
@@ -464,7 +473,9 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
   }
 
   onGetAdvise() {
-    this.router.navigate(['advice', '85162eaa648e9e4ac76f7b9d85f2ebf0']).then((r) => {});
+    this.router
+      .navigate(['advice', '85162eaa648e9e4ac76f7b9d85f2ebf0'])
+      .then((r) => {});
   }
 
   onSlideNav(direction: string) {

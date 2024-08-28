@@ -21,31 +21,58 @@
     </mat-form-field>
   </form>
   <div class="bluetooth-btn-group">
-    <button mat-flat-button class="c-btn" (click)="onSensorConnect('wifi')" [disabled]="!fieldId || !sensorType">
+    <button
+      mat-flat-button
+      class="c-btn"
+      (click)="onSensorConnect('wifi')"
+      [disabled]="!fieldId || !sensorType"
+    >
       <mat-icon>wifi</mat-icon> Update WiFi Channel
     </button>
-    <button mat-flat-button class="c-btn" (click)="onSensorConnect('calibrate')" [disabled]="!fieldId || !sensorType">
+    <button
+      mat-flat-button
+      class="c-btn"
+      (click)="onSensorConnect('calibrate')"
+      [disabled]="!fieldId || !sensorType"
+    >
       <mat-icon>usb</mat-icon> Calibrate Sensor
     </button>
-    <button mat-flat-button class="c-btn" (click)="onSensorConnect('ble')" [disabled]="!fieldId || !sensorType">
+    <button
+      mat-flat-button
+      class="c-btn"
+      (click)="onSensorConnect('ble')"
+      [disabled]="!fieldId || !sensorType"
+    >
       <mat-icon>bluetooth</mat-icon> Connect with Bluetooth
     </button>
-    <button mat-flat-button class="c-btn" (click)="onSensorConnect('ble_name')" [disabled]="!fieldId || !sensorType">
+    <button
+      mat-flat-button
+      class="c-btn"
+      (click)="onSensorConnect('ble_name')"
+      [disabled]="!fieldId || !sensorType"
+    >
       <mat-icon>bluetooth</mat-icon> Rename Sensor
     </button>
-    <button mat-flat-button class="c-btn" (click)="onSensorConnect('ble_off')" [disabled]="!fieldId || !sensorType">
+    <button
+      mat-flat-button
+      class="c-btn"
+      (click)="onSensorConnect('ble_off')"
+      [disabled]="!fieldId || !sensorType"
+    >
       <mat-icon>bluetooth</mat-icon> Turn off Bluetooth
     </button>
-    <button mat-flat-button class="c-btn" (click)="onSensorConnect('input_pin')" [disabled]="!fieldId || !sensorType">
+    <button
+      mat-flat-button
+      class="c-btn"
+      (click)="onSensorConnect('input_pin')"
+      [disabled]="!fieldId || !sensorType"
+    >
       <mat-icon>bluetooth</mat-icon> Change Sensor Pin
     </button>
   </div>
 </div>
 
-<div
-  *ngIf="measureView == 'measuring'"
-  class="center-container"
->
+<div *ngIf="measureView == 'measuring'" class="center-container">
   <div>
     <mat-spinner diameter="100" color="primary"></mat-spinner>
     <div style="position: relative; top: -60px; left: 45px">
@@ -55,25 +82,40 @@
   <p>Reading...</p>
 </div>
 
-<div
-  *ngIf="measureView == 'after-measuring'"
-  class="center-container"
->
-  <img [src]="moistureIcon" alt="low-moisture" height="160px" width="160px" />
-  <p class="mat-body-1">SOIL MOISTURE</p>
-  <p class="mat-display-1">
-    <span [class]="soilMoistureColorClass"
-      >{{ soilMoistureIndex }}
-    </span>
-    <span> {{ soilMoisture }}% </span>
-  </p>
-
-  <code *ngIf = "waterAdvice">
-    {{ waterAdvice | json }}
-  </code>
-  <!-- <button mat-flat-button class="advice-btn" (click)="onGetAdvise()">
-    GET ADVICE
-  </button> -->
+<div *ngIf="measureView == 'after-measuring'" class="center-container">
+  <ng-template #noWateringAdvice>
+    <p>No watering advice available.</p>
+  </ng-template>
+  <ng-container *ngIf="waterAdvice; else noWateringAdvice">
+    <img
+      [src]="waterAdvice?.adviceImage"
+      alt="low-moisture"
+      height="200px"
+      width="200px"
+      class = "water-advice-image"
+    />
+    <p class = "water-advice">
+      The soil moisture index is
+      <strong>{{ waterAdvice.soilMoistureIndex }}</strong> with a value of
+      <strong>{{ waterAdvice.soilMoisture }}%.</strong>
+      <span *ngIf="waterAdvice.rainfallIndex === 'NONE'">
+        And the temperature index is
+        <strong>{{ waterAdvice.temperatureIndex }}</strong
+        >.</span
+      >
+      <span *ngIf="waterAdvice.rainfallIndex !== 'NONE'">
+        And the rainfall index is <strong>{{ waterAdvice.rainfallIndex }}</strong
+        >.</span
+      >
+      <span *ngIf="waterAdvice.wateringDecision === 'NONE'">
+        So you <strong>DON'T NEED</strong> to water the field.</span
+      >
+      <span *ngIf="waterAdvice.wateringDecision !== 'NONE'">
+        So you <strong>NEED</strong> to water the field with
+        <span style="text-transform: uppercase; font-weight: 600;">{{ waterAdvice.wateringDecision }}</span> amount of water.</span
+      >
+    </p>
+  </ng-container>
 </div>
 
 <mat-toolbar *ngIf="measureView == 'before-measuring'" class="toolbarNav">

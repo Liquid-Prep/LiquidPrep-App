@@ -15,13 +15,14 @@ import { map } from 'rxjs/operators';
 export interface AdviceV2 {
     waterRecommended?: number;
     temperature?: number;
+    temperatureIndex?: string;
     weatherIconTemp?: string;
     rainfallPercentage?: number;
     rainfallIndex?: string;
     wateringDecision?: string;
     soilMoisture?: string;
     soilMoistureIndex?: string;
-    imageUrl?: string;
+    adviceImage?: string;
 }
 
 @Injectable({
@@ -59,7 +60,7 @@ export class WaterAdviceV2Service {
       )]
     ]);
 
-    public ADVICE_TEXT: string[] = ['Plenty', 'Modest', 'Little', 'None'];
+    public ADVICE_TEXT: string[] = ['Plenty', 'Modest', 'Little', 'NONE'];
 
     public LOW = 'LOW';
     public MED = 'MEDIUM';
@@ -67,7 +68,7 @@ export class WaterAdviceV2Service {
     public OPT = 'OPTIMUM';
 
     private WATER_CROPS = 'Modest'; // 'Water your crops';
-    private DONT_WATER = 'None'; // 'Do not water your crops';
+    private DONT_WATER = 'NONE'; // 'Do not water your crops';
     private WATER_CROPS_LESS = 'Little'; // 'Water your crops less than the recommended value';
     private WATER_CROPS_MORE = 'Plenty'; // 'Water your crops more than the recommended value';
     private DEFAULT_WATER_CROPS = this.WATER_CROPS; // 'Water your crops today ';
@@ -132,7 +133,7 @@ export class WaterAdviceV2Service {
             ...this.generateWaterAdvice(weatherInfo.nightTime, waterAdvice.soilMoistureIndex)
         }
       }
-    //   this.waterAdvice.imageUrl = this.moistureWaterMap.get(this.waterAdvice.wateringDecision)?.get(soilMoisture.soilMoistureIndex);
+      waterAdvice.adviceImage = this.moistureWaterMap.get(waterAdvice.wateringDecision)?.get(waterAdvice.soilMoistureIndex);
       return waterAdvice;
     }
 
@@ -144,16 +145,16 @@ export class WaterAdviceV2Service {
             advice.rainfallPercentage = weatherInfo.precipChance;
             advice.wateringDecision = this.determineRainyDayAdvice(rainIndex, soilMoistureIndex);
         } else {
-            const temparatureIndex = this.weatherDataService.determineTemperatureIndex(weatherInfo.temperature);
+            const temperatureIndex = this.weatherDataService.determineTemperatureIndex(weatherInfo.temperature);
+            advice.temperatureIndex = temperatureIndex;
             advice.rainfallIndex = 'NONE';
             advice.rainfallPercentage = weatherInfo.precipChance;
-            advice.wateringDecision = this.determineNonRainyDayAdvice(soilMoistureIndex, temparatureIndex);
+            advice.wateringDecision = this.determineNonRainyDayAdvice(soilMoistureIndex, temperatureIndex);
         }
         return advice;
     }
 
     private determineRainyDayAdvice(rainIndex: string, soilMoistureIndex: string): string {
-
         if (rainIndex === this.LOW && soilMoistureIndex === this.LOW) {
             return this.WATER_CROPS;
         } else if (rainIndex === this.LOW && soilMoistureIndex === this.MED) {
