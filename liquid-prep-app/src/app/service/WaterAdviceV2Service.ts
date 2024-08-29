@@ -32,7 +32,7 @@ export interface AdviceV2 {
 export class WaterAdviceV2Service {
 
     public moistureWaterMap = new Map([
-      ['None', new Map(
+      ['NONE', new Map(
         [
           ['LOW', 'assets/moisture-water/nowater_lowmoisture.png'],
           ['MEDIUM', 'assets/moisture-water/nowater_mediummoisture.png'],
