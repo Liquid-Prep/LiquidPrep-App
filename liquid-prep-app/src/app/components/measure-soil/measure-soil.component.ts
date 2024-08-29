@@ -248,6 +248,7 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
         .getWaterAdvice(this.soilMoisture)
         .subscribe((waterAdvice) => {
           this.waterAdvice = waterAdvice;
+          console.log(this.waterAdvice);
         });
     }
   }
