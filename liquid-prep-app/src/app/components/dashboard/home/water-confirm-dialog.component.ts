@@ -4,19 +4,7 @@ import {Field} from "../../../models/Field";
 
 @Component({
   selector: 'app-water-confirm-dialog',
-  template: `
-    <h1>Confirm Irrigation Status</h1>
-    <p>
-      Would you like to mark {{ data.field.crop.cropName }} as watered?
-      <br />
-      <br />
-      The updated task will then appear in the "Recently Watered" list
-    </p>
-    <div class="dialog-buttons">
-      <button mat-button mat-dialog-close >Close</button>
-      <button mat-button [mat-dialog-close]="'confirm'" >Yes</button>
-    </div>
-  `,
+  templateUrl: './water-confirm-dialog.component.html',
   styles: [
     `
       .dialog-buttons {

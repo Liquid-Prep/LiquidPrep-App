@@ -75,6 +75,9 @@
 }
 
 .item-container {
+  //margin: 10px;
+  //padding-top: 10px;
+  //padding-bottom: 12px;
 }
 
 .square-image {
@@ -82,10 +85,20 @@
   height: 60px;
 }
 
+.item-image {
+  display: flex;
+  align-items: center;
+}
+
 .item-content {
   margin-left: 4%;
+  padding-top: 4px;
+  display: flex;
+  align-items: center;
 }
 
 .item-actions {
+  display: flex;
+  align-items: center;
 }
 

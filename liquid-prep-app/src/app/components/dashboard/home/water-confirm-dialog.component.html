@@ -1,0 +1,13 @@
+<h2 mat-dialog-title>Confirm Irrigation Status</h2>
+<mat-dialog-content class="mat-typography">
+  <p>
+    Would you like to mark {{ data.field.crop.cropName }} as watered?
+    <br />
+    <br />
+    The updated task will then appear in the "Recently Watered" list
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close >Close</button>
+  <button mat-button [mat-dialog-close]="'confirm'" >Yes</button>
+</mat-dialog-actions>
