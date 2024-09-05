@@ -25,7 +25,7 @@
 </div>
 
 <mat-tab-group #tabGroup mat-stretch-tabs (selectedTabChange)="onTabChange($event)">
-  <mat-tab #tab1>
+  <mat-tab  #tab1>
     <ng-template mat-tab-label>
       <div class="vertical-align-center">
         <mat-icon class="mat-primary material-symbols-outlined">sprinkler</mat-icon>
@@ -34,14 +34,13 @@
     </ng-template>
     <mat-list>
       <ng-container *ngFor="let field of needsWateringFields">
-        <mat-list-item>
-          <div fxLayout="row" fxFlexFill  fxLayoutAlign="space-between center" class="item-container">
-            <div fxFlex="nogrow">
+        <mat-list-item fxLayout="row"  fxFlexFill  fxLayoutAlign="space-between center" style="margin-top: 4px">
+            <div fxFlex="nogrow" class="item-image">
               <img src="{{ field.crop.url }}" alt="{{ field.crop.cropName }}" class="square-image">
             </div>
-            <div fxFlex class="item-content">
-              <h3 matLine> {{field.fieldName}} </h3>
-              <p matLine>
+            <div fxFlex fxLayout="column" fxLayoutAlign="center start" class="item-content">
+              <h2 fxFlex style="line-height: 1em"> {{field.fieldName}} </h2>
+              <p fxFlex style="line-height: 1em">
                 <span> {{field.crop.cropName}} </span>
               </p>
             </div>
@@ -50,7 +49,6 @@
                 <mat-icon class="material-symbols-outlined">sprinkler</mat-icon>
               </button>
             </div>
-          </div>
         </mat-list-item>
         <mat-divider></mat-divider>
       </ng-container>
@@ -65,18 +63,16 @@
     </ng-template>
     <mat-list>
       <ng-container *ngFor="let field of recentlyWateredFields">
-        <mat-list-item>
-          <div fxLayout="row" fxFlexFill  fxLayoutAlign="space-between center" class="item-container">
-            <div fxFlex="nogrow">
+        <mat-list-item fxLayout="row"  fxFlexFill  fxLayoutAlign="space-between center" style="margin-top: 4px">
+            <div fxFlex="nogrow" class="item-image">
               <img src="{{ field.crop.url }}" alt="{{ field.crop.cropName }}" class="square-image">
             </div>
-            <div fxFlex class="item-content">
-              <h3 matLine> {{field.fieldName}} </h3>
-              <p matLine>
+            <div fxFlex fxLayout="column" fxLayoutAlign="center start" class="item-content">
+              <h2 fxFlex style="line-height: 1em"> {{field.fieldName}} </h2>
+              <p fxFlex style="line-height: 1em">
                 <span> {{ field.crop.cropName}} </span>
               </p>
             </div>
-          </div>
         </mat-list-item>
         <mat-divider></mat-divider>
       </ng-container>
