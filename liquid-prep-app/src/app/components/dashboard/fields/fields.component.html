@@ -12,7 +12,7 @@
     <mat-card style="width: 100%" *ngFor="let field of displayedFields">
       <mat-card-content (click)="onFieldClick(field.id)">
         <div class="field-contents">
-          <img class="field-photo" [src]="getFieldPhoto(field.crop.type)" />
+          <img class="field-photo" [src]="field.crop.url" />
           <div>
             <h3>{{ field.fieldName }}</h3>
             <span class="type">{{ field.crop.cropName }}</span>

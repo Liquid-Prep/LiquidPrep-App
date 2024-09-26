@@ -1,25 +1,18 @@
-import {
-  Component,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
-import { HeaderService } from 'src/app/service/header.service';
-import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
-import { FormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { formatDate, Location } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FieldDataService } from 'src/app/service/FieldDataService';
-import { Guid } from 'guid-typescript';
-import { SENSORS_MOCK_DATA } from './../../sensors/sensor-data';
-import { Field } from 'src/app/models/Field';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { SensorListComponent } from './../sensor-list/sensor-list.component';
-import { CropDataService } from 'src/app/service/CropDataService';
-import { forkJoin, from } from 'rxjs';
-import { CropInfoResp } from '../../../../models/api/CropInfoResp';
+import {Component, OnInit, TemplateRef, ViewChild,} from '@angular/core';
+import {HeaderService} from 'src/app/service/header.service';
+import {HeaderConfig} from 'src/app/models/HeaderConfig.interface';
+import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
+import {formatDate, Location} from '@angular/common';
+import {ActivatedRoute, Router} from '@angular/router';
+import {FieldDataService} from 'src/app/service/FieldDataService';
+import {SENSORS_MOCK_DATA} from '../../sensors/sensor-data';
+import {Field} from 'src/app/models/Field';
+import {MatDialog} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {SensorListComponent} from '../sensor-list/sensor-list.component';
+import {CropDataService} from 'src/app/service/CropDataService';
+import {forkJoin, from} from 'rxjs';
+import {Crop} from "../../../../models/Crop";
 
 @Component({
   selector: 'app-edit-field',
@@ -85,8 +78,7 @@ export class EditFieldComponent implements OnInit {
       myCrops: from(this.cropService.getLocalStorageMyCrops()),
     }).subscribe(
       (results) => {
-        const cropsListData = results.cropsListData;
-        this.cropsList = cropsListData;
+        this.cropsList = results.cropsListData;
         cropForm.enable();
         this.progress = false;
       },
@@ -118,24 +110,6 @@ export class EditFieldComponent implements OnInit {
       height: '430px',
       width: '400px',
     });
-  }
-
-  clickCropNext() {
-    this.cropService.getCropInfo(this.cropValue.id).subscribe(
-      (resp: CropInfoResp) => {
-        this.cropValue.id = resp.data.docs[0]._id;
-        this.cropValue.cropName = resp.data.docs[0].cropName;
-        this.cropValue.facts = resp.data.docs[0];
-      },
-      (error) => {
-        alert('clickCropNext Could not get crop info: ' + error);
-        console.error('clickCropNext Error getting CropInfo:', error);
-      }
-    );
-    this.fieldForm.patchValue({
-      crop: this.fieldForm.get('cropSelect').value.cropName,
-    });
-    this.cropValue = this.fieldForm.get('cropSelect').value;
   }
 
   backedClicked() {
@@ -192,24 +166,33 @@ export class EditFieldComponent implements OnInit {
     if (this.fieldForm.get('description').value) {
       description = this.fieldForm.get('description').value;
     }
-    const crop = this.fieldForm.get('crop').value;
 
     const soilType = this.fieldForm.get('soilType').value;
     const plantDateValue = this.fieldForm.get('plantDate').value;
     formattedDate = formatDate(plantDateValue, 'yyyy-MM-dd', 'en-US');
-    const sensorList = this.sensors;
-    const id = this.id;
-    this.cropValue.seedingDate = new Date(formattedDate);
-    const params: Field = {
-      id,
-      fieldName: name,
-      soil: soilType,
-      description: description || undefined,
-      crop: this.cropValue,
-      plantDate: new Date(formattedDate),
-      sensors: sensorList,
-    };
-    this.fieldService.storeFieldsInLocalStorage(params);
-    this.router.navigate([`/dashboard/fields`]);
+
+    const cropSelected: Crop = Object.assign(new Crop(), this.fieldForm.get('crop').value);
+    cropSelected.fetchCropInfoIfNeeded(this.cropService)
+      .then(()=>{
+        cropSelected.seedingDate = new Date(formattedDate);
+        const sensorList = this.sensors;
+        const id = this.id;
+
+        const params: Field = {
+          id,
+          fieldName: name,
+          soil: soilType,
+          description: description || undefined,
+          crop: cropSelected,
+          plantDate: new Date(formattedDate),
+          sensors: sensorList,
+        };
+        this.fieldService.storeFieldsInLocalStorage(params).then(r => {});
+        this.router.navigate([`/dashboard/fields`]).then(r => {});
+      })
+      .catch((error: any)=>{
+        alert('Save Edit-Field-- Could not get crop info: ' + error);
+        console.error('Save Edit-Field Error getting CropInfo:', error);
+      });
   }
 }

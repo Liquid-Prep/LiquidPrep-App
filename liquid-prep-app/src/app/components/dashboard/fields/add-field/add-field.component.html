@@ -19,10 +19,10 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Select Crop</mat-label>
-      <mat-select matInput formControlName="crop" matNativeControl>
+      <mat-select matInput formControlName="cropSelected" matNativeControl>
         <mat-option value="" selected></mat-option>
-        <mat-option *ngFor="let crop of cropsList" [value]="crop.cropName">
-          {{ crop.cropName }}
+        <mat-option *ngFor="let crop of cropsList" [value]="crop">
+          {{crop.cropName}}
         </mat-option>
       </mat-select>
     </mat-form-field>

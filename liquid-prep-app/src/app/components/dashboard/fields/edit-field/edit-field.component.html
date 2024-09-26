@@ -30,7 +30,7 @@
       <mat-label>Select Crop</mat-label>
       <mat-select matInput formControlName="crop" matNativeControl>
         <mat-option value="" selected></mat-option>
-        <mat-option *ngFor="let crop of cropsList" [value]="crop.cropName">
+        <mat-option *ngFor="let crop of cropsList" [value]="crop">
           {{ crop.cropName }}
         </mat-option>
       </mat-select>
@@ -124,24 +124,14 @@
 
 <ng-template #dialogTemplate>
   <h2 mat-dialog-title>Exit without saving?</h2>
-  <hr />
-  <mat-dialog-content>
-    <div class="descripttion-container">
-      <p>
-        You have unsaved changes. Are you sure you want to leave this page
-        without saving?
-      </p>
-    </div>
-    <div class="actions-container">
-      <button mat-button mat-dialog-close>CANCEL</button>
-      <button
-        mat-button
-        mat-dialog-close
-        style="color: red"
-        (click)="backedClicked()"
-      >
-        EXIT
-      </button>
-    </div>
+  <mat-dialog-content class="mat-typography">
+    <p>
+      You have unsaved changes. Are you sure you want to leave this page
+      without saving?
+    </p>
   </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>CANCEL</button>
+    <button mat-button mat-dialog-close style="color: red" (click)="backedClicked()">EXIT</button>
+  </mat-dialog-actions>
 </ng-template>
