@@ -1,19 +1,20 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { HeaderService } from 'src/app/service/header.service';
-import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
-import { FormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { formatDate, Location } from '@angular/common';
-import { Router } from '@angular/router';
-import { FieldDataService } from 'src/app/service/FieldDataService';
-import { Guid } from 'guid-typescript';
-import { Field } from 'src/app/models/Field';
-import { MatDialog } from '@angular/material/dialog';
-import { SENSORS_MOCK_DATA } from '../../sensors/sensor-data';
-import { SensorListComponent } from '../sensor-list/sensor-list.component';
-import { CropDataService } from 'src/app/service/CropDataService';
-import { forkJoin, from } from 'rxjs';
-import { CropInfoResp } from '../../../../models/api/CropInfoResp';
+import {Component, OnInit, TemplateRef} from '@angular/core';
+import {HeaderService} from 'src/app/service/header.service';
+import {HeaderConfig} from 'src/app/models/HeaderConfig.interface';
+import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {formatDate, Location} from '@angular/common';
+import {Router} from '@angular/router';
+import {FieldDataService} from 'src/app/service/FieldDataService';
+import {Guid} from 'guid-typescript';
+import {Field} from 'src/app/models/Field';
+import {MatDialog} from '@angular/material/dialog';
+import {SENSORS_MOCK_DATA} from '../../sensors/sensor-data';
+import {SensorListComponent} from '../sensor-list/sensor-list.component';
+import {CropDataService} from 'src/app/service/CropDataService';
+import {forkJoin, from} from 'rxjs';
+import {CropInfoResp} from '../../../../models/api/CropInfoResp';
+import {Crop} from "../../../../models/Crop";
 
 @Component({
   selector: 'app-add-field',
@@ -56,25 +57,23 @@ export class AddFieldComponent implements OnInit {
     this.fieldForm = new UntypedFormGroup({
       fieldName: new UntypedFormControl(null, [Validators.required]),
       description: new UntypedFormControl(null),
-      crop: new UntypedFormControl(null, [Validators.required]),
+      cropSelected: new UntypedFormControl(null, [Validators.required]),
       soilType: new UntypedFormControl(null, [Validators.required]),
       plantDate: new UntypedFormControl(null, [Validators.required]),
-      // cropSelect: new FormControl(),
     });
-    const cropForm = this.fieldForm.get('crop');
+    const cropForm = this.fieldForm.get('cropSelected');
     cropForm.disable();
   }
 
   loadCropData() {
     this.progress = true;
-    const cropForm = this.fieldForm.get('crop');
+    const cropForm = this.fieldForm.get('cropSelected');
     forkJoin({
       cropsListData: this.cropService.getCropListFromApi(),
       myCrops: from(this.cropService.getLocalStorageMyCrops()),
     }).subscribe(
       (results) => {
-        const cropsListData = results.cropsListData;
-        this.cropsList = cropsListData;
+        this.cropsList = results.cropsListData;
         cropForm.enable();
         this.progress = false;
       },
@@ -111,7 +110,6 @@ export class AddFieldComponent implements OnInit {
   }
 
   public save() {
-    console.log(this.fieldForm.value);
     if (!this.fieldForm.valid) {
       this._snackBar.open('Please Fill up the Form', 'Ok', {
         duration: 3000,
@@ -124,8 +122,6 @@ export class AddFieldComponent implements OnInit {
     if (this.fieldForm.get('description').value) {
       description = this.fieldForm.get('description').value;
     }
-    const crop = this.fieldForm.get('crop').value;
-    const cropType = this.fieldForm.get('crop').value;
 
     const soilType = this.fieldForm.get('soilType').value;
 
@@ -135,23 +131,30 @@ export class AddFieldComponent implements OnInit {
     } else {
       console.error('plantDate is not a Date object');
     }
-    const sensorList = this.sensors;
-    const id = Guid.create().toString();
-    const params: Field = {
-      id,
-      fieldName: name,
-      description: description || undefined,
-      soil: soilType,
-      crop: {
-        seedingDate: new Date(formattedDate),
-        waterDate: new Date(formattedDate),
-        type: cropType,
-      },
-      plantDate: new Date(formattedDate),
-      sensors: sensorList,
-    };
-    this.fieldService.storeFieldsInLocalStorage(params);
-    this.router.navigate([`dashboard/fields`]);
+
+    const cropSelected: Crop = Object.assign(new Crop(), this.fieldForm.get('cropSelected').value);
+    cropSelected.fetchCropInfoIfNeeded(this.cropService)
+      .then(()=>{
+        cropSelected.seedingDate = new Date(formattedDate)
+        cropSelected.waterDate = new Date(formattedDate)
+        const sensorList = this.sensors;
+        const id = Guid.create().toString();
+        const params: Field = {
+          id,
+          fieldName: name,
+          description: description || undefined,
+          soil: soilType,
+          crop: cropSelected,
+          plantDate: new Date(formattedDate),
+          sensors: sensorList,
+        };
+        this.fieldService.storeFieldsInLocalStorage(params).then(r => {});
+        this.router.navigate([`dashboard/fields`]).then(r => {});
+      })
+      .catch((error:any) => {
+        alert('Save Add-Field Could not get crop info: ' + error);
+        console.error('Save Add-Field Error getting CropInfo:', error);
+      });
   }
 
   openDialog(dialogTemplate: TemplateRef<any>): void {

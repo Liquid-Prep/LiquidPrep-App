@@ -32,7 +32,6 @@ export class FieldDataService {
         } else {
           myFields[existingFieldIndex] = field;
         }
-        myFields;
       }
 
       this.localStorage.set(FIELD_STORAGE_KEY, myFields);

@@ -63,22 +63,6 @@ export class FieldsComponent implements OnInit {
     this.displayedFields = myFields;
   }
 
-  public getFieldPhoto(type: string) {
-    if (type === 'Corn') {
-      return 'assets/crops-images/corn.png';
-    } else if (type === 'Wheat') {
-      return 'assets/crops-images/wheat.png';
-    } else if (type === 'Cotton') {
-      return 'assets/crops-images/cotton.png';
-    } else if (type === 'Sorghum') {
-      return 'assets/crops-images/sorghum.png';
-    } else if (type === 'Soybean') {
-      return 'assets/crops-images/soybean.png';
-    } else {
-      return 'assets/crops-images/missing.jpg';
-    }
-  }
-
   public openSortModal() {
     const sortOptions = this.sortOptions;
     const dialogRef = this.dialog.open(SelectModalComponent, {
