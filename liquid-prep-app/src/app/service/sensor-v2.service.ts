@@ -120,7 +120,58 @@ export class SensorV2Service {
         return '-.--';
       }
     }
-    
+    else if (soilType === 'Sandy soil') {
+      if (sensorType === 'gen') {
+        let calibrated = 0.815 - (0.03762 * moistureRaw) + (0.001542 * (moistureRaw * moistureRaw));
+        return this.decimalPipe.transform(calibrated, '1.2-2');
+      }
+      else if (sensorType === 'plm') {
+        let calibrated = 0.9542 - (0.03783 * moistureRaw) + (0.001468 * (moistureRaw * moistureRaw));
+        return this.decimalPipe.transform(calibrated, '1.2-2');
+      }
+      else  {
+        return '-.--';
+      }
+    }
+    else if (soilType === 'Sandy loam soil') {
+      if (sensorType === 'gen') {
+        let calibrated = 5.491 - (0.2948 * moistureRaw) + (0.004086 * (moistureRaw * moistureRaw));
+        return this.decimalPipe.transform(calibrated, '1.2-2');
+      }
+      else if (sensorType === 'plm') {
+        let calibrated = 1.880 - (0.1078 * moistureRaw) + (0.002456 * (moistureRaw * moistureRaw));
+        return this.decimalPipe.transform(calibrated, '1.2-2');
+      }
+      else  {
+        return '-.--';
+      }
+    }
+    else if (soilType === 'Houston black clay soil') {
+      if (sensorType === 'gen') {
+        let calibrated = -5.187 + (0.2614 * moistureRaw);
+        return this.decimalPipe.transform(calibrated, '1.2-2');
+      }
+      else if (sensorType === 'plm') {
+        let calibrated = 3.708 - (0.01416 * moistureRaw) + (0.001772 * (moistureRaw * moistureRaw));
+        return this.decimalPipe.transform(calibrated, '1.2-2');
+      }
+      else  {
+        return '-.--';
+      }
+    }
+    else if (soilType === 'Austin clay soil') {
+      if (sensorType === 'gen') {
+        let calibrated = 44.01 - (1.306 * moistureRaw) + (0.01097 * (moistureRaw * moistureRaw));
+        return this.decimalPipe.transform(calibrated, '1.2-2');
+      }
+      else if (sensorType === 'plm') {
+        let calibrated = 11.43 - (0.2772 * moistureRaw) + (0.003643 * (moistureRaw * moistureRaw));
+        return this.decimalPipe.transform(calibrated, '1.2-2');
+      }
+      else  {
+        return '-.--';
+      }
+    }
     else  {
       return '-.--';
     }
