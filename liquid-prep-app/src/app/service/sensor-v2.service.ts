@@ -109,7 +109,7 @@ export class SensorV2Service {
   calibrateMoisture(moistureRaw, sensorType, soilType) {
     if (soilType === 'Heavy clay soil') {
       if (sensorType === 'gen') {
-        let calibrated = 64.13 + (2.001 * moistureRaw) - (0.01049 * (moistureRaw * moistureRaw));
+        let calibrated = -64.13 + (2.001 * moistureRaw) - (0.01049 * (moistureRaw * moistureRaw));
         return this.decimalPipe.transform(calibrated, '1.2-2');
       }
       else if (sensorType === 'plm') {
