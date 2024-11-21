@@ -1,3 +1,25 @@
+.card-container {
+  margin: 15px;
+
+  mat-card {
+    border-radius: 4px !important;
+    border: 1px solid #eaecf0 !important;
+    background-color: #fbfbfd !important;
+    box-shadow: none !important;
+    padding: 16px !important;
+    margin-bottom: 15px;
+
+    &:first-child {
+      background-color: #edf5ff !important;
+    }
+
+    ::ng-deep .mat-card-content {
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+  }
+}
+
 .header-container {
   display: flex;
   flex-wrap: wrap;
@@ -32,6 +54,12 @@
     margin-left: 15px;
     grid-template-columns: 130px 100px 100px;
   }
+  .header-details-title {
+    font-size: 10px;
+  }
+  .header-details-value {
+    font-size: 14px;
+  }
 }
 
 .card-container {
@@ -44,8 +72,8 @@
   }
 
   .card-advice {
-    display: grid;
-    grid-template-columns: 180px 120px;
+    display: flex;
+    justify-content: space-between;
 
     .mark-button {
       color: white;
@@ -83,14 +111,27 @@
     }
   }
 
-  .history-container {
+  .card-body {
     display: grid;
     grid-template-columns: 150px 150px;
+    justify-content: space-between;
+  }
 
-    .view-history {
-      font-weight: bold;
+  .history-container,
+  .sensors-container {
+    .view-history,
+    .view-sensors {
+      font-weight: 500;
+      font-size: 12px;
       letter-spacing: 1px;
-      color: #2f4ff3;
+      color: #2f4ffe;
+      padding-right: 16px;
+      text-align: right;
+      display: flex;
+      align-items: center;
+      justify-content: end;
+      margin-top: -5px;
+      margin-right: -16px;
     }
   }
 
@@ -125,4 +166,142 @@
 
 ::ng-deep .mat-dialog-container {
   padding-left: 0px !important;
+}
+
+.progress-bar-container {
+  position: relative;
+  margin: 50px 0 10px;
+  min-height: 60px;
+
+  .progress-bar-wrapper {
+    display: flex;
+    align-items: center;
+
+    .progress-bar-label {
+      font-size: 16px;
+      font-weight: 400;
+      color: #8d8d8d;
+    }
+
+    .progress-bar-label-left {
+      margin-right: 10px;
+    }
+
+    .progress-bar-label-right {
+      margin-left: 10px;
+    }
+
+    .progress-bar-line {
+      flex-grow: 1;
+      position: relative;
+      width: calc(100% - 45px);
+
+      .progress-bar-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background-color: #eaecf0;
+        z-index: 1;
+      }
+
+      .target-range {
+        z-index: 2;
+      }
+
+      .last-measured-notation {
+        z-index: 2;
+      }
+    }
+  }
+}
+
+.target-range {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  z-index: 1;
+}
+
+.target-range-line {
+  background-color: #82cfff;
+  height: 4px;
+}
+
+.target-range-text,
+.last-measured-text {
+  text-align: center;
+  margin-top: 5px;
+  width: fit-content;
+  line-height: 1;
+  letter-spacing: 0.03em;
+}
+
+.target-range-text {
+  color: #2084cb;
+  margin-top: 10px;
+  width: 50px;
+  position: absolute;
+  white-space: nowrap;
+}
+
+.last-measured-text {
+  color: #da1e28;
+  position: relative;
+  font-size: 9px;
+  top: -40px;
+  margin-left: -40px;
+}
+
+.last-measured-circle {
+  width: 80px;
+}
+
+.last-measured-value,
+.target-range-value {
+  font-size: 11px;
+}
+
+.target-range-label,
+.last-measured-label {
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  line-height: 13px;
+  margin-left: -0.5em;
+}
+
+.target-range-label,
+.target-range-value,
+.last-measured-label,
+.last-measured-label {
+  display: block;
+}
+
+.last-measured-label {
+  min-width: 80px;
+}
+
+.last-measured-circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #da1e28;
+  transform: translateX(-50%);
+  z-index: 2;
+  position: absolute;
+  top: -7px;
+}
+
+.last-measured-notation {
+  text-align: center;
+  font-size: 12px;
+  position: absolute;
+  padding: 0 5px;
+}
+
+.last-measured-date {
+  font-size: 12px;
 }

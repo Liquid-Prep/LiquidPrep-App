@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { HeaderService } from 'src/app/service/header.service';
 import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -14,7 +15,7 @@ import { WaterAdviceService } from '../../../service/WaterAdviceService';
 import { Field } from '../../../models/Field';
 import { FieldDataService } from '../../../service/FieldDataService';
 import { MatDialog } from '@angular/material/dialog';
-import {CropDataService} from "../../../service/CropDataService";
+import { CropDataService } from '../../../service/CropDataService';
 
 const RECENTLY = 48;
 
@@ -52,6 +53,7 @@ export class HomeComponent implements OnInit {
   public nonRecentlyWateredFields: Field[];
 
   constructor(
+    private router: Router,
     private waterAdviceService: WaterAdviceService,
     private weatherService: WeatherDataService,
     private headerService: HeaderService,
@@ -66,7 +68,8 @@ export class HomeComponent implements OnInit {
     this.updateWeatherInfo();
     this.getLocation();
 
-    this.fieldDataService.getLocalStorageMyFields()
+    this.fieldDataService
+      .getLocalStorageMyFields()
       .then((fields: Field[]) => {
         this.myFields = fields;
         const fetchPromises = this.myFields.map((field) => {
@@ -75,11 +78,11 @@ export class HomeComponent implements OnInit {
         });
         return Promise.all(fetchPromises);
       })
-      .then(()=>{
+      .then(() => {
         this.FilterWateredFields(this.myFields);
         this.FilterNeedsWaterField(this.nonRecentlyWateredFields);
       })
-      .catch((error)=>{
+      .catch((error) => {
         console.error('Error loading fields:', error);
       });
   }
@@ -105,7 +108,12 @@ export class HomeComponent implements OnInit {
       this.waterAdviceService
         .getWaterAdviceByCrop(item.crop)
         .subscribe((advice) => {
-          console.log('FilterNeedsWaterField water advice:', item.crop.cropName, advice.wateringDecision, advice.waterRecommended);
+          console.log(
+            'FilterNeedsWaterField water advice:',
+            item.crop.cropName,
+            advice.wateringDecision,
+            advice.waterRecommended
+          );
           if (advice.wateringDecision !== 'None') {
             this.needsWateringFields.push(item);
           }
@@ -179,7 +187,9 @@ export class HomeComponent implements OnInit {
         field.crop.waterDate = new DateTimeUtil().getTodayDate();
         this.fieldDataService.storeFieldsInLocalStorage(field).then(
           (r) => {
-            console.log(`water ${field.crop.cropName} onConfirm water date ${field.crop.waterDate}`);
+            console.log(
+              `water ${field.crop.cropName} onConfirm water date ${field.crop.waterDate}`
+            );
             this.needsWateringFields = this.needsWateringFields.filter(
               (item) => item !== field
             );
@@ -196,5 +206,10 @@ export class HomeComponent implements OnInit {
         );
       }
     });
+  }
+
+  onViewCropAdvice(crop: Crop) {
+    this.cropService.storeSelectedCropIdInSession(crop.id);
+    this.router.navigate(['insights/' + crop.id]).then((r) => {});
   }
 }
