@@ -122,11 +122,11 @@ export class SensorV2Service {
     }
     else if (soilType === 'Sandy soil') {
       if (sensorType === 'gen') {
-        let calibrated = 0.815 - (0.03762 * moistureRaw) + (0.001542 * (moistureRaw * moistureRaw));
+        let calibrated = 2.975 - (0.1909 * moistureRaw) + (0.003405 * (moistureRaw * moistureRaw));
         return this.decimalPipe.transform(calibrated, '1.2-2');
       }
       else if (sensorType === 'plm') {
-        let calibrated = 0.9542 - (0.03783 * moistureRaw) + (0.001468 * (moistureRaw * moistureRaw));
+        let calibrated = 1.862 - (0.1478 * moistureRaw) + (0.002966 * (moistureRaw * moistureRaw));
         return this.decimalPipe.transform(calibrated, '1.2-2');
       }
       else  {
@@ -135,11 +135,11 @@ export class SensorV2Service {
     }
     else if (soilType === 'Sandy loam soil') {
       if (sensorType === 'gen') {
-        let calibrated = 5.491 - (0.2948 * moistureRaw) + (0.004086 * (moistureRaw * moistureRaw));
+        let calibrated = 10.39 - (0.5775 * moistureRaw) + (0.007034 * (moistureRaw * moistureRaw));
         return this.decimalPipe.transform(calibrated, '1.2-2');
       }
       else if (sensorType === 'plm') {
-        let calibrated = 1.880 - (0.1078 * moistureRaw) + (0.002456 * (moistureRaw * moistureRaw));
+        let calibrated = 3.660 - (0.2944 * moistureRaw) + (0.004669 * (moistureRaw * moistureRaw));
         return this.decimalPipe.transform(calibrated, '1.2-2');
       }
       else  {
@@ -148,11 +148,11 @@ export class SensorV2Service {
     }
     else if (soilType === 'Houston black clay soil') {
       if (sensorType === 'gen') {
-        let calibrated = -5.187 + (0.2614 * moistureRaw);
+        let calibrated = 23.55 - (0.8604 * moistureRaw) + (0.009643 * (moistureRaw * moistureRaw));
         return this.decimalPipe.transform(calibrated, '1.2-2');
       }
       else if (sensorType === 'plm') {
-        let calibrated = 3.708 - (0.01416 * moistureRaw) + (0.001772 * (moistureRaw * moistureRaw));
+        let calibrated = 4.404 - (0.0976 * moistureRaw) + (0.003217 * (moistureRaw * moistureRaw));
         return this.decimalPipe.transform(calibrated, '1.2-2');
       }
       else  {
@@ -161,11 +161,11 @@ export class SensorV2Service {
     }
     else if (soilType === 'Austin clay soil') {
       if (sensorType === 'gen') {
-        let calibrated = 44.01 - (1.306 * moistureRaw) + (0.01097 * (moistureRaw * moistureRaw));
+        let calibrated = 76.63 - (2.373 * moistureRaw) + (0.01918 * (moistureRaw * moistureRaw));
         return this.decimalPipe.transform(calibrated, '1.2-2');
       }
       else if (sensorType === 'plm') {
-        let calibrated = 11.43 - (0.2772 * moistureRaw) + (0.003643 * (moistureRaw * moistureRaw));
+        let calibrated = 19.78 - (0.6717 * moistureRaw) + (0.007462 * (moistureRaw * moistureRaw));
         return this.decimalPipe.transform(calibrated, '1.2-2');
       }
       else  {
