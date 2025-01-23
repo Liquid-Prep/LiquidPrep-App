@@ -1,3 +1,8 @@
+:root {
+  --mdc-list-list-item-one-line-container-height: unset;
+  --mdc-list-list-item-label-text-line-height: 1rem;
+ }
+
 .custom-toolbar.mat-toolbar-single-row {
   padding: 0 5px;
 }
@@ -19,6 +24,12 @@
     display: block;
     margin-bottom: 16px;
   }
+
+  .mat-mdc-card-header,
+  .mat-mdc-card-content {
+    padding: 0;
+  }
+
   .mat-card-header-text {
     margin: 0
   }
@@ -80,7 +91,7 @@
     color: #262626;
     font-size: 16px;
     font-weight: 400;
-    line-height: 24px;
+    line-height: 1.4em;
     letter-spacing: 0.15px;
     display: block;
   }
@@ -89,10 +100,10 @@
     color: #262626;
     font-size: 14px;
     font-weight: 400;
-    line-height: 20px;
+    line-height: 1em;
     letter-spacing: 0.25px;
     display: block;
-    margin-bottom: 0;
+    margin-bottom: 12px;
     &.emphasized {
       font-style: italic;
     }
