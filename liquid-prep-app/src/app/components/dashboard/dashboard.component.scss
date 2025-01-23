@@ -79,14 +79,9 @@ div>label{
   position: fixed;
   bottom: 0;
   z-index: 1000;
-  //display: flex;
-  //justify-content: space-around;
-  padding: 2em;
+  padding: 1em;
   background-color: #2f4ffe;
-
-  //-webkit-box-shadow: 3px 3px 5px 6px #ccc; __<<ngThemingMigrationEscapedComment0>>__
-  //-moz-box-shadow: 3px 3px 5px 6px #ccc; __<<ngThemingMigrationEscapedComment1>>__
-  //box-shadow: 2px 2px 4px 5px #ccc; __<<ngThemingMigrationEscapedComment2>>__
+  max-height: 56px !important;
 }
 
 button:hover,
@@ -102,9 +97,11 @@ button:hover,
 .toolbarNav button {
   background-color: #2f4ffe !important;
   color: lightgrey;
+  font-size: 12px;
+  line-height: 1;
 }
 
-.mat-icon {
+.toolbarNav .mat-icon {
   margin-bottom: 4px;
 }
 

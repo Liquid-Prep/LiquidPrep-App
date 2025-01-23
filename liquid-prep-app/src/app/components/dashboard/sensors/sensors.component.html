@@ -68,9 +68,28 @@
 
   <!-- Display the filtered and sorted sensors -->
   <div class="sensor-results" [hidden]="isFilterVisible">
-    <mat-list>
+    
+    <mat-list class="sensor-list">
+      <mat-list-item class="sensor-list-item">
+        <span mat-list-item class="sensorKey">
+          <h4 mat-line class="lastUpdatedTime">LAST UPDATE TIME</h4>
+          <p mat-line class="menu-list-body">
+            <span class="sensor-info">
+              Sensor name <span class="sensorSpacer">&#183;</span>
+              <span>
+                Field Location
+              </span>
+              <span class="sensor-moisture">
+                <span>
+                  Moisture Level
+                </span>
+              </span>
+            </span>
+          </p>
+        </span>
+      </mat-list-item>
       <ng-container *ngIf="displayedSensors.length > 0; else noResults">
-        <mat-list-item *ngFor="let sensor of displayedSensors">
+        <mat-list-item class="sensor-list-item" *ngFor="let sensor of displayedSensors">
           <a mat-list-item class="sensorLink" [ngClass]="{'offline': sensor.connectionStatus === 'Not Connected'}" (click)="onSensorClicked(sensor.id)">
             <h4 mat-line class="lastUpdatedTime">{{ sensor.formattedLastUpdatedTime }}</h4>
             <p mat-line class="menu-list-body">
