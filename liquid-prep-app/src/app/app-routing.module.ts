@@ -16,6 +16,7 @@ import { SensorsComponent } from './components/dashboard/sensors/sensors.compone
 import { SensorDetailsComponent } from './components/dashboard/sensors/sensor-details/sensor-details.component';
 import { EditSensorComponent } from './components/dashboard/sensors/edit-sensor/edit-sensor.component';
 import { WateringInsightsComponent } from './components/watering-insights/watering-insights.component';
+import { WateringHistoryComponent } from './components/watering-insights/watering-history/watering-history.component';
 import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
 import { DetailsComponent } from './components/dashboard/fields/details/details.component';
 import { AddFieldComponent } from './components/dashboard/fields/add-field/add-field.component';
@@ -48,6 +49,10 @@ const routes: Routes = [
   {
     path: 'insights/:id',
     component: WateringInsightsComponent,
+  },
+  {
+    path: 'insights/:id/history',
+    component: WateringHistoryComponent,
   },
   {
     path: 'add-field',
