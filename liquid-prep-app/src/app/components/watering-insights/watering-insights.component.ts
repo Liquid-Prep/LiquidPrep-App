@@ -31,16 +31,23 @@ export class WateringInsightsComponent implements OnInit {
   lastWateredDate;
   sensor = SENSORS_MOCK_DATA[0];
   watered: boolean = false;
+  progressValue = 100;
+  targetRangeStart = 60;
+  targetRangeEnd = 80;
 
   headerConfig: HeaderConfig = {
-    headerTitle: 'Watering Insights',
+    headerTitle: 'Watering Advice',
     leftIconName: 'arrow_back',
     rightIconName: 'cached',
     leftBtnClick: this.backClicked.bind(this),
     rightBtnClick: this.refreshpage.bind(this),
   };
 
+  private _moistureLevel: number = this.sensor?.moistureLevel ?? 0;
   private datePipe: DatePipe = new DatePipe('en-US');
+
+  lastMeasuredValue: number =
+    this._moistureLevel > 95 ? this._moistureLevel - 5 : this._moistureLevel;
 
   constructor(
     private route: ActivatedRoute,
@@ -65,7 +72,10 @@ export class WateringInsightsComponent implements OnInit {
       new Date('2022-03-25'),
       'mediumDate'
     );
-    this.seedDate = this.datePipe.transform(this.crop.seedingDate, 'MM/dd/yy');
+    this.seedDate = this.datePipe.transform(
+      this.crop.seedingDate,
+      'MMM dd, yyyy'
+    );
     this.waterAdviceService.getWaterAdvice().subscribe((advice) => {
       this.advice = advice;
       this.moistureImageUrl = advice.imageUrl;
@@ -147,5 +157,9 @@ export class WateringInsightsComponent implements OnInit {
     this._snackBar.open('No History for now', 'Ok', {
       duration: 5000,
     });
+  }
+
+  viewSensors() {
+    this.router.navigate(['/dashboard/sensors']);
   }
 }
