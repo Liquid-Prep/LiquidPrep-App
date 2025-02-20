@@ -3,10 +3,7 @@
   <div
     class="header-container"
     [ngStyle]="{
-      'background-image':
-        'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(' +
-        dynamicImageUrl +
-        ')'
+      'background-image': 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(' + dynamicImageUrl + ')'
     }"
   >
     <div class="header-title">
@@ -36,17 +33,8 @@
             <span class="card-title">WATERING ADVICE</span>
             <h2>Water Today</h2>
             <h3>15 GPM/acre</h3>
-            <button
-              *ngIf="!watered"
-              mat-raised-button
-              class="mark-button"
-              (click)="markAsWatered()"
-            >
-              MARK AS WATERED
-            </button>
-            <button *ngIf="watered" mat-stroked-button class="watered-button">
-              <mat-icon>check</mat-icon> FIELD WATERED
-            </button>
+            <button *ngIf="!watered" mat-raised-button class="mark-button" (click)="markAsWatered()">MARK AS WATERED</button>
+            <button *ngIf="watered" mat-stroked-button class="watered-button"><mat-icon>check</mat-icon> FIELD WATERED</button>
           </div>
           <div>
             <img [src]="moistureImageUrl" class="water-image" />
@@ -62,53 +50,24 @@
             <div class="progress-bar-wrapper">
               <span class="progress-bar-label progress-bar-label-left">0</span>
               <div class="progress-bar-line">
-                <mat-progress-bar
-                  class="soil-moisture-progress-bar"
-                  mode="determinate"
-                  [value]="progressValue"
-                ></mat-progress-bar>
+                <mat-progress-bar class="soil-moisture-progress-bar" mode="determinate" [value]="progressValue"></mat-progress-bar>
                 <div class="progress-bar-overlay"></div>
                 <div class="target-range">
-                  <div
-                    class="target-range-line"
-                    [style.marginLeft]="'calc(' + targetRangeStart + '% - 5px)'"
-                    [style.width]="
-                      'calc(' +
-                      (targetRangeEnd - targetRangeStart) +
-                      '% + 10px)'
-                    "
-                  ></div>
-                  <div
-                    class="target-range-text"
-                    [style.left]="'calc(' + targetRangeStart + '% - 5px)'"
-                    [style.width]="
-                      'calc(' +
-                      (targetRangeEnd - targetRangeStart) +
-                      '% + 10px)'
-                    "
-                  >
+                  <div class="target-range-line" [style.marginLeft]="'calc(' + targetRangeStart + '% - 5px)'" [style.width]="'calc(' + (targetRangeEnd - targetRangeStart) + '% + 10px)'"></div>
+                  <div class="target-range-text" [style.left]="'calc(' + targetRangeStart + '% - 5px)'" [style.width]="'calc(' + (targetRangeEnd - targetRangeStart) + '% + 10px)'">
                     <span class="target-range-label">Target Range</span>
-                    <span class="target-range-value"
-                      >{{ targetRangeStart }}-{{ targetRangeEnd }}%</span
-                    >
+                    <span class="target-range-value">{{ targetRangeStart }}-{{ targetRangeEnd }}%</span>
                   </div>
                 </div>
-                <div
-                  class="last-measured-notation"
-                  [style.left]="'calc(' + lastMeasuredValue + '% + 5px)'"
-                >
+                <div class="last-measured-notation" [style.left]="'calc(' + lastMeasuredValue + '% + 5px)'">
                   <div class="last-measured-text">
                     <span class="last-measured-label">Last measured</span>
-                    <span class="last-measured-value"
-                      >{{ percentageValues | number : ".2-2" }}%</span
-                    >
+                    <span class="last-measured-value">{{ percentageValues | number : ".2-2" }}%</span>
                   </div>
                   <div class="last-measured-circle"></div>
                 </div>
               </div>
-              <span class="progress-bar-label progress-bar-label-right"
-                >100</span
-              >
+              <span class="progress-bar-label progress-bar-label-right">100</span>
             </div>
           </div>
 
@@ -117,9 +76,7 @@
               Last Measured:
               <span style="color: gray">{{ lastMeasuredDate }}</span>
             </p>
-            <button mat-button class="view-logs" (click)="openFullViewDialog()">
-              VIEW LOGS
-            </button>
+            <button mat-button class="view-logs" (click)="openFullViewDialog()">VIEW LOGS</button>
           </div>
         </div>
       </mat-card-content>
@@ -129,13 +86,8 @@
         <div class="sensors-container">
           <span class="card-title">SENSORS</span>
           <div class="card-body">
-            <h2 class="card-subtitle">
-              <!-- <span [innerHTML]="linkedSensors"></span> -->
-              A2, B2, C1, D2
-            </h2>
-            <button mat-button class="view-sensors" (click)="viewSensors()">
-              VIEW SENSORS
-            </button>
+            <h2 class="card-subtitle">A2, B2, C1, D2</h2>
+            <button mat-button class="view-sensors" (click)="viewSensors()">VIEW SENSORS</button>
           </div>
         </div>
       </mat-card-content>
@@ -148,9 +100,7 @@
             <h2 class="card-subtitle">
               {{ lastWateredDate }}
             </h2>
-            <button mat-button class="view-history" (click)="viewHistory()">
-              VIEW HISTORY
-            </button>
+            <button mat-button class="view-history" (click)="viewHistory()">VIEW HISTORY</button>
           </div>
         </div>
       </mat-card-content>
