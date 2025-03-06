@@ -1,3 +1,13 @@
+:root {
+  --mdc-list-list-item-one-line-container-height: unset;
+  --mdc-list-list-item-label-text-line-height: 1rem;
+  --mat-mdc-list-item-single-line: unset;
+ }
+
+ .mdc-list-item {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
 
 
 .sensor-name-input {

@@ -16,11 +16,30 @@ mat-sidenav {
   font-size: 14px;
 }
 
-:host ::ng-deep .mat-list-item-content .mat-icon {
-  margin-right: 10px;
+.navLink {
+  height: 48px !important;
+  padding: 0;
+}
+
+.navIcon {
+  vertical-align: bottom;
 }
 
 :host ::ng-deep .mat-list-item-content {
   padding-left: 0 !important;
+  height: 48px !important;
+  display: flex;
+  align-items: center;
 }
 
+:host ::ng-deep .mat-list-item-content .mat-icon {
+  margin-right: 16px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.otherSettings {
+  margin-top: 24px;
+}
