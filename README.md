@@ -1,6 +1,4 @@
-# [Liquid Prep - App](https://liquid-prep-app.s3-web.us-east.cloud-object-storage.appdomain.cloud/)
-
-[![Click](https://img.shields.io/badge/Click-Liquid%20%20Prep%20App-blue)](https://liquid-prep-app.s3-web.us-east.cloud-object-storage.appdomain.cloud/)
+# [Liquid Prep - App](https://liquidprep-app-dev.s3-web.jp-tok.cloud-object-storage.appdomain.cloud/)
 
 The Liquid Prep App is a user interface that is accessed on your mobile device to receive watering guidance for a selected crop. It is a [progressive web app (PWA)](https://web.dev/progressive-web-apps/) developed with an [Angular](https://angular.io/) web framework.
 
@@ -8,7 +6,7 @@ The app gets weather and crops data from the [Liquid Prep Backend](https://githu
 
 The Liquid Prep App can be run on your local machine for development and testing purposes, and is deployed on [IBM Cloud Object Storage](https://www.ibm.com/ca-en/cloud/object-storage) for production to be accessed globally.
 
-**[Click to access Liquid Prep App](https://liquid-prep-app.s3-web.us-east.cloud-object-storage.appdomain.cloud/)**
+[![Click](https://img.shields.io/badge/Click-Liquid%20%20Prep%20App-blue)](https://liquidprep-app-dev.s3-web.jp-tok.cloud-object-storage.appdomain.cloud/)
 
 ## Get Started
 
@@ -63,7 +61,7 @@ Follow the stepwise instructions in the [IBM Cloud Deployment Documentation](IBM
 
 ## Contributing
 
-For details on our code of conduct, areas where we'd like to see community contributions, and the process for submitting pull requests to the project, see Please read [CONTRIBUTING.md](https://github.com/Liquid-Prep/Liquid-Prep/blob/main/CONTRIBUTING.md).
+For details on our code of conduct, areas where we'd like to see community contributions, and the process for submitting pull requests to the project, see [CONTRIBUTING.md](https://github.com/Liquid-Prep/Liquid-Prep/blob/main/CONTRIBUTING.md).
 
 ## License
 
