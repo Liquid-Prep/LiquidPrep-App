@@ -125,6 +125,8 @@ export class DetailsComponent implements OnInit {
       return 'bg-flowers';
     } else if (type === 'Grass') {
       return 'bg-grass';
+    } else if (type === 'Shrub') {
+      return 'bg-shrub';
     } else {
       return 'bg-default';
     }
@@ -147,6 +149,8 @@ export class DetailsComponent implements OnInit {
       return '/assets/crops-images/thumb-flowers.jpg';
     } else if (type === 'Grass') {
       return '/assets/crops-images/thumb-grass.jpg';
+    } else if (type === 'Shrub') {
+      return '/assets/crops-images/thumb-shrub.jpg';
     } else {
       return 'bg-default';
     }
@@ -164,6 +168,8 @@ export class DetailsComponent implements OnInit {
     } else if (type === 'Soybean') {
       return 'soybean-pill';
     } else if (type === 'Flowers') {
+      return 'corn-pill';
+    } else if (type === 'Shrub') {
       return 'corn-pill';
     } else if (type === 'Grass') {
       return 'soybean-pill';

@@ -48,6 +48,9 @@ export class AddFieldComponent implements OnInit {
       cropName: 'Grass'
     },
     {
+      cropName: 'Shrub'
+    },
+    {
       cropName: 'Sorghum'
     },
     {

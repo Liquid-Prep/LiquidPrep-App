@@ -80,6 +80,8 @@ export class FieldsComponent implements OnInit {
       return 'assets/crops-images/grass.png';
     } else if (type === 'Flowers') {
       return 'assets/crops-images/flowers.png';
+    } else if (type === 'Shrub') {
+      return 'assets/crops-images/shrub.png';
     } else {
       return 'assets/crops-images/missing.jpg';
     }

@@ -58,6 +58,9 @@ export class EditFieldComponent implements OnInit {
       cropName: 'Grass'
     },
     {
+      cropName: 'Shrub'
+    },
+    {
       cropName: 'Sorghum'
     },
     {
