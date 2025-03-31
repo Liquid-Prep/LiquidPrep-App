@@ -74,6 +74,7 @@ import { SplashScreenComponent } from './components/splash-screen/splash-screen.
 import { DialogComponent } from './components/dialog/dialog.component';
 import { SensorsV2Component } from './components/dashboard/sensors-v2/sensors-v2.component';
 import { ServerIpModalComponent } from './components/server-ip-modal/server-ip-modal.component';
+import { AboutComponent } from './components/dashboard/about/about.component';
 
 import { ConnectingDialogComponent } from '../connecting-dialog/connecting-dialog.component';
 import { SensorTypeAndFieldComponent } from './components/sensor-type-and-field/sensor-type-and-field.component';
@@ -124,7 +125,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     SensorsV2Component,
     DialogComponent,
     ServerIpModalComponent,
-    SensorTypeAndFieldComponent
+    SensorTypeAndFieldComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,

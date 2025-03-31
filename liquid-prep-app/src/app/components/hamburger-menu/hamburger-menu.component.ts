@@ -13,6 +13,7 @@ export class HamburgerMenuComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  
   toggleSidenav() {
     this.sidenavToggle.emit();
   }

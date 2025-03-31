@@ -4,28 +4,24 @@
     <mat-icon class="navIcon">close</mat-icon>
   </button>
   <h2 class="navHeader">Liquid Prep</h2>
-  <a class="navLink" mat-list-item href="#">
+  <a class="navLink" mat-list-item routerLink="home" routerLinkActive="active-link" (click)="triggerCloseSidenav()" >
     <mat-icon class="navIcon">home</mat-icon>
     <span>Farm Dashboard</span>
   </a>
-  <a class="navLink" mat-list-item href="/settings">
-    <mat-icon class="navIcon">settings</mat-icon>
-    Settings
+  <a class="navLink" mat-list-item routerLink="sensors-v2" routerLinkActive="active-link" (click)="triggerCloseSidenav()" >
+    <mat-icon class="navIcon">sensors</mat-icon>
+    Sensors
   </a>
-  <a class="navLink" mat-list-item href="#">
-    <mat-icon class="navIcon">star</mat-icon>
+  <a class="navLink" mat-list-item routerLink="bluetooth" routerLinkActive="active-link" (click)="triggerCloseSidenav()" >
+    <mat-icon class="navIcon">bluetooth</mat-icon>
+    Bluetooth
+  </a>
+  <a class="navLink" mat-list-item routerLink="fields" routerLinkActive="active-link" (click)="triggerCloseSidenav()" >
+    <mat-icon class="material-symbols-outlined">psychiatry</mat-icon>
+    Field
+  </a>
+  <a class="navLink" mat-list-item routerLink="about" routerLinkActive="active-link" (click)="triggerCloseSidenav()">
+    <mat-icon class="navIcon">info</mat-icon>
     About
   </a>
-
-  <div class="otherSettings">
-    <h2 class="navHeader">Other Settings</h2>
-    <a class="navLink" mat-list-item href="#">
-      <mat-icon class="navIcon">help</mat-icon>
-      Help
-    </a>
-    <a class="navLink" mat-list-item href="#">
-      <mat-icon class="navIcon">lock</mat-icon>
-      Privacy
-    </a>
-  </div>
 </mat-nav-list>
