@@ -74,6 +74,12 @@ export class FieldsComponent implements OnInit {
       return 'assets/crops-images/sorghum.png';
     } else if (type === 'Soybean') {
       return 'assets/crops-images/soybean.png';
+    } else if (type === 'Other') {
+      return 'assets/crops-images/others.png';
+    } else if (type === 'Grass') {
+      return 'assets/crops-images/grass.png';
+    } else if (type === 'Flowers') {
+      return 'assets/crops-images/flowers.png';
     } else {
       return 'assets/crops-images/missing.jpg';
     }

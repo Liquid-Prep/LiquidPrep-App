@@ -44,7 +44,32 @@ export class EditFieldComponent implements OnInit {
   fieldDetails: any;
   sensorsData = SENSORS_MOCK_DATA;
   sensors: any[] = [];
-  cropsList;
+  cropsList: any[] = [
+    {
+      cropName: 'Corn'
+    },
+    {
+      cropName: 'Cotton'
+    },
+    {
+      cropName: 'Flowers'
+    },
+    {
+      cropName: 'Grass'
+    },
+    {
+      cropName: 'Sorghum'
+    },
+    {
+      cropName: 'Soybean'
+    },
+    {
+      cropName: 'Wheat'
+    },
+    {
+      cropName: 'Other'
+    },
+  ];
   cropValue;
   progress: boolean = false;
 
@@ -65,7 +90,7 @@ export class EditFieldComponent implements OnInit {
   ngOnInit(): void {
     this.headerService.updateHeader(this.headerConfig);
     this.loadForm();
-    this.loadCropData();
+    // this.loadCropData();
     this.id = this.route.snapshot.queryParamMap.get('id');
     this.getFieldDetails(this.id);
   }
@@ -84,8 +109,8 @@ export class EditFieldComponent implements OnInit {
       cropSelect: new FormControl(),
       soilType: new FormControl(null, [Validators.required]),
     });
-    const cropForm = this.fieldForm.get('crop');
-    cropForm.disable();
+    // const cropForm = this.fieldForm.get('crop');
+    // cropForm.disable();
   }
 
   loadCropData() {
@@ -234,15 +259,17 @@ export class EditFieldComponent implements OnInit {
     const soilType = this.fieldForm.get('soilType').value;
     const plantDateValue = this.fieldForm.get('plantDate').value;
     formattedDate = formatDate(plantDateValue, 'yyyy-MM-dd', 'en-US');
-    const sensorList = this.sensors;
     const id = this.id;
-    this.cropValue.seedingDate = new Date(formattedDate);
     const params: Field = {
       id,
       fieldName: name,
       soil: soilType,
       description: description || undefined,
-      crop: this.cropValue,
+      crop: {
+        seedingDate: new Date(formattedDate),
+        waterDate: new Date(formattedDate),
+        type: crop,
+      },
       plantDate: new Date(formattedDate),
     };
     this.fieldService.storeFieldsInLocalStorage(params);

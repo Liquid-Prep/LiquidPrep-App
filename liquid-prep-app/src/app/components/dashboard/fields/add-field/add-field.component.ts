@@ -34,7 +34,32 @@ export class AddFieldComponent implements OnInit {
   fieldForm: FormGroup;
   sensorsData = SENSORS_MOCK_DATA;
   sensors: any[] = [];
-  cropsList;
+  cropsList: any[] = [
+    {
+      cropName: 'Corn'
+    },
+    {
+      cropName: 'Cotton'
+    },
+    {
+      cropName: 'Flowers'
+    },
+    {
+      cropName: 'Grass'
+    },
+    {
+      cropName: 'Sorghum'
+    },
+    {
+      cropName: 'Soybean'
+    },
+    {
+      cropName: 'Wheat'
+    },
+    {
+      cropName: 'Other'
+    },
+  ];
   cropValue;
   progress: boolean = false;
 
@@ -54,7 +79,7 @@ export class AddFieldComponent implements OnInit {
     console.log(id);
     this.headerService.updateHeader(this.headerConfig);
     this.loadForm();
-    this.loadCropData();
+    // this.loadCropData();
   }
 
   loadForm() {
@@ -66,8 +91,8 @@ export class AddFieldComponent implements OnInit {
       plantDate: new FormControl(null, [Validators.required]),
       // cropSelect: new FormControl(),
     });
-    const cropForm = this.fieldForm.get('crop');
-    cropForm.disable();
+    // const cropForm = this.fieldForm.get('crop');
+    // cropForm.disable();
   }
 
   loadCropData() {

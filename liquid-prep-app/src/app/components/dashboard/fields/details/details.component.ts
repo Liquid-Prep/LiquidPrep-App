@@ -119,6 +119,12 @@ export class DetailsComponent implements OnInit {
       return 'bg-sorghum';
     } else if (type === 'Soybean') {
       return 'bg-soy';
+    } else if (type === 'Other') {
+      return 'bg-other';
+    } else if (type === 'Flowers') {
+      return 'bg-flowers';
+    } else if (type === 'Grass') {
+      return 'bg-grass';
     } else {
       return 'bg-default';
     }
@@ -135,6 +141,12 @@ export class DetailsComponent implements OnInit {
       return '/assets/crops-images/thumb-sorghum.jpg';
     } else if (type === 'Soybean') {
       return '/assets/crops-images/thumb-soy.jpg';
+    } else if (type === 'Other') {
+      return '/assets/crops-images/thumb-other.jpg';
+    } else if (type === 'Flowers') {
+      return '/assets/crops-images/thumb-flowers.jpg';
+    } else if (type === 'Grass') {
+      return '/assets/crops-images/thumb-grass.jpg';
     } else {
       return 'bg-default';
     }
@@ -150,6 +162,12 @@ export class DetailsComponent implements OnInit {
     } else if (type === 'Sorghum') {
       return 'sorghum-pill';
     } else if (type === 'Soybean') {
+      return 'soybean-pill';
+    } else if (type === 'Flowers') {
+      return 'corn-pill';
+    } else if (type === 'Grass') {
+      return 'soybean-pill';
+    } else if (type === 'Other') {
       return 'soybean-pill';
     } else {
       return 'bg-default';
