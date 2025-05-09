@@ -220,7 +220,7 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
   showReading(sensorValue: number) {
     this.waterAdvice = this.DEFAULT_WATER_ADVICE;
     let field = this.fieldService.getFieldFromMyFieldById(this.fieldId);
-    if (sensorValue && field && this.sensorType) {
+    if ((sensorValue !== null && sensorValue !== undefined) && field && this.sensorType) {
       this.soilMoisture = this.sensorV2Service.calibrateMoisture(
         sensorValue,
         this.sensorType,
