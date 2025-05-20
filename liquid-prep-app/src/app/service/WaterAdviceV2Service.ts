@@ -38,21 +38,21 @@ export class WaterAdviceV2Service {
           ['MEDIUM', 'assets/moisture-water/nowater_mediummoisture.png'],
           ['HIGH', 'assets/moisture-water/nowater_highmoisture.png']
         ])],
-      ['Little', new Map(
+      ['LOW', new Map(
         [
           ['LOW', 'assets/moisture-water/littlewater_lowmoisture.png'],
           ['MEDIUM', 'assets/moisture-water/littlewater_mediummoisture.png'],
           ['HIGH', 'assets/moisture-water/littlewater_highmoisture.png']
         ]
       )],
-      ['Modest', new Map(
+      ['MEDIUM', new Map(
         [
           ['LOW', 'assets/moisture-water/moderatewater_lowmoisture.png'],
           ['MEDIUM', 'assets/moisture-water/moderatewater_mediummoisture.png'],
           ['HIGH', 'assets/moisture-water/moderatewater_highmoisture.png']
         ]
       )],
-      ['Plenty', new Map(
+      ['HIGH', new Map(
         [
           ['LOW', 'assets/moisture-water/lotswater_lowmoisture.png'],
           ['MEDIUM', 'assets/moisture-water/lotswater_mediummoisture.png'],
@@ -61,17 +61,17 @@ export class WaterAdviceV2Service {
       )]
     ]);
 
-    public ADVICE_TEXT: string[] = ['Plenty', 'Modest', 'Little', 'NONE'];
+    public ADVICE_TEXT: string[] = ['HIGH', 'MEDIUM', 'LOW', 'NONE'];
 
     public LOW = 'LOW';
     public MED = 'MEDIUM';
     public HIGH = 'HIGH';
     public OPT = 'OPTIMUM';
 
-    private WATER_CROPS = 'Modest'; // 'Water your crops';
+    private WATER_CROPS = 'MEDIUM'; // 'Water your crops';
     private DONT_WATER = 'NONE'; // 'Do not water your crops';
-    private WATER_CROPS_LESS = 'Little'; // 'Water your crops less than the recommended value';
-    private WATER_CROPS_MORE = 'Plenty'; // 'Water your crops more than the recommended value';
+    private WATER_CROPS_LESS = 'LOW'; // 'Water your crops less than the recommended value';
+    private WATER_CROPS_MORE = 'HIGH'; // 'Water your crops more than the recommended value';
     private DEFAULT_WATER_CROPS = this.WATER_CROPS; // 'Water your crops today ';
     private AND = ' and ';
 

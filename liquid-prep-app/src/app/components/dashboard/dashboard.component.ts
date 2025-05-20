@@ -15,7 +15,7 @@ import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
 export class DashboardComponent implements OnInit {
 
   headerConfig: HeaderConfig = {
-    headerTitle: 'Farm Dashboard',
+    headerTitle: 'Dashboard',
     leftIconName: 'menu',
     rightIconName: 'volume_up',
   };
