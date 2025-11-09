@@ -1,15 +1,15 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import {ActivatedRoute, Router} from '@angular/router';
-import {SoilMoistureService} from '../../service/SoilMoistureService';
-import {SoilMoisture} from '../../models/SoilMoisture';
-import {LineBreakTransformer} from './LineBreakTransformer';
-import {Crop, Measure} from '../../models/Crop';
-import {CropDataService} from '../../service/CropDataService';
-import {PlantGrowthStage} from '../../models/api/CropInfoResp';
-import {HeaderService} from '../../service/header.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SoilMoistureService } from '../../service/SoilMoistureService';
+import { SoilMoisture } from '../../models/SoilMoisture';
+import { LineBreakTransformer } from './LineBreakTransformer';
+import { Crop, Measure } from '../../models/Crop';
+import { CropDataService } from '../../service/CropDataService';
+import { PlantGrowthStage } from '../../models/api/CropInfoResp';
+import { HeaderService } from '../../service/header.service';
 import { HeaderConfig } from 'src/app/models/HeaderConfig.interface';
-import {DateTimeUtil} from "../../utility/DateTimeUtil";
+import { DateTimeUtil } from "../../utility/DateTimeUtil";
 
 @Component({
   selector: 'app-measure-soil',
@@ -27,11 +27,11 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
   };
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
-              private location: Location,
-              private soilService: SoilMoistureService,
-              private cropService: CropDataService,
-              private headerService: HeaderService) { }
+    private router: Router,
+    private location: Location,
+    private soilService: SoilMoistureService,
+    private cropService: CropDataService,
+    private headerService: HeaderService) { }
 
 
   public crop: Crop;
@@ -68,15 +68,15 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
     const swiperEl = document.querySelector('swiper-container');
     swiperEl.addEventListener('swiperslidechange', (event) => {
       this.curIndex = swiperEl.swiper.activeIndex;
-      this.isLastSlide=swiperEl.swiper.isEnd;
-      this.isFirstSlide=swiperEl.swiper.isBeginning;
+      this.isLastSlide = swiperEl.swiper.isEnd;
+      this.isFirstSlide = swiperEl.swiper.isBeginning;
     });
   }
 
-  public onSensorConnect(connectionOption){
+  public onSensorConnect(connectionOption) {
 
     if (connectionOption === 'usb') {
-      this.connectUSB().then( sensorValue => {
+      this.connectUSB().then(sensorValue => {
         const soilMoisture = this.sensorValueLimitCorrection(sensorValue);
         this.soilService.setSoilMoistureReading(soilMoisture);
         this.saveMeasuretoCrop(soilMoisture);
@@ -84,7 +84,7 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
         this.readingCountdown();
       });
     } else if (connectionOption === 'ble') {
-      this.connectBluetooth().then( sensorValue => {
+      this.connectBluetooth().then(sensorValue => {
         const soilMoisture = this.sensorValueLimitCorrection(sensorValue);
         this.soilService.setSoilMoistureReading(soilMoisture);
         this.saveMeasuretoCrop(soilMoisture);
@@ -124,11 +124,11 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
 
     try {
       await (window.navigator as any).bluetooth.requestDevice({
-          filters: [{
-            name: bluetoothName
-          }],
-          optionalServices: [serviceUUID] // Required to access service later.
-        })
+        filters: [{
+          name: bluetoothName
+        }],
+        optionalServices: [serviceUUID] // Required to access service later.
+      })
         .then(device => {
           // Set up event listener for when device gets disconnected.
           device.addEventListener('gattserverdisconnected', onDisconnected);
@@ -154,9 +154,9 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
         .catch(error => { console.error(error); });
 
       function onDisconnected(event) {
-          const device = event.target;
-          console.log(`Device ${device.name} is disconnected.`);
-        }
+        const device = event.target;
+        console.log(`Device ${device.name} is disconnected.`);
+      }
 
       return sensorMoisturePercantage;
 
@@ -172,7 +172,7 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
     };
 
     try {
-      const port = await (window.navigator as any).serial.requestPort({filters: [filter]});
+      const port = await (window.navigator as any).serial.requestPort({ filters: [filter] });
       // Continue connecting to port 9600.
       await port.open({ baudRate: 9600 });
 
@@ -194,12 +194,12 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
 
         if (value !== '' || !isNaN(value)) {
           // The value length between 4 and 6 is quite precise
-          if (value.length >= 4 && value.length <= 6){
+          if (value.length >= 4 && value.length <= 6) {
             sensorMoisturePercantage = +value;
             if (!isNaN(sensorMoisturePercantage)) {
               reader.cancel();
               // When reader is cancelled an error will be thrown as designed which can be ignored
-              await readableStreamClosed.catch(() => { /* Ignore the error*/  });
+              await readableStreamClosed.catch(() => { /* Ignore the error*/ });
               await port.close();
 
               return sensorMoisturePercantage;
@@ -224,7 +224,7 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
       }
     } catch (e) {
       // Permission to access a device was denied implicitly or explicitly by the user.
-      window.alert('Failed to connect to sensor via USB') ;
+      window.alert('Failed to connect to sensor via USB');
     }
   }
 
@@ -241,10 +241,10 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
   public volumeClicked() {
   }
 
-  public onHeaderClick(data:string){
-    if(data == 'leftBtn'){
+  public onHeaderClick(data: string) {
+    if (data == 'leftBtn') {
       this.backClicked();
-    }else {
+    } else {
       //TODO
     }
   }
@@ -258,18 +258,18 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public handleLeftClick(data: string){
+  public handleLeftClick(data: string) {
     this.backClicked();
   }
 
-  public readingCountdown(){
+  public readingCountdown() {
     // this.countdownSecond = seconds;
     this.interval = setInterval(() => {
-      if (this.countdownSecond <= 0){
+      if (this.countdownSecond <= 0) {
         this.setMeasureView('after-measuring');
         clearInterval(this.interval);
         this.soilData = this.soilService.getSoilMoistureReading();
-        if (!this.soilData.soilMoisturePercentage){
+        if (!this.soilData.soilMoisturePercentage) {
           this.soilData.soilMoisturePercentage = Math.floor(Math.random() * 100) + 0;
         }
         this.soilMoistureColorClass = this.soilMoistureIndexColorMap.get(this.soilData.soilMoistureIndex);
@@ -280,33 +280,33 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
     }, 1000);
   }
 
-  private clearCountdown(){
+  private clearCountdown() {
     clearInterval(this.interval);
   }
 
-  public setMeasureView(status: 'before-measuring' | 'measuring' | 'after-measuring'){
+  public setMeasureView(status: 'before-measuring' | 'measuring' | 'after-measuring') {
     console.log('setMeasureView:', status);
     this.measureView = status;
   }
 
   onGetAdvise() {
-    this.router.navigate(['insights/' + this.crop.id ]).then(r => {});
+    this.router.navigate(['insights/' + this.crop.id]).then(r => { });
   }
 
-  onMeasure(){
+  onMeasure() {
     this.onSensorConnect('ble');
   }
 
-  onSlideNav(direction: string){
+  onSlideNav(direction: string) {
     const swiperEl = document.querySelector('swiper-container');
-    if (direction === 'next'){
+    if (direction === 'next') {
       swiperEl.swiper.slideNext(200);
-    }else{
+    } else {
       swiperEl.swiper.slidePrev(200);
     }
   }
 
-  saveMeasuretoCrop(soilMoisture: number){
+  saveMeasuretoCrop(soilMoisture: number) {
     if (this.crop.measureRecord === undefined) {
       this.crop.measureRecord = [];
     }
@@ -315,7 +315,7 @@ export class MeasureSoilComponent implements OnInit, AfterViewInit {
     measure.measureValue = soilMoisture || -1; // if soilMoisture is undefined, assign -1 indicating an invalid measurement.
     this.crop.measureRecord.push(measure);
     this.cropService.storeMyCropsInLocalStorage(this.crop).then(
-      (r) => {},
+      (r) => { },
       (e) => { console.error('store crop fail after measuring:', this.crop.cropName, e); }
     );
   }

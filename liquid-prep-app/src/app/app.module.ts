@@ -29,6 +29,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatListModule } from '@angular/material/list';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -68,8 +69,12 @@ import { AddFieldComponent } from './components/dashboard/fields/add-field/add-f
 import { EditFieldComponent } from './components/dashboard/fields/edit-field/edit-field.component';
 import { SensorListComponent } from './components/dashboard/fields/sensor-list/sensor-list.component';
 import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { WateringHistoryComponent } from './components/watering-insights/watering-history/watering-history.component';  // ADD THIS
 
-@NgModule({ declarations: [
+
+@NgModule({
+    declarations: [
         AppComponent,
         WelcomeComponent,
         MyCropsComponent,
@@ -101,6 +106,7 @@ import { SplashScreenComponent } from './components/splash-screen/splash-screen.
         MoistureLogsComponent,
         SensorListComponent,
         SplashScreenComponent,
+        WateringHistoryComponent,
     ],
     bootstrap: [AppComponent],
     schemas: [
@@ -122,6 +128,7 @@ import { SplashScreenComponent } from './components/splash-screen/splash-screen.
         MatSnackBarModule,
         MatSliderModule,
         MatCheckboxModule,
+        MatListModule,
         MatSortModule,
         MatTooltipModule,
         MatTooltipModule,
@@ -140,9 +147,11 @@ import { SplashScreenComponent } from './components/splash-screen/splash-screen.
         MatToolbarModule,
         MatDialogModule,
         MatMenuModule], providers: [
-        DataService,
-        DatePipe,
-        { provide: MAT_DIALOG_DATA, useValue: {} },
-        provideHttpClient(withInterceptorsFromDi())
-    ] })
-export class AppModule {}
+            DataService,
+            DatePipe,
+            { provide: MAT_DIALOG_DATA, useValue: {} },
+            provideHttpClient(withInterceptorsFromDi()),
+            provideAnimationsAsync()
+        ]
+})
+export class AppModule { }

@@ -1,7 +1,40 @@
 // Custom Theming for Angular Material
-@use '@angular/material' as mat;
 // For more information: https://material.angular.io/guide/theming
-@import "@angular/material/prebuilt-themes/indigo-pink.css";
+@use "@angular/material" as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the theme object.
+$liquid-prep-app-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    density: (
+      scale: 0,
+    ),
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+:root {
+  @include mat.all-component-themes($liquid-prep-app-theme);
+}
+
+// Comment out the line below if you want to use the pre-defined typography utility classes.
+// For more information: https://material.angular.io/guide/typography#using-typography-styles-in-your-application.
+// @include mat.typography-hierarchy($liquid-prep-app-theme);
+
+// Comment out the line below if you want to use the deprecated `color` inputs.
+// @include mat.color-variants-backwards-compatibility($liquid-prep-app-theme);
 
 // Plus imports for other components in your app.
 
@@ -30,13 +63,15 @@ $liquid-prep-app-warn: mat.m2-define-palette(mat.$m2-red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$liquid-prep-app-theme: mat.m2-define-light-theme((
-  color: (
-    primary: $liquid-prep-app-primary,
-    accent: $liquid-prep-app-accent,
-    warn: $liquid-prep-app-warn,
+$liquid-prep-app-theme: mat.m2-define-light-theme(
+  (
+    color: (
+      primary: $liquid-prep-app-primary,
+      accent: $liquid-prep-app-accent,
+      warn: $liquid-prep-app-warn,
+    ),
   )
-));
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -45,10 +80,13 @@ $liquid-prep-app-theme: mat.m2-define-light-theme((
 
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
+html,
+body {
+  height: 100%;
+}
 body {
   margin: 0;
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
   font-weight: 400;
 }
 
@@ -62,20 +100,20 @@ body {
 }
 
 .mat-toolbar {
-  background-color: #EDF5FF;
+  background-color: #edf5ff;
   color: #262626;
 }
 
-.color-low{
-  color: #D91E28;
+.color-low {
+  color: #d91e28;
 }
 
-.color-medium{
-  color: #D9781E;
+.color-medium {
+  color: #d9781e;
 }
 
-.color-high{
-  color: #2C5900;
+.color-high {
+  color: #2c5900;
 }
 
 // Slide Toggle Styles
@@ -84,7 +122,7 @@ mat-slide-toggle.mat-slide-toggle .mat-slide-toggle-bar {
   height: 34px;
   width: 52px;
   border-radius: 100px;
-  background-color: #79747E;
+  background-color: #79747e;
 }
 
 mat-slide-toggle.mat-slide-toggle .mat-slide-toggle-thumb {
@@ -98,7 +136,7 @@ mat-slide-toggle.mat-slide-toggle .mat-slide-toggle-thumb-container {
 }
 
 mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
-  background-color: #79747E;
+  background-color: #79747e;
 }
 
 mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
@@ -110,12 +148,21 @@ mat-slide-toggle.mat-checked .mat-slide-toggle-thumb-container {
 }
 
 /*customise the material theme*/
-.mat-flat-button.mat-primary-customise{
-  background-color: #2F4FFE;
+.mat-flat-button.mat-primary-customise {
+  background-color: #2f4ffe;
   color: white;
 }
 
 .mat-flat-button.mat-primary-reverse {
   background-color: white;
-  color: #2F4FFE;
+  color: #2f4ffe;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }

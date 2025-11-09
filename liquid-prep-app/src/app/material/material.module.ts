@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatTableModule } from '@angular/material/table';
 
 
 
@@ -36,7 +37,8 @@ import { MatRadioModule } from '@angular/material/radio';
     MatFormFieldModule,
     MatGridListModule,
     MatSlideToggleModule,
-    MatRadioModule
+    MatRadioModule,
+    MatTableModule
   ]
 })
 export class MaterialModule { }
